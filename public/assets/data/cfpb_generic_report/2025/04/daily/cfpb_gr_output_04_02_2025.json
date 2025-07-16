@@ -1,0 +1,722 @@
+{
+  "Andaman and Nicobar Islands": {
+    "tp": {
+      "enrollment": 339,
+      "hit": 277,
+      "nohit": 15,
+      "total": 292
+    },
+    "cp": {
+      "enrollment": 346,
+      "hit": 332,
+      "nohit": 8,
+      "total": 340
+    },
+    "mesha": {
+      "enrollment": 396,
+      "hit": 293,
+      "nohit": 41,
+      "total": 334
+    }
+  },
+  "Andhra Pradesh": {
+    "tp": {
+      "enrollment": 299,
+      "hit": 203,
+      "nohit": 33,
+      "total": 236
+    },
+    "cp": {
+      "enrollment": 472,
+      "hit": 246,
+      "nohit": 186,
+      "total": 432
+    },
+    "mesha": {
+      "enrollment": 471,
+      "hit": 234,
+      "nohit": 189,
+      "total": 423
+    }
+  },
+  "Arunachal Pradesh": {
+    "tp": {
+      "enrollment": 130,
+      "hit": 52,
+      "nohit": 66,
+      "total": 118
+    },
+    "cp": {
+      "enrollment": 445,
+      "hit": 228,
+      "nohit": 176,
+      "total": 404
+    },
+    "mesha": {
+      "enrollment": 341,
+      "hit": 205,
+      "nohit": 73,
+      "total": 278
+    }
+  },
+  "Assam": {
+    "tp": {
+      "enrollment": 318,
+      "hit": 117,
+      "nohit": 185,
+      "total": 302
+    },
+    "cp": {
+      "enrollment": 169,
+      "hit": 56,
+      "nohit": 34,
+      "total": 90
+    },
+    "mesha": {
+      "enrollment": 364,
+      "hit": 266,
+      "nohit": 2,
+      "total": 268
+    }
+  },
+  "Bihar": {
+    "tp": {
+      "enrollment": 199,
+      "hit": 150,
+      "nohit": 48,
+      "total": 198
+    },
+    "cp": {
+      "enrollment": 434,
+      "hit": 263,
+      "nohit": 151,
+      "total": 414
+    },
+    "mesha": {
+      "enrollment": 497,
+      "hit": 174,
+      "nohit": 87,
+      "total": 261
+    }
+  },
+  "Chandigarh": {
+    "tp": {
+      "enrollment": 412,
+      "hit": 264,
+      "nohit": 147,
+      "total": 411
+    },
+    "cp": {
+      "enrollment": 216,
+      "hit": 138,
+      "nohit": 60,
+      "total": 198
+    },
+    "mesha": {
+      "enrollment": 409,
+      "hit": 320,
+      "nohit": 26,
+      "total": 346
+    }
+  },
+  "Chhattisgarh": {
+    "tp": {
+      "enrollment": 250,
+      "hit": 85,
+      "nohit": 152,
+      "total": 237
+    },
+    "cp": {
+      "enrollment": 111,
+      "hit": 110,
+      "nohit": 0,
+      "total": 110
+    },
+    "mesha": {
+      "enrollment": 299,
+      "hit": 282,
+      "nohit": 0,
+      "total": 282
+    }
+  },
+  "DD & DNH": {
+    "tp": {
+      "enrollment": 241,
+      "hit": 233,
+      "nohit": 4,
+      "total": 237
+    },
+    "cp": {
+      "enrollment": 433,
+      "hit": 227,
+      "nohit": 53,
+      "total": 280
+    },
+    "mesha": {
+      "enrollment": 174,
+      "hit": 58,
+      "nohit": 97,
+      "total": 155
+    }
+  },
+  "Delhi": {
+    "tp": {
+      "enrollment": 407,
+      "hit": 338,
+      "nohit": 33,
+      "total": 371
+    },
+    "cp": {
+      "enrollment": 132,
+      "hit": 102,
+      "nohit": 18,
+      "total": 120
+    },
+    "mesha": {
+      "enrollment": 408,
+      "hit": 389,
+      "nohit": 5,
+      "total": 394
+    }
+  },
+  "Goa": {
+    "tp": {
+      "enrollment": 449,
+      "hit": 78,
+      "nohit": 336,
+      "total": 414
+    },
+    "cp": {
+      "enrollment": 117,
+      "hit": 78,
+      "nohit": 6,
+      "total": 84
+    },
+    "mesha": {
+      "enrollment": 149,
+      "hit": 61,
+      "nohit": 76,
+      "total": 137
+    }
+  },
+  "Gujarat": {
+    "tp": {
+      "enrollment": 240,
+      "hit": 180,
+      "nohit": 47,
+      "total": 227
+    },
+    "cp": {
+      "enrollment": 500,
+      "hit": 433,
+      "nohit": 6,
+      "total": 439
+    },
+    "mesha": {
+      "enrollment": 207,
+      "hit": 183,
+      "nohit": 4,
+      "total": 187
+    }
+  },
+  "Haryana": {
+    "tp": {
+      "enrollment": 172,
+      "hit": 105,
+      "nohit": 48,
+      "total": 153
+    },
+    "cp": {
+      "enrollment": 294,
+      "hit": 97,
+      "nohit": 172,
+      "total": 269
+    },
+    "mesha": {
+      "enrollment": 102,
+      "hit": 100,
+      "nohit": 2,
+      "total": 102
+    }
+  },
+  "Himachal Pradesh": {
+    "tp": {
+      "enrollment": 406,
+      "hit": 385,
+      "nohit": 20,
+      "total": 405
+    },
+    "cp": {
+      "enrollment": 225,
+      "hit": 126,
+      "nohit": 6,
+      "total": 132
+    },
+    "mesha": {
+      "enrollment": 350,
+      "hit": 254,
+      "nohit": 27,
+      "total": 281
+    }
+  },
+  "Jammu Kashmir & Ladakh": {
+    "tp": {
+      "enrollment": 283,
+      "hit": 109,
+      "nohit": 127,
+      "total": 236
+    },
+    "cp": {
+      "enrollment": 163,
+      "hit": 102,
+      "nohit": 11,
+      "total": 113
+    },
+    "mesha": {
+      "enrollment": 404,
+      "hit": 292,
+      "nohit": 44,
+      "total": 336
+    }
+  },
+  "Jharkhand": {
+    "tp": {
+      "enrollment": 219,
+      "hit": 104,
+      "nohit": 101,
+      "total": 205
+    },
+    "cp": {
+      "enrollment": 439,
+      "hit": 178,
+      "nohit": 45,
+      "total": 223
+    },
+    "mesha": {
+      "enrollment": 290,
+      "hit": 97,
+      "nohit": 132,
+      "total": 229
+    }
+  },
+  "Karnataka": {
+    "tp": {
+      "enrollment": 403,
+      "hit": 331,
+      "nohit": 33,
+      "total": 364
+    },
+    "cp": {
+      "enrollment": 118,
+      "hit": 55,
+      "nohit": 63,
+      "total": 118
+    },
+    "mesha": {
+      "enrollment": 232,
+      "hit": 154,
+      "nohit": 18,
+      "total": 172
+    }
+  },
+  "Kerala": {
+    "tp": {
+      "enrollment": 263,
+      "hit": 235,
+      "nohit": 17,
+      "total": 252
+    },
+    "cp": {
+      "enrollment": 129,
+      "hit": 54,
+      "nohit": 73,
+      "total": 127
+    },
+    "mesha": {
+      "enrollment": 149,
+      "hit": 102,
+      "nohit": 13,
+      "total": 115
+    }
+  },
+  "Lakshadweep": {
+    "tp": {
+      "enrollment": 362,
+      "hit": 291,
+      "nohit": 68,
+      "total": 359
+    },
+    "cp": {
+      "enrollment": 193,
+      "hit": 89,
+      "nohit": 51,
+      "total": 140
+    },
+    "mesha": {
+      "enrollment": 489,
+      "hit": 160,
+      "nohit": 81,
+      "total": 241
+    }
+  },
+  "Madhya Pradesh": {
+    "tp": {
+      "enrollment": 158,
+      "hit": 123,
+      "nohit": 12,
+      "total": 135
+    },
+    "cp": {
+      "enrollment": 442,
+      "hit": 303,
+      "nohit": 30,
+      "total": 333
+    },
+    "mesha": {
+      "enrollment": 480,
+      "hit": 381,
+      "nohit": 92,
+      "total": 473
+    }
+  },
+  "Maharashtra": {
+    "tp": {
+      "enrollment": 234,
+      "hit": 126,
+      "nohit": 50,
+      "total": 176
+    },
+    "cp": {
+      "enrollment": 259,
+      "hit": 218,
+      "nohit": 25,
+      "total": 243
+    },
+    "mesha": {
+      "enrollment": 238,
+      "hit": 199,
+      "nohit": 29,
+      "total": 228
+    }
+  },
+  "Manipur": {
+    "tp": {
+      "enrollment": 256,
+      "hit": 51,
+      "nohit": 85,
+      "total": 136
+    },
+    "cp": {
+      "enrollment": 284,
+      "hit": 233,
+      "nohit": 3,
+      "total": 236
+    },
+    "mesha": {
+      "enrollment": 192,
+      "hit": 157,
+      "nohit": 18,
+      "total": 175
+    }
+  },
+  "Meghalaya": {
+    "tp": {
+      "enrollment": 440,
+      "hit": 325,
+      "nohit": 101,
+      "total": 426
+    },
+    "cp": {
+      "enrollment": 432,
+      "hit": 358,
+      "nohit": 16,
+      "total": 374
+    },
+    "mesha": {
+      "enrollment": 282,
+      "hit": 177,
+      "nohit": 81,
+      "total": 258
+    }
+  },
+  "Mizoram": {
+    "tp": {
+      "enrollment": 210,
+      "hit": 84,
+      "nohit": 117,
+      "total": 201
+    },
+    "cp": {
+      "enrollment": 290,
+      "hit": 79,
+      "nohit": 98,
+      "total": 177
+    },
+    "mesha": {
+      "enrollment": 286,
+      "hit": 118,
+      "nohit": 40,
+      "total": 158
+    }
+  },
+  "Nagaland": {
+    "tp": {
+      "enrollment": 354,
+      "hit": 70,
+      "nohit": 220,
+      "total": 290
+    },
+    "cp": {
+      "enrollment": 442,
+      "hit": 346,
+      "nohit": 23,
+      "total": 369
+    },
+    "mesha": {
+      "enrollment": 191,
+      "hit": 113,
+      "nohit": 36,
+      "total": 149
+    }
+  },
+  "Odisha": {
+    "tp": {
+      "enrollment": 451,
+      "hit": 250,
+      "nohit": 38,
+      "total": 288
+    },
+    "cp": {
+      "enrollment": 288,
+      "hit": 65,
+      "nohit": 75,
+      "total": 140
+    },
+    "mesha": {
+      "enrollment": 149,
+      "hit": 88,
+      "nohit": 0,
+      "total": 88
+    }
+  },
+  "Puducherry": {
+    "tp": {
+      "enrollment": 295,
+      "hit": 206,
+      "nohit": 74,
+      "total": 280
+    },
+    "cp": {
+      "enrollment": 105,
+      "hit": 97,
+      "nohit": 2,
+      "total": 99
+    },
+    "mesha": {
+      "enrollment": 245,
+      "hit": 74,
+      "nohit": 88,
+      "total": 162
+    }
+  },
+  "Punjab": {
+    "tp": {
+      "enrollment": 362,
+      "hit": 207,
+      "nohit": 128,
+      "total": 335
+    },
+    "cp": {
+      "enrollment": 184,
+      "hit": 130,
+      "nohit": 47,
+      "total": 177
+    },
+    "mesha": {
+      "enrollment": 247,
+      "hit": 229,
+      "nohit": 0,
+      "total": 229
+    }
+  },
+  "Rajasthan": {
+    "tp": {
+      "enrollment": 149,
+      "hit": 85,
+      "nohit": 2,
+      "total": 87
+    },
+    "cp": {
+      "enrollment": 145,
+      "hit": 116,
+      "nohit": 10,
+      "total": 126
+    },
+    "mesha": {
+      "enrollment": 312,
+      "hit": 129,
+      "nohit": 30,
+      "total": 159
+    }
+  },
+  "Sikkim": {
+    "tp": {
+      "enrollment": 250,
+      "hit": 195,
+      "nohit": 29,
+      "total": 224
+    },
+    "cp": {
+      "enrollment": 477,
+      "hit": 129,
+      "nohit": 131,
+      "total": 260
+    },
+    "mesha": {
+      "enrollment": 369,
+      "hit": 272,
+      "nohit": 73,
+      "total": 345
+    }
+  },
+  "Tamil Nadu": {
+    "tp": {
+      "enrollment": 250,
+      "hit": 143,
+      "nohit": 6,
+      "total": 149
+    },
+    "cp": {
+      "enrollment": 232,
+      "hit": 137,
+      "nohit": 82,
+      "total": 219
+    },
+    "mesha": {
+      "enrollment": 149,
+      "hit": 112,
+      "nohit": 25,
+      "total": 137
+    }
+  },
+  "Telangana": {
+    "tp": {
+      "enrollment": 241,
+      "hit": 193,
+      "nohit": 20,
+      "total": 213
+    },
+    "cp": {
+      "enrollment": 177,
+      "hit": 155,
+      "nohit": 14,
+      "total": 169
+    },
+    "mesha": {
+      "enrollment": 290,
+      "hit": 174,
+      "nohit": 44,
+      "total": 218
+    }
+  },
+  "Tripura": {
+    "tp": {
+      "enrollment": 386,
+      "hit": 335,
+      "nohit": 10,
+      "total": 345
+    },
+    "cp": {
+      "enrollment": 313,
+      "hit": 305,
+      "nohit": 2,
+      "total": 307
+    },
+    "mesha": {
+      "enrollment": 381,
+      "hit": 181,
+      "nohit": 154,
+      "total": 335
+    }
+  },
+  "Uttar Pradesh": {
+    "tp": {
+      "enrollment": 275,
+      "hit": 225,
+      "nohit": 15,
+      "total": 240
+    },
+    "cp": {
+      "enrollment": 499,
+      "hit": 386,
+      "nohit": 87,
+      "total": 473
+    },
+    "mesha": {
+      "enrollment": 336,
+      "hit": 72,
+      "nohit": 18,
+      "total": 90
+    }
+  },
+  "Uttarakhand": {
+    "tp": {
+      "enrollment": 228,
+      "hit": 182,
+      "nohit": 25,
+      "total": 207
+    },
+    "cp": {
+      "enrollment": 485,
+      "hit": 440,
+      "nohit": 11,
+      "total": 451
+    },
+    "mesha": {
+      "enrollment": 393,
+      "hit": 105,
+      "nohit": 236,
+      "total": 341
+    }
+  },
+  "West Bengal": {
+    "tp": {
+      "enrollment": 131,
+      "hit": 93,
+      "nohit": 7,
+      "total": 100
+    },
+    "cp": {
+      "enrollment": 481,
+      "hit": 304,
+      "nohit": 54,
+      "total": 358
+    },
+    "mesha": {
+      "enrollment": 260,
+      "hit": 119,
+      "nohit": 116,
+      "total": 235
+    }
+  },
+  "CFPB": {
+    "tp": {
+      "enrollment": 284,
+      "hit": 283,
+      "nohit": 1,
+      "total": 284
+    },
+    "cp": {
+      "enrollment": 191,
+      "hit": 77,
+      "nohit": 110,
+      "total": 187
+    },
+    "mesha": {
+      "enrollment": 116,
+      "hit": 82,
+      "nohit": 8,
+      "total": 90
+    }
+  }
+}
