@@ -11,6 +11,7 @@ import AgencyTable from "./comp/AgencyTable";
 import aggregateByState from "@/utils/agregateByStateForTable";
 import computeStateTotals from "@/utils/computeStateTotals";
 import { StateComparisonChart } from "./comp/StateComparisonChart";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export interface DailyData {
   date: string;
@@ -49,15 +50,14 @@ function Agency() {
   });
   const [showTable, setShowTable] = useState(false);
   const [showCompareChart, setCompareChart] = useState(false);
-
-  const [compareDataType, setCompareDataType] = useState<
-    "enrollment" | "hit" | "nohit"
-  >("enrollment");
+  const [loading, setLoading] = useState(true);
   console.log("All data", allData);
   useEffect(() => {
     const fetchData = async () => {
+      setLoading(true);
       const loaded = await loadAllMonthlyData();
       setAllData(loaded);
+      setLoading(false);
     };
     fetchData();
   }, []);
@@ -139,6 +139,16 @@ function Agency() {
     () => computeStateTotals(filteredData),
     [filteredData]
   );
+
+  if (loading) {
+    return (
+      <div className="p-6 flex justify-center items-center h-[calc(100vh-48px)]">
+        <div className="flex flex-col items-center gap-2">
+          <Skeleton className="h-8 w-48 mb-2 flex items-center justify-center" >Loading...</Skeleton>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="p-3">
