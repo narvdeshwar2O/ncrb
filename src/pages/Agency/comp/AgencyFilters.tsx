@@ -23,6 +23,8 @@ import {
   DashboardFiltersProps,
 } from "../../../components/filters/types/FilterTypes";
 import { subDays, startOfDay, endOfDay } from "date-fns";
+import MultiSelectCheckbox from "@/components/ui/MultiSelectCheckbox";
+const dataTypeOptions = ["enrollment", "hit", "nohit"];
 
 export const AgencyFilters = ({
   onFiltersChange,
@@ -34,17 +36,14 @@ export const AgencyFilters = ({
   });
 
   const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
+  const [selectedStates, setSelectedStates] = useState<string[]>([]);
+  const [selectedDataTypes, setSelectedDataTypes] =
+    useState<string[]>(dataTypeOptions);
 
   const updateFilters = (newFilters: Partial<FilterState>) => {
     const updatedFilters = { ...filters, ...newFilters };
     setFilters(updatedFilters);
     onFiltersChange(updatedFilters);
-  };
-
-  const handleStateChange = (state: string) => {
-    updateFilters({
-      state,
-    });
   };
 
   const handleDateSelect = (
@@ -62,6 +61,13 @@ export const AgencyFilters = ({
     };
     setFilters(resetState);
     onFiltersChange(resetState);
+  };
+
+  //  for the purpose of getting the last n days
+  const setLastNDays = (n: number) => {
+    const to = endOfDay(new Date());
+    const from = startOfDay(subDays(to, n - 1));
+    updateFilters({ dateRange: { from, to } });
   };
 
   return (
@@ -118,22 +124,43 @@ export const AgencyFilters = ({
             </Popover>
           </div>
 
-          {/* State Filter */}
+          {/* N days filter */}
           <div className="space-y-2">
-            <label className="text-sm font-medium">State</label>
-            <Select value={filters.state} onValueChange={handleStateChange}>
-              <SelectTrigger>
-                <SelectValue placeholder="Select State" />
+            <label className="text-sm font-medium">
+              Select the range of days
+            </label>
+            <Select onValueChange={(value) => setLastNDays(parseInt(value))}>
+              <SelectTrigger className="w-full">
+                <SelectValue placeholder="Select Present Range" />
               </SelectTrigger>
               <SelectContent>
-                {states.map((state) => (
-                  <SelectItem key={state} value={state}>
-                    {state}
+                {["7", "30", "90"].map((item) => (
+                  <SelectItem key={item} value={item}>
+                    Last {item} Days
                   </SelectItem>
                 ))}
               </SelectContent>
             </Select>
           </div>
+
+          <MultiSelectCheckbox
+            label="States"
+            options={states}
+            selected={selectedStates}
+            onChange={(newStates) => {
+              setSelectedStates(newStates);
+              updateFilters({ state: newStates.join(", ") });
+            }}
+          />
+          <MultiSelectCheckbox
+            label="Data Types"
+            options={["enrollment", "hit", "nohit"]}
+            selected={selectedDataTypes}
+            onChange={(newTypes) => {
+              setSelectedDataTypes(newTypes);
+              updateFilters({ dataTypes: newTypes });
+            }}
+          />
 
           {/* Reset Button */}
           <div className="space-y-2">

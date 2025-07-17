@@ -5,7 +5,7 @@ export async function loadAllMonthlyData(
 ): Promise<{ date: string; data: any }[]> {
   const results: { date: string; data: any }[] = [];
 
-  const defaultMonths = ["04", "05", "06"];
+  const defaultMonths = ["04", "05", "06","07"];
 
   const start = startDate ? new Date(startDate) : undefined;
   const end = endDate ? new Date(endDate) : undefined;

@@ -1,7 +1,5 @@
 // components/RenderCard.tsx
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import React from "react";
-
 interface Totals {
   enrollment: number;
   hit: number;
@@ -15,7 +13,7 @@ interface RenderCardProps {
 
 function RenderCard({ title, total }: RenderCardProps) {
   return (
-    <Card className="shadow-md rounded-2xl border bg-white hover:shadow-xl transition duration-300">
+    <Card className="rounded-2xl border bg-card">
       <CardHeader>
         <CardTitle className="text-lg font-semibold text-primary">
           {title}

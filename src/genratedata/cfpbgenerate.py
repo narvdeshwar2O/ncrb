@@ -14,13 +14,14 @@ states = [
 
 types = ["tp", "cp", "mesha"]
 
-months = ["04", "05", "06"]
+months = ["04", "05", "06","07"]
 
 # Optionally, days in month based on real calendar (not leap-year aware)
 days_in_month = {
     "04": 30,
     "05": 31,
-    "06": 30
+    "06": 30,
+    "07": 20
 }
 
 def generate_day_data():

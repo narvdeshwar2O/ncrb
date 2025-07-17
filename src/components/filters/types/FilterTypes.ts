@@ -5,8 +5,9 @@ export interface FilterState {
     to: Date | undefined;
   };
   district?: string;
-  state?: string;
+  state?: string[]|string;
   crimeType?: string;
+  dataTypes?: string[];
 }
 
 export interface DashboardFiltersProps {
