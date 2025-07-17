@@ -7,6 +7,10 @@ import { AgencyFilters } from "./comp/AgencyFilters";
 import computeCombinedTotal from "@/utils/computeCombinedTotal";
 import { MultipleChart } from "./comp/MultipleChart";
 import { Top5DataView } from "./comp/Top5DataView";
+import AgencyTable from "./comp/AgencyTable";
+import aggregateByState from "@/utils/agregateByStateForTable";
+import computeStateTotals from "@/utils/computeStateTotals";
+import { StateComparisonChart } from "./comp/StateComparisonChart";
 
 export interface DailyData {
   date: string;
@@ -29,16 +33,26 @@ const getLast7DaysRange = () => {
   const today = new Date();
   const to = today;
   const from = new Date();
-  from.setDate(today.getDate() - 7); // last 7 days including today
+  from.setDate(today.getDate() - 7);
   return { from, to };
 };
+const dataTypeOptions = ["enrollment", "hit", "nohit"] as const;
+const categoryOptions = ["tp", "cp", "mesha"] as const;
 
 function Agency() {
   const [allData, setAllData] = useState<DailyData[]>([]);
   const [filters, setFilters] = useState<FilterState>({
     dateRange: getLast7DaysRange(),
     state: [],
+    dataTypes: [...dataTypeOptions],
+    categories: [...categoryOptions],
   });
+  const [showTable, setShowTable] = useState(false);
+  const [showCompareChart, setCompareChart] = useState(false);
+
+  const [compareDataType, setCompareDataType] = useState<
+    "enrollment" | "hit" | "nohit"
+  >("enrollment");
   console.log("All data", allData);
   useEffect(() => {
     const fetchData = async () => {
@@ -53,15 +67,14 @@ function Agency() {
       const {
         dateRange: { from, to },
         state,
+        categories,
       } = filters;
 
       const entryDate = new Date(entry.date);
 
-      // Apply last 7 days filter on first render automatically
       if (from && entryDate < from) return false;
       if (to && entryDate > to) return false;
 
-      // State filtering
       if (!state || state === "All States") return true;
 
       let stateArray: string[] = [];
@@ -74,10 +87,19 @@ function Agency() {
       }
 
       const validStates = stateArray.filter((s) => s && s !== "All States");
-
       if (validStates.length === 0) return true;
 
-      return validStates.some((selectedState) => selectedState in entry.data);
+      return validStates.some((selectedState) => {
+        // Check if the selected state exists AND category filter applies
+        if (!(selectedState in entry.data)) return false;
+
+        const categoryKeys = Object.keys(entry.data[selectedState]);
+        const activeCategories = categories?.length
+          ? categories
+          : ["tp", "cp", "mesha"];
+
+        return categoryKeys.some((cat) => activeCategories.includes(cat));
+      });
     });
   }, [allData, filters]);
 
@@ -91,36 +113,39 @@ function Agency() {
       ? filters.state.split(",").map((s) => s.trim())
       : [filters.state];
   }, [filters.state]);
+  const tableData = useMemo(() => {
+    return aggregateByState(filteredData, filters);
+  }, [filteredData, filters]);
 
   const selectedStateCount = selectedStates.filter(
     (s) => s && s !== "All States"
   ).length;
+  const activeCategories = filters.categories?.length
+    ? filters.categories
+    : ["tp", "cp", "mesha"];
 
-  // Debug logging for filtered data
-  console.log("All data length:", allData.length);
-  console.log("Filtered data length:", filteredData.length);
-  console.log("Current filters:", filters);
-
-  const tpTotal = useMemo(
-    () => computeCombinedTotal(filteredData, "tp", filters),
-    [filteredData, filters]
+  const totalsByCategory = useMemo(() => {
+    const map: Record<string, Totals> = {};
+    activeCategories.forEach((cat) => {
+      map[cat] = computeCombinedTotal(
+        filteredData,
+        cat as "tp" | "cp" | "mesha",
+        filters
+      );
+    });
+    return map;
+  }, [filteredData, filters, activeCategories]);
+  const stateComp = useMemo(
+    () => computeStateTotals(filteredData),
+    [filteredData]
   );
 
-  const cpTotal = useMemo(
-    () => computeCombinedTotal(filteredData, "cp", filters),
-    [filteredData, filters]
-  );
-
-  const meshaTotal = useMemo(
-    () => computeCombinedTotal(filteredData, "mesha", filters),
-    [filteredData, filters]
-  );
   return (
     <div className="p-3">
       <div className="p-3 space-y-3 bg-background rounded-md shadow-lg border">
         <AgencyFilters onFiltersChange={setFilters} />
         <Card className="border-l-4 border-blue-600 bg-card shadow-sm">
-          <CardContent className="py-4 px-6 text-sm text-muted-foreground">
+          <CardContent className="py-2 px-2 text-sm text-muted-foreground flex justify-between items-center">
             <p>
               <strong>You are currently viewing:</strong>{" "}
               <strong>{filteredData.length}</strong> days of data containing
@@ -129,38 +154,82 @@ function Agency() {
                 {selectedStateCount === 0 ? "All states" : selectedStateCount}
               </strong>
             </p>
+            <button
+              className="bg-blue-600 px-3 py-2 rounded-md text-card font-semibold text-white"
+              onClick={() => setShowTable((prev) => !prev)}
+            >
+              {showTable ? "Hide Tabular Data" : "Show Tabular Data"}
+            </button>
           </CardContent>
         </Card>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-          <RenderCard
-            title="TP"
-            total={tpTotal}
-            selectedDataTypes={filters.dataTypes}
-          />
-          <RenderCard
-            title="CP"
-            total={cpTotal}
-            selectedDataTypes={filters.dataTypes}
-          />
-          <RenderCard
-            title="MESHA"
-            total={meshaTotal}
-            selectedDataTypes={filters.dataTypes}
-          />
-        </div>
-        <MultipleChart
-          tpTotal={tpTotal}
-          cpTotal={cpTotal}
-          mesaTotal={meshaTotal}
-          filteredData={filteredData}
-          filters={filters}
-        />
-        <Top5DataView
-          allData={allData}
-          from={filters.dateRange.from}
-          to={filters.dateRange.to}
-        />
+        {showTable ? (
+          <AgencyTable data={tableData} filters={filters} />
+        ) : (
+          <>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+              {activeCategories.map((cat) => (
+                <RenderCard
+                  key={cat}
+                  title={cat.toUpperCase()}
+                  total={totalsByCategory[cat]}
+                  selectedDataTypes={filters.dataTypes}
+                />
+              ))}
+            </div>
+            <div className="border p-3 rounded-md flex flex-col items-end">
+              <button
+                className={`bg-blue-600 px-3 py-2 rounded-md text-card font-semibold text-white max-w-[20%] text-nowrap`}
+                onClick={() => setCompareChart((prev) => !prev)}
+              >
+                {showCompareChart
+                  ? "Hide Comparison Chart"
+                  : "Show Comparision Chart"}
+              </button>
+
+              {showCompareChart ? (
+                selectedStates.length >= 2 && selectedStates.length <= 5 ? (
+                  <>
+                    {selectedStates.length >= 2 && (
+                      <StateComparisonChart
+                        data={tableData}
+                        selectedStates={selectedStates}
+                      />
+                    )}
+                  </>
+                ) : (
+                  <>
+                    <div className="w-full p-3 flex justify-center items-center">
+                      <p className="border shadow-md p-3 rounded-md">
+                        Please select at least 2 and at most 5 states for chart
+                        comparison.
+                      </p>
+                    </div>
+                  </>
+                )
+              ) : (
+                <MultipleChart
+                  filteredData={filteredData}
+                  filters={filters}
+                  activeCategories={filters.categories}
+                  totalsByCategory={{
+                    tp: computeCombinedTotal(filteredData, "tp", filters),
+                    cp: computeCombinedTotal(filteredData, "cp", filters),
+                    mesha: computeCombinedTotal(filteredData, "mesha", filters),
+                  }}
+                />
+              )}
+            </div>
+
+            <Top5DataView
+              allData={allData}
+              from={filters.dateRange.from}
+              to={filters.dateRange.to}
+              categories={filters.categories}
+              dataTypes={filters.dataTypes}
+            />
+          </>
+        )}
       </div>
     </div>
   );

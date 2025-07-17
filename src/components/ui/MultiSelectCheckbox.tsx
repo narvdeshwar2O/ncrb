@@ -27,6 +27,8 @@ const MultiSelectCheckbox = ({
 
   const toggleOption = (value: string) => {
     if (selected.includes(value)) {
+      // ✅ Prevent removing last selected option
+      if (selected.length === 1) return;
       onChange(selected.filter((item) => item !== value));
     } else {
       onChange([...selected, value]);
@@ -38,7 +40,10 @@ const MultiSelectCheckbox = ({
   };
 
   const handleClearAll = () => {
-    onChange([]);
+    // ✅ Do nothing if only one selected (prevent clearing everything)
+    if (selected.length <= 1) return;
+    // ✅ Or keep first one selected instead of clearing all
+    onChange([selected[0]]);
   };
 
   const isSelected = (value: string) => selected.includes(value);
@@ -73,7 +78,7 @@ const MultiSelectCheckbox = ({
                 onCheckedChange={() => toggleOption(option)}
               />
               <label htmlFor={option} className="text-sm">
-                {option}
+                {option.toUpperCase()}
               </label>
             </div>
           ))}

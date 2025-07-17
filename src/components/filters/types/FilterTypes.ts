@@ -8,6 +8,7 @@ export interface FilterState {
   state?: string[]|string;
   crimeType?: string;
   dataTypes?: string[];
+  categories?: string[];
 }
 
 export interface DashboardFiltersProps {

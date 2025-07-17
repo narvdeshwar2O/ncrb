@@ -1,11 +1,4 @@
-import {
-  Bar,
-  BarChart,
-  CartesianGrid,
-  LabelList,
-  XAxis,
-  YAxis,
-} from "recharts";
+import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import {
   ChartConfig,
@@ -15,6 +8,7 @@ import {
 } from "@/components/ui/chart";
 import { FilterState } from "@/components/filters/types/FilterTypes";
 import computeCombinedTotal from "@/utils/computeCombinedTotal";
+import { useMemo } from "react";
 
 interface DailyData {
   date: string;
@@ -28,59 +22,39 @@ interface DailyData {
 }
 
 export interface MultipleChartProps {
-  tpTotal: {
-    enrollment: number;
-    hit: number;
-    nohit: number;
-    total?: number;
-  };
-  cpTotal: {
-    enrollment: number;
-    hit: number;
-    nohit: number;
-    total?: number;
-  };
-  mesaTotal: {
-    enrollment: number;
-    hit: number;
-    nohit: number;
-    total?: number;
-  };
   filteredData: DailyData[];
   filters: FilterState;
+  activeCategories: string[];
+  totalsByCategory: Record<
+    string,
+    { enrollment: number; hit: number; nohit: number }
+  >;
 }
 
-const chartConfig = {
-  // TP - Blue family
-  tp_enrollment: { label: "TP Enrollment", color: "hsl(217, 100%, 65%)" }, // bright blue
-  tp_hit: { label: "TP Hit", color: "hsl(217, 80%, 55%)" }, // standard blue
-  tp_nohit: { label: "TP No-Hit", color: "hsl(217, 70%, 45%)" }, // deep blue
+const chartConfig: ChartConfig = {
+  tp_enrollment: { label: "TP Enrollment", color: "hsl(217, 100%, 65%)" },
+  tp_hit: { label: "TP Hit", color: "hsl(217, 80%, 55%)" },
+  tp_nohit: { label: "TP No-Hit", color: "hsl(217, 70%, 45%)" },
 
-  // CP - Teal family
-  cp_enrollment: { label: "CP Enrollment", color: "hsl(174, 70%, 55%)" }, // bright teal
-  cp_hit: { label: "CP Hit", color: "hsl(174, 60%, 45%)" }, // mid teal
-  cp_nohit: { label: "CP No-Hit", color: "hsl(174, 50%, 35%)" }, // dark teal
+  cp_enrollment: { label: "CP Enrollment", color: "hsl(174, 70%, 55%)" },
+  cp_hit: { label: "CP Hit", color: "hsl(174, 60%, 45%)" },
+  cp_nohit: { label: "CP No-Hit", color: "hsl(174, 50%, 35%)" },
 
-  // MESA - Amber/Gold family
-  mesa_enrollment: { label: "MESA Enrollment", color: "hsl(40, 100%, 60%)" }, // golden amber
-  mesa_hit: { label: "MESA Hit", color: "hsl(40, 90%, 50%)" }, // rich amber
-  mesa_nohit: { label: "MESA No-Hit", color: "hsl(40, 80%, 40%)" }, // dark amber
-} satisfies ChartConfig;
+  mesha_enrollment: { label: "MESHA Enrollment", color: "hsl(40, 100%, 60%)" },
+  mesha_hit: { label: "MESHA Hit", color: "hsl(40, 90%, 50%)" },
+  mesha_nohit: { label: "MESHA No-Hit", color: "hsl(40, 80%, 40%)" },
+};
+
 export function MultipleChart({
-  tpTotal,
-  cpTotal,
-  mesaTotal,
   filteredData,
   filters,
+  activeCategories,
+  totalsByCategory,
 }: MultipleChartProps) {
-  // Check if we have a specific date range (like last 7 days)
   const hasDateRange = filters.dateRange.from && filters.dateRange.to;
-
-  // If there's a date range and we have filtered data, show daily data
   const showDailyData =
     hasDateRange && filteredData.length > 0 && filteredData.length <= 90;
 
-  // Define custom bar sizes based on number of days
   const getBarSize = (dayCount: number) => {
     if (dayCount <= 7) return 40;
     if (dayCount <= 30) return 15;
@@ -90,311 +64,152 @@ export function MultipleChart({
 
   const barSize = showDailyData ? getBarSize(filteredData.length) : 50;
 
-  let chartData;
+  // ✅ Build chart data dynamically
+  const chartData = useMemo(() => {
+    if (showDailyData) {
+      return filteredData
+        .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
+        .map((day) => {
+          const row: Record<string, any> = {
+            label: new Date(day.date).toLocaleDateString("en-US", {
+              month: "short",
+              day: "numeric",
+            }),
+          };
 
-  if (showDailyData) {
-    // Create daily chart data with TP, CP, MESA breakdown by enrollment/hit/nohit
-    chartData = filteredData
-      .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
-      .map((dayData) => {
-        const tpDayTotal = computeCombinedTotal([dayData], "tp", filters);
-        const cpDayTotal = computeCombinedTotal([dayData], "cp", filters);
-        const mesaDayTotal = computeCombinedTotal([dayData], "mesha", filters);
+          activeCategories.forEach((category) => {
+            const totals = computeCombinedTotal(
+              filteredData,
+              category as "tp" | "cp" | "mesha",
+              filters
+            );
 
-        return {
-          label: new Date(dayData.date).toLocaleDateString("en-US", {
-            month: "short",
-            day: "numeric",
-          }),
-          date: dayData.date,
-          // TP data
-          tp_enrollment: tpDayTotal.enrollment,
-          tp_hit: tpDayTotal.hit,
-          tp_nohit: tpDayTotal.nohit,
+            if (filters.dataTypes.includes("enrollment"))
+              row[`${category}_enrollment`] = totals.enrollment;
+            if (filters.dataTypes.includes("hit"))
+              row[`${category}_hit`] = totals.hit;
+            if (filters.dataTypes.includes("nohit"))
+              row[`${category}_nohit`] = totals.nohit;
+          });
 
-          // CP data
-          cp_enrollment: cpDayTotal.enrollment,
-          cp_hit: cpDayTotal.hit,
-          cp_nohit: cpDayTotal.nohit,
-
-          // MESA data
-          mesa_enrollment: mesaDayTotal.enrollment,
-          mesa_hit: mesaDayTotal.hit,
-          mesa_nohit: mesaDayTotal.nohit,
-        };
-      });
-  } else {
-    // Show totals for TP, CP, MESA with their breakdown
-    chartData = [
-      {
-        label: "TP",
-        enrollment: tpTotal.enrollment,
-        hit: tpTotal.hit,
-        nohit: tpTotal.nohit,
-      },
-      {
-        label: "CP",
-        enrollment: cpTotal.enrollment,
-        hit: cpTotal.hit,
-        nohit: cpTotal.nohit,
-      },
-      {
-        label: "MESA",
-        enrollment: mesaTotal.enrollment,
-        hit: mesaTotal.hit,
-        nohit: mesaTotal.nohit,
-      },
-    ];
-  }
+          return row;
+        });
+    } else {
+      return activeCategories.map((category) => ({
+        label: category.toUpperCase(),
+        enrollment: totalsByCategory[category]?.enrollment || 0,
+        hit: totalsByCategory[category]?.hit || 0,
+        nohit: totalsByCategory[category]?.nohit || 0,
+      }));
+    }
+  }, [
+    filteredData,
+    activeCategories,
+    filters,
+    showDailyData,
+    totalsByCategory,
+  ]);
 
   const chartTitle = showDailyData
-    ? `Daily Breakdown by Agency (${filteredData.length} days)`
+    ? `Daily Breakdown (${filteredData.length} days)`
     : "Agency Totals Breakdown";
 
   const selectedDataTypes =
-    filters.dataTypes && filters.dataTypes.length > 0
+    filters.dataTypes.length > 0
       ? filters.dataTypes
-      : ["enrollment", "hit", "nohit"]; // default show all
-
-  // Legend colors for totals view (must match your Bar `fill` colors)
-  const totalsLegend = {
-    enrollment: { label: "Enrollment", color: "blue" },
-    hit: { label: "Hit", color: "#059669" },
-    nohit: { label: "No Hit", color: "green" },
-  } as const;
+      : ["enrollment", "hit", "nohit"];
 
   return (
-    <Card className="p-1">
+    <Card className="p-1 w-full mt-3">
       <CardHeader className="flex flex-col gap-2 items-center">
         <h3 className="text-base font-medium">{chartTitle}</h3>
-        {filteredData.length <= 90 ? (
-          <div className="flex flex-wrap gap-3 justify-center">
-            {Object.entries(chartConfig)
-              .filter(([key]) => {
-                if (
-                  selectedDataTypes.includes("enrollment") &&
-                  key.includes("enrollment")
+
+        {/* Legend */}
+        <div className="flex flex-wrap gap-3 justify-center">
+          {showDailyData
+            ? Object.entries(chartConfig)
+                .filter(([key]) =>
+                  selectedDataTypes.some((type) => key.includes(type))
                 )
-                  return true;
-                if (selectedDataTypes.includes("hit") && key.includes("hit"))
-                  return true;
-                if (
-                  selectedDataTypes.includes("nohit") &&
-                  key.includes("nohit")
-                )
-                  return true;
-                return false;
-              })
-              .map(([key, { label, color }]) => (
-                <div key={key} className="flex items-center gap-1 text-sm">
+                .map(([key, { label, color }]) => (
+                  <div key={key} className="flex items-center gap-1 text-sm">
+                    <span
+                      className="inline-block w-3 h-3 rounded-full"
+                      style={{ backgroundColor: color }}
+                    ></span>
+                    <span className="text-muted-foreground">{label}</span>
+                  </div>
+                ))
+            : selectedDataTypes.map((type) => (
+                <div key={type} className="flex items-center gap-1 text-sm">
                   <span
                     className="inline-block w-3 h-3 rounded-full"
-                    style={{ backgroundColor: color }}
-                  ></span>
-                  <span className="text-muted-foreground">{label}</span>
+                    style={{
+                      backgroundColor:
+                        type === "enrollment"
+                          ? "blue"
+                          : type === "hit"
+                          ? "#059669"
+                          : "green",
+                    }}
+                  />
+                  <span className="text-muted-foreground">
+                    {type.charAt(0).toUpperCase() + type.slice(1)}
+                  </span>
                 </div>
               ))}
-          </div>
-        ) : (
-          <div className="flex gap-3 flex-wrap justify-center">
-            {selectedDataTypes.includes("enrollment") && (
-              <div className="flex items-center gap-1 text-sm">
-                <span
-                  className="inline-block w-3 h-3 rounded-full"
-                  style={{ backgroundColor: totalsLegend.enrollment.color }}
-                />
-                <span className="text-muted-foreground">
-                  {totalsLegend.enrollment.label}
-                </span>
-              </div>
-            )}
-            {selectedDataTypes.includes("hit") && (
-              <div className="flex items-center gap-1 text-sm">
-                <span
-                  className="inline-block w-3 h-3 rounded-full"
-                  style={{ backgroundColor: totalsLegend.hit.color }}
-                />
-                <span className="text-muted-foreground">
-                  {totalsLegend.hit.label}
-                </span>
-              </div>
-            )}
-            {selectedDataTypes.includes("nohit") && (
-              <div className="flex items-center gap-1 text-sm">
-                <span
-                  className="inline-block w-3 h-3 rounded-full"
-                  style={{ backgroundColor: totalsLegend.nohit.color }}
-                />
-                <span className="text-muted-foreground">
-                  {totalsLegend.nohit.label}
-                </span>
-              </div>
-            )}
-          </div>
-        )}
+        </div>
       </CardHeader>
 
       <CardContent className="h-[300px] md:h-[400px] lg:h-[500px]">
         <ChartContainer config={chartConfig} className="h-full w-full">
           <BarChart data={chartData}>
             <CartesianGrid vertical={false} />
-
             <XAxis
               dataKey="label"
-              tickLine={true}
               tickMargin={10}
-              axisLine={true}
               angle={showDailyData ? -45 : 0}
               textAnchor={showDailyData ? "end" : "middle"}
-              height={showDailyData ? 80 : 60}
+              height={showDailyData ? 80 : 40}
             />
-
-            <YAxis
-              tickLine={true}
-              axisLine={true}
-              tickMargin={8}
-              tickFormatter={(value) => `${value}`}
-            />
+            <YAxis tickMargin={8} />
 
             <ChartTooltip
               cursor={true}
-              content={
-                <ChartTooltipContent
-                  indicator="line"
-                  className="cursor-pointer"
-                />
-              }
+              content={<ChartTooltipContent indicator="line" />}
             />
 
-            {showDailyData ? (
-              // Daily view - show stacked bars for each agency with enrollment/hit/nohit
-              <>
-                {/* TP bars (dynamic) */}
-                {selectedDataTypes.includes("enrollment") && (
+            {showDailyData
+              ? activeCategories.flatMap((category) =>
+                  selectedDataTypes.map((type) => {
+                    const key = `${category}_${type}`;
+                    return (
+                      <Bar
+                        key={key}
+                        dataKey={key}
+                        fill={chartConfig[key]?.color || "#ccc"}
+                        barSize={barSize}
+                        stackId={category}
+                        name={(chartConfig[key]?.label || key) as string}
+                      />
+                    );
+                  })
+                )
+              : selectedDataTypes.map((type) => (
                   <Bar
-                    dataKey="tp_enrollment"
-                    fill="var(--color-tp_enrollment)"
-                    radius={[0, 0, 4, 4]}
-                    barSize={barSize}
-                    name="TP Enrollment"
-                    stackId="tp"
-                  />
-                )}
-                {selectedDataTypes.includes("hit") && (
-                  <Bar
-                    dataKey="tp_hit"
-                    fill="var(--color-tp_hit)"
-                    barSize={barSize}
-                    name="TP Hit"
-                    stackId="tp"
-                  />
-                )}
-                {selectedDataTypes.includes("nohit") && (
-                  <Bar
-                    dataKey="tp_nohit"
-                    fill="var(--color-tp_nohit)"
-                    radius={[4, 4, 0, 0]}
-                    barSize={barSize}
-                    name="TP No-Hit"
-                    stackId="tp"
-                  />
-                )}
-
-                {/* CP bars */}
-                {/* TP bars (dynamic) */}
-                {selectedDataTypes.includes("enrollment") && (
-                  <Bar
-                    dataKey="cp_enrollment"
-                    fill="var(--color-cp_enrollment)"
-                    radius={[0, 0, 4, 4]}
-                    barSize={barSize}
-                    name="CP Enrollment"
-                    stackId="cp"
-                  />
-                )}
-                {selectedDataTypes.includes("hit") && (
-                  <Bar
-                    dataKey="cp_hit"
-                    fill="var(--color-cp_hit)"
-                    barSize={barSize}
-                    name="cP Hit"
-                    stackId="cp"
-                  />
-                )}
-                {selectedDataTypes.includes("nohit") && (
-                  <Bar
-                    dataKey="cp_nohit"
-                    fill="var(--color-cp_nohit)"
-                    radius={[4, 4, 0, 0]}
-                    barSize={barSize}
-                    name="CP No-Hit"
-                    stackId="cp"
-                  />
-                )}
-
-                {/* MESA bars */}
-                {/* TP bars (dynamic) */}
-                {selectedDataTypes.includes("enrollment") && (
-                  <Bar
-                    dataKey="mesa_enrollment"
-                    fill="var(--color-mesa_enrollment)"
-                    radius={[0, 0, 4, 4]}
-                    barSize={barSize}
-                    name="MESA Enrollment"
-                    stackId="mesa"
-                  />
-                )}
-                {selectedDataTypes.includes("hit") && (
-                  <Bar
-                    dataKey="mesa_hit"
-                    fill="var(--color-mesa_hit)"
-                    barSize={barSize}
-                    name="MESA Hit"
-                    stackId="mesa"
-                  />
-                )}
-                {selectedDataTypes.includes("nohit") && (
-                  <Bar
-                    dataKey="mesa_nohit"
-                    fill="var(--color-mesa_nohit)"
-                    radius={[4, 4, 0, 0]}
-                    barSize={barSize}
-                    name="MESA No-Hit"
-                    stackId="mesa"
-                  />
-                )}
-              </>
-            ) : (
-              <>
-                {selectedDataTypes.includes("enrollment") && (
-                  <Bar
-                    dataKey="enrollment"
-                    fill="blue"
-                    radius={4}
+                    key={type}
+                    dataKey={type}
+                    fill={
+                      type === "enrollment"
+                        ? "blue"
+                        : type === "hit"
+                        ? "#059669"
+                        : "green"
+                    }
                     barSize={50}
-                    name="Enrollment"
-                  />
-                )}
-                {selectedDataTypes.includes("hit") && (
-                  <Bar
-                    dataKey="hit"
-                    fill="#059669"
                     radius={4}
-                    barSize={50}
-                    name="Hit"
                   />
-                )}
-                {selectedDataTypes.includes("nohit") && (
-                  <Bar
-                    dataKey="nohit"
-                    fill="green"
-                    radius={4}
-                    barSize={50}
-                    name="No-Hit"
-                  />
-                )}
-              </>
-            )}
+                ))}
           </BarChart>
         </ChartContainer>
       </CardContent>

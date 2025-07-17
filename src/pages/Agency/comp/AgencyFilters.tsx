@@ -25,6 +25,7 @@ import {
 import MultiSelectCheckbox from "@/components/ui/MultiSelectCheckbox";
 
 const dataTypeOptions = ["enrollment", "hit", "nohit"];
+const categoryOptions = ["tp", "cp", "mesha"];
 
 // --- helper ---
 function getLastNDaysRange(n: number) {
@@ -50,6 +51,8 @@ export const AgencyFilters = ({
   const [selectedStates, setSelectedStates] = useState<string[]>([]);
   const [selectedDataTypes, setSelectedDataTypes] =
     useState<string[]>(dataTypeOptions);
+  const [selectedCategories, setSelectedCategories] =
+    useState<string[]>(categoryOptions);
 
   // Track the N-days select so UI shows which preset is active
   const [daysPreset, setDaysPreset] = useState<"7" | "30" | "90" | "custom">(
@@ -57,7 +60,19 @@ export const AgencyFilters = ({
   );
 
   const updateFilters = (newFilters: Partial<FilterState>) => {
-    const updatedFilters = { ...filters, ...newFilters };
+    const updatedFilters: FilterState = {
+      ...filters,
+      ...newFilters,
+      // guard against someone explicitly passing undefined
+      dataTypes:
+        newFilters.dataTypes !== undefined
+          ? newFilters.dataTypes
+          : filters.dataTypes ?? [...dataTypeOptions],
+      categories:
+        newFilters.categories !== undefined
+          ? newFilters.categories
+          : filters.categories ?? [...categoryOptions],
+    };
     setFilters(updatedFilters);
     onFiltersChange(updatedFilters);
   };
@@ -76,12 +91,15 @@ export const AgencyFilters = ({
     const resetState: FilterState = {
       dateRange: resetRange,
       state: "All States",
-      dataTypes: dataTypeOptions,
+      dataTypes: [...dataTypeOptions],
+      categories: [...categoryOptions],
     };
     setFilters(resetState);
     onFiltersChange(resetState);
+
     setSelectedStates([]);
-    setSelectedDataTypes(dataTypeOptions);
+    setSelectedDataTypes([...dataTypeOptions]);
+    setSelectedCategories([...categoryOptions]);
     setDaysPreset("7");
   };
 
@@ -102,7 +120,7 @@ export const AgencyFilters = ({
         </CardTitle>
       </CardHeader>
       <CardContent>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 xl:grid-cols-[1.5fr_1fr,1fr,1fr,1fr,1fr] gap-3">
           {/* Date Range Filter */}
           <div className="space-y-2">
             <label className="text-sm font-medium">Date Range</label>
@@ -149,7 +167,9 @@ export const AgencyFilters = ({
 
           {/* N days filter */}
           <div className="space-y-2">
-            <label className="text-sm font-medium">Select the range of days</label>
+            <label className="text-sm font-medium">
+              Select the range of days
+            </label>
             <Select
               value={daysPreset === "custom" ? "" : daysPreset}
               onValueChange={(value) => {
@@ -191,6 +211,15 @@ export const AgencyFilters = ({
             onChange={(newTypes) => {
               setSelectedDataTypes(newTypes);
               updateFilters({ dataTypes: newTypes });
+            }}
+          />
+          <MultiSelectCheckbox
+            label="Categories"
+            options={categoryOptions}
+            selected={selectedCategories}
+            onChange={(newCategories) => {
+              setSelectedCategories(newCategories);
+              updateFilters({ categories: newCategories });
             }}
           />
 

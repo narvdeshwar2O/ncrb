@@ -14,7 +14,7 @@ interface TypeData {
   total: number;
 }
 
-interface StateData {
+export interface StateData {
   [state: string]: {
     tp: TypeData;
     cp: TypeData;
@@ -22,51 +22,75 @@ interface StateData {
   };
 }
 
-function AgencyTable({ data }: { data: StateData }) {
+interface AgencyTableProps {
+  data: StateData;
+  filters: {
+    dataTypes?: string[];
+    categories?: string[];
+  };
+}
+
+function AgencyTable({ data, filters }: AgencyTableProps) {
+  const { dataTypes, categories } = filters;
+
+  const availableCategories = ["tp", "cp", "mesha"].filter(cat =>
+    categories.includes(cat)
+  );
+
+  const availableDataTypes = ["enrollment", "hit", "nohit"].filter(type =>
+    dataTypes.includes(type)
+  );
+
   return (
     <div className="overflow-auto rounded-md border">
       <Table>
+        {/* Header */}
         <TableHeader>
           <TableRow>
-            <TableHead rowSpan={2} className="border-r text-center">State</TableHead>
-            <TableHead colSpan={4} className="text-center border-r">TP</TableHead>
-            <TableHead colSpan={4} className="text-center border-r">CP</TableHead>
-            <TableHead colSpan={4} className="text-center">MESA</TableHead>
+            <TableHead rowSpan={2} className="border-r text-center">
+              State
+            </TableHead>
+            {availableCategories.map(cat => (
+              <TableHead
+                key={cat}
+                colSpan={availableDataTypes.length + 1} // +1 for Total
+                className="text-center border-r"
+              >
+                {cat.toUpperCase()}
+              </TableHead>
+            ))}
           </TableRow>
           <TableRow>
-            <TableHead>Enrollment</TableHead>
-            <TableHead>Hit</TableHead>
-            <TableHead>NoHit</TableHead>
-            <TableHead className="border-r">Total</TableHead>
-            <TableHead>Enrollment</TableHead>
-            <TableHead>Hit</TableHead>
-            <TableHead>NoHit</TableHead>
-            <TableHead className="border-r">Total</TableHead>
-            <TableHead>Enrollment</TableHead>
-            <TableHead>Hit</TableHead>
-            <TableHead>NoHit</TableHead>
-            <TableHead>Total</TableHead>
+            {availableCategories.map(cat =>
+              [...availableDataTypes, "total"].map(type => (
+                <TableHead
+                  key={`${cat}-${type}`}
+                  className={type === "total" ? "border-r text-center" : ""}
+                >
+                  {type === "total"
+                    ? "Total"
+                    : type.charAt(0).toUpperCase() + type.slice(1)}
+                </TableHead>
+              ))
+            )}
           </TableRow>
         </TableHeader>
+
+        {/* Body */}
         <TableBody>
           {Object.entries(data).map(([state, types]) => (
             <TableRow key={state} className="text-center">
               <TableCell className="font-medium border-r">{state}</TableCell>
-              {/* TP */}
-              <TableCell>{types.tp.enrollment}</TableCell>
-              <TableCell>{types.tp.hit}</TableCell>
-              <TableCell>{types.tp.nohit}</TableCell>
-              <TableCell className="border-r">{types.tp.total}</TableCell>
-              {/* CP */}
-              <TableCell>{types.cp.enrollment}</TableCell>
-              <TableCell>{types.cp.hit}</TableCell>
-              <TableCell>{types.cp.nohit}</TableCell>
-              <TableCell className="border-r">{types.cp.total}</TableCell>
-              {/* MESHA */}
-              <TableCell>{types.mesha.enrollment}</TableCell>
-              <TableCell>{types.mesha.hit}</TableCell>
-              <TableCell>{types.mesha.nohit}</TableCell>
-              <TableCell>{types.mesha.total}</TableCell>
+              {availableCategories.map(cat =>
+                [...availableDataTypes, "total"].map(type => (
+                  <TableCell
+                    key={`${state}-${cat}-${type}`}
+                    className={type === "total" ? "border-r" : ""}
+                  >
+                    {types[cat as "tp" | "cp" | "mesha"][type as keyof TypeData]}
+                  </TableCell>
+                ))
+              )}
             </TableRow>
           ))}
         </TableBody>
