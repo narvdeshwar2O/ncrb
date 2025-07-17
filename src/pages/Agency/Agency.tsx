@@ -6,8 +6,9 @@ import RenderCard from "./comp/RenderCard";
 import { AgencyFilters } from "./comp/AgencyFilters";
 import computeCombinedTotal from "@/utils/computeCombinedTotal";
 import { MultipleChart } from "./comp/MultipleChart";
+import { Top5DataView } from "./comp/Top5DataView";
 
-interface DailyData {
+export interface DailyData {
   date: string;
   data: Record<
     string,
@@ -24,14 +25,21 @@ interface Totals {
   nohit: number;
   total?: number;
 }
+const getLast7DaysRange = () => {
+  const today = new Date();
+  const to = today;
+  const from = new Date();
+  from.setDate(today.getDate() - 7); // last 7 days including today
+  return { from, to };
+};
 
 function Agency() {
   const [allData, setAllData] = useState<DailyData[]>([]);
   const [filters, setFilters] = useState<FilterState>({
-    dateRange: { from: undefined, to: undefined },
+    dateRange: getLast7DaysRange(),
     state: [],
   });
-
+  console.log("All data", allData);
   useEffect(() => {
     const fetchData = async () => {
       const loaded = await loadAllMonthlyData();
@@ -47,48 +55,32 @@ function Agency() {
         state,
       } = filters;
 
-      // Date filtering
       const entryDate = new Date(entry.date);
+
+      // Apply last 7 days filter on first render automatically
       if (from && entryDate < from) return false;
       if (to && entryDate > to) return false;
 
-      // State filtering - FIXED LOGIC
-      if (!state || state === "All States") {
-        return true;
-      }
+      // State filtering
+      if (!state || state === "All States") return true;
 
       let stateArray: string[] = [];
       if (Array.isArray(state)) {
         stateArray = state;
       } else if (typeof state === "string" && state.includes(",")) {
-        // Handle comma-separated string
         stateArray = state.split(",").map((s) => s.trim());
       } else {
         stateArray = [state];
       }
 
-      // Remove empty states and "All States" from the array
       const validStates = stateArray.filter((s) => s && s !== "All States");
 
-      if (validStates.length === 0) {
-        // No valid states selected, include all entries
-        return true;
-      }
+      if (validStates.length === 0) return true;
 
-      // Check if the entry has data for at least one of the selected states
-      const hasMatchingState = validStates.some((selectedState) => {
-        return selectedState in entry.data;
-      });
-
-      // Debug logging
-      console.log("Entry date:", entry.date);
-      console.log("Selected states:", validStates);
-      console.log("Available states in entry:", Object.keys(entry.data));
-      console.log("Has matching state:", hasMatchingState);
-
-      return hasMatchingState;
+      return validStates.some((selectedState) => selectedState in entry.data);
     });
   }, [allData, filters]);
+
   const selectedStates = useMemo(() => {
     if (!filters.state || filters.state === "All States") return [];
 
@@ -163,6 +155,11 @@ function Agency() {
           mesaTotal={meshaTotal}
           filteredData={filteredData}
           filters={filters}
+        />
+        <Top5DataView
+          allData={allData}
+          from={filters.dateRange.from}
+          to={filters.dateRange.to}
         />
       </div>
     </div>

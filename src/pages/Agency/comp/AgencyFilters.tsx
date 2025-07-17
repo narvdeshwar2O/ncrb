@@ -14,7 +14,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { format } from "date-fns";
+import { format, subDays, startOfDay, endOfDay } from "date-fns";
 import { CalendarIcon, Filter, RotateCcw } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { states } from "../../../components/filters/data/statesData";
@@ -22,23 +22,39 @@ import {
   FilterState,
   DashboardFiltersProps,
 } from "../../../components/filters/types/FilterTypes";
-import { subDays, startOfDay, endOfDay } from "date-fns";
 import MultiSelectCheckbox from "@/components/ui/MultiSelectCheckbox";
+
 const dataTypeOptions = ["enrollment", "hit", "nohit"];
+
+// --- helper ---
+function getLastNDaysRange(n: number) {
+  const to = endOfDay(new Date());
+  const from = startOfDay(subDays(to, n - 1));
+  return { from, to };
+}
 
 export const AgencyFilters = ({
   onFiltersChange,
   showCrimeTypeFilter = false,
 }: DashboardFiltersProps) => {
+  // default last 7 days
+  const initialRange = getLastNDaysRange(7);
+
   const [filters, setFilters] = useState<FilterState>({
-    dateRange: { from: undefined, to: undefined },
+    dateRange: initialRange,
     state: "All States",
+    dataTypes: dataTypeOptions,
   });
 
   const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
   const [selectedStates, setSelectedStates] = useState<string[]>([]);
   const [selectedDataTypes, setSelectedDataTypes] =
     useState<string[]>(dataTypeOptions);
+
+  // Track the N-days select so UI shows which preset is active
+  const [daysPreset, setDaysPreset] = useState<"7" | "30" | "90" | "custom">(
+    "7"
+  );
 
   const updateFilters = (newFilters: Partial<FilterState>) => {
     const updatedFilters = { ...filters, ...newFilters };
@@ -49,25 +65,32 @@ export const AgencyFilters = ({
   const handleDateSelect = (
     range: { from: Date | undefined; to: Date | undefined } | undefined
   ) => {
-    if (range) {
-      updateFilters({ dateRange: range });
-    }
+    if (!range) return;
+    updateFilters({ dateRange: range });
+    // user manually changed date => mark preset as custom
+    setDaysPreset("custom");
   };
 
   const resetFilters = () => {
-    const resetState = {
-      dateRange: { from: undefined, to: undefined },
+    const resetRange = getLastNDaysRange(7);
+    const resetState: FilterState = {
+      dateRange: resetRange,
       state: "All States",
+      dataTypes: dataTypeOptions,
     };
     setFilters(resetState);
     onFiltersChange(resetState);
+    setSelectedStates([]);
+    setSelectedDataTypes(dataTypeOptions);
+    setDaysPreset("7");
   };
 
-  //  for the purpose of getting the last n days
+  // preset handler
   const setLastNDays = (n: number) => {
-    const to = endOfDay(new Date());
-    const from = startOfDay(subDays(to, n - 1));
-    updateFilters({ dateRange: { from, to } });
+    const range = getLastNDaysRange(n);
+    updateFilters({ dateRange: range });
+    // sync preset selector
+    setDaysPreset((n as 7 | 30 | 90).toString() as "7" | "30" | "90");
   };
 
   return (
@@ -126,23 +149,30 @@ export const AgencyFilters = ({
 
           {/* N days filter */}
           <div className="space-y-2">
-            <label className="text-sm font-medium">
-              Select the range of days
-            </label>
-            <Select onValueChange={(value) => setLastNDays(parseInt(value))}>
+            <label className="text-sm font-medium">Select the range of days</label>
+            <Select
+              value={daysPreset === "custom" ? "" : daysPreset}
+              onValueChange={(value) => {
+                if (!value) {
+                  setDaysPreset("custom");
+                  return;
+                }
+                setDaysPreset(value as "7" | "30" | "90");
+                setLastNDays(parseInt(value, 10));
+              }}
+            >
               <SelectTrigger className="w-full">
-                <SelectValue placeholder="Select Present Range" />
+                <SelectValue placeholder="Custom Range" />
               </SelectTrigger>
               <SelectContent>
-                {["7", "30", "90"].map((item) => (
-                  <SelectItem key={item} value={item}>
-                    Last {item} Days
-                  </SelectItem>
-                ))}
+                <SelectItem value="7">Last 7 Days</SelectItem>
+                <SelectItem value="30">Last 30 Days</SelectItem>
+                <SelectItem value="90">Last 90 Days</SelectItem>
               </SelectContent>
             </Select>
           </div>
 
+          {/* States multiselect */}
           <MultiSelectCheckbox
             label="States"
             options={states}
@@ -152,9 +182,11 @@ export const AgencyFilters = ({
               updateFilters({ state: newStates.join(", ") });
             }}
           />
+
+          {/* DataType multiselect */}
           <MultiSelectCheckbox
             label="Data Types"
-            options={["enrollment", "hit", "nohit"]}
+            options={dataTypeOptions}
             selected={selectedDataTypes}
             onChange={(newTypes) => {
               setSelectedDataTypes(newTypes);
@@ -162,7 +194,7 @@ export const AgencyFilters = ({
             }}
           />
 
-          {/* Reset Button */}
+          {/* Reset */}
           <div className="space-y-2">
             <label className="text-sm font-medium invisible">Reset</label>
             <Button variant="outline" onClick={resetFilters} className="w-full">
