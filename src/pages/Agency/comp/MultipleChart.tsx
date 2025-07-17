@@ -151,36 +151,85 @@ export function MultipleChart({
     ? `Daily Breakdown by Agency (${filteredData.length} days)`
     : "Agency Totals Breakdown";
 
+  const selectedDataTypes =
+    filters.dataTypes && filters.dataTypes.length > 0
+      ? filters.dataTypes
+      : ["enrollment", "hit", "nohit"]; // default show all
+
+  // Legend colors for totals view (must match your Bar `fill` colors)
+  const totalsLegend = {
+    enrollment: { label: "Enrollment", color: "blue" },
+    hit: { label: "Hit", color: "#059669" },
+    nohit: { label: "No Hit", color: "green" },
+  } as const;
+
   return (
     <Card className="p-1">
       <CardHeader className="flex flex-col gap-2 items-center">
         <h3 className="text-base font-medium">{chartTitle}</h3>
         {filteredData.length <= 90 ? (
           <div className="flex flex-wrap gap-3 justify-center">
-            {Object.entries(chartConfig).map(([key, { label, color }]) => (
-              <div key={key} className="flex items-center gap-1 text-sm">
-                <span
-                  className="inline-block w-3 h-3 rounded-full"
-                  style={{ backgroundColor: color }}
-                ></span>
-                <span className="text-muted-foreground">{label}</span>
-              </div>
-            ))}
+            {Object.entries(chartConfig)
+              .filter(([key]) => {
+                if (
+                  selectedDataTypes.includes("enrollment") &&
+                  key.includes("enrollment")
+                )
+                  return true;
+                if (selectedDataTypes.includes("hit") && key.includes("hit"))
+                  return true;
+                if (
+                  selectedDataTypes.includes("nohit") &&
+                  key.includes("nohit")
+                )
+                  return true;
+                return false;
+              })
+              .map(([key, { label, color }]) => (
+                <div key={key} className="flex items-center gap-1 text-sm">
+                  <span
+                    className="inline-block w-3 h-3 rounded-full"
+                    style={{ backgroundColor: color }}
+                  ></span>
+                  <span className="text-muted-foreground">{label}</span>
+                </div>
+              ))}
           </div>
         ) : (
-          <div className="flex gap-3">
-            <div className="flex items-center gap-1 text-sm">
-              <span className="inline-block w-3 h-3 rounded-full bg-blue-700"></span>
-              <span className="text-muted-foreground">Enrollment</span>
-            </div>
-            <div className="flex items-center gap-1 text-sm">
-              <span className="inline-block w-3 h-3 rounded-full bg-[#059669]"></span>
-              <span className="text-muted-foreground">Hit</span>
-            </div>
-            <div className="flex items-center gap-1 text-sm">
-              <span className="inline-block w-3 h-3 rounded-full bg-green-800"></span>
-              <span className="text-muted-foreground">No hit</span>
-            </div>
+          <div className="flex gap-3 flex-wrap justify-center">
+            {selectedDataTypes.includes("enrollment") && (
+              <div className="flex items-center gap-1 text-sm">
+                <span
+                  className="inline-block w-3 h-3 rounded-full"
+                  style={{ backgroundColor: totalsLegend.enrollment.color }}
+                />
+                <span className="text-muted-foreground">
+                  {totalsLegend.enrollment.label}
+                </span>
+              </div>
+            )}
+            {selectedDataTypes.includes("hit") && (
+              <div className="flex items-center gap-1 text-sm">
+                <span
+                  className="inline-block w-3 h-3 rounded-full"
+                  style={{ backgroundColor: totalsLegend.hit.color }}
+                />
+                <span className="text-muted-foreground">
+                  {totalsLegend.hit.label}
+                </span>
+              </div>
+            )}
+            {selectedDataTypes.includes("nohit") && (
+              <div className="flex items-center gap-1 text-sm">
+                <span
+                  className="inline-block w-3 h-3 rounded-full"
+                  style={{ backgroundColor: totalsLegend.nohit.color }}
+                />
+                <span className="text-muted-foreground">
+                  {totalsLegend.nohit.label}
+                </span>
+              </div>
+            )}
           </div>
         )}
       </CardHeader>
@@ -220,108 +269,130 @@ export function MultipleChart({
             {showDailyData ? (
               // Daily view - show stacked bars for each agency with enrollment/hit/nohit
               <>
-                {/* TP bars */}
-                <Bar
-                  dataKey="tp_enrollment"
-                  fill="var(--color-tp_enrollment)"
-                  radius={[0, 0, 4, 4]}
-                  barSize={barSize}
-                  name="TP Enrollment"
-                  stackId="tp"
-                />
-                <Bar
-                  dataKey="tp_hit"
-                  fill="var(--color-tp_hit)"
-                  radius={[0, 0, 0, 0]}
-                  barSize={barSize}
-                  name="TP Hit"
-                  stackId="tp"
-                />
-                <Bar
-                  dataKey="tp_nohit"
-                  fill="var(--color-tp_nohit)"
-                  radius={[4, 4, 0, 0]}
-                  barSize={barSize}
-                  name="TP No-Hit"
-                  stackId="tp"
-                />
+                {/* TP bars (dynamic) */}
+                {selectedDataTypes.includes("enrollment") && (
+                  <Bar
+                    dataKey="tp_enrollment"
+                    fill="var(--color-tp_enrollment)"
+                    radius={[0, 0, 4, 4]}
+                    barSize={barSize}
+                    name="TP Enrollment"
+                    stackId="tp"
+                  />
+                )}
+                {selectedDataTypes.includes("hit") && (
+                  <Bar
+                    dataKey="tp_hit"
+                    fill="var(--color-tp_hit)"
+                    barSize={barSize}
+                    name="TP Hit"
+                    stackId="tp"
+                  />
+                )}
+                {selectedDataTypes.includes("nohit") && (
+                  <Bar
+                    dataKey="tp_nohit"
+                    fill="var(--color-tp_nohit)"
+                    radius={[4, 4, 0, 0]}
+                    barSize={barSize}
+                    name="TP No-Hit"
+                    stackId="tp"
+                  />
+                )}
 
                 {/* CP bars */}
-                <Bar
-                  dataKey="cp_enrollment"
-                  fill="var(--color-cp_enrollment)"
-                  radius={[0, 0, 4, 4]}
-                  barSize={barSize}
-                  name="CP Enrollment"
-                  stackId="cp"
-                />
-                <Bar
-                  dataKey="cp_hit"
-                  fill="var(--color-cp_hit)"
-                  radius={[0, 0, 0, 0]}
-                  barSize={barSize}
-                  name="CP Hit"
-                  stackId="cp"
-                />
-                <Bar
-                  dataKey="cp_nohit"
-                  fill="var(--color-cp_nohit)"
-                  radius={[4, 4, 0, 0]}
-                  barSize={barSize}
-                  name="CP No-Hit"
-                  stackId="cp"
-                />
+                {/* TP bars (dynamic) */}
+                {selectedDataTypes.includes("enrollment") && (
+                  <Bar
+                    dataKey="cp_enrollment"
+                    fill="var(--color-cp_enrollment)"
+                    radius={[0, 0, 4, 4]}
+                    barSize={barSize}
+                    name="CP Enrollment"
+                    stackId="cp"
+                  />
+                )}
+                {selectedDataTypes.includes("hit") && (
+                  <Bar
+                    dataKey="cp_hit"
+                    fill="var(--color-cp_hit)"
+                    barSize={barSize}
+                    name="cP Hit"
+                    stackId="cp"
+                  />
+                )}
+                {selectedDataTypes.includes("nohit") && (
+                  <Bar
+                    dataKey="cp_nohit"
+                    fill="var(--color-cp_nohit)"
+                    radius={[4, 4, 0, 0]}
+                    barSize={barSize}
+                    name="CP No-Hit"
+                    stackId="cp"
+                  />
+                )}
 
                 {/* MESA bars */}
-                <Bar
-                  dataKey="mesa_enrollment"
-                  fill="var(--color-mesa_enrollment)"
-                  radius={[0, 0, 4, 4]}
-                  barSize={barSize}
-                  name="MESA Enrollment"
-                  stackId="mesa"
-                />
-                <Bar
-                  dataKey="mesa_hit"
-                  fill="var(--color-mesa_hit)"
-                  radius={[0, 0, 0, 0]}
-                  barSize={barSize}
-                  name="MESA Hit"
-                  stackId="mesa"
-                />
-                <Bar
-                  dataKey="mesa_nohit"
-                  fill="var(--color-mesa_nohit)"
-                  radius={[4, 4, 0, 0]}
-                  barSize={barSize}
-                  name="MESA No-Hit"
-                  stackId="mesa"
-                />
+                {/* TP bars (dynamic) */}
+                {selectedDataTypes.includes("enrollment") && (
+                  <Bar
+                    dataKey="mesa_enrollment"
+                    fill="var(--color-mesa_enrollment)"
+                    radius={[0, 0, 4, 4]}
+                    barSize={barSize}
+                    name="MESA Enrollment"
+                    stackId="mesa"
+                  />
+                )}
+                {selectedDataTypes.includes("hit") && (
+                  <Bar
+                    dataKey="mesa_hit"
+                    fill="var(--color-mesa_hit)"
+                    barSize={barSize}
+                    name="MESA Hit"
+                    stackId="mesa"
+                  />
+                )}
+                {selectedDataTypes.includes("nohit") && (
+                  <Bar
+                    dataKey="mesa_nohit"
+                    fill="var(--color-mesa_nohit)"
+                    radius={[4, 4, 0, 0]}
+                    barSize={barSize}
+                    name="MESA No-Hit"
+                    stackId="mesa"
+                  />
+                )}
               </>
             ) : (
-              // Total view - show enrollment, hit, nohit bars grouped by agency
               <>
-                <Bar
-                  dataKey="enrollment"
-                  fill="blue"
-                  radius={4}
-                  barSize={50}
-                  name="Enrollment"
-                />
-                <Bar
-                  dataKey="hit"
-                  fill="#059669"
-                  radius={4}
-                  barSize={50}
-                  name="Hit"
-                />
-                <Bar
-                  dataKey="nohit"
-                  fill="green"
-                  radius={4}
-                  barSize={50}
-                  name="No-Hit"
-                />
+                {selectedDataTypes.includes("enrollment") && (
+                  <Bar
+                    dataKey="enrollment"
+                    fill="blue"
+                    radius={4}
+                    barSize={50}
+                    name="Enrollment"
+                  />
+                )}
+                {selectedDataTypes.includes("hit") && (
+                  <Bar
+                    dataKey="hit"
+                    fill="#059669"
+                    radius={4}
+                    barSize={50}
+                    name="Hit"
+                  />
+                )}
+                {selectedDataTypes.includes("nohit") && (
+                  <Bar
+                    dataKey="nohit"
+                    fill="green"
+                    radius={4}
+                    barSize={50}
+                    name="No-Hit"
+                  />
+                )}
               </>
             )}
           </BarChart>

@@ -1,5 +1,6 @@
-// components/RenderCard.tsx
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import React from "react";
+import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
+
 interface Totals {
   enrollment: number;
   hit: number;
@@ -9,23 +10,36 @@ interface Totals {
 interface RenderCardProps {
   title: string;
   total: Totals;
+  selectedDataTypes?: string[]; // Data type filter from parent
 }
 
-function RenderCard({ title, total }: RenderCardProps) {
+const RenderCard: React.FC<RenderCardProps> = ({ title, total, selectedDataTypes = [] }) => {
+  const showAll = selectedDataTypes.length === 0;
+
   return (
-    <Card className="rounded-2xl border bg-card">
+    <Card className="shadow-md border">
       <CardHeader>
-        <CardTitle className="text-lg font-semibold text-primary">
-          {title}
-        </CardTitle>
+        <CardTitle className="text-lg">{title}</CardTitle>
       </CardHeader>
-      <CardContent className="space-y-1 text-sm text-muted-foreground">
-        <p><strong>Enrollment:</strong> {total.enrollment.toLocaleString()}</p>
-        <p><strong>Hit:</strong> {total.hit.toLocaleString()}</p>
-        <p><strong>No Hit:</strong> {total.nohit.toLocaleString()}</p>
+      <CardContent className="space-y-2 text-sm text-muted-foreground">
+        {(showAll || selectedDataTypes.includes("enrollment")) && (
+          <p>
+            Enrollment: <span className="font-semibold text-foreground">{total.enrollment}</span>
+          </p>
+        )}
+        {(showAll || selectedDataTypes.includes("hit")) && (
+          <p>
+            Hit: <span className="font-semibold text-foreground">{total.hit}</span>
+          </p>
+        )}
+        {(showAll || selectedDataTypes.includes("nohit")) && (
+          <p>
+            No Hit: <span className="font-semibold text-foreground">{total.nohit}</span>
+          </p>
+        )}
       </CardContent>
     </Card>
   );
-}
+};
 
 export default RenderCard;

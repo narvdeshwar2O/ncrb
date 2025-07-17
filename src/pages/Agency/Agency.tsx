@@ -123,7 +123,6 @@ function Agency() {
     () => computeCombinedTotal(filteredData, "mesha", filters),
     [filteredData, filters]
   );
-
   return (
     <div className="p-3">
       <div className="p-3 space-y-3 bg-background rounded-md shadow-lg border">
@@ -135,16 +134,28 @@ function Agency() {
               <strong>{filteredData.length}</strong> days of data containing
               states and union territories:{" "}
               <strong>
-                {selectedStateCount===0 ? "All states" : selectedStateCount}
+                {selectedStateCount === 0 ? "All states" : selectedStateCount}
               </strong>
             </p>
           </CardContent>
         </Card>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-          <RenderCard title="TP" total={tpTotal} />
-          <RenderCard title="CP" total={cpTotal} />
-          <RenderCard title="MESHA" total={meshaTotal} />
+          <RenderCard
+            title="TP"
+            total={tpTotal}
+            selectedDataTypes={filters.dataTypes}
+          />
+          <RenderCard
+            title="CP"
+            total={cpTotal}
+            selectedDataTypes={filters.dataTypes}
+          />
+          <RenderCard
+            title="MESHA"
+            total={meshaTotal}
+            selectedDataTypes={filters.dataTypes}
+          />
         </div>
         <MultipleChart
           tpTotal={tpTotal}
