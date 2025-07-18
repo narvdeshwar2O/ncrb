@@ -57,6 +57,7 @@ import { ThemeToggle } from "./theme/ThemeToggle";
 
 const mainNavItems = [
   { title: "Dashboard", url: "/dashboard", icon: LayoutDashboard },
+  { title: "Slip Capture", url: "/slipcapture", icon: LayoutDashboard },
   { title: "CCTNS Analytics", url: "/cctns", icon: BarChart3 },
   { title: "NCRC Verification", url: "/ncrc", icon: Activity },
 ];

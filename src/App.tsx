@@ -44,6 +44,7 @@ import NCRCComplianceScoreDetail from "./pages/details/ncrc/NCRCComplianceScoreD
 import HighRiskCasesDetail from "./pages/details/ncrc/HighRiskCasesDetail";
 import AuditTrailDetail from "./pages/details/ncrc/AuditTrailDetail";
 import Agency from "./pages/Agency/Agency";
+import SlipCapture from "./pages/SlipCapture/SlipCapture";
 
 const queryClient = new QueryClient();
 
@@ -58,6 +59,7 @@ const App = () => (
             <Routes>
               <Route path="/" element={<Navigate to="/dashboard" replace />} />
               <Route path="/dashboard" element={<Agency />} />
+              <Route path="/slipcapture" element={<SlipCapture />} />
               <Route path="/cctns" element={<CCTNSPage />} />
               <Route path="/ncrc" element={<NCRCPage />} />
               {/* CCTNS Detail Routes */}
