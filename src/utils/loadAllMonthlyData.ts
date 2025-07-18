@@ -1,14 +1,36 @@
-export async function loadAllMonthlyData(
-  startDate?: string,  // Optional: e.g., "2025-04-10"
-  endDate?: string,    // Optional: e.g., "2025-06-20"
-  stateFilter?: string // Optional: e.g., "Maharashtra"
-): Promise<{ date: string; data: any }[]> {
+interface LoadParams {
+  startDate?: string;
+  endDate?: string;
+  stateFilter?: string;
+  type: "cfpb" | "slip_cp"; // Required
+}
+
+export async function loadAllMonthlyData({
+  startDate,
+  endDate,
+  stateFilter,
+  type,
+}: LoadParams): Promise<{ date: string; data: any }[]> {
   const results: { date: string; data: any }[] = [];
 
-  const defaultMonths = ["04", "05", "06","07"];
+  const defaultMonths = ["04", "05", "06", "07"];
 
   const start = startDate ? new Date(startDate) : undefined;
   const end = endDate ? new Date(endDate) : undefined;
+
+  // Define dynamic path and filename patterns based on `type`
+  const config = {
+    cfpb: {
+      basePath: "/assets/data/cfpb_generic_report/2025",
+      filePrefix: "cfpb_gr_output",
+    },
+    slip_cp: {
+      basePath: "/assets/data/slip_capture/2025",
+      filePrefix: "slip_cp_output",
+    },
+  };
+
+  const { basePath, filePrefix } = config[type];
 
   for (const month of defaultMonths) {
     for (let day = 1; day <= 31; day++) {
@@ -17,15 +39,13 @@ export async function loadAllMonthlyData(
       const currentDate = new Date(fullDateStr);
 
       // Skip if out of optional date range
-      if (
-        (start && currentDate < start) ||
-        (end && currentDate > end)
-      ) {
+      if ((start && currentDate < start) || (end && currentDate > end)) {
         continue;
       }
 
-      const fileName = `cfpb_gr_output_${month}_${dayStr}_2025.json`;
-      const filePath = `/assets/data/cfpb_generic_report/2025/${month}/daily/${fileName}`;
+      // Build file name & path dynamically
+      const fileName = `${filePrefix}_${month}_${dayStr}_2025.json`;
+      const filePath = `${basePath}/${month}/daily/${fileName}`;
 
       try {
         const res = await fetch(filePath);
@@ -43,7 +63,10 @@ export async function loadAllMonthlyData(
             : null;
         }
 
-        if (filteredData && (Array.isArray(filteredData) ? filteredData.length > 0 : true)) {
+        if (
+          filteredData &&
+          (Array.isArray(filteredData) ? filteredData.length > 0 : true)
+        ) {
           results.push({
             date: fullDateStr,
             data: filteredData,

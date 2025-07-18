@@ -55,7 +55,7 @@ function Agency() {
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
-      const loaded = await loadAllMonthlyData();
+      const loaded = await loadAllMonthlyData({ type: "cfpb" });
       setAllData(loaded);
       setLoading(false);
     };
@@ -144,7 +144,9 @@ function Agency() {
     return (
       <div className="p-6 flex justify-center items-center h-[calc(100vh-48px)]">
         <div className="flex flex-col items-center gap-2">
-          <Skeleton className="h-8 w-48 mb-2 flex items-center justify-center" >Loading...</Skeleton>
+          <Skeleton className="h-8 w-48 mb-2 flex items-center justify-center">
+            Loading...
+          </Skeleton>
         </div>
       </div>
     );
