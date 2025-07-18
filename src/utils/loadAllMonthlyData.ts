@@ -45,14 +45,14 @@ export async function loadAllMonthlyData({
 
       // Build file name & path dynamically
       const fileName = `${filePrefix}_${month}_${dayStr}_2025.json`;
+      console.log("fileName",fileName)
       const filePath = `${basePath}/${month}/daily/${fileName}`;
-
+      
       try {
         const res = await fetch(filePath);
         if (!res.ok) throw new Error("File not found");
 
         const json = await res.json();
-
         // Filter by state (if provided)
         let filteredData = json;
         if (stateFilter) {
@@ -77,6 +77,6 @@ export async function loadAllMonthlyData({
       }
     }
   }
-
+  console.log("result", results);
   return results;
 }
