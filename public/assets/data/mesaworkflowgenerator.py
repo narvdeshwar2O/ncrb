@@ -15,20 +15,18 @@ states = [
 
 types = [
     "Arrested", "Convicted", "Externee", "Deportee",
-    "UIFP", "Suspect", "UDB", "Absconder"
+    "UIFP", "Suspect"
 ]
-
 
 start_date = datetime.strptime("01-04-2025", "%d-%m-%Y")
 end_date = datetime.strptime("20-07-2025", "%d-%m-%Y")
 
-
-allowed_months = ["04", "05", "06","07"]  # April, May, June
+allowed_months = ["04", "05", "06", "07"]  # April, May, June, July
 
 # Base directory
-base_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "slip_capture", "2025"))
+base_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "mesa", "2025"))
 
-# ✅ Function to generate random data for each state
+# Function to generate random data for each state
 def generate_state_data():
     data = {}
     for state in states:
@@ -42,20 +40,18 @@ def generate_state_data():
         data[state] = record
     return data
 
-# ✅ Iterate through each date in range
+# Iterate through each date in range
 current_date = start_date
 while current_date <= end_date:
-    month = current_date.strftime("%d")
+    month_num = current_date.strftime("%m")  # Month number as string, e.g. '04'
     
-    # ✅ Only process April, May, June
-    if month in allowed_months:
-        month_path = os.path.join(base_dir, month, "daily")
+    if month_num in allowed_months:
+        month_path = os.path.join(base_dir, month_num, "daily")
         os.makedirs(month_path, exist_ok=True)
 
-        filename = f"slip_cp_output_{current_date.strftime('%d-%m-%Y')}.json"
+        filename = f"mesa_tp_output_{current_date.strftime('%m_%d_%Y')}.json"
         full_path = os.path.join(month_path, filename)
 
-        # ✅ Write random data to the file
         with open(full_path, "w") as f:
             json.dump(generate_state_data(), f, indent=2)
         
@@ -63,4 +59,4 @@ while current_date <= end_date:
 
     current_date += timedelta(days=1)
 
-print("All JSON files generated for April, May, June (and July 20 cutoff).")
+print("All JSON files generated for April, May, June (and up to July 20).")

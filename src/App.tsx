@@ -45,6 +45,7 @@ import HighRiskCasesDetail from "./pages/details/ncrc/HighRiskCasesDetail";
 import AuditTrailDetail from "./pages/details/ncrc/AuditTrailDetail";
 import Agency from "./pages/Agency/Agency";
 import SlipCapture from "./pages/SlipCapture/SlipCapture";
+import MesaTP from "./pages/mesatp/MesaTP";
 
 const queryClient = new QueryClient();
 
@@ -60,6 +61,7 @@ const App = () => (
               <Route path="/" element={<Navigate to="/dashboard" replace />} />
               <Route path="/dashboard" element={<Agency />} />
               <Route path="/slipcapture" element={<SlipCapture />} />
+              <Route path="/mesa" element={<MesaTP />} />
               <Route path="/cctns" element={<CCTNSPage />} />
               <Route path="/ncrc" element={<NCRCPage />} />
               {/* CCTNS Detail Routes */}
