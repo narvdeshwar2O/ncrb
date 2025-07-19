@@ -1,6 +1,17 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
-import { BarChart, Bar, CartesianGrid, XAxis, YAxis, LabelList } from "recharts";
+import {
+  ChartContainer,
+  ChartTooltip,
+  ChartTooltipContent,
+} from "@/components/ui/chart";
+import {
+  BarChart,
+  Bar,
+  CartesianGrid,
+  XAxis,
+  YAxis,
+  LabelList,
+} from "recharts";
 
 interface ChartCardProps {
   title: string;
@@ -9,17 +20,15 @@ interface ChartCardProps {
 
 function ChartCard({ title, data }: ChartCardProps) {
   // Assign ranks: 1 → 5
-  const rankedData = [...data]
-    .slice(0, 5)
-    .map((item, index) => ({
-      ...item,
-      rank: index + 1, // Rank starts from 1
-    }));
+  const rankedData = [...data].slice(0, 5).map((item, index) => ({
+    ...item,
+    rank: index + 1, // Rank starts from 1
+  }));
 
   return (
     <Card>
       <CardHeader>
-        <CardTitle>{title}</CardTitle>
+        <CardTitle className="text-center text-sm"> Top 5 status : {title}</CardTitle>
       </CardHeader>
       <CardContent>
         <ChartContainer
@@ -40,7 +49,12 @@ function ChartCard({ title, data }: ChartCardProps) {
               cursor={false}
               content={<ChartTooltipContent indicator="line" />}
             />
-            <Bar dataKey="value" fill="#2563eb" radius={[0, 8, 8, 0]} barSize={20}>
+            <Bar
+              dataKey="value"
+              fill="#2563eb"
+              radius={[0, 8, 8, 0]}
+              barSize={20}
+            >
               {/* Show state inside bar */}
               <LabelList
                 dataKey="state"

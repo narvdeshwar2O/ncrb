@@ -17,7 +17,10 @@ export function extractStates(data: SlipDailyData[]): string[] {
   return Array.from(set).sort();
 }
 
-export function filterSlipData(all: SlipDailyData[], filters: SlipFilters): SlipDailyData[] {
+export function filterSlipData(
+  all: SlipDailyData[],
+  filters: SlipFilters
+): SlipDailyData[] {
   const { from, to } = filters.dateRange;
   const { states } = filters;
   const restrictStates = states && states.length > 0;
@@ -42,7 +45,9 @@ export function computeTotalsByStatus(
 
   const hasRestrict = restrictStates && restrictStates.length > 0;
   for (const day of filtered) {
-    const stateKeys = hasRestrict ? restrictStates.filter((s) => s in day.data) : Object.keys(day.data);
+    const stateKeys = hasRestrict
+      ? restrictStates.filter((s) => s in day.data)
+      : Object.keys(day.data);
     for (const stKey of stateKeys) {
       const rec = day.data[stKey];
       for (const status of statuses) {
@@ -55,27 +60,43 @@ export function computeTotalsByStatus(
   return { ...sums, total: grand };
 }
 
-export function buildSlipTableData(filtered: SlipDailyData[], statuses: StatusKey[]): SlipTableRow[] {
+export function buildSlipTableData(
+  filtered: SlipDailyData[],
+  statuses: StatusKey[],
+  selectedStates: string[] = []
+): SlipTableRow[] {
   const stateTotals: Record<string, Record<string, number>> = {};
+
   for (const day of filtered) {
     for (const [state, rec] of Object.entries(day.data)) {
+      // If state filtering is active, skip non-selected states
+      if (selectedStates.length > 0 && !selectedStates.includes(state)) {
+        continue;
+      }
+
       if (!stateTotals[state]) {
         stateTotals[state] = Object.fromEntries(statuses.map((s) => [s, 0]));
         stateTotals[state].total = 0;
       }
+
       const target = stateTotals[state];
       for (const s of statuses) {
-        const v = rec?.[s] ?? 0;
+        const v = rec?.[s as StatusKey] ?? 0;
         target[s] += v;
         target.total += v;
       }
     }
   }
+
   return Object.entries(stateTotals)
     .map(([state, stats]) => ({ state, ...stats }))
-    .sort((a, b) => (b.total as number) - (a.total as number));
+    .sort(
+      (a, b) => (b.total as number) - (a.total as number)
+    ) as SlipTableRow[];
 }
 
 export function topNByStatus(table: SlipTableRow[], status: StatusKey, n = 5) {
-  return [...table].sort((a, b) => (b[status] as number) - (a[status] as number)).slice(0, n);
+  return [...table]
+    .sort((a, b) => (b[status] as number) - (a[status] as number))
+    .slice(0, n);
 }

@@ -1,17 +1,21 @@
-// components/slip-capture/ui/SlipComparisonChart.tsx
-import React, { useMemo } from "react";
-import { SlipTableRow, StatusKey } from "../types";
+import React, { useMemo, useState } from "react";
 import {
-  ResponsiveContainer,
   BarChart,
   Bar,
-  CartesianGrid,
   XAxis,
   YAxis,
-  Tooltip,
-  Legend,
+  ResponsiveContainer,
   LabelList,
 } from "recharts";
+import { Card, CardHeader, CardContent } from "@/components/ui/card";
+import {
+  Select,
+  SelectTrigger,
+  SelectValue,
+  SelectContent,
+  SelectItem,
+} from "@/components/ui/select";
+import { SlipTableRow, StatusKey } from "../types";
 
 interface SlipComparisonChartProps {
   rows: SlipTableRow[];
@@ -19,39 +23,83 @@ interface SlipComparisonChartProps {
   selectedStates: string[];
 }
 
-const SlipComparisonChart: React.FC<SlipComparisonChartProps> = ({
+export default function SlipComparisonChart({
   rows,
   statuses,
   selectedStates,
-}) => {
-  const data = useMemo(() => {
+}: SlipComparisonChartProps) {
+  const [selectedStatus, setSelectedStatus] = useState<StatusKey>(
+    statuses[0] || "Arrested"
+  );
+
+  const chartData = useMemo(() => {
     const lookup = new Map(rows.map((r) => [r.state, r]));
-    const used = selectedStates.length > 0 ? selectedStates : rows.map((r) => r.state);
-    return used
-      .filter((s) => lookup.has(s))
-      .map((s) => lookup.get(s)!)
-      .map((r) => ({ ...r, name: r.state }));
-  }, [rows, selectedStates]);
+    return selectedStates
+      .filter((state) => lookup.has(state))
+      .map((state) => ({
+        state,
+        value: lookup.get(state)?.[selectedStatus] ?? 0,
+      }));
+  }, [rows, selectedStates, selectedStatus]);
+
+  if (selectedStates.length < 2) {
+    return (
+      <Card className="w-full">
+        <CardContent className="p-4 text-center text-sm text-muted-foreground">
+          Select at least 2 states to view comparison.
+        </CardContent>
+      </Card>
+    );
+  }
 
   return (
-    <ResponsiveContainer width="100%" height={320}>
-      <BarChart
-        data={data}
-        margin={{ top: 16, right: 16, left: 0, bottom: 16 }}
-      >
-        <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="name" interval={0} angle={-30} textAnchor="end" height={60} />
-        <YAxis />
-        <Tooltip formatter={(v: any) => v.toLocaleString?.() ?? v} />
-        <Legend />
-        {statuses.map((s) => (
-          <Bar key={s} dataKey={s} stackId="a" fill="#3b82f6">
-            <LabelList dataKey={s} position="top" formatter={(v: any) => (v > 0 ? v : "")} />
-          </Bar>
-        ))}
-      </BarChart>
-    </ResponsiveContainer>
+    <Card className="w-full">
+      <CardHeader>
+        <div className="flex justify-between items-center">
+          <h2 className="text-lg font-semibold">State Comparison</h2>
+          <Select
+            value={selectedStatus}
+            onValueChange={(value) => setSelectedStatus(value as StatusKey)}
+          >
+            <SelectTrigger className="w-[180px]">
+              <SelectValue placeholder="Select Status" />
+            </SelectTrigger>
+            <SelectContent>
+              {statuses.map((status) => (
+                <SelectItem key={status} value={status}>
+                  {status}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+      </CardHeader>
+      <CardContent>
+        <ResponsiveContainer width="100%" height={400}>
+          <BarChart
+            data={chartData}
+            margin={{ top: 20, right: 30, left: 20, bottom: 20 }}
+          >
+            <XAxis
+              dataKey="state"
+              tick={{ fontSize: 12 }}
+              interval={0}
+              angle={0}
+              textAnchor="middle"
+            />
+            <YAxis />
+            
+            <Bar dataKey="value" fill="#2563eb" radius={[10, 10, 0, 0]}>
+              <LabelList
+                dataKey="value"
+                position="inside"
+                fill="#fff"
+                fontSize={14}
+              />
+            </Bar>
+          </BarChart>
+        </ResponsiveContainer>
+      </CardContent>
+    </Card>
   );
-};
-
-export default SlipComparisonChart;
+}

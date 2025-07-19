@@ -23,6 +23,7 @@ export const STATUS_KEYS = [
   "Suspect",
   "UDB",
   "Absconder",
+  "Total"
 ] as const;
 export type StatusKey = (typeof STATUS_KEYS)[number];
 
@@ -34,5 +35,8 @@ export interface SlipFilters {
 
 export interface SlipTableRow {
   state: string;
-  [k: string]: number | string; // statuses + total
+  total?: number;
+  [key: string]: number | string | undefined;
 }
+
+

@@ -36,18 +36,17 @@ export const SlipFiltersBar: React.FC<SlipFiltersBarProps> = ({
   const [selectedStates, setSelectedStates] = useState<string[]>(value.states);
   const [selectedStatuses, setSelectedStatuses] = useState<StatusKey[]>(value.statuses);
 
-  const [daysPreset, setDaysPreset] = useState<"7" | "30" | "90" | "custom">(
-    "7"
-  );
+  const [daysPreset, setDaysPreset] = useState<"7" | "30" | "90" | "custom">("7");
+
+  // ✅ Remove "Total" from options
+  const STATUS_OPTIONS = STATUS_KEYS.filter((key) => key !== "Total");
 
   const updateFilters = (newFilters: Partial<SlipFilters>) => {
     const updated = { ...value, ...newFilters };
     onChange(updated);
   };
 
-  const handleDateSelect = (
-    range: { from?: Date; to?: Date } | undefined
-  ) => {
+  const handleDateSelect = (range: { from?: Date; to?: Date } | undefined) => {
     if (!range) return;
     updateFilters({ dateRange: { from: range.from || null, to: range.to || null } });
     setDaysPreset("custom");
@@ -64,11 +63,11 @@ export const SlipFiltersBar: React.FC<SlipFiltersBarProps> = ({
     const resetValue: SlipFilters = {
       dateRange: resetRange,
       states: [],
-      statuses: [...STATUS_KEYS],
+      statuses: [...STATUS_OPTIONS], // ✅ No Total on reset
     };
     onChange(resetValue);
     setSelectedStates([]);
-    setSelectedStatuses([...STATUS_KEYS]);
+    setSelectedStatuses([...STATUS_OPTIONS]);
     setDaysPreset("7");
   };
 
@@ -161,8 +160,8 @@ export const SlipFiltersBar: React.FC<SlipFiltersBarProps> = ({
 
           {/* Status MultiSelect */}
           <MultiSelectCheckbox
-            label="Statuses"
-            options={STATUS_KEYS as unknown as string[]}
+            label="Crime Type"
+            options={STATUS_OPTIONS as unknown as string[]}
             selected={selectedStatuses}
             onChange={(newStatuses) => {
               setSelectedStatuses(newStatuses as StatusKey[]);

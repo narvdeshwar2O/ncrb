@@ -17,7 +17,7 @@ const RenderCard: React.FC<RenderCardProps> = ({ title, total, selectedDataTypes
   const showAll = selectedDataTypes.length === 0;
 
   return (
-    <Card className="shadow-md border">
+    <Card className="border border-l-4 border-blue-600 bg-card shadow-sm">
       <CardHeader>
         <CardTitle className="text-lg">{title}</CardTitle>
       </CardHeader>

@@ -15,7 +15,7 @@ states = [
 
 types = [
     "Arrested", "Convicted", "Externee", "Deportee",
-    "UIFP", "Suspect", "UDB", "Absconder"
+    "UIFP", "Suspect"
 ]
 
 

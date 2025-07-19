@@ -14,8 +14,10 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { StatusCard } from "./ui/StatusCard";
 import { SlipTable } from "./ui/SlipTable";
 import SlipComparisonChart from "./ui/SlipComparisonChart";
-import SlipTop5 from "./ui/SlipTopFive";
+import SlipTopFive from "./ui/SlipTopFive";
 import { SlipFiltersBar } from "./filters/SlipFiltersBar";
+import SlipCaptureChart from "./ui/SlipCaptureChart";
+import { SlipCaptureTrendChart } from "./ui/SlipCaptureTrendChart";
 
 const SlipCapture: React.FC = () => {
   const [{ from, to }] = useState(getLast7DaysRange());
@@ -24,10 +26,16 @@ const SlipCapture: React.FC = () => {
   const [filters, setFilters] = useState<SlipFilters>({
     dateRange: { from, to },
     states: [],
-    statuses: [...STATUS_KEYS],
+    statuses: [...STATUS_KEYS], // Includes Total initially
   });
   const [showTable, setShowTable] = useState(false);
   const [showCompareChart, setShowCompareChart] = useState(false);
+
+  // ✅ Remove "Total" from visible statuses
+  const visibleStatuses = useMemo(
+    () => filters.statuses.filter((s) => s !== "Total"),
+    [filters.statuses]
+  );
 
   useEffect(() => {
     const fetchData = async () => {
@@ -46,18 +54,19 @@ const SlipCapture: React.FC = () => {
     [allData, filters]
   );
   const tableRows = useMemo(
-    () => buildSlipTableData(filteredData, filters.statuses),
-    [filteredData, filters.statuses]
+    () => buildSlipTableData(filteredData, visibleStatuses, filters.states),
+    [filteredData, visibleStatuses, filters.states]
   );
+
   const totalsByStatus = useMemo(
-    () => computeTotalsByStatus(filteredData, filters.statuses, filters.states),
-    [filteredData, filters.statuses, filters.states]
+    () => computeTotalsByStatus(filteredData, visibleStatuses, filters.states),
+    [filteredData, visibleStatuses, filters.states]
   );
 
   if (loading) {
     return (
       <div className="p-6 flex justify-center items-center h-[calc(100vh-48px)]">
-        <Skeleton className="h-8 w-48 mb-2">Loading...</Skeleton>
+        <Skeleton className="h-8 w-48 mb-2 flex justify-center items-center">Loading...</Skeleton>
       </div>
     );
   }
@@ -65,14 +74,16 @@ const SlipCapture: React.FC = () => {
   return (
     <div className="p-3">
       <div className="p-3 space-y-3 bg-background rounded-md shadow-lg border">
+        {/* ✅ Filters Bar */}
         <SlipFiltersBar
           allStates={allStates}
           value={filters}
           onChange={setFilters}
         />
 
-        <Card>
-          <CardContent className="flex justify-between text-sm text-muted-foreground py-2">
+        {/* ✅ Info Bar */}
+        <Card className="border-l-4 border-blue-600 bg-card shadow-sm">
+          <CardContent className="flex justify-between text-sm text-muted-foreground py-2 items-center">
             <p>
               Showing <strong>{filteredData.length}</strong> days, States:{" "}
               <strong>{filters.states.length || "All"}</strong>
@@ -83,42 +94,75 @@ const SlipCapture: React.FC = () => {
           </CardContent>
         </Card>
 
+        {/* ✅ Table or Charts */}
         {showTable ? (
-          <SlipTable rows={tableRows} statuses={filters.statuses} />
+          <SlipTable rows={tableRows} statuses={visibleStatuses} />
         ) : (
           <>
+            {/* ✅ Status Summary Cards */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
-              {filters.statuses.map((s) => (
+              {visibleStatuses.map((s) => (
                 <StatusCard key={s} title={s} value={totalsByStatus[s] ?? 0} />
               ))}
             </div>
 
-            <div className="border p-3 rounded-md">
+            {filters.states.length === 1 ? (
+              <SlipCaptureTrendChart
+                filteredData={filteredData}
+                selectedState={filters.states[0]}
+              />
+            ) : (
+              <div className="w-full p-3 flex justify-center items-center">
+                <p className="border shadow-md p-3 rounded-md">
+                  Select at least one state to visualize the Arrested, Suspect,
+                  and Convicted data.
+                </p>
+              </div>
+            )}
+
+            {/* ✅ Charts Section */}
+            <div className="border p-3 rounded-md flex flex-col items-end">
               <Button
                 size="sm"
-                onClick={() => setShowCompareChart((p) => !p)}
-                className="mb-3"
+                onClick={() => {
+                  setShowCompareChart((p) => !p);
+                }}
+                className="mb-3 w-[15%]"
               >
-                {showCompareChart ? "Hide Chart" : "Show Chart"}
+                {showCompareChart
+                  ? "Hide Comparison Chart"
+                  : "Show Comparison Chart"}
               </Button>
 
-              {showCompareChart &&
-                (filters.states.length >= 2 && filters.states.length <= 5 ? (
+              {showCompareChart ? (
+                filters.states.length >= 2 && filters.states.length <= 5 ? (
                   <SlipComparisonChart
                     rows={tableRows}
-                    statuses={filters.statuses}
+                    statuses={visibleStatuses} // ✅ No Total
                     selectedStates={filters.states}
                   />
                 ) : (
-                  <p className="text-center text-muted-foreground">
-                    Select 2–5 states for comparison chart.
-                  </p>
-                ))}
+                  <div className="w-full p-3 flex justify-center items-center">
+                    <p className="border shadow-md p-3 rounded-md">
+                      Please select at least 2 and at most 5 states for chart
+                      comparison.
+                    </p>
+                  </div>
+                )
+              ) : (
+                <SlipCaptureChart
+                  filteredData={filteredData}
+                  selectedCrimeTypes={visibleStatuses} // ✅ No Total
+                />
+              )}
             </div>
 
-            <SlipTop5
-              rows={tableRows}
-              status={(filters.statuses[0] ?? "Arrested") as StatusKey}
+            {/* ✅ Top 5 */}
+            <SlipTopFive
+              allData={allData}
+              from={filters.dateRange.from!}
+              to={filters.dateRange.to!}
+              statuses={visibleStatuses} // ✅ No Total
             />
           </>
         )}

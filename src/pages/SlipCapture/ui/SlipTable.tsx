@@ -1,42 +1,62 @@
-// components/slip-capture/ui/SlipTable.tsx
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow
+} from "@/components/ui/table";
 import { SlipTableRow, StatusKey } from "../types";
 
 interface SlipTableProps {
-  rows: SlipTableRow[];
-  statuses: StatusKey[];
+  rows: SlipTableRow[]; // aggregated per state
+  statuses: StatusKey[]; // which statuses to show
 }
 
-export const SlipTable: React.FC<SlipTableProps> = ({ rows, statuses }) => {
+export function SlipTable({ rows, statuses }: SlipTableProps) {
   return (
-    <div className="overflow-x-auto border rounded-md">
-      <table className="w-full text-sm">
-        <thead className="bg-muted/50">
-          <tr>
-            <th className="px-2 py-1 text-left">State</th>
-            {statuses.map((s) => (
-              <th key={s} className="px-2 py-1 text-right whitespace-nowrap">
-                {s}
-              </th>
+    <div className="overflow-auto rounded-md border">
+      <Table>
+        {/* Table Header */}
+        <TableHeader>
+          <TableRow>
+            <TableHead rowSpan={2} className="border-r text-center">
+              State
+            </TableHead>
+            <TableHead
+              colSpan={statuses.length + 1}
+              className="text-center border-r"
+            >
+              Arrest Status
+            </TableHead>
+          </TableRow>
+          <TableRow>
+            {statuses.map((status) => (
+              <TableHead key={status} className="text-center">
+                {status}
+              </TableHead>
             ))}
-            <th className="px-2 py-1 text-right">Total</th>
-          </tr>
-        </thead>
-        <tbody>
-          {rows.map((r) => (
-            <tr key={r.state} className="border-t">
-              <td className="px-2 py-1 whitespace-nowrap">{r.state}</td>
-              {statuses.map((s) => (
-                <td key={s} className="px-2 py-1 text-right">
-                  {(r[s] as number).toLocaleString()}
-                </td>
+            <TableHead className="text-center border-r">Total</TableHead>
+          </TableRow>
+        </TableHeader>
+
+        {/* Table Body */}
+        <TableBody>
+          {rows.map((row) => (
+            <TableRow key={row.state} className="text-center">
+              <TableCell className="font-medium border-r">{row.state}</TableCell>
+              {statuses.map((status) => (
+                <TableCell key={`${row.state}-${status}`}>
+                  {(row[status] as number).toLocaleString()}
+                </TableCell>
               ))}
-              <td className="px-2 py-1 text-right font-semibold">
-                {(r.total as number).toLocaleString()}
-              </td>
-            </tr>
+              <TableCell className="font-semibold border-r">
+                {(row.total as number).toLocaleString()}
+              </TableCell>
+            </TableRow>
           ))}
-        </tbody>
-      </table>
+        </TableBody>
+      </Table>
     </div>
   );
-};
+}
