@@ -1,4 +1,3 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -46,6 +45,7 @@ import AuditTrailDetail from "./pages/details/ncrc/AuditTrailDetail";
 import Agency from "./pages/Agency/Agency";
 import SlipCapture from "./pages/SlipCapture/SlipCapture";
 import MesaTP from "./pages/mesatp/MesaTP";
+import TP_TP from "./pages/trace-report/tp-tp/TP_TP";
 
 const queryClient = new QueryClient();
 
@@ -62,10 +62,11 @@ const App = () => (
               <Route path="/dashboard" element={<Agency />} />
               <Route path="/slipcapture" element={<SlipCapture />} />
               <Route path="/mesa" element={<MesaTP />} />
-              <Route path="/cctns" element={<CCTNSPage />} />
-              <Route path="/ncrc" element={<NCRCPage />} />
+              <Route path="/trace-report/tp-tp" element={<TP_TP />} />
+              {/* <Route path="/cctns" element={<CCTNSPage />} />
+              <Route path="/ncrc" element={<NCRCPage />} /> */}
               {/* CCTNS Detail Routes */}
-              <Route path="/details/total-firs" element={<TotalFIRsDetail />} />
+              {/* <Route path="/details/total-firs" element={<TotalFIRsDetail />} />
               <Route path="/details/resolution-rate" element={<ResolutionRateDetail />} />
               <Route path="/details/pending-cases" element={<PendingCasesDetail />} />
               <Route path="/details/resolution-time" element={<ResolutionTimeDetail />} />
@@ -82,7 +83,7 @@ const App = () => (
               <Route path="/details/public-safety-index" element={<PublicSafetyIndexDetail />} />
               <Route path="/details/compliance-score" element={<ComplianceScoreDetail />} />
               {/* NCRC Detail Routes */}
-              <Route path="/details/ncrc/total-verifications" element={<TotalVerificationsDetail />} />
+              {/* <Route path="/details/ncrc/total-verifications" element={<TotalVerificationsDetail />} />
               <Route path="/details/ncrc/success-rate" element={<SuccessRateDetail />} />
               <Route path="/details/ncrc/pending-requests" element={<PendingRequestsDetail />} />
               <Route path="/details/ncrc/processing-time" element={<ProcessingTimeDetail />} />
@@ -97,7 +98,7 @@ const App = () => (
               <Route path="/details/ncrc/fraud-detection" element={<FraudDetectionDetail />} />
               <Route path="/details/ncrc/compliance-score" element={<NCRCComplianceScoreDetail />} />
               <Route path="/details/ncrc/high-risk-cases" element={<HighRiskCasesDetail />} />
-              <Route path="/details/ncrc/audit-trail" element={<AuditTrailDetail />} />
+              <Route path="/details/ncrc/audit-trail" element={<AuditTrailDetail />} /> */}
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>
