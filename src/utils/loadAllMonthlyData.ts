@@ -2,7 +2,7 @@ interface LoadParams {
   startDate?: string;
   endDate?: string;
   stateFilter?: string;
-  type: "cfpb" | "slip_cp"|"mesa"|"tp_tp"; // Required
+  type: "cfpb" | "slip_cp"|"mesa"|"tp_tp"|"tp_cp"; // Required
 }
 
 export async function loadAllMonthlyData({
@@ -35,6 +35,10 @@ export async function loadAllMonthlyData({
     tp_tp: {
       basePath: "/assets/data/trace_report_tp_tp/2025",
       filePrefix: "tp_tp_output",
+    },
+    tp_cp: {
+      basePath: "/assets/data/trace_report_tp_cp/2025",
+      filePrefix: "tp_cp_output",
     },
   };
 
