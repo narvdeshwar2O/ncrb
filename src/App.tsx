@@ -47,6 +47,7 @@ import SlipCapture from "./pages/SlipCapture/SlipCapture";
 import MesaTP from "./pages/mesatp/MesaTP";
 import TP_TP from "./pages/trace-report/tp-tp/TP_TP";
 import TP_CP from "./pages/trace-report/tp-cp/TP_CP";
+import CP_CP from "./pages/trace-report/cp-cp/CP_CP";
 
 const queryClient = new QueryClient();
 
@@ -65,6 +66,7 @@ const App = () => (
               <Route path="/mesa" element={<MesaTP />} />
               <Route path="/trace-report/tp-tp" element={<TP_TP />} />
               <Route path="/trace-report/tp-cp" element={<TP_CP />} />
+              <Route path="/trace-report/cp-cp" element={<CP_CP />} />
               {/* <Route path="/cctns" element={<CCTNSPage />} />
               <Route path="/ncrc" element={<NCRCPage />} /> */}
               {/* CCTNS Detail Routes */}

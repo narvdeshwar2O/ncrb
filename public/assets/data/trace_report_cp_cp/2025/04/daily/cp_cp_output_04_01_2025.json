@@ -1,0 +1,326 @@
+{
+  "Andaman and Nicobar Islands": {
+    "cp_cp": {
+      "hit": 256,
+      "no_hit": 40,
+      "total": 296,
+      "inter_state": 85,
+      "intra_state": 171
+    }
+  },
+  "Andhra Pradesh": {
+    "cp_cp": {
+      "hit": 56,
+      "no_hit": 117,
+      "total": 173,
+      "inter_state": 17,
+      "intra_state": 39
+    }
+  },
+  "Arunachal Pradesh": {
+    "cp_cp": {
+      "hit": 199,
+      "no_hit": 117,
+      "total": 316,
+      "inter_state": 32,
+      "intra_state": 167
+    }
+  },
+  "Assam": {
+    "cp_cp": {
+      "hit": 137,
+      "no_hit": 113,
+      "total": 250,
+      "inter_state": 83,
+      "intra_state": 54
+    }
+  },
+  "Bihar": {
+    "cp_cp": {
+      "hit": 239,
+      "no_hit": 118,
+      "total": 357,
+      "inter_state": 93,
+      "intra_state": 146
+    }
+  },
+  "Chandigarh": {
+    "cp_cp": {
+      "hit": 206,
+      "no_hit": 78,
+      "total": 284,
+      "inter_state": 109,
+      "intra_state": 97
+    }
+  },
+  "Chhattisgarh": {
+    "cp_cp": {
+      "hit": 74,
+      "no_hit": 140,
+      "total": 214,
+      "inter_state": 50,
+      "intra_state": 24
+    }
+  },
+  "DD & DNH": {
+    "cp_cp": {
+      "hit": 139,
+      "no_hit": 94,
+      "total": 233,
+      "inter_state": 13,
+      "intra_state": 126
+    }
+  },
+  "Delhi": {
+    "cp_cp": {
+      "hit": 235,
+      "no_hit": 136,
+      "total": 371,
+      "inter_state": 102,
+      "intra_state": 133
+    }
+  },
+  "Goa": {
+    "cp_cp": {
+      "hit": 258,
+      "no_hit": 82,
+      "total": 340,
+      "inter_state": 175,
+      "intra_state": 83
+    }
+  },
+  "Gujarat": {
+    "cp_cp": {
+      "hit": 134,
+      "no_hit": 40,
+      "total": 174,
+      "inter_state": 53,
+      "intra_state": 81
+    }
+  },
+  "Haryana": {
+    "cp_cp": {
+      "hit": 218,
+      "no_hit": 139,
+      "total": 357,
+      "inter_state": 19,
+      "intra_state": 199
+    }
+  },
+  "Himachal Pradesh": {
+    "cp_cp": {
+      "hit": 211,
+      "no_hit": 26,
+      "total": 237,
+      "inter_state": 145,
+      "intra_state": 66
+    }
+  },
+  "Jammu Kashmir & Ladakh": {
+    "cp_cp": {
+      "hit": 162,
+      "no_hit": 125,
+      "total": 287,
+      "inter_state": 124,
+      "intra_state": 38
+    }
+  },
+  "Jharkhand": {
+    "cp_cp": {
+      "hit": 212,
+      "no_hit": 102,
+      "total": 314,
+      "inter_state": 30,
+      "intra_state": 182
+    }
+  },
+  "Karnataka": {
+    "cp_cp": {
+      "hit": 217,
+      "no_hit": 72,
+      "total": 289,
+      "inter_state": 109,
+      "intra_state": 108
+    }
+  },
+  "Kerala": {
+    "cp_cp": {
+      "hit": 85,
+      "no_hit": 36,
+      "total": 121,
+      "inter_state": 32,
+      "intra_state": 53
+    }
+  },
+  "Lakshadweep": {
+    "cp_cp": {
+      "hit": 66,
+      "no_hit": 24,
+      "total": 90,
+      "inter_state": 23,
+      "intra_state": 43
+    }
+  },
+  "Madhya Pradesh": {
+    "cp_cp": {
+      "hit": 103,
+      "no_hit": 103,
+      "total": 206,
+      "inter_state": 59,
+      "intra_state": 44
+    }
+  },
+  "Maharashtra": {
+    "cp_cp": {
+      "hit": 107,
+      "no_hit": 138,
+      "total": 245,
+      "inter_state": 71,
+      "intra_state": 36
+    }
+  },
+  "Manipur": {
+    "cp_cp": {
+      "hit": 146,
+      "no_hit": 73,
+      "total": 219,
+      "inter_state": 64,
+      "intra_state": 82
+    }
+  },
+  "Meghalaya": {
+    "cp_cp": {
+      "hit": 145,
+      "no_hit": 107,
+      "total": 252,
+      "inter_state": 12,
+      "intra_state": 133
+    }
+  },
+  "Mizoram": {
+    "cp_cp": {
+      "hit": 118,
+      "no_hit": 68,
+      "total": 186,
+      "inter_state": 80,
+      "intra_state": 38
+    }
+  },
+  "Nagaland": {
+    "cp_cp": {
+      "hit": 227,
+      "no_hit": 42,
+      "total": 269,
+      "inter_state": 86,
+      "intra_state": 141
+    }
+  },
+  "Odisha": {
+    "cp_cp": {
+      "hit": 266,
+      "no_hit": 146,
+      "total": 412,
+      "inter_state": 60,
+      "intra_state": 206
+    }
+  },
+  "Puducherry": {
+    "cp_cp": {
+      "hit": 191,
+      "no_hit": 81,
+      "total": 272,
+      "inter_state": 98,
+      "intra_state": 93
+    }
+  },
+  "Punjab": {
+    "cp_cp": {
+      "hit": 198,
+      "no_hit": 117,
+      "total": 315,
+      "inter_state": 100,
+      "intra_state": 98
+    }
+  },
+  "Rajasthan": {
+    "cp_cp": {
+      "hit": 255,
+      "no_hit": 112,
+      "total": 367,
+      "inter_state": 208,
+      "intra_state": 47
+    }
+  },
+  "Sikkim": {
+    "cp_cp": {
+      "hit": 284,
+      "no_hit": 117,
+      "total": 401,
+      "inter_state": 7,
+      "intra_state": 277
+    }
+  },
+  "Tamil Nadu": {
+    "cp_cp": {
+      "hit": 288,
+      "no_hit": 20,
+      "total": 308,
+      "inter_state": 32,
+      "intra_state": 256
+    }
+  },
+  "Telangana": {
+    "cp_cp": {
+      "hit": 247,
+      "no_hit": 147,
+      "total": 394,
+      "inter_state": 110,
+      "intra_state": 137
+    }
+  },
+  "Tripura": {
+    "cp_cp": {
+      "hit": 271,
+      "no_hit": 114,
+      "total": 385,
+      "inter_state": 162,
+      "intra_state": 109
+    }
+  },
+  "Uttar Pradesh": {
+    "cp_cp": {
+      "hit": 140,
+      "no_hit": 111,
+      "total": 251,
+      "inter_state": 119,
+      "intra_state": 21
+    }
+  },
+  "Uttarakhand": {
+    "cp_cp": {
+      "hit": 207,
+      "no_hit": 26,
+      "total": 233,
+      "inter_state": 40,
+      "intra_state": 167
+    }
+  },
+  "West Bengal": {
+    "cp_cp": {
+      "hit": 212,
+      "no_hit": 126,
+      "total": 338,
+      "inter_state": 180,
+      "intra_state": 32
+    }
+  },
+  "CFPB": {
+    "cp_cp": {
+      "hit": 218,
+      "no_hit": 92,
+      "total": 310,
+      "inter_state": 106,
+      "intra_state": 112
+    }
+  }
+}
