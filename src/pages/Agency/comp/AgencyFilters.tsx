@@ -1,12 +1,5 @@
 import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import {
@@ -14,67 +7,40 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { format, subDays, startOfDay, endOfDay } from "date-fns";
-import { CalendarIcon, Filter, RotateCcw } from "lucide-react";
+import { format } from "date-fns";
+import { CalendarIcon, Filter as FilterIcon, RotateCcw } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { states } from "../../../components/filters/data/statesData";
+
+import { states as allStates } from "../../../components/filters/data/statesData";
 import {
   FilterState,
   DashboardFiltersProps,
 } from "../../../components/filters/types/FilterTypes";
 import MultiSelectCheckbox from "@/components/ui/MultiSelectCheckbox";
 
-const dataTypeOptions = ["enrollment", "hit", "nohit"];
-const categoryOptions = ["tp", "cp", "mesa"];
+const dataTypeOptions = ["enrollment", "hit", "nohit"] as const;
+const categoryOptions = ["tp", "cp", "mesa"] as const;
 
-// --- helper ---
-function getLastNDaysRange(n: number) {
-  const to = endOfDay(new Date());
-  const from = startOfDay(subDays(to, n - 1));
-  return { from, to };
+interface ControlledAgencyFiltersProps extends DashboardFiltersProps {
+  filters: FilterState; // controlled
 }
 
 export const AgencyFilters = ({
+  filters,
   onFiltersChange,
-  showCrimeTypeFilter = false,
-}: DashboardFiltersProps) => {
-  // default last 7 days
-  const initialRange = getLastNDaysRange(7);
-
-  const [filters, setFilters] = useState<FilterState>({
-    dateRange: initialRange,
-    state: "All States",
-    dataTypes: dataTypeOptions,
-  });
-
+  showCrimeTypeFilter = false, // placeholder
+}: ControlledAgencyFiltersProps) => {
   const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
-  const [selectedStates, setSelectedStates] = useState<string[]>([]);
-  const [selectedDataTypes, setSelectedDataTypes] =
-    useState<string[]>(dataTypeOptions);
-  const [selectedCategories, setSelectedCategories] =
-    useState<string[]>(categoryOptions);
 
-  // Track the N-days select so UI shows which preset is active
-  const [daysPreset, setDaysPreset] = useState<"7" | "30" | "90" | "custom">(
-    "7"
-  );
+  // Already arrays
+  const selectedStates = filters.state ?? [];
+  const selectedDataTypes = filters.dataTypes ?? [...dataTypeOptions];
+  const selectedCategories = filters.categories ?? [...categoryOptions];
 
-  const updateFilters = (newFilters: Partial<FilterState>) => {
-    const updatedFilters: FilterState = {
-      ...filters,
-      ...newFilters,
-      // guard against someone explicitly passing undefined
-      dataTypes:
-        newFilters.dataTypes !== undefined
-          ? newFilters.dataTypes
-          : filters.dataTypes ?? [...dataTypeOptions],
-      categories:
-        newFilters.categories !== undefined
-          ? newFilters.categories
-          : filters.categories ?? [...categoryOptions],
-    };
-    setFilters(updatedFilters);
-    onFiltersChange(updatedFilters);
+  const noStatesSelected = selectedStates.length === 0;
+
+  const updateFilters = (patch: Partial<FilterState>) => {
+    onFiltersChange({ ...filters, ...patch });
   };
 
   const handleDateSelect = (
@@ -82,46 +48,28 @@ export const AgencyFilters = ({
   ) => {
     if (!range) return;
     updateFilters({ dateRange: range });
-    // user manually changed date => mark preset as custom
-    setDaysPreset("custom");
   };
 
   const resetFilters = () => {
-    const resetRange = getLastNDaysRange(7);
-    const resetState: FilterState = {
-      dateRange: resetRange,
-      state: "All States",
+    updateFilters({
+      dateRange: { from: undefined, to: undefined },
+      state: [...allStates],
       dataTypes: [...dataTypeOptions],
       categories: [...categoryOptions],
-    };
-    setFilters(resetState);
-    onFiltersChange(resetState);
-
-    setSelectedStates([]);
-    setSelectedDataTypes([...dataTypeOptions]);
-    setSelectedCategories([...categoryOptions]);
-    setDaysPreset("7");
-  };
-
-  // preset handler
-  const setLastNDays = (n: number) => {
-    const range = getLastNDaysRange(n);
-    updateFilters({ dateRange: range });
-    // sync preset selector
-    setDaysPreset((n as 7 | 30 | 90).toString() as "7" | "30" | "90");
+    });
   };
 
   return (
     <Card className="mb-6">
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
-          <Filter className="h-5 w-5" />
+          <FilterIcon className="h-5 w-5" />
           Filters
         </CardTitle>
       </CardHeader>
       <CardContent>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 xl:grid-cols-[1.5fr_1fr,1fr,1fr,1fr,1fr] gap-3">
-          {/* Date Range Filter */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 xl:grid-cols-5 gap-3">
+          {/* Date Range */}
           <div className="space-y-2">
             <label className="text-sm font-medium">Date Range</label>
             <Popover open={isDatePickerOpen} onOpenChange={setIsDatePickerOpen}>
@@ -165,62 +113,32 @@ export const AgencyFilters = ({
             </Popover>
           </div>
 
-          {/* N days filter */}
-          <div className="space-y-2">
-            <label className="text-sm font-medium">
-              Select the range of days
-            </label>
-            <Select
-              value={daysPreset === "custom" ? "" : daysPreset}
-              onValueChange={(value) => {
-                if (!value) {
-                  setDaysPreset("custom");
-                  return;
-                }
-                setDaysPreset(value as "7" | "30" | "90");
-                setLastNDays(parseInt(value, 10));
-              }}
-            >
-              <SelectTrigger className="w-full">
-                <SelectValue placeholder="Custom Range" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="7">Last 7 Days</SelectItem>
-                <SelectItem value="30">Last 30 Days</SelectItem>
-                <SelectItem value="90">Last 90 Days</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-
-          {/* States multiselect */}
+          {/* States */}
           <MultiSelectCheckbox
             label="States"
-            options={states}
+            options={allStates}
             selected={selectedStates}
-            onChange={(newStates) => {
-              setSelectedStates(newStates);
-              updateFilters({ state: newStates.join(", ") });
-            }}
+            onChange={(newStates) => updateFilters({ state: newStates })}
           />
 
-          {/* DataType multiselect */}
+          {/* Data Types (disabled if no states) */}
           <MultiSelectCheckbox
             label="Data Types"
-            options={dataTypeOptions}
+            options={[...dataTypeOptions]}
             selected={selectedDataTypes}
-            onChange={(newTypes) => {
-              setSelectedDataTypes(newTypes);
-              updateFilters({ dataTypes: newTypes });
-            }}
+            onChange={(newTypes) => updateFilters({ dataTypes: newTypes })}
+            disabled={noStatesSelected}
+            disabledText="Select states first"
           />
+
+          {/* Categories (disabled if no states) */}
           <MultiSelectCheckbox
             label="Categories"
-            options={categoryOptions}
+            options={[...categoryOptions]}
             selected={selectedCategories}
-            onChange={(newCategories) => {
-              setSelectedCategories(newCategories);
-              updateFilters({ categories: newCategories });
-            }}
+            onChange={(newCategories) => updateFilters({ categories: newCategories })}
+            disabled={noStatesSelected}
+            disabledText="Select states first"
           />
 
           {/* Reset */}

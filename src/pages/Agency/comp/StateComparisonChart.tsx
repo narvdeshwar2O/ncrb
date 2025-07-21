@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useRef } from "react";
 import {
   BarChart,
   Bar,
@@ -17,6 +17,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Button } from "@/components/ui/button";
+import { Download, Printer } from "lucide-react";
+import { exportToCSV, printHTMLElement } from "@/utils/exportHelpers";
 
 interface StateComparisonChartProps {
   data: StateData;
@@ -25,12 +28,49 @@ interface StateComparisonChartProps {
 
 const metrics = ["enrollment", "hit", "nohit"] as const;
 
+/** Custom X-axis tick with ellipsis + rotate. */
+interface CustomStateTickProps {
+  x?: number;
+  y?: number;
+  payload?: { value: string };
+  maxChars?: number;
+}
+const CustomStateTick = ({
+  x = 0,
+  y = 0,
+  payload,
+  maxChars = 10,
+}: CustomStateTickProps) => {
+  const raw = payload?.value ?? "";
+  const truncated = raw.length > maxChars ? `${raw.slice(0, maxChars)}…` : raw;
+  return (
+    <g transform={`translate(${x},${y})`}>
+      <text
+        x={0}
+        y={0}
+        dy={16}
+        textAnchor="end"
+        fill="#666"
+        transform="rotate(-40)"
+      >
+        <title>{raw}</title>
+        {truncated}
+      </text>
+    </g>
+  );
+};
+
 export function StateComparisonChart({
   data,
   selectedStates,
 }: StateComparisonChartProps) {
   const [selectedMetric, setSelectedMetric] =
     useState<(typeof metrics)[number]>("enrollment");
+
+  const chartWrapRef = useRef<HTMLDivElement>(null);
+
+  // shrink label chars when many states
+  const maxLabelChars = selectedStates.length > 10 ? 6 : 10;
 
   const chartData = useMemo(() => {
     return selectedStates.map((state) => {
@@ -44,6 +84,19 @@ export function StateComparisonChart({
     });
   }, [selectedStates, data, selectedMetric]);
 
+  // ----- Export CSV -----
+  const handleExportCSV = () => {
+    // header row: state + TP/CP/MESA for current metric
+    const headers = ["State", "TP", "CP", "MESA"];
+    const rows = chartData.map((r) => [r.state, r.tp, r.cp, r.mesa]);
+    exportToCSV(`state-comparison-${selectedMetric}.csv`, headers, rows);
+  };
+
+  // ----- Print -----
+  const handlePrint = () => {
+    printHTMLElement(chartWrapRef.current, "State Comparison Chart");
+  };
+
   if (selectedStates.length < 2) {
     return (
       <Card className="mt-3">
@@ -55,61 +108,103 @@ export function StateComparisonChart({
   }
 
   return (
-    <Card className="mt-3 w-full">
+    <Card className="mt-3 w-full" ref={chartWrapRef}>
       <CardHeader>
-        <div className="flex justify-between items-center">
+        <div className="flex flex-wrap gap-2 justify-between items-center">
           <h2 className="text-lg font-semibold">State Comparison</h2>
-          <Select
-            value={selectedMetric}
-            onValueChange={(value) =>
-              setSelectedMetric(value as (typeof metrics)[number])
-            }
-          >
-            <SelectTrigger className="w-[180px]">
-              <SelectValue placeholder="Select metric" />
-            </SelectTrigger>
-            <SelectContent>
-              {metrics.map((metric) => (
-                <SelectItem key={metric} value={metric}>
-                  {metric.charAt(0).toUpperCase() + metric.slice(1)}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
+
+          <div className="flex items-center gap-2">
+            {/* metric selector */}
+            <Select
+              value={selectedMetric}
+              onValueChange={(value) =>
+                setSelectedMetric(value as (typeof metrics)[number])
+              }
+            >
+              <SelectTrigger className="w-[160px]">
+                <SelectValue placeholder="Select metric" />
+              </SelectTrigger>
+              <SelectContent>
+                {metrics.map((metric) => (
+                  <SelectItem key={metric} value={metric}>
+                    {metric.charAt(0).toUpperCase() + metric.slice(1)}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+
+            {/* Export CSV */}
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={handleExportCSV}
+              title="Download CSV"
+            >
+              <Download className="h-4 w-4 mr-1" />
+              CSV
+            </Button>
+
+            {/* Print */}
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={handlePrint}
+              title="Print Chart"
+            >
+              <Printer className="h-4 w-4 mr-1" />
+              Print
+            </Button>
+          </div>
         </div>
       </CardHeader>
+
       <CardContent>
-        <ResponsiveContainer width="100%" height={400}>
-          <BarChart data={chartData} margin={{ top: 20, right: 30, left: 20 }}>
-            <XAxis dataKey="state" />
+        <ResponsiveContainer width="100%" height={700}>
+          <BarChart
+            data={chartData}
+            margin={{ top: 60, right: 30, left: 20, bottom: 10 }}
+          >
+            <XAxis
+              dataKey="state"
+              tick={<CustomStateTick maxChars={maxLabelChars} />}
+              interval={0}
+              height={80}
+              tickLine={false}
+            />
             <YAxis />
-            {/* Tooltip removed to disable hover pop-up */}
-            <Legend />
+            <Legend
+              verticalAlign="top"
+              align="center"
+              wrapperStyle={{ top: 0 }}
+            />
             <Bar dataKey="tp" fill="#2563eb" name="TP" radius={[10, 10, 0, 0]}>
               <LabelList
                 dataKey="tp"
-                position="inside"
+                position="center"
+                angle={-90}
                 fill="#fff"
-                fontSize={16}
+                fontSize={12}
               />
             </Bar>
             <Bar dataKey="cp" fill="#16a34a" name="CP" radius={[10, 10, 0, 0]}>
               <LabelList
                 dataKey="cp"
-                position="inside"
+                position="center"
+                angle={-90}
                 fill="#fff"
-                fontSize={16}
+                fontSize={12}
               />
             </Bar>
             <Bar
               dataKey="mesa"
               fill="#f59e0b"
-              name="mesa"
+              name="MESA"
               radius={[10, 10, 0, 0]}
             >
               <LabelList
                 dataKey="mesa"
-                position="inside"
+                position="center"
+                angle={-90}
                 fill="#fff"
                 fontSize={12}
               />

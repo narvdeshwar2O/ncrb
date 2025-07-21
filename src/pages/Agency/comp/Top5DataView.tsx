@@ -62,8 +62,8 @@ export function Top5DataView({
       {activeCategories.map((category) => {
         const catData = topDataByCategory[category];
         return (
-          <div key={category}>
-            <h3 className="text-lg font-semibold mb-3">
+          <div key={category} className="border p-3 rounded-md">
+            <h3 className="text-lg font-semibold mb-3 text-center">
               {category.toUpperCase()} - Top 5 States
             </h3>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">

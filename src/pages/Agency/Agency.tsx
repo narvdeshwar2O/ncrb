@@ -1,17 +1,21 @@
 import { useEffect, useState, useMemo } from "react";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
+import { Skeleton } from "@/components/ui/skeleton";
+
 import { loadAllMonthlyData } from "@/utils/loadAllMonthlyData";
-import { FilterState } from "../../components/filters/types/FilterTypes";
+import aggregateByState from "@/utils/agregateByStateForTable";
+import computeCombinedTotal from "@/utils/computeCombinedTotal";
+import computeStateTotals from "@/utils/computeStateTotals";
+
 import RenderCard from "./comp/RenderCard";
 import { AgencyFilters } from "./comp/AgencyFilters";
-import computeCombinedTotal from "@/utils/computeCombinedTotal";
 import { MultipleChart } from "./comp/MultipleChart";
 import { Top5DataView } from "./comp/Top5DataView";
 import AgencyTable from "./comp/AgencyTable";
-import aggregateByState from "@/utils/agregateByStateForTable";
-import computeStateTotals from "@/utils/computeStateTotals";
 import { StateComparisonChart } from "./comp/StateComparisonChart";
-import { Skeleton } from "@/components/ui/skeleton";
+
+import { states as allStates } from "../../components/filters/data/statesData";
+import { FilterState } from "../../components/filters/types/FilterTypes";
 
 export interface DailyData {
   date: string;
@@ -30,28 +34,45 @@ interface Totals {
   nohit: number;
   total?: number;
 }
+
+const dataTypeOptions = ["enrollment", "hit", "nohit"] as const;
+const categoryOptions = ["tp", "cp", "mesa"] as const;
+
 const getLast7DaysRange = () => {
   const today = new Date();
-  const to = today;
+  const to = new Date(today);
   const from = new Date();
   from.setDate(today.getDate() - 7);
   return { from, to };
 };
-const dataTypeOptions = ["enrollment", "hit", "nohit"] as const;
-const categoryOptions = ["tp", "cp", "mesa"] as const;
 
 function Agency() {
   const [allData, setAllData] = useState<DailyData[]>([]);
   const [filters, setFilters] = useState<FilterState>({
     dateRange: getLast7DaysRange(),
-    state: [],
+    state: [...allStates],
     dataTypes: [...dataTypeOptions],
     categories: [...categoryOptions],
   });
   const [showTable, setShowTable] = useState(false);
   const [showCompareChart, setCompareChart] = useState(false);
   const [loading, setLoading] = useState(true);
-  console.log("All data", allData);
+
+  // --- Ensure valid date range whenever filters.dateRange changes
+  useEffect(() => {
+    setFilters((prev) => {
+      const { from, to } = prev.dateRange;
+      if (!from || !to) return prev;
+
+      if (from > to) {
+        // Swap dates if from > to
+        return { ...prev, dateRange: { from: to, to: from } };
+      }
+      return prev;
+    });
+  }, [filters.dateRange]);
+
+  // --- Load data
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
@@ -62,6 +83,7 @@ function Agency() {
     fetchData();
   }, []);
 
+  // --- Filtered Data
   const filteredData = useMemo(() => {
     return allData.filter((entry) => {
       const {
@@ -71,59 +93,39 @@ function Agency() {
       } = filters;
 
       const entryDate = new Date(entry.date);
-
       if (from && entryDate < from) return false;
       if (to && entryDate > to) return false;
 
-      if (!state || state === "All States") return true;
+      const activeCategories = categories?.length
+        ? categories
+        : ["tp", "cp", "mesa"];
 
-      let stateArray: string[] = [];
-      if (Array.isArray(state)) {
-        stateArray = state;
-      } else if (typeof state === "string" && state.includes(",")) {
-        stateArray = state.split(",").map((s) => s.trim());
-      } else {
-        stateArray = [state];
-      }
+      // Empty state array => show no data
+      if (!state || state.length === 0) return false;
 
-      const validStates = stateArray.filter((s) => s && s !== "All States");
-      if (validStates.length === 0) return true;
-
-      return validStates.some((selectedState) => {
-        // Check if the selected state exists AND category filter applies
+      return state.some((selectedState) => {
         if (!(selectedState in entry.data)) return false;
-
         const categoryKeys = Object.keys(entry.data[selectedState]);
-        const activeCategories = categories?.length
-          ? categories
-          : ["tp", "cp", "mesa"];
-
         return categoryKeys.some((cat) => activeCategories.includes(cat));
       });
     });
   }, [allData, filters]);
 
-  const selectedStates = useMemo(() => {
-    if (!filters.state || filters.state === "All States") return [];
+  // Selected states
+  const selectedStates = filters.state;
+  const noStatesSelected = selectedStates.length === 0;
 
-    if (Array.isArray(filters.state)) return filters.state;
+  // Table Data
+  const tableData = useMemo(
+    () => aggregateByState(filteredData, filters),
+    [filteredData, filters]
+  );
 
-    // Handle comma-separated string or single string
-    return filters.state.includes(",")
-      ? filters.state.split(",").map((s) => s.trim())
-      : [filters.state];
-  }, [filters.state]);
-  const tableData = useMemo(() => {
-    return aggregateByState(filteredData, filters);
-  }, [filteredData, filters]);
-
-  const selectedStateCount = selectedStates.filter(
-    (s) => s && s !== "All States"
-  ).length;
   const activeCategories = filters.categories?.length
     ? filters.categories
     : ["tp", "cp", "mesa"];
 
+  // Totals by Category
   const totalsByCategory = useMemo(() => {
     const map: Record<string, Totals> = {};
     activeCategories.forEach((cat) => {
@@ -135,11 +137,13 @@ function Agency() {
     });
     return map;
   }, [filteredData, filters, activeCategories]);
+
   const stateComp = useMemo(
     () => computeStateTotals(filteredData),
     [filteredData]
   );
 
+  // Loading
   if (loading) {
     return (
       <div className="p-6 flex justify-center items-center h-[calc(100vh-48px)]">
@@ -155,91 +159,103 @@ function Agency() {
   return (
     <div className="p-3">
       <div className="p-3 space-y-3 bg-background rounded-md shadow-lg border">
-        <AgencyFilters onFiltersChange={setFilters} />
-        <Card className="border-l-4 border-blue-600 bg-card shadow-sm">
-          <CardContent className="py-2 px-2 text-sm text-muted-foreground flex justify-between items-center">
-            <p>
-              <strong>You are currently viewing:</strong>{" "}
-              <strong>{filteredData.length}</strong> days of data containing
-              states and union territories:{" "}
-              <strong>
-                {selectedStateCount === 0 ? "All states" : selectedStateCount}
-              </strong>
-            </p>
-            <button
-              className="bg-blue-600 px-3 py-2 rounded-md text-card font-semibold text-white"
-              onClick={() => setShowTable((prev) => !prev)}
-            >
-              {showTable ? "Hide Tabular Data" : "Show Tabular Data"}
-            </button>
-          </CardContent>
-        </Card>
+        <AgencyFilters filters={filters} onFiltersChange={setFilters} />
 
-        {showTable ? (
-          <AgencyTable data={tableData} filters={filters} />
+        {noStatesSelected ? (
+          <div className="w-full p-6 text-center border rounded-md shadow-sm bg-muted/30">
+            <p className="font-medium">
+              No states selected. Use the <em>States</em> filter above to select
+              one or more states.
+            </p>
+          </div>
         ) : (
           <>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-              {activeCategories.map((cat) => (
-                <RenderCard
-                  key={cat}
-                  title={cat.toUpperCase()}
-                  total={totalsByCategory[cat]}
-                  selectedDataTypes={filters.dataTypes}
-                />
-              ))}
-            </div>
-            <div className="border p-3 rounded-md flex flex-col items-end">
-              <button
-                className={`bg-blue-600 px-3 py-2 rounded-md text-card font-semibold text-white max-w-[20%] text-nowrap`}
-                onClick={() => setCompareChart((prev) => !prev)}
-              >
-                {showCompareChart
-                  ? "Hide Comparison Chart"
-                  : "Show Comparision Chart"}
-              </button>
+            <Card className="border-l-4 border-blue-600 bg-card shadow-sm">
+              <CardContent className="py-2 px-2 text-sm text-muted-foreground flex justify-between items-center">
+                <p>
+                  <strong>You are currently viewing:</strong>{" "}
+                  <strong>{filteredData.length}</strong> days of data for{" "}
+                  <strong>
+                    {`${selectedStates.length} state${
+                      selectedStates.length > 1 ? "s" : ""
+                    }`}
+                  </strong>
+                </p>
+                <button
+                  className="bg-blue-600 px-3 py-2 rounded-md text-card font-semibold text-white"
+                  onClick={() => setShowTable((prev) => !prev)}
+                >
+                  {showTable ? "Hide Tabular Data" : "Show Tabular Data"}
+                </button>
+              </CardContent>
+            </Card>
 
-              {showCompareChart ? (
-                selectedStates.length >= 2 && selectedStates.length <= 5 ? (
-                  <>
-                    {selectedStates.length >= 2 && (
+            {showTable ? (
+              <AgencyTable data={tableData} filters={filters} />
+            ) : (
+              <>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                  {activeCategories.map((cat) => (
+                    <RenderCard
+                      key={cat}
+                      title={cat.toUpperCase()}
+                      total={totalsByCategory[cat]}
+                      selectedDataTypes={filters.dataTypes}
+                    />
+                  ))}
+                </div>
+
+                <div className="border p-3 rounded-md flex flex-col items-end">
+                  <button
+                    className={`bg-blue-600 px-3 py-2 rounded-md text-card font-semibold text-white max-w-[20%] text-nowrap`}
+                    onClick={() => setCompareChart((prev) => !prev)}
+                  >
+                    {showCompareChart
+                      ? "Hide Comparison Chart"
+                      : "Show Comparision Chart"}
+                  </button>
+
+                  {showCompareChart ? (
+                    selectedStates.length >= 2 && selectedStates.length <= 15 ? (
                       <StateComparisonChart
                         data={tableData}
                         selectedStates={selectedStates}
                       />
-                    )}
-                  </>
-                ) : (
-                  <>
-                    <div className="w-full p-3 flex justify-center items-center">
-                      <p className="border shadow-md p-3 rounded-md">
-                        Please select at least 2 and at most 5 states for chart
-                        comparison.
-                      </p>
-                    </div>
-                  </>
-                )
-              ) : (
-                <MultipleChart
-                  filteredData={filteredData}
-                  filters={filters}
-                  activeCategories={filters.categories}
-                  totalsByCategory={{
-                    tp: computeCombinedTotal(filteredData, "tp", filters),
-                    cp: computeCombinedTotal(filteredData, "cp", filters),
-                    mesa: computeCombinedTotal(filteredData, "mesa", filters),
-                  }}
-                />
-              )}
-            </div>
+                    ) : (
+                      <div className="w-full p-3 flex justify-center items-center">
+                        <p className="border shadow-md p-3 rounded-md">
+                          Please select at least 2 and at most 5 states for
+                          chart comparison.
+                        </p>
+                      </div>
+                    )
+                  ) : (
+                    <MultipleChart
+                      filteredData={filteredData}
+                      filters={filters}
+                      activeCategories={filters.categories}
+                      totalsByCategory={{
+                        tp: computeCombinedTotal(filteredData, "tp", filters),
+                        cp: computeCombinedTotal(filteredData, "cp", filters),
+                        mesa: computeCombinedTotal(
+                          filteredData,
+                          "mesa",
+                          filters
+                        ),
+                      }}
+                    />
+                  )}
+                </div>
 
-            <Top5DataView
-              allData={allData}
-              from={filters.dateRange.from}
-              to={filters.dateRange.to}
-              categories={filters.categories}
-              dataTypes={filters.dataTypes}
-            />
+                <Top5DataView
+                  allData={allData}
+                  from={filters.dateRange.from}
+                  to={filters.dateRange.to}
+                  categories={filters.categories}
+                  dataTypes={filters.dataTypes}
+                />
+              </>
+            )}
           </>
         )}
       </div>

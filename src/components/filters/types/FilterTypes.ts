@@ -5,7 +5,7 @@ export interface FilterState {
     to: Date | undefined;
   };
   district?: string;
-  state?: string[]|string;
+  state?: string[]
   crimeType?: string;
   dataTypes?: string[];
   categories?: string[];

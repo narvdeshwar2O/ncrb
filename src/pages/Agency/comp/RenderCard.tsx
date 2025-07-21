@@ -10,11 +10,25 @@ interface Totals {
 interface RenderCardProps {
   title: string;
   total: Totals;
-  selectedDataTypes?: string[]; // Data type filter from parent
+  selectedDataTypes?: string[]; // which metrics are active
 }
 
-const RenderCard: React.FC<RenderCardProps> = ({ title, total, selectedDataTypes = [] }) => {
-  const showAll = selectedDataTypes.length === 0;
+/**
+ * Always render all three metrics.
+ * If a metric is *not* in `selectedDataTypes`, display 0 for that field.
+ * If `selectedDataTypes` is empty or undefined, treat as "none selected" (show 0s).
+ */
+const RenderCard: React.FC<RenderCardProps> = ({
+  title,
+  total,
+  selectedDataTypes = [],
+}) => {
+  const hasSelection = selectedDataTypes.length > 0;
+
+  const getValue = (key: keyof Totals): number => {
+    if (!hasSelection) return 0; // nothing selected -> zero everything
+    return selectedDataTypes.includes(key) ? total[key] : 0;
+  };
 
   return (
     <Card className="border border-l-4 border-blue-600 bg-card shadow-sm">
@@ -22,21 +36,18 @@ const RenderCard: React.FC<RenderCardProps> = ({ title, total, selectedDataTypes
         <CardTitle className="text-lg">{title}</CardTitle>
       </CardHeader>
       <CardContent className="space-y-2 text-sm text-muted-foreground">
-        {(showAll || selectedDataTypes.includes("enrollment")) && (
-          <p>
-            Enrollment: <span className="font-semibold text-foreground">{total.enrollment}</span>
-          </p>
-        )}
-        {(showAll || selectedDataTypes.includes("hit")) && (
-          <p>
-            Hit: <span className="font-semibold text-foreground">{total.hit}</span>
-          </p>
-        )}
-        {(showAll || selectedDataTypes.includes("nohit")) && (
-          <p>
-            No Hit: <span className="font-semibold text-foreground">{total.nohit}</span>
-          </p>
-        )}
+        <p>
+          Enrollment:{" "}
+          <span className="font-semibold text-foreground">{getValue("enrollment")}</span>
+        </p>
+        <p>
+          Hit:{" "}
+          <span className="font-semibold text-foreground">{getValue("hit")}</span>
+        </p>
+        <p>
+          No Hit:{" "}
+          <span className="font-semibold text-foreground">{getValue("nohit")}</span>
+        </p>
       </CardContent>
     </Card>
   );

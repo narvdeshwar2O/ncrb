@@ -1,6 +1,5 @@
 
 export const states = [
-  'All States',
   'Andaman and Nicobar Islands',
   'Andhra Pradesh',
   'Arunachal Pradesh',
