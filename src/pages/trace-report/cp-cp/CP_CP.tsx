@@ -42,6 +42,8 @@ const CP_CP: React.FC = () => {
     [filters.statuses]
   );
 
+  console.log("Visible State",visibleStatuses)
+
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);

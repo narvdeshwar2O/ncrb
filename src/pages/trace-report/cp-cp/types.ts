@@ -6,10 +6,14 @@ export interface CpCpRecord {
   intra_state: number;
 }
 
-export interface CpCpDailyData {
+export interface GenericDailyData<Key extends string = "cp_cp"> {
   date: string;
-  data: Record<string, { cp_cp: CpCpRecord }>; // FIXED: cp_cp instead of tp_tp
+  data: Record<string, { [K in Key]: CpCpRecord }>;
 }
+
+export type CpCpDailyData = GenericDailyData<"cp_cp">;
+export type CpTpDailyData = GenericDailyData<"cp_tp">;
+export type PpPpDailyData = GenericDailyData<"pp_pp">;
 
 export type CpCpStatusKey = "hit" | "no_hit" | "inter_state" | "intra_state" | "total";
 

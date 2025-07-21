@@ -16,9 +16,9 @@ import { CpCpTableRow, CpCpStatusKey } from "../types";
 const LABELS: Record<CpCpStatusKey, string> = {
   hit: "Hit",
   no_hit: "No Hit",
-  intra_state: "Own State",
+  intra_state: "Intra State",
   inter_state: "Inter State",
-  total: "Total", // kept for label mapping but won't be rendered
+  total: "Total",
 };
 
 export interface CpCpTableProps {
@@ -32,7 +32,7 @@ export interface CpCpTableProps {
 export function CpCpTable({
   rows,
   statuses,
-  groupLabel = "TP‑TP Metrics",
+  groupLabel = "Metrics",
 }: CpCpTableProps) {
   // Filter out total
   const displayStatuses = React.useMemo<CpCpStatusKey[]>(

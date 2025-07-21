@@ -167,7 +167,7 @@ export const TpTpFiltersBar: React.FC<TpTpFiltersBarProps> = ({
 
           {/* Status MultiSelect */}
           <MultiSelectCheckbox
-            label="TP-TP Metrics"
+            label="Metrics"
             options={STATUS_OPTIONS as string[]}
             selected={selectedStatuses}
             onChange={(newStatuses) => {

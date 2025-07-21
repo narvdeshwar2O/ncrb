@@ -32,7 +32,7 @@ export interface TpTpTableProps {
 export function TpTpTable({
   rows,
   statuses,
-  groupLabel = "TP‑TP Metrics",
+  groupLabel = "Metrics",
 }: TpTpTableProps) {
   // Filter out total
   const displayStatuses = React.useMemo<TpTpStatusKey[]>(

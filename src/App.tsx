@@ -48,6 +48,8 @@ import MesaTP from "./pages/mesatp/MesaTP";
 import TP_TP from "./pages/trace-report/tp-tp/TP_TP";
 import TP_CP from "./pages/trace-report/tp-cp/TP_CP";
 import CP_CP from "./pages/trace-report/cp-cp/CP_CP";
+import CP_TP from "./pages/trace-report/cp-tp/CP_TP";
+import PP_PP from "./pages/trace-report/pp-pp/PP_PP";
 
 const queryClient = new QueryClient();
 
@@ -67,6 +69,8 @@ const App = () => (
               <Route path="/trace-report/tp-tp" element={<TP_TP />} />
               <Route path="/trace-report/tp-cp" element={<TP_CP />} />
               <Route path="/trace-report/cp-cp" element={<CP_CP />} />
+              <Route path="/trace-report/cp-tp" element={<CP_TP />} />
+              <Route path="/trace-report/pp-pp" element={<PP_PP />} />
               {/* <Route path="/cctns" element={<CCTNSPage />} />
               <Route path="/ncrc" element={<NCRCPage />} /> */}
               {/* CCTNS Detail Routes */}

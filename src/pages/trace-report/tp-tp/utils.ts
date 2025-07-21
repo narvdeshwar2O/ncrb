@@ -1,5 +1,10 @@
 // components/tp-tp/utils.ts
-import { TpTpDailyData, TpTpFilters, TpTpTableRow, TpTpStatusKey } from "./types";
+import {
+  TpTpDailyData,
+  TpTpFilters,
+  TpTpTableRow,
+  TpTpStatusKey,
+} from "./types";
 
 // ✅ Get Last 7 Days Range
 export const getLast7DaysRange = () => {
@@ -65,7 +70,6 @@ export function computeTotalsByStatus(
   return { ...sums, total: grand };
 }
 
-// ✅ Build Table Data
 export function buildTpTpTableData(
   filtered: TpTpDailyData[],
   statuses: TpTpStatusKey[],
@@ -81,7 +85,6 @@ export function buildTpTpTableData(
 
       if (!stateTotals[state]) {
         stateTotals[state] = Object.fromEntries(statuses.map((s) => [s, 0]));
-        stateTotals[state].total = 0;
       }
 
       const target = stateTotals[state];
@@ -90,15 +93,18 @@ export function buildTpTpTableData(
       for (const s of statuses) {
         const v = tpTpRecord?.[s] ?? 0;
         target[s] += v;
-        if (s !== "total") target.total += v;
       }
     }
   }
 
   return Object.entries(stateTotals)
     .map(([state, stats]) => ({ state, ...stats }))
-    .sort((a, b) => (b.total as number) - (a.total as number)) as TpTpTableRow[];
+    .sort((a, b) => {
+      const firstStatus = statuses[0]; // sort by first status key
+      return (b[firstStatus] ?? 0) - (a[firstStatus] ?? 0);
+    }) as TpTpTableRow[];
 }
+
 
 // ✅ Top N by Metric
 export function topNByStatus(

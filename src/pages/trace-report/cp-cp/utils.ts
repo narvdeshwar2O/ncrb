@@ -95,7 +95,6 @@ export function buildCpCpTableData(
 
       if (!stateTotals[state]) {
         stateTotals[state] = Object.fromEntries(statuses.map((s) => [s, 0]));
-        stateTotals[state].total = 0;
       }
 
       const target = stateTotals[state];
@@ -104,15 +103,18 @@ export function buildCpCpTableData(
       for (const s of statuses) {
         const v = cpCpRecord?.[s] ?? 0;
         target[s] += v;
-        if (s !== "total") target.total += v;
       }
     }
   }
 
   return Object.entries(stateTotals)
     .map(([state, stats]) => ({ state, ...stats }))
-    .sort((a, b) => (b.total as number) - (a.total as number)) as CpCpTableRow[];
+    .sort((a, b) => {
+      const firstStatus = statuses[0]; // Sort by first status key
+      return (b[firstStatus] ?? 0) - (a[firstStatus] ?? 0);
+    }) as CpCpTableRow[];
 }
+
 
 /**
  * ✅ Top N by Metric

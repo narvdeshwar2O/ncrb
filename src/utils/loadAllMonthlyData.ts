@@ -2,7 +2,15 @@ interface LoadParams {
   startDate?: string;
   endDate?: string;
   stateFilter?: string;
-  type: "cfpb" | "slip_cp"|"mesa"|"tp_tp"|"tp_cp"|"cp_cp"
+  type:
+    | "cfpb"
+    | "slip_cp"
+    | "mesa"
+    | "tp_tp"
+    | "tp_cp"
+    | "cp_cp"
+    | "cp_tp"
+    | "pp_pp";
 }
 
 export async function loadAllMonthlyData({
@@ -44,6 +52,14 @@ export async function loadAllMonthlyData({
       basePath: "/assets/data/trace_report_cp_cp/2025",
       filePrefix: "cp_cp_output",
     },
+    cp_tp: {
+      basePath: "/assets/data/trace_report_cp_tp/2025",
+      filePrefix: "cp_tp_output",
+    },
+    pp_pp: {
+      basePath: "/assets/data/trace_report_pp_pp/2025",
+      filePrefix: "pp_pp_output",
+    },
   };
 
   const { basePath, filePrefix } = config[type];
@@ -61,9 +77,10 @@ export async function loadAllMonthlyData({
 
       // Build file name & path dynamically
       const fileName = `${filePrefix}_${month}_${dayStr}_2025.json`;
-      console.log("fileName",fileName)
+      console.log("fileName", fileName);
       const filePath = `${basePath}/${month}/daily/${fileName}`;
-      
+      console.log("filePath", filePath);
+
       try {
         const res = await fetch(filePath);
         if (!res.ok) throw new Error("File not found");
