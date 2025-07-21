@@ -21,7 +21,7 @@ interface DailyData {
 
 const computeCombinedTotal = (
   filteredData: DailyData[],
-  source: "tp" | "cp" | "mesha",
+  source: "tp" | "cp" | "mesa",
   filters: FilterState
 ): Totals => {
   let statesToUse: string[] = [];
@@ -49,15 +49,16 @@ const computeCombinedTotal = (
   const result = getTotal(filteredData, source, statesToUse);
 
   // Filter based on selected dataTypes
-  const allowed = filters.dataTypes && filters.dataTypes.length > 0
-    ? filters.dataTypes
-    : ["enrollment", "hit", "nohit"]; // fallback to show all if nothing selected
+  const allowed =
+    filters.dataTypes && filters.dataTypes.length > 0
+      ? filters.dataTypes
+      : ["enrollment", "hit", "nohit"]; // fallback to show all if nothing selected
 
   return {
     enrollment: allowed.includes("enrollment") ? result.enrollment : 0,
     hit: allowed.includes("hit") ? result.hit : 0,
     nohit: allowed.includes("nohit") ? result.nohit : 0,
-    total: result.total // optional: you can adjust this too based on what's selected
+    total: result.total, // optional: you can adjust this too based on what's selected
   };
 };
 

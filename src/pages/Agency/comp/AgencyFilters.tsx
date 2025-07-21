@@ -25,7 +25,7 @@ import {
 import MultiSelectCheckbox from "@/components/ui/MultiSelectCheckbox";
 
 const dataTypeOptions = ["enrollment", "hit", "nohit"];
-const categoryOptions = ["tp", "cp", "mesha"];
+const categoryOptions = ["tp", "cp", "mesa"];
 
 // --- helper ---
 function getLastNDaysRange(n: number) {

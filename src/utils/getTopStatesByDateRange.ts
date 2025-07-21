@@ -26,9 +26,12 @@ function getTopStatesByDateRange(
   dailyData: DailyData[],
   from: Date,
   to: Date,
-  category: "tp" | "cp" | "mesha" // ✅ Dynamic category parameter
+  category: "tp" | "cp" | "mesa" // ✅ Dynamic category parameter
 ): TopStatesResult {
-  const stateAggregate: Record<string, { enrollment: number; hit: number; nohit: number }> = {};
+  const stateAggregate: Record<
+    string,
+    { enrollment: number; hit: number; nohit: number }
+  > = {};
 
   for (const day of dailyData) {
     const dayDate = new Date(day.date);
@@ -48,13 +51,17 @@ function getTopStatesByDateRange(
     }
   }
 
-  const result: StateStats[] = Object.entries(stateAggregate).map(([state, values]) => ({
-    state,
-    ...values,
-  }));
+  const result: StateStats[] = Object.entries(stateAggregate).map(
+    ([state, values]) => ({
+      state,
+      ...values,
+    })
+  );
 
   // ✅ Sort individually for each metric
-  const enrollmentTop5 = [...result].sort((a, b) => b.enrollment - a.enrollment).slice(0, 5);
+  const enrollmentTop5 = [...result]
+    .sort((a, b) => b.enrollment - a.enrollment)
+    .slice(0, 5);
   const hitTop5 = [...result].sort((a, b) => b.hit - a.hit).slice(0, 5);
   const nohitTop5 = [...result].sort((a, b) => b.nohit - a.nohit).slice(0, 5);
 

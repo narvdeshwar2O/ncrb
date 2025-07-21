@@ -12,7 +12,7 @@ states = [
     "Tripura", "Uttar Pradesh", "Uttarakhand", "West Bengal", "CFPB"
 ]
 
-types = ["tp", "cp", "mesha"]
+types = ["tp", "cp", "mesa"]
 
 months = ["04", "05", "06","07"]
 

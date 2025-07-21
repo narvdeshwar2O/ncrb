@@ -9,13 +9,13 @@ interface AggregatedStateData {
   [state: string]: {
     tp: TypeData;
     cp: TypeData;
-    mesha: TypeData;
+    mesa: TypeData;
   };
 }
 export function aggregateStateData(
   data: {
     date: string;
-    data: Record<string, Record<"tp" | "cp" | "mesha", TypeData>>;
+    data: Record<string, Record<"tp" | "cp" | "mesa", TypeData>>;
   }[],
   selectedState: string = "All States"
 ): AggregatedStateData {
@@ -29,11 +29,11 @@ export function aggregateStateData(
         result[state] = {
           tp: { enrollment: 0, hit: 0, nohit: 0, total: 0 },
           cp: { enrollment: 0, hit: 0, nohit: 0, total: 0 },
-          mesha: { enrollment: 0, hit: 0, nohit: 0, total: 0 },
+          mesa: { enrollment: 0, hit: 0, nohit: 0, total: 0 },
         };
       }
 
-      for (const type of ["tp", "cp", "mesha"] as const) {
+      for (const type of ["tp", "cp", "mesa"] as const) {
         const current = day.data[state]?.[type];
         if (!current) continue;
 

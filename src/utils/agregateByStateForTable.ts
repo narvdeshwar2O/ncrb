@@ -2,7 +2,10 @@ import { FilterState } from "@/components/filters/types/FilterTypes";
 import { DailyData } from "@/pages/Agency/Agency";
 import { StateData } from "@/pages/Agency/comp/AgencyTable";
 
-function aggregateByState(filteredData: DailyData[], filters: FilterState): StateData {
+function aggregateByState(
+  filteredData: DailyData[],
+  filters: FilterState
+): StateData {
   const result: StateData = {};
 
   filteredData.forEach((day) => {
@@ -20,14 +23,14 @@ function aggregateByState(filteredData: DailyData[], filters: FilterState): Stat
         result[state] = {
           tp: { enrollment: 0, hit: 0, nohit: 0, total: 0 },
           cp: { enrollment: 0, hit: 0, nohit: 0, total: 0 },
-          mesha: { enrollment: 0, hit: 0, nohit: 0, total: 0 },
+          mesa: { enrollment: 0, hit: 0, nohit: 0, total: 0 },
         };
       }
 
       Object.entries(categories).forEach(([cat, values]) => {
         if (!filters.categories.includes(cat)) return;
 
-        const categoryData = result[state][cat as "tp" | "cp" | "mesha"];
+        const categoryData = result[state][cat as "tp" | "cp" | "mesa"];
         filters.dataTypes.forEach((type) => {
           categoryData[type] += values[type];
         });
@@ -38,6 +41,5 @@ function aggregateByState(filteredData: DailyData[], filters: FilterState): Stat
 
   return result;
 }
-
 
 export default aggregateByState;

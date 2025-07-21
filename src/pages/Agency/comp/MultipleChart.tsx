@@ -40,9 +40,9 @@ const chartConfig: ChartConfig = {
   cp_hit: { label: "CP Hit", color: "hsl(174, 60%, 45%)" },
   cp_nohit: { label: "CP No-Hit", color: "hsl(174, 50%, 35%)" },
 
-  mesha_enrollment: { label: "MESHA Enrollment", color: "hsl(40, 100%, 60%)" },
-  mesha_hit: { label: "MESHA Hit", color: "hsl(40, 90%, 50%)" },
-  mesha_nohit: { label: "MESHA No-Hit", color: "hsl(40, 80%, 40%)" },
+  mesa_enrollment: { label: "mesa Enrollment", color: "hsl(40, 100%, 60%)" },
+  mesa_hit: { label: "mesa Hit", color: "hsl(40, 90%, 50%)" },
+  mesa_nohit: { label: "mesa No-Hit", color: "hsl(40, 80%, 40%)" },
 };
 
 export function MultipleChart({
@@ -80,7 +80,7 @@ export function MultipleChart({
           activeCategories.forEach((category) => {
             const totals = computeCombinedTotal(
               filteredData,
-              category as "tp" | "cp" | "mesha",
+              category as "tp" | "cp" | "mesa",
               filters
             );
 

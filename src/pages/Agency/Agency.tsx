@@ -38,7 +38,7 @@ const getLast7DaysRange = () => {
   return { from, to };
 };
 const dataTypeOptions = ["enrollment", "hit", "nohit"] as const;
-const categoryOptions = ["tp", "cp", "mesha"] as const;
+const categoryOptions = ["tp", "cp", "mesa"] as const;
 
 function Agency() {
   const [allData, setAllData] = useState<DailyData[]>([]);
@@ -96,7 +96,7 @@ function Agency() {
         const categoryKeys = Object.keys(entry.data[selectedState]);
         const activeCategories = categories?.length
           ? categories
-          : ["tp", "cp", "mesha"];
+          : ["tp", "cp", "mesa"];
 
         return categoryKeys.some((cat) => activeCategories.includes(cat));
       });
@@ -122,14 +122,14 @@ function Agency() {
   ).length;
   const activeCategories = filters.categories?.length
     ? filters.categories
-    : ["tp", "cp", "mesha"];
+    : ["tp", "cp", "mesa"];
 
   const totalsByCategory = useMemo(() => {
     const map: Record<string, Totals> = {};
     activeCategories.forEach((cat) => {
       map[cat] = computeCombinedTotal(
         filteredData,
-        cat as "tp" | "cp" | "mesha",
+        cat as "tp" | "cp" | "mesa",
         filters
       );
     });
@@ -227,7 +227,7 @@ function Agency() {
                   totalsByCategory={{
                     tp: computeCombinedTotal(filteredData, "tp", filters),
                     cp: computeCombinedTotal(filteredData, "cp", filters),
-                    mesha: computeCombinedTotal(filteredData, "mesha", filters),
+                    mesa: computeCombinedTotal(filteredData, "mesa", filters),
                   }}
                 />
               )}

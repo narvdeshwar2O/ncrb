@@ -3,10 +3,13 @@ export default function getTotal(
     date: string;
     data: Record<
       string,
-      Record<string, { enrollment: number; hit: number; nohit: number; total: number }>
+      Record<
+        string,
+        { enrollment: number; hit: number; nohit: number; total: number }
+      >
     >;
   }[],
-  type: "tp" | "cp" | "mesha",
+  type: "tp" | "cp" | "mesa",
   filterState?: string | string[] // support both single or multiple
 ): { enrollment: number; hit: number; nohit: number; total: number } {
   const total = { enrollment: 0, hit: 0, nohit: 0, total: 0 };

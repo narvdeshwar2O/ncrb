@@ -9,15 +9,15 @@ function computeStateTotals(filteredData: DailyData[]): StateData {
         stateMap[state] = {
           tp: { enrollment: 0, hit: 0, nohit: 0, total: 0 },
           cp: { enrollment: 0, hit: 0, nohit: 0, total: 0 },
-          mesha: { enrollment: 0, hit: 0, nohit: 0, total: 0 },
+          mesa: { enrollment: 0, hit: 0, nohit: 0, total: 0 },
         };
       }
       for (const [cat, values] of Object.entries(cats)) {
-        stateMap[state][cat as "tp" | "cp" | "mesha"].enrollment +=
+        stateMap[state][cat as "tp" | "cp" | "mesa"].enrollment +=
           values.enrollment;
-        stateMap[state][cat as "tp" | "cp" | "mesha"].hit += values.hit;
-        stateMap[state][cat as "tp" | "cp" | "mesha"].nohit += values.nohit;
-        stateMap[state][cat as "tp" | "cp" | "mesha"].total += values.total;
+        stateMap[state][cat as "tp" | "cp" | "mesa"].hit += values.hit;
+        stateMap[state][cat as "tp" | "cp" | "mesa"].nohit += values.nohit;
+        stateMap[state][cat as "tp" | "cp" | "mesa"].total += values.total;
       }
     }
   });

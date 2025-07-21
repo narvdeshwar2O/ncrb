@@ -4,7 +4,7 @@ import {
   TableCell,
   TableHead,
   TableHeader,
-  TableRow
+  TableRow,
 } from "@/components/ui/table";
 
 interface TypeData {
@@ -18,7 +18,7 @@ export interface StateData {
   [state: string]: {
     tp: TypeData;
     cp: TypeData;
-    mesha: TypeData;
+    mesa: TypeData;
   };
 }
 
@@ -33,11 +33,11 @@ interface AgencyTableProps {
 function AgencyTable({ data, filters }: AgencyTableProps) {
   const { dataTypes, categories } = filters;
 
-  const availableCategories = ["tp", "cp", "mesha"].filter(cat =>
+  const availableCategories = ["tp", "cp", "mesa"].filter((cat) =>
     categories.includes(cat)
   );
 
-  const availableDataTypes = ["enrollment", "hit", "nohit"].filter(type =>
+  const availableDataTypes = ["enrollment", "hit", "nohit"].filter((type) =>
     dataTypes.includes(type)
   );
 
@@ -50,7 +50,7 @@ function AgencyTable({ data, filters }: AgencyTableProps) {
             <TableHead rowSpan={2} className="border-r text-center">
               State
             </TableHead>
-            {availableCategories.map(cat => (
+            {availableCategories.map((cat) => (
               <TableHead
                 key={cat}
                 colSpan={availableDataTypes.length + 1} // +1 for Total
@@ -61,8 +61,8 @@ function AgencyTable({ data, filters }: AgencyTableProps) {
             ))}
           </TableRow>
           <TableRow>
-            {availableCategories.map(cat =>
-              [...availableDataTypes, "total"].map(type => (
+            {availableCategories.map((cat) =>
+              [...availableDataTypes, "total"].map((type) => (
                 <TableHead
                   key={`${cat}-${type}`}
                   className={type === "total" ? "border-r text-center" : ""}
@@ -81,13 +81,13 @@ function AgencyTable({ data, filters }: AgencyTableProps) {
           {Object.entries(data).map(([state, types]) => (
             <TableRow key={state} className="text-center">
               <TableCell className="font-medium border-r">{state}</TableCell>
-              {availableCategories.map(cat =>
-                [...availableDataTypes, "total"].map(type => (
+              {availableCategories.map((cat) =>
+                [...availableDataTypes, "total"].map((type) => (
                   <TableCell
                     key={`${state}-${cat}-${type}`}
                     className={type === "total" ? "border-r" : ""}
                   >
-                    {types[cat as "tp" | "cp" | "mesha"][type as keyof TypeData]}
+                    {types[cat as "tp" | "cp" | "mesa"][type as keyof TypeData]}
                   </TableCell>
                 ))
               )}

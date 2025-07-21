@@ -29,9 +29,8 @@ export function StateComparisonChart({
   data,
   selectedStates,
 }: StateComparisonChartProps) {
-  const [selectedMetric, setSelectedMetric] = useState<
-    (typeof metrics)[number]
-  >("enrollment");
+  const [selectedMetric, setSelectedMetric] =
+    useState<(typeof metrics)[number]>("enrollment");
 
   const chartData = useMemo(() => {
     return selectedStates.map((state) => {
@@ -40,7 +39,7 @@ export function StateComparisonChart({
         state,
         tp: stateInfo?.tp?.[selectedMetric] ?? 0,
         cp: stateInfo?.cp?.[selectedMetric] ?? 0,
-        mesha: stateInfo?.mesha?.[selectedMetric] ?? 0,
+        mesa: stateInfo?.mesa?.[selectedMetric] ?? 0,
       };
     });
   }, [selectedStates, data, selectedMetric]);
@@ -86,15 +85,30 @@ export function StateComparisonChart({
             <YAxis />
             {/* Tooltip removed to disable hover pop-up */}
             <Legend />
-            <Bar dataKey="tp" fill="#2563eb" name="TP" radius={[10,10,0,0]}>
-              <LabelList dataKey="tp" position="inside" fill="#fff" fontSize={16} />
-            </Bar>
-            <Bar dataKey="cp" fill="#16a34a" name="CP" radius={[10,10,0,0]}>
-              <LabelList dataKey="cp" position="inside" fill="#fff" fontSize={16} />
-            </Bar>
-            <Bar dataKey="mesha" fill="#f59e0b" name="MESHA" radius={[10,10,0,0]}>
+            <Bar dataKey="tp" fill="#2563eb" name="TP" radius={[10, 10, 0, 0]}>
               <LabelList
-                dataKey="mesha"
+                dataKey="tp"
+                position="inside"
+                fill="#fff"
+                fontSize={16}
+              />
+            </Bar>
+            <Bar dataKey="cp" fill="#16a34a" name="CP" radius={[10, 10, 0, 0]}>
+              <LabelList
+                dataKey="cp"
+                position="inside"
+                fill="#fff"
+                fontSize={16}
+              />
+            </Bar>
+            <Bar
+              dataKey="mesa"
+              fill="#f59e0b"
+              name="mesa"
+              radius={[10, 10, 0, 0]}
+            >
+              <LabelList
+                dataKey="mesa"
                 position="inside"
                 fill="#fff"
                 fontSize={12}

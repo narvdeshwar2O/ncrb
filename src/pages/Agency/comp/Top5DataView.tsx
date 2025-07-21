@@ -3,18 +3,18 @@ import ChartCard from "./ChartCard";
 import { useMemo } from "react";
 import type { DailyData } from "../Agency";
 
-type Category = "tp" | "cp" | "mesha";
+type Category = "tp" | "cp" | "mesa";
 type DataTypeKey = "enrollment" | "hit" | "nohit";
 
 interface Top5DataViewProps {
   allData: DailyData[];
   from: Date;
   to: Date;
-  categories: string[];              // <- loosen
-  dataTypes: string[];               // <- loosen
+  categories: string[]; // <- loosen
+  dataTypes: string[]; // <- loosen
 }
 
-const VALID_CATEGORIES: Category[] = ["tp", "cp", "mesha"];
+const VALID_CATEGORIES: Category[] = ["tp", "cp", "mesa"];
 const isValidCategory = (v: string): v is Category =>
   (VALID_CATEGORIES as string[]).includes(v);
 
@@ -27,15 +27,19 @@ export function Top5DataView({
 }: Top5DataViewProps) {
   // Narrow + default to all if none valid
   const safeCategories: Category[] = categories.filter(isValidCategory);
-  const activeCategories = safeCategories.length ? safeCategories : VALID_CATEGORIES;
+  const activeCategories = safeCategories.length
+    ? safeCategories
+    : VALID_CATEGORIES;
 
   const topDataByCategory = useMemo(() => {
-    const result: Record<Category, ReturnType<typeof getTopStatesByDateRange>> =
-      {
-        tp: getTopStatesByDateRange(allData, from, to, "tp"),
-        cp: getTopStatesByDateRange(allData, from, to, "cp"),
-        mesha: getTopStatesByDateRange(allData, from, to, "mesha"),
-      };
+    const result: Record<
+      Category,
+      ReturnType<typeof getTopStatesByDateRange>
+    > = {
+      tp: getTopStatesByDateRange(allData, from, to, "tp"),
+      cp: getTopStatesByDateRange(allData, from, to, "cp"),
+      mesa: getTopStatesByDateRange(allData, from, to, "mesa"),
+    };
     return result;
   }, [allData, from, to]);
 
