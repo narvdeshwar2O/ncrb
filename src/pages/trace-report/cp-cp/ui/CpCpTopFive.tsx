@@ -1,6 +1,6 @@
 // components/tp-tp/ui/CpCpTopFive.tsx
 import React, { useMemo } from "react";
-import ChartCard from "../../../agency/ui/ChartCard"; // Reusing ChartCard from your project
+import ChartCard from "@/pages/agency/ui/ChartCard"; // Reusing ChartCard from your project
 import { CpCpDailyData } from "../types";
 
 export interface CpCpTopFiveProps {

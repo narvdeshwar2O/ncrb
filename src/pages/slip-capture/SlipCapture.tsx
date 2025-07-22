@@ -66,7 +66,9 @@ const SlipCapture: React.FC = () => {
   if (loading) {
     return (
       <div className="p-6 flex justify-center items-center h-[calc(100vh-48px)]">
-        <Skeleton className="h-8 w-48 mb-2 flex justify-center items-center">Loading...</Skeleton>
+        <Skeleton className="h-8 w-48 mb-2 flex justify-center items-center">
+          Loading...
+        </Skeleton>
       </div>
     );
   }

@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import ChartCard from "../../agency/ui/ChartCard";
+import ChartCard from "@/pages/agency/ui/ChartCard";
 
 /**
  * Props

@@ -1,6 +1,6 @@
 // components/tp-tp/ui/TpTpTopFive.tsx
 import React, { useMemo } from "react";
-import ChartCard from "../../../agency/ui/ChartCard"; // Reusing ChartCard from your project
+import ChartCard from "@/pages/agency/ui/ChartCard"; // Reusing ChartCard from your project
 import { TpTpDailyData } from "../types";
 
 export interface TpTpTopFiveProps {

@@ -43,7 +43,7 @@ import NCRCComplianceScoreDetail from "./pages/details/ncrc/NCRCComplianceScoreD
 import HighRiskCasesDetail from "./pages/details/ncrc/HighRiskCasesDetail";
 import AuditTrailDetail from "./pages/details/ncrc/AuditTrailDetail";
 import Agency from "./pages/agency/Agency";
-import SlipCapture from "./pages/SlipCapture/SlipCapture";
+import SlipCapture from "./pages/slip-capture/SlipCapture";
 import MesaTP from "./pages/mesatp/MesaTP";
 import TP_TP from "./pages/trace-report/tp-tp/TP_TP";
 import TP_CP from "./pages/trace-report/tp-cp/TP_CP";
