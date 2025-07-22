@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import ChartCard from "../../Agency/comp/ChartCard";
+import ChartCard from "../../agency/ui/ChartCard";
 import { MesaDailyData, MesaStatusKey, MESA_STATUS_KEYS } from "../types";
 
 /**

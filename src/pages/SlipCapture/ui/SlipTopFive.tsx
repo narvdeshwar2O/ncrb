@@ -1,6 +1,5 @@
 import { useMemo } from "react";
-import ChartCard from "../../Agency/comp/ChartCard";
-
+import ChartCard from "../../agency/ui/ChartCard";
 
 /**
  * Props
@@ -54,10 +53,7 @@ export default function SlipTopFive({
     const toTime = to ? to.getTime() : Number.POSITIVE_INFINITY;
 
     // totals[state][status] -> number
-    const totals: Record<
-      string,
-      Record<StatusKey, number>
-    > = {};
+    const totals: Record<string, Record<StatusKey, number>> = {};
 
     for (const day of allData) {
       const d = new Date(day.date).getTime();
@@ -98,9 +94,7 @@ export default function SlipTopFive({
         const data = topDataByStatus[status] ?? [];
         return (
           <div key={status}>
-            
             <div className="grid grid-cols-1 md:grid-grid-1 lg:grid-cols-1 gap-4">
-              
               <ChartCard title={status} data={data} />
             </div>
           </div>

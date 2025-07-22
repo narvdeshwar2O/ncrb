@@ -42,7 +42,7 @@ import FraudDetectionDetail from "./pages/details/ncrc/FraudDetectionDetail";
 import NCRCComplianceScoreDetail from "./pages/details/ncrc/NCRCComplianceScoreDetail";
 import HighRiskCasesDetail from "./pages/details/ncrc/HighRiskCasesDetail";
 import AuditTrailDetail from "./pages/details/ncrc/AuditTrailDetail";
-import Agency from "./pages/Agency/Agency";
+import Agency from "./pages/agency/Agency";
 import SlipCapture from "./pages/SlipCapture/SlipCapture";
 import MesaTP from "./pages/mesatp/MesaTP";
 import TP_TP from "./pages/trace-report/tp-tp/TP_TP";

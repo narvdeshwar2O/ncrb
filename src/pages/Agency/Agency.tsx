@@ -7,12 +7,12 @@ import aggregateByState from "@/utils/agregateByStateForTable";
 import computeCombinedTotal from "@/utils/computeCombinedTotal";
 import computeStateTotals from "@/utils/computeStateTotals";
 
-import RenderCard from "./comp/RenderCard";
-import { AgencyFilters } from "./comp/AgencyFilters";
-import { MultipleChart } from "./comp/MultipleChart";
-import { Top5DataView } from "./comp/Top5DataView";
-import AgencyTable from "./comp/AgencyTable";
-import { StateComparisonChart } from "./comp/StateComparisonChart";
+import RenderCard from "./ui/RenderCard";
+import { AgencyFilters } from "./filters/AgencyFilters";
+import { MultipleChart } from "./ui/MultipleChart";
+import { Top5DataView } from "./ui/Top5DataView";
+import AgencyTable from "./ui/AgencyTable";
+import { StateComparisonChart } from "./ui/StateComparisonChart";
 
 import { states as allStates } from "../../components/filters/data/statesData";
 import { FilterState } from "../../components/filters/types/FilterTypes";

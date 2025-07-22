@@ -1,5 +1,5 @@
-import { DailyData } from "@/pages/Agency/Agency";
-import { StateData } from "@/pages/Agency/comp/AgencyTable";
+import { DailyData } from "@/pages/agency/Agency";
+import { StateData } from "@/pages/agency/ui/AgencyTable";
 
 function computeStateTotals(filteredData: DailyData[]): StateData {
   const stateMap: StateData = {};
