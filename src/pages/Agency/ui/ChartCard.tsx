@@ -60,7 +60,7 @@ function ChartCard({ title, data }: ChartCardProps) {
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="text-center text-sm">{title}</CardTitle>
+        <CardTitle className="text-center text-sm font-semibold">Top 5 states : {title}</CardTitle>
       </CardHeader>
       <CardContent>
         <ChartContainer

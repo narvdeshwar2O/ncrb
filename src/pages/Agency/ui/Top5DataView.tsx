@@ -75,10 +75,6 @@ export function Top5DataView({
 
         return (
           <div key={category} className="border p-3 rounded-md">
-            <h3 className="text-lg font-semibold mb-3 text-center">
-              {label} - Top 5 States
-            </h3>
-
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               {showEnrollment && (
                 <ChartCard

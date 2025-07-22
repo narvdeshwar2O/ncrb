@@ -1,17 +1,20 @@
 // components/slip-capture/types.ts
 export interface SlipDailyData {
   date: string;
-  data: Record<string, {
-    Arrested: number;
-    Convicted: number;
-    Externee: number;
-    Deportee: number;
-    UIFP: number;
-    Suspect: number;
-    UDB: number;
-    Absconder: number;
-    total: number;
-  }>;
+  data: Record<
+    string,
+    {
+      Arrested: number;
+      Convicted: number;
+      Externee: number;
+      Deportee: number;
+      UIFP: number;
+      Suspect: number;
+      UDB: number;
+      Absconder: number;
+      total: number;
+    }
+  >;
 }
 
 export const STATUS_KEYS = [
@@ -23,12 +26,15 @@ export const STATUS_KEYS = [
   "Suspect",
   "UDB",
   "Absconder",
-  "Total"
+  "Total",
 ] as const;
 export type StatusKey = (typeof STATUS_KEYS)[number];
 
 export interface SlipFilters {
-  dateRange: { from: Date | null; to: Date | null };
+  dateRange: {
+    from?: Date | null;
+    to?: Date | null;
+  };
   states: string[];
   statuses: StatusKey[];
 }
@@ -38,5 +44,3 @@ export interface SlipTableRow {
   total?: number;
   [key: string]: number | string | undefined;
 }
-
-

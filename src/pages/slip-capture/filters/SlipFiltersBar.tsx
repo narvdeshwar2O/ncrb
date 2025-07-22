@@ -1,23 +1,13 @@
 import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Calendar } from "@/components/ui/calendar";
 import { CalendarIcon, Filter, RotateCcw } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { format, subDays, startOfDay, endOfDay } from "date-fns";
+import { format} from "date-fns";
 import MultiSelectCheckbox from "@/components/ui/MultiSelectCheckbox";
 import { SlipFilters, StatusKey, STATUS_KEYS } from "../types";
-
-const getLastNDaysRange = (n: number) => {
-  const to = endOfDay(new Date());
-  const from = startOfDay(subDays(to, n - 1));
-  return { from, to };
-};
 
 interface SlipFiltersBarProps {
   allStates: string[];
@@ -30,15 +20,10 @@ export const SlipFiltersBar: React.FC<SlipFiltersBarProps> = ({
   value,
   onChange,
 }) => {
-  const initialRange = getLastNDaysRange(7);
   const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
-
   const [selectedStates, setSelectedStates] = useState<string[]>(value.states);
   const [selectedStatuses, setSelectedStatuses] = useState<StatusKey[]>(value.statuses);
 
-  const [daysPreset, setDaysPreset] = useState<"7" | "30" | "90" | "custom">("7");
-
-  // ✅ Remove "Total" from options
   const STATUS_OPTIONS = STATUS_KEYS.filter((key) => key !== "Total");
 
   const updateFilters = (newFilters: Partial<SlipFilters>) => {
@@ -46,29 +31,32 @@ export const SlipFiltersBar: React.FC<SlipFiltersBarProps> = ({
     onChange(updated);
   };
 
-  const handleDateSelect = (range: { from?: Date; to?: Date } | undefined) => {
-    if (!range) return;
-    updateFilters({ dateRange: { from: range.from || null, to: range.to || null } });
-    setDaysPreset("custom");
+  const handleStateChange = (newStates: string[]) => {
+    setSelectedStates(newStates);
+    if (newStates.length === 0) {
+      setSelectedStatuses([]);
+      updateFilters({ states: [], statuses: [] });
+    } else {
+      const updatedStatuses =
+        selectedStatuses.length > 0 ? selectedStatuses : [...STATUS_OPTIONS];
+      setSelectedStatuses(updatedStatuses);
+      updateFilters({ states: newStates, statuses: updatedStatuses });
+    }
   };
 
-  const setLastNDays = (n: number) => {
-    const range = getLastNDaysRange(n);
-    updateFilters({ dateRange: range });
-    setDaysPreset((n as 7 | 30 | 90).toString() as "7" | "30" | "90");
+  const handleStatusChange = (newStatuses: string[]) => {
+    setSelectedStatuses(newStatuses as StatusKey[]);
+    updateFilters({ statuses: newStatuses as StatusKey[] });
   };
 
   const resetFilters = () => {
-    const resetRange = initialRange;
-    const resetValue: SlipFilters = {
-      dateRange: resetRange,
-      states: [],
-      statuses: [...STATUS_OPTIONS], // ✅ No Total on reset
-    };
-    onChange(resetValue);
-    setSelectedStates([]);
+    updateFilters({
+      dateRange: value.dateRange,
+      states: [...allStates],
+      statuses: [...STATUS_OPTIONS],
+    });
+    setSelectedStates([...allStates]);
     setSelectedStatuses([...STATUS_OPTIONS]);
-    setDaysPreset("7");
   };
 
   return (
@@ -80,7 +68,7 @@ export const SlipFiltersBar: React.FC<SlipFiltersBarProps> = ({
         </CardTitle>
       </CardHeader>
       <CardContent>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-3">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
           {/* Date Range */}
           <div className="space-y-2">
             <label className="text-sm font-medium">Date Range</label>
@@ -112,39 +100,17 @@ export const SlipFiltersBar: React.FC<SlipFiltersBarProps> = ({
                 <Calendar
                   initialFocus
                   mode="range"
-                  defaultMonth={value.dateRange.from || undefined}
                   selected={{
                     from: value.dateRange.from || undefined,
                     to: value.dateRange.to || undefined,
                   }}
-                  onSelect={handleDateSelect}
+                  onSelect={(range) => {
+                    updateFilters({ dateRange: range });
+                  }}
                   numberOfMonths={1}
-                  className="pointer-events-auto"
                 />
               </PopoverContent>
             </Popover>
-          </div>
-
-          {/* Last N Days */}
-          <div className="space-y-2">
-            <label className="text-sm font-medium">Select Days</label>
-            <select
-              className="w-full border rounded-md p-2 text-sm bg-card"
-              value={daysPreset === "custom" ? "" : daysPreset}
-              onChange={(e) => {
-                const val = e.target.value;
-                if (!val) {
-                  setDaysPreset("custom");
-                  return;
-                }
-                setLastNDays(parseInt(val, 10));
-              }}
-            >
-              <option value="">Custom Range</option>
-              <option value="7">Last 7 Days</option>
-              <option value="30">Last 30 Days</option>
-              <option value="90">Last 90 Days</option>
-            </select>
           </div>
 
           {/* States MultiSelect */}
@@ -152,21 +118,16 @@ export const SlipFiltersBar: React.FC<SlipFiltersBarProps> = ({
             label="States"
             options={allStates}
             selected={selectedStates}
-            onChange={(newStates) => {
-              setSelectedStates(newStates);
-              updateFilters({ states: newStates });
-            }}
+            onChange={handleStateChange}
           />
 
-          {/* Status MultiSelect */}
+          {/* Crime Types MultiSelect */}
           <MultiSelectCheckbox
             label="Crime Type"
             options={STATUS_OPTIONS as unknown as string[]}
             selected={selectedStatuses}
-            onChange={(newStatuses) => {
-              setSelectedStatuses(newStatuses as StatusKey[]);
-              updateFilters({ statuses: newStatuses as StatusKey[] });
-            }}
+            onChange={handleStatusChange}
+            disabled={selectedStates.length === 0}
           />
 
           {/* Reset */}
