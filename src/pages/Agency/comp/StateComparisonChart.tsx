@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useRef } from "react";
+import React, { useMemo, useRef } from "react";
 import {
   BarChart,
   Bar,
@@ -6,17 +6,10 @@ import {
   YAxis,
   Legend,
   ResponsiveContainer,
-  LabelList,
 } from "recharts";
+import html2canvas from "html2canvas";
 import { StateData } from "./AgencyTable";
 import { Card, CardHeader, CardContent } from "@/components/ui/card";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import { Download, Printer } from "lucide-react";
 import { exportToCSV, printHTMLElement } from "@/utils/exportHelpers";
@@ -24,79 +17,148 @@ import { exportToCSV, printHTMLElement } from "@/utils/exportHelpers";
 interface StateComparisonChartProps {
   data: StateData;
   selectedStates: string[];
+  /** Which metrics are active from global filters. */
+  dataTypes: string[]; // "enrollment" | "hit" | "nohit"
+  /** Which categories are active from global filters. */
+  categories?: string[]; // "tp" | "cp" | "mesa"
 }
 
-const metrics = ["enrollment", "hit", "nohit"] as const;
+/** Stronger typing for internal use. */
+type MetricKey = "enrollment" | "hit" | "nohit";
+type CategoryKey = "tp" | "cp" | "mesa";
 
-/** Custom X-axis tick with ellipsis + rotate. */
-interface CustomStateTickProps {
-  x?: number;
-  y?: number;
-  payload?: { value: string };
-  maxChars?: number;
-}
-const CustomStateTick = ({
-  x = 0,
-  y = 0,
-  payload,
-  maxChars = 10,
-}: CustomStateTickProps) => {
-  const raw = payload?.value ?? "";
-  const truncated = raw.length > maxChars ? `${raw.slice(0, maxChars)}…` : raw;
-  return (
-    <g transform={`translate(${x},${y})`}>
-      <text
-        x={0}
-        y={0}
-        dy={16}
-        textAnchor="end"
-        fill="#666"
-        transform="rotate(-40)"
-      >
-        <title>{raw}</title>
-        {truncated}
-      </text>
-    </g>
-  );
+/** Friendly labels for legend. Adjust if needed. */
+const categoryLabelMap: Record<CategoryKey, string> = {
+  tp: "Ten Print",
+  cp: "Chance Print",
+  mesa: "MESA",
 };
 
 export function StateComparisonChart({
   data,
   selectedStates,
+  dataTypes,
+  categories,
 }: StateComparisonChartProps) {
-  const [selectedMetric, setSelectedMetric] =
-    useState<(typeof metrics)[number]>("enrollment");
+  // Normalize metrics
+  const activeMetrics: MetricKey[] = (
+    dataTypes?.length
+      ? (dataTypes as MetricKey[])
+      : ["enrollment", "hit", "nohit"]
+  ) as MetricKey[];
 
+  // Normalize categories
+  const activeCategories: CategoryKey[] = (
+    categories?.length
+      ? (categories.filter((c) =>
+          ["tp", "cp", "mesa"].includes(c)
+        ) as CategoryKey[])
+      : ["tp", "cp", "mesa"]
+  ) as CategoryKey[];
+
+  /** Ref to the whole card we want to capture as PNG. */
   const chartWrapRef = useRef<HTMLDivElement>(null);
 
-  // shrink label chars when many states
+  /** shorten x‑axis labels when many states */
   const maxLabelChars = selectedStates.length > 10 ? 6 : 10;
 
+  /** Build chart rows for each state. Value = sum of selected metrics for that category. */
   const chartData = useMemo(() => {
     return selectedStates.map((state) => {
-      const stateInfo = data[state];
-      return {
-        state,
-        tp: stateInfo?.tp?.[selectedMetric] ?? 0,
-        cp: stateInfo?.cp?.[selectedMetric] ?? 0,
-        mesa: stateInfo?.mesa?.[selectedMetric] ?? 0,
-      };
-    });
-  }, [selectedStates, data, selectedMetric]);
+      const stateInfo = data[state] || {};
+      const row: Record<string, any> = { state };
 
-  // ----- Export CSV -----
+      activeCategories.forEach((cat) => {
+        const rec = (stateInfo as any)[cat] as
+          | { [K in MetricKey]?: number }
+          | undefined;
+        const sum = activeMetrics.reduce((acc, m) => acc + (rec?.[m] ?? 0), 0);
+        row[cat] = sum;
+      });
+
+      return row;
+    });
+  }, [selectedStates, data, activeCategories, activeMetrics]);
+
+  /** Track which categories actually have non‑zero data (to hide empty bars + CSV cols). */
+  const hasCat = (cat: CategoryKey) => chartData.some((d) => (d[cat] ?? 0) > 0);
+  const hasTP = activeCategories.includes("tp") && hasCat("tp");
+  const hasCP = activeCategories.includes("cp") && hasCat("cp");
+  const hasMESA = activeCategories.includes("mesa") && hasCat("mesa");
+
+  /* ------------------------------------------------------------------ *
+   *  CSV (client-side)
+   * ------------------------------------------------------------------ */
   const handleExportCSV = () => {
-    // header row: state + TP/CP/MESA for current metric
-    const headers = ["State", "TP", "CP", "MESA"];
-    const rows = chartData.map((r) => [r.state, r.tp, r.cp, r.mesa]);
-    exportToCSV(`state-comparison-${selectedMetric}.csv`, headers, rows);
+    const { headers, rows } = buildHeadersAndRows(chartData, {
+      hasTP,
+      hasCP,
+      hasMESA,
+    });
+    exportToCSV("state-comparison.csv", headers, rows);
   };
 
-  // ----- Print -----
+  /* ------------------------------------------------------------------ *
+   *  Print (client-side)
+   * ------------------------------------------------------------------ */
   const handlePrint = () => {
     printHTMLElement(chartWrapRef.current, "State Comparison Chart");
   };
 
+  /* ------------------------------------------------------------------ *
+   *  Excel Export via Node API
+   *  - Capture chart to PNG (base64)
+   *  - Send headers + rows + meta to Node
+   *  - Receive Excel file blob; download
+   * ------------------------------------------------------------------ */
+  const handleExportExcel = async () => {
+    if (!chartWrapRef.current) return;
+
+    try {
+      // capture card/chart to PNG
+      const canvas = await html2canvas(chartWrapRef.current);
+      const imageBase64 = canvas.toDataURL("image/png");
+
+      // same tabular data we use for CSV
+      const { headers, rows } = buildHeadersAndRows(chartData, {
+        hasTP,
+        hasCP,
+        hasMESA,
+      });
+
+      // optional meta for workbook annotation
+      const meta = {
+        states: selectedStates,
+        metrics: activeMetrics,
+        categories: activeCategories,
+        generatedAt: new Date().toISOString(),
+      };
+
+      const resp = await fetch("http://localhost:5000/save-chart", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ imageBase64, headers, rows, meta }),
+      });
+
+      if (!resp.ok) {
+        console.error("Excel export failed", resp.status, await resp.text());
+        return;
+      }
+
+      const blob = await resp.blob();
+      const link = document.createElement("a");
+      link.href = URL.createObjectURL(blob);
+      link.download = "state-comparison.xlsx";
+      link.click();
+      URL.revokeObjectURL(link.href);
+    } catch (err) {
+      console.error("Excel export error", err);
+    }
+  };
+
+  /* ------------------------------------------------------------------ *
+   *  Early exit if <2 states selected
+   * ------------------------------------------------------------------ */
   if (selectedStates.length < 2) {
     return (
       <Card className="mt-3">
@@ -107,52 +169,46 @@ export function StateComparisonChart({
     );
   }
 
+  /* Legend based on visible categories */
+  const legendPayload = [
+    hasTP && {
+      id: "tp",
+      type: "square",
+      value: categoryLabelMap.tp,
+      color: "#2563eb",
+    },
+    hasCP && {
+      id: "cp",
+      type: "square",
+      value: categoryLabelMap.cp,
+      color: "#16a34a",
+    },
+    hasMESA && {
+      id: "mesa",
+      type: "square",
+      value: categoryLabelMap.mesa,
+      color: "#f59e0b",
+    },
+  ].filter(Boolean) as any[];
+
+  /* Build tick formatter w/ ellipsis */
+  const formatTick = (val: string) =>
+    val.length > maxLabelChars ? `${val.slice(0, maxLabelChars)}…` : val;
+
   return (
     <Card className="mt-3 w-full" ref={chartWrapRef}>
       <CardHeader>
-        <div className="flex flex-wrap gap-2 justify-between items-center">
+        <div className="flex justify-between items-center w-full">
           <h2 className="text-lg font-semibold">State Comparison</h2>
-
           <div className="flex items-center gap-2">
-            {/* metric selector */}
-            <Select
-              value={selectedMetric}
-              onValueChange={(value) =>
-                setSelectedMetric(value as (typeof metrics)[number])
-              }
-            >
-              <SelectTrigger className="w-[160px]">
-                <SelectValue placeholder="Select metric" />
-              </SelectTrigger>
-              <SelectContent>
-                {metrics.map((metric) => (
-                  <SelectItem key={metric} value={metric}>
-                    {metric.charAt(0).toUpperCase() + metric.slice(1)}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-
-            {/* Export CSV */}
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={handleExportCSV}
-              title="Download CSV"
-            >
-              <Download className="h-4 w-4 mr-1" />
-              CSV
+            <Button variant="outline" size="sm" onClick={handleExportCSV}>
+              <Download className="h-4 w-4 mr-1" /> CSV
             </Button>
-
-            {/* Print */}
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={handlePrint}
-              title="Print Chart"
-            >
-              <Printer className="h-4 w-4 mr-1" />
-              Print
+            <Button variant="outline" size="sm" onClick={handleExportExcel}>
+              <Download className="h-4 w-4 mr-1" /> Excel (Chart + Data)
+            </Button>
+            <Button variant="outline" size="sm" onClick={handlePrint}>
+              <Printer className="h-4 w-4 mr-1" /> Print
             </Button>
           </div>
         </div>
@@ -166,7 +222,7 @@ export function StateComparisonChart({
           >
             <XAxis
               dataKey="state"
-              tick={<CustomStateTick maxChars={maxLabelChars} />}
+              tickFormatter={formatTick}
               interval={0}
               height={80}
               tickLine={false}
@@ -176,42 +232,59 @@ export function StateComparisonChart({
               verticalAlign="top"
               align="center"
               wrapperStyle={{ top: 0 }}
+              payload={legendPayload}
             />
-            <Bar dataKey="tp" fill="#2563eb" name="TP" radius={[10, 10, 0, 0]}>
-              <LabelList
+
+            {hasTP && (
+              <Bar
                 dataKey="tp"
-                position="center"
-                angle={-90}
-                fill="#fff"
-                fontSize={12}
+                fill="#2563eb"
+                name={categoryLabelMap.tp}
+                radius={[10, 10, 0, 0]}
               />
-            </Bar>
-            <Bar dataKey="cp" fill="#16a34a" name="CP" radius={[10, 10, 0, 0]}>
-              <LabelList
+            )}
+            {hasCP && (
+              <Bar
                 dataKey="cp"
-                position="center"
-                angle={-90}
-                fill="#fff"
-                fontSize={12}
+                fill="#16a34a"
+                name={categoryLabelMap.cp}
+                radius={[10, 10, 0, 0]}
               />
-            </Bar>
-            <Bar
-              dataKey="mesa"
-              fill="#f59e0b"
-              name="MESA"
-              radius={[10, 10, 0, 0]}
-            >
-              <LabelList
+            )}
+            {hasMESA && (
+              <Bar
                 dataKey="mesa"
-                position="center"
-                angle={-90}
-                fill="#fff"
-                fontSize={12}
+                fill="#f59e0b"
+                name={categoryLabelMap.mesa}
+                radius={[10, 10, 0, 0]}
               />
-            </Bar>
+            )}
           </BarChart>
         </ResponsiveContainer>
       </CardContent>
     </Card>
   );
+}
+
+/* ------------------------------------------------------------------ *
+ *  Helper: build headers + rows in *visible order* for CSV/Excel.
+ * ------------------------------------------------------------------ */
+function buildHeadersAndRows(
+  chartData: Array<Record<string, any>>,
+  vis: { hasTP: boolean; hasCP: boolean; hasMESA: boolean }
+) {
+  const headers = ["State"];
+  if (vis.hasTP) headers.push("TP");
+  if (vis.hasCP) headers.push("CP");
+  if (vis.hasMESA) headers.push("MESA");
+
+  const rows = chartData.map((r) => {
+    const row: (string | number)[] = [r.state];
+    if (vis.hasTP) row.push(r.tp ?? 0);
+    if (vis.hasCP) row.push(r.cp ?? 0);
+    if (vis.hasMESA) row.push(r.mesa ?? 0);
+    return row;
+  });
+
+  return { headers, rows };
 }

@@ -26,7 +26,7 @@ const RenderCard: React.FC<RenderCardProps> = ({
   const hasSelection = selectedDataTypes.length > 0;
 
   const getValue = (key: keyof Totals): number => {
-    if (!hasSelection) return 0; // nothing selected -> zero everything
+    if (!hasSelection) return 0;
     return selectedDataTypes.includes(key) ? total[key] : 0;
   };
 

@@ -1,4 +1,11 @@
-import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts";
+import { useMemo } from "react";
+import {
+  Bar,
+  BarChart,
+  CartesianGrid,
+  XAxis,
+  YAxis,
+} from "recharts";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import {
   ChartConfig,
@@ -8,7 +15,6 @@ import {
 } from "@/components/ui/chart";
 import { FilterState } from "@/components/filters/types/FilterTypes";
 import computeCombinedTotal from "@/utils/computeCombinedTotal";
-import { useMemo } from "react";
 
 interface DailyData {
   date: string;
@@ -29,9 +35,12 @@ export interface MultipleChartProps {
     string,
     { enrollment: number; hit: number; nohit: number }
   >;
+  /** Optional map for friendly category display names. */
+  categoryLabelMap?: Record<string, string>;
 }
 
-const chartConfig: ChartConfig = {
+/* Base colors (kept from your original). */
+const baseChartConfig: ChartConfig = {
   tp_enrollment: { label: "TP Enrollment", color: "hsl(217, 100%, 65%)" },
   tp_hit: { label: "TP Hit", color: "hsl(217, 80%, 55%)" },
   tp_nohit: { label: "TP No-Hit", color: "hsl(217, 70%, 45%)" },
@@ -40,84 +49,155 @@ const chartConfig: ChartConfig = {
   cp_hit: { label: "CP Hit", color: "hsl(174, 60%, 45%)" },
   cp_nohit: { label: "CP No-Hit", color: "hsl(174, 50%, 35%)" },
 
-  mesa_enrollment: { label: "mesa Enrollment", color: "hsl(40, 100%, 60%)" },
-  mesa_hit: { label: "mesa Hit", color: "hsl(40, 90%, 50%)" },
-  mesa_nohit: { label: "mesa No-Hit", color: "hsl(40, 80%, 40%)" },
+  mesa_enrollment: { label: "MESA Enrollment", color: "hsl(40, 100%, 60%)" },
+  mesa_hit: { label: "MESA Hit", color: "hsl(40, 90%, 50%)" },
+  mesa_nohit: { label: "MESA No-Hit", color: "hsl(40, 80%, 40%)" },
 };
 
+/**
+ * Sum category totals for *one day* across the selected states.
+ */
+function computeDayCategoryTotals(
+  day: DailyData,
+  category: "tp" | "cp" | "mesa",
+  states: string[]
+) {
+  let enrollment = 0;
+  let hit = 0;
+  let nohit = 0;
+
+  for (const st of states) {
+    const catRec = day.data?.[st]?.[category];
+    if (!catRec) continue;
+    enrollment += catRec.enrollment ?? 0;
+    hit += catRec.hit ?? 0;
+    nohit += catRec.nohit ?? 0;
+  }
+
+  return { enrollment, hit, nohit };
+}
+
+/**
+ * MultipleChart
+ * - Daily view (<= 90 days): date x multi‑stack per category+metric.
+ * - Aggregate view: category x metrics.
+ */
 export function MultipleChart({
   filteredData,
   filters,
   activeCategories,
   totalsByCategory,
+  categoryLabelMap,
 }: MultipleChartProps) {
   const hasDateRange = filters.dateRange.from && filters.dateRange.to;
-  const showDailyData =
-    hasDateRange && filteredData.length > 0 && filteredData.length <= 90;
+  const dayCount = filteredData.length;
+  const showDailyData = hasDateRange && dayCount > 0 && dayCount <= 90;
 
-  const getBarSize = (dayCount: number) => {
-    if (dayCount <= 7) return 40;
-    if (dayCount <= 30) return 15;
-    if (dayCount <= 90) return 10;
-    return 5;
-  };
-
-  const barSize = showDailyData ? getBarSize(filteredData.length) : 50;
-
-  // ✅ Build chart data dynamically
-  const chartData = useMemo(() => {
-    if (showDailyData) {
-      return filteredData
-        .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
-        .map((day) => {
-          const row: Record<string, any> = {
-            label: new Date(day.date).toLocaleDateString("en-US", {
-              month: "short",
-              day: "numeric",
-            }),
-          };
-
-          activeCategories.forEach((category) => {
-            const totals = computeCombinedTotal(
-              filteredData,
-              category as "tp" | "cp" | "mesa",
-              filters
-            );
-
-            if (filters.dataTypes.includes("enrollment"))
-              row[`${category}_enrollment`] = totals.enrollment;
-            if (filters.dataTypes.includes("hit"))
-              row[`${category}_hit`] = totals.hit;
-            if (filters.dataTypes.includes("nohit"))
-              row[`${category}_nohit`] = totals.nohit;
-          });
-
-          return row;
-        });
-    } else {
-      return activeCategories.map((category) => ({
-        label: category.toUpperCase(),
-        enrollment: totalsByCategory[category]?.enrollment || 0,
-        hit: totalsByCategory[category]?.hit || 0,
-        nohit: totalsByCategory[category]?.nohit || 0,
-      }));
-    }
-  }, [
-    filteredData,
-    activeCategories,
-    filters,
-    showDailyData,
-    totalsByCategory,
-  ]);
-
-  const chartTitle = showDailyData
-    ? `Daily Breakdown (${filteredData.length} days)`
-    : "Agency Totals Breakdown";
-
+  const selectedStates = filters.state ?? [];
   const selectedDataTypes =
     filters.dataTypes.length > 0
       ? filters.dataTypes
       : ["enrollment", "hit", "nohit"];
+
+  const getBarSize = (dc: number) => {
+    if (dc <= 7) return 40;
+    if (dc <= 30) return 15;
+    if (dc <= 90) return 10;
+    return 5;
+  };
+  const barSize = showDailyData ? getBarSize(dayCount) : 50;
+
+  /**
+   * Build chart data.
+   * DAILY MODE: One row per day, per category & metric (sums across selected states).
+   * AGGREGATE MODE: One row per category; metrics from `totalsByCategory`.
+   */
+  const chartData = useMemo(() => {
+    if (showDailyData) {
+      const sorted = [...filteredData].sort(
+        (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
+      );
+
+      return sorted.map((day) => {
+        const row: Record<string, any> = {
+          label: new Date(day.date).toLocaleDateString("en-US", {
+            month: "short",
+            day: "numeric",
+          }),
+        };
+
+        activeCategories.forEach((cat) => {
+          const totals = computeDayCategoryTotals(
+            day,
+            cat as "tp" | "cp" | "mesa",
+            selectedStates
+          );
+          if (selectedDataTypes.includes("enrollment"))
+            row[`${cat}_enrollment`] = totals.enrollment;
+          if (selectedDataTypes.includes("hit"))
+            row[`${cat}_hit`] = totals.hit;
+          if (selectedDataTypes.includes("nohit"))
+            row[`${cat}_nohit`] = totals.nohit;
+        });
+
+        return row;
+      });
+    }
+
+    // aggregate
+    return activeCategories.map((cat) => ({
+      label: categoryLabelMap?.[cat] ?? cat.toUpperCase(),
+      enrollment: totalsByCategory[cat]?.enrollment ?? 0,
+      hit: totalsByCategory[cat]?.hit ?? 0,
+      nohit: totalsByCategory[cat]?.nohit ?? 0,
+    }));
+  }, [
+    showDailyData,
+    filteredData,
+    activeCategories,
+    selectedStates,
+    selectedDataTypes,
+    totalsByCategory,
+    categoryLabelMap,
+  ]);
+
+  const chartTitle = showDailyData
+    ? `Daily Breakdown (${dayCount} day${dayCount === 1 ? "" : "s"})`
+    : "Agency Totals Breakdown";
+
+  /* Legend build */
+  const legendItems = useMemo(() => {
+    if (showDailyData) {
+      // use baseChartConfig but replace category label prefix if provided
+      return Object.entries(baseChartConfig)
+        .filter(([key]) =>
+          selectedDataTypes.some((type) => key.endsWith(`_${type}`))
+        )
+        .map(([key, { color }]) => {
+          // key = "tp_enrollment"
+          const [cat, metric] = key.split("_");
+          const friendlyCat = categoryLabelMap?.[cat] ?? cat.toUpperCase();
+          const friendlyMetric =
+            metric.charAt(0).toUpperCase() + metric.slice(1);
+          return {
+            key,
+            label: `${friendlyCat} ${friendlyMetric}`,
+            color,
+          };
+        });
+    }
+    // aggregate legend by metric only
+    return selectedDataTypes.map((type) => ({
+      key: type,
+      label: type.charAt(0).toUpperCase() + type.slice(1),
+      color:
+        type === "enrollment"
+          ? "blue"
+          : type === "hit"
+          ? "#059669"
+          : "green",
+    }));
+  }, [showDailyData, selectedDataTypes, categoryLabelMap]);
 
   return (
     <Card className="p-1 w-full mt-3">
@@ -126,43 +206,20 @@ export function MultipleChart({
 
         {/* Legend */}
         <div className="flex flex-wrap gap-3 justify-center">
-          {showDailyData
-            ? Object.entries(chartConfig)
-                .filter(([key]) =>
-                  selectedDataTypes.some((type) => key.includes(type))
-                )
-                .map(([key, { label, color }]) => (
-                  <div key={key} className="flex items-center gap-1 text-sm">
-                    <span
-                      className="inline-block w-3 h-3 rounded-full"
-                      style={{ backgroundColor: color }}
-                    ></span>
-                    <span className="text-muted-foreground">{label}</span>
-                  </div>
-                ))
-            : selectedDataTypes.map((type) => (
-                <div key={type} className="flex items-center gap-1 text-sm">
-                  <span
-                    className="inline-block w-3 h-3 rounded-full"
-                    style={{
-                      backgroundColor:
-                        type === "enrollment"
-                          ? "blue"
-                          : type === "hit"
-                          ? "#059669"
-                          : "green",
-                    }}
-                  />
-                  <span className="text-muted-foreground">
-                    {type.charAt(0).toUpperCase() + type.slice(1)}
-                  </span>
-                </div>
-              ))}
+          {legendItems.map(({ key, label, color }) => (
+            <div key={key} className="flex items-center gap-1 text-sm">
+              <span
+                className="inline-block w-3 h-3 rounded-full"
+                style={{ backgroundColor: color }}
+              />
+              <span className="text-muted-foreground">{label}</span>
+            </div>
+          ))}
         </div>
       </CardHeader>
 
       <CardContent className="h-[300px] md:h-[400px] lg:h-[500px]">
-        <ChartContainer config={chartConfig} className="h-full w-full">
+        <ChartContainer config={baseChartConfig} className="h-full w-full">
           <BarChart data={chartData}>
             <CartesianGrid vertical={false} />
             <XAxis
@@ -175,22 +232,25 @@ export function MultipleChart({
             <YAxis tickMargin={8} />
 
             <ChartTooltip
-              cursor={true}
+              cursor
               content={<ChartTooltipContent indicator="line" />}
             />
 
             {showDailyData
-              ? activeCategories.flatMap((category) =>
+              ? activeCategories.flatMap((cat) =>
                   selectedDataTypes.map((type) => {
-                    const key = `${category}_${type}`;
+                    const key = `${cat}_${type}`;
                     return (
                       <Bar
                         key={key}
                         dataKey={key}
-                        fill={chartConfig[key]?.color || "#ccc"}
+                        fill={baseChartConfig[key]?.color || "#ccc"}
                         barSize={barSize}
-                        stackId={category}
-                        name={(chartConfig[key]?.label || key) as string}
+                        stackId={cat}
+                        name={`${categoryLabelMap?.[cat] ?? cat.toUpperCase()} ${
+                          type.charAt(0).toUpperCase() + type.slice(1)
+                        }`}
+                        radius={2}
                       />
                     );
                   })

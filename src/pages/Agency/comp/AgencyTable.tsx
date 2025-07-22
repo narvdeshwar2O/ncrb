@@ -4,12 +4,19 @@ import { Button } from "@/components/ui/button";
 import { Download, Printer } from "lucide-react";
 import { FilterState } from "../../../components/filters/types/FilterTypes";
 import { exportToCSV, printHTMLElement } from "@/utils/exportHelpers";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 
 export interface Totals {
   enrollment: number;
   hit: number;
   nohit: number;
-  total?: number;
 }
 export interface StateRow {
   state: string;
@@ -24,10 +31,9 @@ interface AgencyTableProps {
   filters: FilterState;
 }
 
-export default function AgencyTable({ data, filters }: AgencyTableProps) {
+export default function AgencyTable({ data }: AgencyTableProps) {
   const tableRef = useRef<HTMLDivElement>(null);
 
-  // flatten to rows for rendering & CSV
   const rows = useMemo<StateRow[]>(() => {
     return Object.entries(data).map(([state, cats]) => ({
       state,
@@ -37,33 +43,60 @@ export default function AgencyTable({ data, filters }: AgencyTableProps) {
     }));
   }, [data]);
 
-  // computed totals for table footer?
-  const showTotalCol = true;
+  // Determine which sub-columns to show
+  const showCPEnroll = rows.some((r) => (r.cp?.enrollment ?? 0) !== 0);
+  const showCPHit = rows.some((r) => (r.cp?.hit ?? 0) !== 0);
+  const showCPNoHit = rows.some((r) => (r.cp?.nohit ?? 0) !== 0);
 
-  // ----- CSV Export -----
+  const showTPEnroll = rows.some((r) => (r.tp?.enrollment ?? 0) !== 0);
+  const showTPHit = rows.some((r) => (r.tp?.hit ?? 0) !== 0);
+  const showTPNoHit = rows.some((r) => (r.tp?.nohit ?? 0) !== 0);
+
+  const showMESAEnroll = rows.some((r) => (r.mesa?.enrollment ?? 0) !== 0);
+  const showMESAHIT = rows.some((r) => (r.mesa?.hit ?? 0) !== 0);
+  const showMESANoHit = rows.some((r) => (r.mesa?.nohit ?? 0) !== 0);
+
+  // Helper to count visible sub-columns for a group
+  const cpColSpan = [showCPEnroll, showCPHit, showCPNoHit].filter(Boolean).length;
+  const tpColSpan = [showTPEnroll, showTPHit, showTPNoHit].filter(Boolean).length;
+  const mesaColSpan = [showMESAEnroll, showMESAHIT, showMESANoHit].filter(Boolean).length;
+
   const handleExportCSV = () => {
-    const headers = ["State", "Category", "Enrollment", "Hit", "NoHit", "Total"];
-    const csvRows: (string | number)[][] = [];
+    const headers = ["State"];
+    if (showCPEnroll) headers.push("CP Enroll");
+    if (showCPHit) headers.push("CP Hit");
+    if (showCPNoHit) headers.push("CP NoHit");
+    if (showTPEnroll) headers.push("TP Enroll");
+    if (showTPHit) headers.push("TP Hit");
+    if (showTPNoHit) headers.push("TP NoHit");
+    if (showMESAEnroll) headers.push("MESA Enroll");
+    if (showMESAHIT) headers.push("MESA Hit");
+    if (showMESANoHit) headers.push("MESA NoHit");
 
+    const csvRows: (string | number)[][] = [];
     rows.forEach((r) => {
-      (["tp", "cp", "mesa"] as const).forEach((cat) => {
-        const t = r[cat];
-        if (!t) return;
-        const total = t.total ?? t.enrollment + t.hit + t.nohit;
-        csvRows.push([r.state, cat.toUpperCase(), t.enrollment, t.hit, t.nohit, total]);
-      });
+      const row: (string | number)[] = [r.state];
+      if (showCPEnroll) row.push(r.cp?.enrollment ?? 0);
+      if (showCPHit) row.push(r.cp?.hit ?? 0);
+      if (showCPNoHit) row.push(r.cp?.nohit ?? 0);
+      if (showTPEnroll) row.push(r.tp?.enrollment ?? 0);
+      if (showTPHit) row.push(r.tp?.hit ?? 0);
+      if (showTPNoHit) row.push(r.tp?.nohit ?? 0);
+      if (showMESAEnroll) row.push(r.mesa?.enrollment ?? 0);
+      if (showMESAHIT) row.push(r.mesa?.hit ?? 0);
+      if (showMESANoHit) row.push(r.mesa?.nohit ?? 0);
+      csvRows.push(row);
     });
 
     exportToCSV("agency-table.csv", headers, csvRows);
   };
 
-  // ----- Print -----
   const handlePrint = () => {
     printHTMLElement(tableRef.current, "Agency Table");
   };
 
   return (
-    <Card ref={tableRef} className="mt-3 w-full overflow-x-auto">
+    <Card className="mt-3 w-full">
       <CardHeader className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
         <CardTitle>Agency Table</CardTitle>
         <div className="flex gap-2">
@@ -77,63 +110,72 @@ export default function AgencyTable({ data, filters }: AgencyTableProps) {
           </Button>
         </div>
       </CardHeader>
-      <CardContent className="p-0 overflow-x-auto">
-        <table className="w-full text-sm">
-          <thead>
-            <tr className="bg-muted">
-              <th className="px-2 py-1 text-left">State</th>
-              <th className="px-2 py-1 text-right">TP Enroll</th>
-              <th className="px-2 py-1 text-right">TP Hit</th>
-              <th className="px-2 py-1 text-right">TP NoHit</th>
-              <th className="px-2 py-1 text-right">CP Enroll</th>
-              <th className="px-2 py-1 text-right">CP Hit</th>
-              <th className="px-2 py-1 text-right">CP NoHit</th>
-              <th className="px-2 py-1 text-right">MESA Enroll</th>
-              <th className="px-2 py-1 text-right">MESA Hit</th>
-              <th className="px-2 py-1 text-right">MESA NoHit</th>
-              {showTotalCol && (
-                <th className="px-2 py-1 text-right">Grand Total</th>
-              )}
-            </tr>
-          </thead>
-          <tbody>
-            {rows.map((r) => {
-              const tpT = r.tp;
-              const cpT = r.cp;
-              const mesaT = r.mesa;
-              const grand =
-                (tpT?.enrollment ?? 0) +
-                (tpT?.hit ?? 0) +
-                (tpT?.nohit ?? 0) +
-                (cpT?.enrollment ?? 0) +
-                (cpT?.hit ?? 0) +
-                (cpT?.nohit ?? 0) +
-                (mesaT?.enrollment ?? 0) +
-                (mesaT?.hit ?? 0) +
-                (mesaT?.nohit ?? 0);
 
-              return (
-                <tr key={r.state} className="border-b">
-                  <td className="px-2 py-1 text-left font-medium">{r.state}</td>
-                  <td className="px-2 py-1 text-right">{tpT?.enrollment ?? 0}</td>
-                  <td className="px-2 py-1 text-right">{tpT?.hit ?? 0}</td>
-                  <td className="px-2 py-1 text-right">{tpT?.nohit ?? 0}</td>
-                  <td className="px-2 py-1 text-right">{cpT?.enrollment ?? 0}</td>
-                  <td className="px-2 py-1 text-right">{cpT?.hit ?? 0}</td>
-                  <td className="px-2 py-1 text-right">{cpT?.nohit ?? 0}</td>
-                  <td className="px-2 py-1 text-right">{mesaT?.enrollment ?? 0}</td>
-                  <td className="px-2 py-1 text-right">{mesaT?.hit ?? 0}</td>
-                  <td className="px-2 py-1 text-right">{mesaT?.nohit ?? 0}</td>
-                  {showTotalCol && (
-                    <td className="px-2 py-1 text-right font-semibold">
-                      {grand}
-                    </td>
-                  )}
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
+      <CardContent className="p-0">
+        <div ref={tableRef} className="overflow-auto rounded-md border">
+          <Table>
+            <TableHeader>
+              {/* Top row with CP, TP, MESA */}
+              <TableRow>
+                <TableHead rowSpan={2} className="text-center border-r">
+                  State
+                </TableHead>
+                {cpColSpan > 0 && (
+                  <TableHead colSpan={cpColSpan} className="text-center border-r">
+                    CP
+                  </TableHead>
+                )}
+                {tpColSpan > 0 && (
+                  <TableHead colSpan={tpColSpan} className="text-center border-r">
+                    TP
+                  </TableHead>
+                )}
+                {mesaColSpan > 0 && (
+                  <TableHead colSpan={mesaColSpan} className="text-center border-r">
+                    MESA
+                  </TableHead>
+                )}
+              </TableRow>
+
+              {/* Second row with sub-columns */}
+              <TableRow>
+                {showCPEnroll && <TableHead className="text-center">Enroll</TableHead>}
+                {showCPHit && <TableHead className="text-center">Hit</TableHead>}
+                {showCPNoHit && <TableHead className="text-center border-r">NoHit</TableHead>}
+
+                {showTPEnroll && <TableHead className="text-center">Enroll</TableHead>}
+                {showTPHit && <TableHead className="text-center">Hit</TableHead>}
+                {showTPNoHit && <TableHead className="text-center border-r">NoHit</TableHead>}
+
+                {showMESAEnroll && <TableHead className="text-center">Enroll</TableHead>}
+                {showMESAHIT && <TableHead className="text-center">Hit</TableHead>}
+                {showMESANoHit && <TableHead className="text-center border-r">NoHit</TableHead>}
+              </TableRow>
+            </TableHeader>
+
+            <TableBody>
+              {rows.map((r) => (
+                <TableRow key={r.state} className="text-center">
+                  <TableCell className="font-medium border-r text-left">
+                    {r.state}
+                  </TableCell>
+
+                  {showCPEnroll && <TableCell>{r.cp?.enrollment ?? 0}</TableCell>}
+                  {showCPHit && <TableCell>{r.cp?.hit ?? 0}</TableCell>}
+                  {showCPNoHit && <TableCell className="border-r">{r.cp?.nohit ?? 0}</TableCell>}
+
+                  {showTPEnroll && <TableCell>{r.tp?.enrollment ?? 0}</TableCell>}
+                  {showTPHit && <TableCell>{r.tp?.hit ?? 0}</TableCell>}
+                  {showTPNoHit && <TableCell className="border-r">{r.tp?.nohit ?? 0}</TableCell>}
+
+                  {showMESAEnroll && <TableCell>{r.mesa?.enrollment ?? 0}</TableCell>}
+                  {showMESAHIT && <TableCell>{r.mesa?.hit ?? 0}</TableCell>}
+                  {showMESANoHit && <TableCell className="border-r">{r.mesa?.nohit ?? 0}</TableCell>}
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </div>
       </CardContent>
     </Card>
   );

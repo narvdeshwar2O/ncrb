@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import {
   Popover,
   PopoverContent,
@@ -14,10 +14,10 @@ interface MultiSelectCheckboxProps {
   selected: string[];
   onChange: (selected: string[]) => void;
   placeholder?: string;
-  /** Disable user interaction. */
   disabled?: boolean;
-  /** Text to show when disabled; falls back to placeholder. */
   disabledText?: string;
+  /** Optional formatter for option display text. */
+  getOptionLabel?: (value: string) => React.ReactNode;
 }
 
 const MultiSelectCheckbox = ({
@@ -28,6 +28,7 @@ const MultiSelectCheckbox = ({
   placeholder = "Select Options",
   disabled = false,
   disabledText,
+  getOptionLabel,
 }: MultiSelectCheckboxProps) => {
   const [open, setOpen] = useState(false);
 
@@ -60,11 +61,11 @@ const MultiSelectCheckbox = ({
   const buttonLabel = disabled
     ? disabledText ?? placeholder
     : selected.length > 0
-    ? `${selected.length} Selected`
-    : placeholder;
+      ? `${selected.length} Selected`
+      : placeholder;
 
   return (
-    <div className="space-y-2 opacity-100">
+    <div className="space-y-2">
       <label className="text-sm font-medium">{label}</label>
       <Popover open={disabled ? false : open} onOpenChange={safeSetOpen}>
         <PopoverTrigger asChild>
@@ -98,7 +99,7 @@ const MultiSelectCheckbox = ({
                   onCheckedChange={() => toggleOption(option)}
                 />
                 <label htmlFor={option} className="text-sm">
-                  {option.toUpperCase()}
+                  {getOptionLabel ? getOptionLabel(option) : option.toUpperCase()}
                 </label>
               </div>
             ))}

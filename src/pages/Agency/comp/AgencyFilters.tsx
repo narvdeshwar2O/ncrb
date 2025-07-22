@@ -21,6 +21,13 @@ import MultiSelectCheckbox from "@/components/ui/MultiSelectCheckbox";
 const dataTypeOptions = ["enrollment", "hit", "nohit"] as const;
 const categoryOptions = ["tp", "cp", "mesa"] as const;
 
+// Friendly display labels
+const categoryLabelMap: Record<string, string> = {
+  tp: "Ten Print",
+  cp: "Chance Print",
+  mesa: "MESA", // change if you want something else
+};
+
 interface ControlledAgencyFiltersProps extends DashboardFiltersProps {
   filters: FilterState; // controlled
 }
@@ -28,7 +35,6 @@ interface ControlledAgencyFiltersProps extends DashboardFiltersProps {
 export const AgencyFilters = ({
   filters,
   onFiltersChange,
-  showCrimeTypeFilter = false, // placeholder
 }: ControlledAgencyFiltersProps) => {
   const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
 
@@ -139,6 +145,7 @@ export const AgencyFilters = ({
             onChange={(newCategories) => updateFilters({ categories: newCategories })}
             disabled={noStatesSelected}
             disabledText="Select states first"
+            getOptionLabel={(v) => categoryLabelMap[v] ?? v}
           />
 
           {/* Reset */}

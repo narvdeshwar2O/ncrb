@@ -38,6 +38,13 @@ interface Totals {
 const dataTypeOptions = ["enrollment", "hit", "nohit"] as const;
 const categoryOptions = ["tp", "cp", "mesa"] as const;
 
+/** Friendly display names for categories. */
+const categoryLabelMap: Record<string, string> = {
+  tp: "Ten Print",
+  cp: "Chance Print",
+  mesa: "MESA", // change if you want something else
+};
+
 const getLast7DaysRange = () => {
   const today = new Date();
   const to = new Date(today);
@@ -63,9 +70,7 @@ function Agency() {
     setFilters((prev) => {
       const { from, to } = prev.dateRange;
       if (!from || !to) return prev;
-
       if (from > to) {
-        // Swap dates if from > to
         return { ...prev, dateRange: { from: to, to: from } };
       }
       return prev;
@@ -98,7 +103,7 @@ function Agency() {
 
       const activeCategories = categories?.length
         ? categories
-        : ["tp", "cp", "mesa"];
+        : [...categoryOptions];
 
       // Empty state array => show no data
       if (!state || state.length === 0) return false;
@@ -123,7 +128,7 @@ function Agency() {
 
   const activeCategories = filters.categories?.length
     ? filters.categories
-    : ["tp", "cp", "mesa"];
+    : [...categoryOptions];
 
   // Totals by Category
   const totalsByCategory = useMemo(() => {
@@ -194,11 +199,12 @@ function Agency() {
               <AgencyTable data={tableData} filters={filters} />
             ) : (
               <>
+                {/* Summary Cards w/ friendly category names */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
                   {activeCategories.map((cat) => (
                     <RenderCard
                       key={cat}
-                      title={cat.toUpperCase()}
+                      title={categoryLabelMap[cat] ?? cat.toUpperCase()}
                       total={totalsByCategory[cat]}
                       selectedDataTypes={filters.dataTypes}
                     />
@@ -207,7 +213,7 @@ function Agency() {
 
                 <div className="border p-3 rounded-md flex flex-col items-end">
                   <button
-                    className={`bg-blue-600 px-3 py-2 rounded-md text-card font-semibold text-white max-w-[20%] text-nowrap`}
+                    className="bg-blue-600 px-3 py-2 rounded-md text-card font-semibold text-white max-w-[20%] text-nowrap"
                     onClick={() => setCompareChart((prev) => !prev)}
                   >
                     {showCompareChart
@@ -216,15 +222,18 @@ function Agency() {
                   </button>
 
                   {showCompareChart ? (
-                    selectedStates.length >= 2 && selectedStates.length <= 15 ? (
+                    selectedStates.length >= 2 &&
+                    selectedStates.length <= 15 ? (
                       <StateComparisonChart
                         data={tableData}
                         selectedStates={selectedStates}
+                        dataTypes={filters.dataTypes}
+                        categories={filters.categories}
                       />
                     ) : (
                       <div className="w-full p-3 flex justify-center items-center">
                         <p className="border shadow-md p-3 rounded-md">
-                          Please select at least 2 and at most 5 states for
+                          Please select at least 2 and at most 15 states for
                           chart comparison.
                         </p>
                       </div>
@@ -243,6 +252,7 @@ function Agency() {
                           filters
                         ),
                       }}
+                      categoryLabelMap={categoryLabelMap}
                     />
                   )}
                 </div>

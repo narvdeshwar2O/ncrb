@@ -10,13 +10,21 @@ interface Top5DataViewProps {
   allData: DailyData[];
   from: Date;
   to: Date;
-  categories: string[]; // <- loosen
-  dataTypes: string[]; // <- loosen
+  categories: string[];
+  dataTypes: string[];
 }
 
+// Valid categories
 const VALID_CATEGORIES: Category[] = ["tp", "cp", "mesa"];
 const isValidCategory = (v: string): v is Category =>
   (VALID_CATEGORIES as string[]).includes(v);
+
+// Friendly labels for categories
+const categoryLabelMap: Record<Category, string> = {
+  tp: "Ten Print",
+  cp: "Chance Print",
+  mesa: "MESA",
+};
 
 export function Top5DataView({
   allData,
@@ -25,12 +33,13 @@ export function Top5DataView({
   categories,
   dataTypes,
 }: Top5DataViewProps) {
-  // Narrow + default to all if none valid
+  // Filter categories safely
   const safeCategories: Category[] = categories.filter(isValidCategory);
   const activeCategories = safeCategories.length
     ? safeCategories
     : VALID_CATEGORIES;
 
+  // Precompute top states per category
   const topDataByCategory = useMemo(() => {
     const result: Record<
       Category,
@@ -43,6 +52,7 @@ export function Top5DataView({
     return result;
   }, [allData, from, to]);
 
+  // Utility: Format data for ChartCard
   const formatData = (
     arr: { state: string; enrollment: number; hit: number; nohit: number }[],
     key: DataTypeKey
@@ -52,7 +62,7 @@ export function Top5DataView({
       value: item[key],
     }));
 
-  // Filter which dataTypes to show
+  // Which metrics to show
   const showEnrollment = dataTypes.includes("enrollment");
   const showHit = dataTypes.includes("hit");
   const showNoHit = dataTypes.includes("nohit");
@@ -60,28 +70,31 @@ export function Top5DataView({
   return (
     <div className="space-y-6">
       {activeCategories.map((category) => {
+        const label = categoryLabelMap[category];
         const catData = topDataByCategory[category];
+
         return (
           <div key={category} className="border p-3 rounded-md">
             <h3 className="text-lg font-semibold mb-3 text-center">
-              {category.toUpperCase()} - Top 5 States
+              {label} - Top 5 States
             </h3>
+
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               {showEnrollment && (
                 <ChartCard
-                  title={`${category.toUpperCase()} (Enrollment)`}
+                  title={`${label} (Enrollment)`}
                   data={formatData(catData.enrollmentTop5, "enrollment")}
                 />
               )}
               {showHit && (
                 <ChartCard
-                  title={`${category.toUpperCase()} (Hit)`}
+                  title={`${label} (Hit)`}
                   data={formatData(catData.hitTop5, "hit")}
                 />
               )}
               {showNoHit && (
                 <ChartCard
-                  title={`${category.toUpperCase()} (NoHit)`}
+                  title={`${label} (NoHit)`}
                   data={formatData(catData.nohitTop5, "nohit")}
                 />
               )}
