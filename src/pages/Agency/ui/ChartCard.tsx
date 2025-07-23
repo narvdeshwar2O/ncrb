@@ -67,12 +67,12 @@ function ChartCard({ title, data }: ChartCardProps) {
           config={{ value: { label: title, color: "var(--chart-2)" } }}
         >
           <BarChart data={rankedData} layout="vertical" margin={{ right: 30 }}>
-            <CartesianGrid horizontal={false} />
+            <CartesianGrid horizontal={false} vertical={false}/>
             <YAxis
               dataKey="rank"
               type="category"
               tickLine={false}
-              axisLine={false}
+              axisLine={true}
               tickFormatter={(value) => `#${value}`}
             />
             <XAxis dataKey="value" type="number" hide />
@@ -89,7 +89,7 @@ function ChartCard({ title, data }: ChartCardProps) {
                 position="right"
                 offset={8}
                 className="fill-foreground"
-                fontSize={12}
+                fontSize={10}
               />
             </Bar>
           </BarChart>

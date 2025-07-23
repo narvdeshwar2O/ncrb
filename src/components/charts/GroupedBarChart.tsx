@@ -43,12 +43,11 @@ export function GroupedBarChart({
   onExportExcel,
   onPrint,
 }: GroupedBarChartProps) {
-
   const legendPayload: Payload[] = useMemo(
     () =>
       barKeys.map((key, index) => ({
         value: key,
-        type: "circle", 
+        type: "circle",
         id: key,
         color: getColor(index, colors),
       })),
@@ -56,16 +55,13 @@ export function GroupedBarChart({
   );
 
   return (
-    <Card className="mt-3 w-full" ref={chartRef}>
+    <Card className="mt-3 w-full">
       <CardHeader>
         <div className="flex justify-between items-center w-full">
           <h2 className="text-lg font-semibold">{title}</h2>
           <div className="flex items-center gap-2">
-            <Button variant="outline" size="sm" onClick={onExportCSV}>
-              <Download className="h-4 w-4 mr-1" /> CSV
-            </Button>
             <Button variant="outline" size="sm" onClick={onExportExcel}>
-              <Download className="h-4 w-4 mr-1" /> Excel
+              <Download className="h-4 w-4 mr-1" /> CSV
             </Button>
             <Button variant="outline" size="sm" onClick={onPrint}>
               <Printer className="h-4 w-4 mr-1" /> Print
@@ -74,11 +70,11 @@ export function GroupedBarChart({
         </div>
       </CardHeader>
 
-      <CardContent>
+      <CardContent ref={chartRef}>
         <ResponsiveContainer width="100%" height={chartHeight}>
           <BarChart
             data={data}
-            margin={{ top: 40, right: 20, left: 20, bottom:10 }}
+            margin={{ top: 40, right: 20, left: 20, bottom: 10 }}
           >
             <XAxis dataKey={xAxisDataKey} tickLine={false} />
             <YAxis />

@@ -1,20 +1,20 @@
-import { useMemo } from "react";
+import { useMemo, useRef, useState } from "react";
 import {
   Bar,
   BarChart,
   CartesianGrid,
   XAxis,
   YAxis,
+  Tooltip,
+  Legend,
+  ResponsiveContainer,
+  LabelList,
 } from "recharts";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import {
-  ChartConfig,
-  ChartContainer,
-  ChartTooltip,
-  ChartTooltipContent,
-} from "@/components/ui/chart";
 import { FilterState } from "@/components/filters/types/FilterTypes";
-import computeCombinedTotal from "@/utils/computeCombinedTotal";
+import { Button } from "@/components/ui/button";
+import { Download, Printer, Layers3 } from "lucide-react";
+import * as exportService from "@/utils/exportService";
 
 interface DailyData {
   date: string;
@@ -35,28 +35,15 @@ export interface MultipleChartProps {
     string,
     { enrollment: number; hit: number; nohit: number }
   >;
-  /** Optional map for friendly category display names. */
   categoryLabelMap?: Record<string, string>;
 }
 
-/* Base colors (kept from your original). */
-const baseChartConfig: ChartConfig = {
-  tp_enrollment: { label: "TP Enrollment", color: "hsl(217, 100%, 65%)" },
-  tp_hit: { label: "TP Hit", color: "hsl(217, 80%, 55%)" },
-  tp_nohit: { label: "TP No-Hit", color: "hsl(217, 70%, 45%)" },
-
-  cp_enrollment: { label: "CP Enrollment", color: "hsl(174, 70%, 55%)" },
-  cp_hit: { label: "CP Hit", color: "hsl(174, 60%, 45%)" },
-  cp_nohit: { label: "CP No-Hit", color: "hsl(174, 50%, 35%)" },
-
-  mesa_enrollment: { label: "MESA Enrollment", color: "hsl(40, 100%, 60%)" },
-  mesa_hit: { label: "MESA Hit", color: "hsl(40, 90%, 50%)" },
-  mesa_nohit: { label: "MESA No-Hit", color: "hsl(40, 80%, 40%)" },
+const baseColors = {
+  enrollment: "hsl(217, 100%, 65%)",
+  hit: "hsl(174, 70%, 55%)",
+  nohit: "hsl(40, 100%, 60%)",
 };
 
-/**
- * Sum category totals for *one day* across the selected states.
- */
 function computeDayCategoryTotals(
   day: DailyData,
   category: "tp" | "cp" | "mesa",
@@ -65,7 +52,6 @@ function computeDayCategoryTotals(
   let enrollment = 0;
   let hit = 0;
   let nohit = 0;
-
   for (const st of states) {
     const catRec = day.data?.[st]?.[category];
     if (!catRec) continue;
@@ -73,15 +59,9 @@ function computeDayCategoryTotals(
     hit += catRec.hit ?? 0;
     nohit += catRec.nohit ?? 0;
   }
-
   return { enrollment, hit, nohit };
 }
 
-/**
- * MultipleChart
- * - Daily view (<= 90 days): date x multi‑stack per category+metric.
- * - Aggregate view: category x metrics.
- */
 export function MultipleChart({
   filteredData,
   filters,
@@ -89,6 +69,9 @@ export function MultipleChart({
   totalsByCategory,
   categoryLabelMap,
 }: MultipleChartProps) {
+  const chartRef = useRef<HTMLDivElement>(null);
+  const [isStacked, setIsStacked] = useState(false);
+
   const hasDateRange = filters.dateRange.from && filters.dateRange.to;
   const dayCount = filteredData.length;
   const showDailyData = hasDateRange && dayCount > 0 && dayCount <= 90;
@@ -98,20 +81,7 @@ export function MultipleChart({
     filters.dataTypes.length > 0
       ? filters.dataTypes
       : ["enrollment", "hit", "nohit"];
-
-  const getBarSize = (dc: number) => {
-    if (dc <= 7) return 40;
-    if (dc <= 30) return 15;
-    if (dc <= 90) return 10;
-    return 5;
-  };
-  const barSize = showDailyData ? getBarSize(dayCount) : 50;
-
-  /**
-   * Build chart data.
-   * DAILY MODE: One row per day, per category & metric (sums across selected states).
-   * AGGREGATE MODE: One row per category; metrics from `totalsByCategory`.
-   */
+  console.log("Filter", activeCategories);
   const chartData = useMemo(() => {
     if (showDailyData) {
       const sorted = [...filteredData].sort(
@@ -125,26 +95,20 @@ export function MultipleChart({
             day: "numeric",
           }),
         };
-
         activeCategories.forEach((cat) => {
           const totals = computeDayCategoryTotals(
             day,
             cat as "tp" | "cp" | "mesa",
             selectedStates
           );
-          if (selectedDataTypes.includes("enrollment"))
-            row[`${cat}_enrollment`] = totals.enrollment;
-          if (selectedDataTypes.includes("hit"))
-            row[`${cat}_hit`] = totals.hit;
-          if (selectedDataTypes.includes("nohit"))
-            row[`${cat}_nohit`] = totals.nohit;
+          selectedDataTypes.forEach((type) => {
+            row[`${cat}_${type}`] = totals[type as keyof typeof totals];
+          });
         });
-
         return row;
       });
     }
 
-    // aggregate
     return activeCategories.map((cat) => ({
       label: categoryLabelMap?.[cat] ?? cat.toUpperCase(),
       enrollment: totalsByCategory[cat]?.enrollment ?? 0,
@@ -165,114 +129,152 @@ export function MultipleChart({
     ? `Daily Breakdown (${dayCount} day${dayCount === 1 ? "" : "s"})`
     : "Agency Totals Breakdown";
 
-  /* Legend build */
-  const legendItems = useMemo(() => {
-    if (showDailyData) {
-      // use baseChartConfig but replace category label prefix if provided
-      return Object.entries(baseChartConfig)
-        .filter(([key]) =>
-          selectedDataTypes.some((type) => key.endsWith(`_${type}`))
+  const handlePrint = () => {
+    const actionButtons = chartRef.current?.querySelectorAll(".print-hide");
+    actionButtons?.forEach((btn) => btn.setAttribute("style", "display:none"));
+    exportService.printComponent(chartRef.current, chartTitle);
+    setTimeout(() => {
+      actionButtons?.forEach((btn) => btn.removeAttribute("style"));
+    }, 500);
+  };
+
+  const handleExportCSV = () => {
+    const headers = [
+      showDailyData ? "Date" : "Category",
+      ...activeCategories.flatMap((cat) =>
+        selectedDataTypes.map((type) =>
+          showDailyData ? `${cat}_${type}` : type
         )
-        .map(([key, { color }]) => {
-          // key = "tp_enrollment"
-          const [cat, metric] = key.split("_");
-          const friendlyCat = categoryLabelMap?.[cat] ?? cat.toUpperCase();
-          const friendlyMetric =
-            metric.charAt(0).toUpperCase() + metric.slice(1);
-          return {
-            key,
-            label: `${friendlyCat} ${friendlyMetric}`,
-            color,
-          };
-        });
-    }
-    // aggregate legend by metric only
-    return selectedDataTypes.map((type) => ({
-      key: type,
-      label: type.charAt(0).toUpperCase() + type.slice(1),
-      color:
-        type === "enrollment"
-          ? "blue"
-          : type === "hit"
-          ? "#059669"
-          : "green",
-    }));
-  }, [showDailyData, selectedDataTypes, categoryLabelMap]);
+      ),
+    ];
+
+    const rows = chartData.map((item) => [
+      item.label,
+      ...activeCategories.flatMap((cat) =>
+        selectedDataTypes.map((type) =>
+          showDailyData ? item[`${cat}_${type}`] ?? 0 : item[type] ?? 0
+        )
+      ),
+    ]);
+
+    exportService.exportToCSV(`${slugify(chartTitle)}.csv`, headers, rows);
+  };
+
+  const slugify = (text: string) =>
+    text
+      .toLowerCase()
+      .replace(/\s+/g, "-")
+      .replace(/[^\w-]+/g, "");
 
   return (
     <Card className="p-1 w-full mt-3">
       <CardHeader className="flex flex-col gap-2 items-center">
-        <h3 className="text-base font-medium">{chartTitle}</h3>
-
-        {/* Legend */}
-        <div className="flex flex-wrap gap-3 justify-center">
-          {legendItems.map(({ key, label, color }) => (
-            <div key={key} className="flex items-center gap-1 text-sm">
-              <span
-                className="inline-block w-3 h-3 rounded-full"
-                style={{ backgroundColor: color }}
-              />
-              <span className="text-muted-foreground">{label}</span>
-            </div>
-          ))}
+        <div className="flex justify-between w-full items-center">
+          <h3 className="text-base font-medium">{chartTitle}</h3>
+          <div className="flex items-center gap-2">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => setIsStacked((prev) => !prev)}
+              className="print-hide"
+            >
+              <Layers3 className="h-4 w-4 mr-1" />{" "}
+              {isStacked ? "Grouped" : "Stacked"}
+            </Button>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={handleExportCSV}
+              className="print-hide"
+            >
+              <Download className="h-4 w-4 mr-1" /> CSV
+            </Button>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={handlePrint}
+              className="print-hide"
+            >
+              <Printer className="h-4 w-4 mr-1" /> Print
+            </Button>
+          </div>
         </div>
       </CardHeader>
 
-      <CardContent className="h-[300px] md:h-[400px] lg:h-[500px]">
-        <ChartContainer config={baseChartConfig} className="h-full w-full">
-          <BarChart data={chartData}>
-            <CartesianGrid vertical={false} />
-            <XAxis
-              dataKey="label"
-              tickMargin={10}
-              angle={showDailyData ? -45 : 0}
-              textAnchor={showDailyData ? "end" : "middle"}
-              height={showDailyData ? 80 : 40}
-            />
-            <YAxis tickMargin={8} />
+      {activeCategories.length === 0 ? (
+        <CardContent className="h-[200px] flex items-center justify-center text-center text-red-600 font-medium">
+          Please select at least one category to display the chart.
+        </CardContent>
+      ) : (
+        <CardContent ref={chartRef} className="h-[400px] md:h-[500px]">
+          <ResponsiveContainer width="100%" height="100%">
+            <BarChart
+              data={chartData}
+              margin={{ top: 40, right: 20, left: 20, bottom: 10 }}
+            >
+              <CartesianGrid vertical={false} />
+              <XAxis dataKey="label" tickMargin={10} />
+              <YAxis tickMargin={8} />
+              <Tooltip
+                cursor={{ fill: "hsl(var(--muted) / 0.5)" }}
+                contentStyle={{
+                  background: "hsl(var(--background))",
+                  border: "1px solid hsl(var(--border))",
+                }}
+              />
+              <Legend verticalAlign="top" wrapperStyle={{ top: 0 }} />
 
-            <ChartTooltip
-              cursor
-              content={<ChartTooltipContent indicator="line" />}
-            />
-
-            {showDailyData
-              ? activeCategories.flatMap((cat) =>
-                  selectedDataTypes.map((type) => {
-                    const key = `${cat}_${type}`;
-                    return (
+              {showDailyData
+                ? activeCategories.flatMap((cat) =>
+                    selectedDataTypes.map((type, idx) => (
                       <Bar
-                        key={key}
-                        dataKey={key}
-                        fill={baseChartConfig[key]?.color || "#ccc"}
-                        barSize={barSize}
-                        stackId={cat}
-                        name={`${categoryLabelMap?.[cat] ?? cat.toUpperCase()} ${
-                          type.charAt(0).toUpperCase() + type.slice(1)
-                        }`}
-                        radius={2}
+                        key={`${cat}_${type}`}
+                        dataKey={`${cat}_${type}`}
+                        fill={baseColors[type as keyof typeof baseColors]}
+                        stackId={
+                          isStacked ? `${cat}-stack` : `${cat}-${type}-group`
+                        }
+                        radius={idx === selectedDataTypes.length - 1 ? 4 : 0}
+                        name={`${
+                          categoryLabelMap?.[cat] ?? cat.toUpperCase()
+                        } ${type.charAt(0).toUpperCase() + type.slice(1)}`}
+                      >
+                        <LabelList
+                          dataKey={`${cat}_${type}`}
+                          position="inside"
+                          angle={-90}
+                          fill="#fff"
+                          fontSize={11}
+                          formatter={(value) =>
+                            Number(value) > 0 ? value : ""
+                          }
+                        />
+                      </Bar>
+                    ))
+                  )
+                : selectedDataTypes.map((type, idx) => (
+                    <Bar
+                      key={type}
+                      dataKey={type}
+                      fill={baseColors[type as keyof typeof baseColors]}
+                      stackId={isStacked ? "agg-stack" : `group-${type}`}
+                      radius={idx === selectedDataTypes.length - 1 ? 4 : 0}
+                      name={type.charAt(0).toUpperCase() + type.slice(1)}
+                    >
+                      <LabelList
+                        dataKey={type}
+                        position="inside"
+                        angle={-90}
+                        fill="#fff"
+                        fontSize={11}
+                        formatter={(value) => (Number(value) > 0 ? value : "")}
                       />
-                    );
-                  })
-                )
-              : selectedDataTypes.map((type) => (
-                  <Bar
-                    key={type}
-                    dataKey={type}
-                    fill={
-                      type === "enrollment"
-                        ? "blue"
-                        : type === "hit"
-                        ? "#059669"
-                        : "green"
-                    }
-                    barSize={50}
-                    radius={4}
-                  />
-                ))}
-          </BarChart>
-        </ChartContainer>
-      </CardContent>
+                    </Bar>
+                  ))}
+            </BarChart>
+          </ResponsiveContainer>
+        </CardContent>
+      )}
     </Card>
   );
 }
