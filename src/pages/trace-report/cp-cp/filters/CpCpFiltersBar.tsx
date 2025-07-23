@@ -1,94 +1,112 @@
-import { useState } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { useState, useEffect, useRef, useMemo } from "react";
+import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Calendar } from "@/components/ui/calendar";
-import { CalendarIcon, Filter, RotateCcw } from "lucide-react";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { format, startOfDay, endOfDay, subDays } from "date-fns";
+import { CalendarIcon, Filter as FilterIcon, RotateCcw } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { format, subDays, startOfDay, endOfDay } from "date-fns";
 import MultiSelectCheckbox from "@/components/ui/MultiSelectCheckbox";
 import { CpCpFilters, CpCpStatusKey, CP_CP_STATUS_KEYS } from "../types";
 
-/* ------------------------------------------------------------------ */
-/* Helpers                                                             */
-/* ------------------------------------------------------------------ */
 const getLastNDaysRange = (n: number) => {
   const to = endOfDay(new Date());
   const from = startOfDay(subDays(to, n - 1));
   return { from, to };
 };
 
-/* ------------------------------------------------------------------ */
-/* Props                                                               */
-/* ------------------------------------------------------------------ */
 interface CpCpFiltersBarProps {
   allStates: string[];
   value: CpCpFilters;
-  onChange: (f: CpCpFilters) => void;
+  onChange: (filters: CpCpFilters) => void;
 }
 
-/* ------------------------------------------------------------------ */
-/* Component                                                           */
-/* ------------------------------------------------------------------ */
-export const CpCpFiltersBar: React.FC<CpCpFiltersBarProps> = ({
+export const CpCpFiltersBar = ({
   allStates,
   value,
   onChange,
-}) => {
-  const initialRange = getLastNDaysRange(7);
+}: CpCpFiltersBarProps) => {
   const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
+  const initialized = useRef(false);
 
-  const [selectedStates, setSelectedStates] = useState<string[]>(value.states);
-  const [selectedStatuses, setSelectedStatuses] = useState<CpCpStatusKey[]>(
-    value.statuses
-  );
+  const uniqueAllStates = useMemo(() => {
+    const unique = [...new Set(allStates)];
+    console.log("allStates:", allStates, "uniqueAllStates:", unique);
+    return unique;
+  }, [allStates]);
 
-  const [daysPreset, setDaysPreset] = useState<"7" | "30" | "90" | "custom">("7");
+  const STATUS_OPTIONS = useMemo(() => {
+    const options = [
+      ...new Set(CP_CP_STATUS_KEYS.filter((s) => s !== "total")),
+    ];
+    console.log(
+      "CP_CP_STATUS_KEYS:",
+      CP_CP_STATUS_KEYS,
+      "STATUS_OPTIONS:",
+      options
+    );
+    return options;
+  }, []);
 
-  // ✅ Remove total from the visible options
-  const STATUS_OPTIONS = CP_CP_STATUS_KEYS.filter((s) => s !== "total");
+  useEffect(() => {
+    if (
+      !initialized.current &&
+      uniqueAllStates.length > 0 &&
+      (!value.states?.length || !value.statuses?.length)
+    ) {
+      initialized.current = true;
+      onChange({
+        dateRange: value.dateRange || getLastNDaysRange(7),
+        states: value.states?.length
+          ? [...new Set(value.states)]
+          : [...uniqueAllStates],
+        statuses: value.statuses?.length
+          ? [...new Set(value.statuses.filter((s) => s !== "total"))]
+          : [...STATUS_OPTIONS],
+      });
+    }
+  }, [uniqueAllStates, value, onChange, STATUS_OPTIONS]);
 
-  const updateFilters = (newFilters: Partial<CpCpFilters>) => {
-    const updated = { ...value, ...newFilters };
-    onChange(updated);
+  const selectedStates = value.states ?? [];
+  const selectedStatuses = value.statuses ?? [];
+  const noStatesSelected = selectedStates.length === 0;
+
+  const updateFilters = (patch: Partial<CpCpFilters>) => {
+    onChange({ ...value, ...patch });
   };
 
   const handleDateSelect = (range: { from?: Date; to?: Date } | undefined) => {
     if (!range) return;
-    updateFilters({ dateRange: { from: range.from || null, to: range.to || null } });
-    setDaysPreset("custom");
-  };
-
-  const setLastNDays = (n: number) => {
-    const range = getLastNDaysRange(n);
-    updateFilters({ dateRange: range });
-    setDaysPreset((n as 7 | 30 | 90).toString() as "7" | "30" | "90");
+    updateFilters({
+      dateRange: {
+        from: range.from || undefined,
+        to: range.to || undefined,
+      },
+    });
   };
 
   const resetFilters = () => {
-    const resetRange = initialRange;
-    const resetValue: CpCpFilters = {
-      dateRange: resetRange,
-      states: [],
-      statuses: [...STATUS_OPTIONS], // ✅ No total on reset
-    };
-    onChange(resetValue);
-    setSelectedStates([]);
-    setSelectedStatuses([...STATUS_OPTIONS]);
-    setDaysPreset("7");
+    onChange({
+      dateRange: getLastNDaysRange(7),
+      states: [...uniqueAllStates],
+      statuses: [...STATUS_OPTIONS],
+    });
   };
 
   return (
     <Card className="mb-6">
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
-          <Filter className="h-5 w-5" />
+          <FilterIcon className="h-5 w-5" />
           Filters
         </CardTitle>
       </CardHeader>
       <CardContent>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-3">
-          {/* Date Range */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 gap-3">
           <div className="space-y-2">
             <label className="text-sm font-medium">Date Range</label>
             <Popover open={isDatePickerOpen} onOpenChange={setIsDatePickerOpen}>
@@ -119,10 +137,10 @@ export const CpCpFiltersBar: React.FC<CpCpFiltersBarProps> = ({
                 <Calendar
                   initialFocus
                   mode="range"
-                  defaultMonth={value.dateRange.from || undefined}
+                  defaultMonth={value.dateRange.from}
                   selected={{
-                    from: value.dateRange.from || undefined,
-                    to: value.dateRange.to || undefined,
+                    from: value.dateRange.from,
+                    to: value.dateRange.to,
                   }}
                   onSelect={handleDateSelect}
                   numberOfMonths={1}
@@ -131,52 +149,28 @@ export const CpCpFiltersBar: React.FC<CpCpFiltersBarProps> = ({
               </PopoverContent>
             </Popover>
           </div>
-
-          {/* Last N Days */}
-          <div className="space-y-2">
-            <label className="text-sm font-medium">Select Days</label>
-            <select
-              className="w-full border rounded-md p-2 text-sm bg-card"
-              value={daysPreset === "custom" ? "" : daysPreset}
-              onChange={(e) => {
-                const val = e.target.value;
-                if (!val) {
-                  setDaysPreset("custom");
-                  return;
-                }
-                setLastNDays(parseInt(val, 10));
-              }}
-            >
-              <option value="">Custom Range</option>
-              <option value="7">Last 7 Days</option>
-              <option value="30">Last 30 Days</option>
-              <option value="90">Last 90 Days</option>
-            </select>
-          </div>
-
-          {/* States MultiSelect */}
           <MultiSelectCheckbox
             label="States"
-            options={allStates}
+            options={uniqueAllStates}
             selected={selectedStates}
-            onChange={(newStates) => {
-              setSelectedStates(newStates);
-              updateFilters({ states: newStates });
-            }}
+            onChange={(newStates) =>
+              updateFilters({ states: [...new Set(newStates)] })
+            }
           />
-
-          {/* Status MultiSelect */}
           <MultiSelectCheckbox
             label="Metrics"
-            options={STATUS_OPTIONS as string[]}
+            options={STATUS_OPTIONS}
             selected={selectedStatuses}
-            onChange={(newStatuses) => {
-              setSelectedStatuses(newStatuses as CpCpStatusKey[]);
-              updateFilters({ statuses: newStatuses as CpCpStatusKey[] });
-            }}
+            onChange={(newStatuses) =>
+              updateFilters({
+                statuses: [
+                  ...new Set(newStatuses.filter((s) => s !== "total")),
+                ] as CpCpStatusKey[],
+              })
+            }
+            disabled={noStatesSelected}
+            disabledText="Select states first"
           />
-
-          {/* Reset */}
           <div className="space-y-2">
             <label className="text-sm font-medium invisible">Reset</label>
             <Button variant="outline" onClick={resetFilters} className="w-full">

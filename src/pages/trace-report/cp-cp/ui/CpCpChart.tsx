@@ -1,144 +1,202 @@
-import React, { useMemo } from "react";
+import React, { useMemo, useRef, useState } from "react";
 import {
-  BarChart,
   Bar,
+  BarChart,
   CartesianGrid,
-  Legend,
   XAxis,
   YAxis,
+  Tooltip,
+  Legend,
+  ResponsiveContainer,
+  LabelList,
 } from "recharts";
 import { Card, CardHeader, CardContent } from "@/components/ui/card";
-import {
-  ChartContainer,
-  ChartTooltip,
-  ChartTooltipContent,
-} from "@/components/ui/chart";
+import { Button } from "@/components/ui/button";
+import { Download, Printer, Layers3 } from "lucide-react";
+import * as exportService from "@/utils/exportService";
 import { CpCpDailyData, CpCpStatusKey } from "../types";
+
+// Base colors for CpCp metrics
+const baseColors: Record<CpCpStatusKey, string> = {
+  hit: "hsl(217, 100%, 65%)",
+  no_hit: "hsl(174, 70%, 55%)",
+  intra_state: "hsl(40, 100%, 60%)",
+  inter_state: "hsl(0, 70%, 60%)",
+  total: "hsl(200, 20%, 50%)", // not used in chart but kept for mapping
+};
+
+const metricLabelMap: Record<CpCpStatusKey, string> = {
+  hit: "Hit",
+  no_hit: "No-Hit",
+  intra_state: "Intra State",
+  inter_state: "Inter State",
+  total: "Total",
+};
 
 interface CpCpChartProps {
   filteredData: CpCpDailyData[];
   selectedStatuses: CpCpStatusKey[];
+  title:String
 }
 
-const COLORS = [
-  "#3b82f6", // blue
-  "#ef4444", // red
-  "#22c55e", // green
-  "#f59e0b", // amber
-  "#8b5cf6", // violet
-  "#14b8a6", // teal
-  "#fb7185", // rose
-  "#6b7280", // gray
-];
+function computeDayMetricTotals(day: CpCpDailyData, metric: CpCpStatusKey) {
+  let total = 0;
+  for (const st of Object.keys(day.data)) {
+    const rec = day.data?.[st]?.cp_cp;
+    if (!rec) continue;
+    total += rec[metric] ?? 0;
+  }
+  return total;
+}
 
-const CpCpChart: React.FC<CpCpChartProps> = ({ filteredData, selectedStatuses }) => {
-  // Remove "total" since we don't plot it directly
-  const metrics = useMemo(
+export default function CpCpChart({
+  filteredData,
+  selectedStatuses,
+  title
+}: CpCpChartProps) {
+  const chartRef = useRef<HTMLDivElement>(null);
+  const [isStacked, setIsStacked] = useState(false);
+
+  // Active metrics (exclude total)
+  const activeMetrics = useMemo(
     () => selectedStatuses.filter((s) => s !== "total"),
     [selectedStatuses]
   );
 
-  // Prepare chart data
+  // Build chart data
   const chartData = useMemo(() => {
-    return [...filteredData]
-      .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
-      .map((day) => {
+    if (filteredData.length > 0) {
+      const sorted = [...filteredData].sort(
+        (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
+      );
+
+      return sorted.map((day) => {
         const row: Record<string, any> = {
           label: new Date(day.date).toLocaleDateString("en-US", {
             month: "short",
             day: "numeric",
           }),
         };
-
-        for (const metric of metrics) {
-          let total = 0;
-          for (const stateData of Object.values(day.data)) {
-            total += stateData.cp_cp?.[metric as keyof typeof stateData.cp_cp] ?? 0;
-          }
-          row[metric] = total;
-        }
+        activeMetrics.forEach((metric) => {
+          row[metric] = computeDayMetricTotals(day, metric);
+        });
         return row;
       });
-  }, [filteredData, metrics]);
+    }
 
-  // Chart configuration
-  const chartConfig = useMemo(() => {
-    const config: any = {};
-    metrics.forEach((metric, idx) => {
-      config[metric] = {
-        label: formatMetric(metric),
-        color: COLORS[idx % COLORS.length],
-      };
-    });
-    return config;
-  }, [metrics]);
+    // fallback (empty data)
+    return [];
+  }, [filteredData, activeMetrics]);
 
-  if (metrics.length === 0) {
-    return (
-      <Card className="w-full">
-        <CardHeader>
-          <h3 className="text-base font-semibold">TP‑TP Chart</h3>
-        </CardHeader>
-        <CardContent>
-          <p className="text-sm text-muted-foreground">
-            Select at least one metric to view the chart.
-          </p>
-        </CardContent>
-      </Card>
-    );
-  }
+  const chartTitle = `${title} Trends (${chartData.length} day${chartData.length === 1 ? "" : "s"})`;
+
+  // Print handler
+  const handlePrint = () => {
+    const actionButtons = chartRef.current?.querySelectorAll(".print-hide");
+    actionButtons?.forEach((btn) => btn.setAttribute("style", "display:none"));
+    exportService.printComponent(chartRef.current, chartTitle);
+    setTimeout(() => {
+      actionButtons?.forEach((btn) => btn.removeAttribute("style"));
+    }, 500);
+  };
+
+  // CSV Export
+  const handleExportCSV = () => {
+    const headers = ["Date", ...activeMetrics.map((m) => metricLabelMap[m])];
+    const rows = chartData.map((item) => [
+      item.label,
+      ...activeMetrics.map((metric) => item[metric] ?? 0),
+    ]);
+    exportService.exportToCSV(`${slugify(chartTitle)}.csv`, headers, rows);
+  };
+
+  const slugify = (text: string) =>
+    text
+      .toLowerCase()
+      .replace(/\s+/g, "-")
+      .replace(/[^\w-]+/g, "");
 
   return (
-    <Card className="w-full">
-      <CardHeader>
-        <h3 className="text-base font-semibold">TP‑TP Trends</h3>
+    <Card className="p-1 w-full mt-3">
+      <CardHeader className="flex flex-col gap-2 items-center">
+        <div className="flex justify-between w-full items-center">
+          <h3 className="text-base font-medium">{chartTitle}</h3>
+          <div className="flex items-center gap-2">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => setIsStacked((prev) => !prev)}
+              className="print-hide"
+            >
+              <Layers3 className="h-4 w-4 mr-1" />
+              {isStacked ? "Grouped" : "Stacked"}
+            </Button>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={handleExportCSV}
+              className="print-hide"
+            >
+              <Download className="h-4 w-4 mr-1" /> CSV
+            </Button>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={handlePrint}
+              className="print-hide"
+            >
+              <Printer className="h-4 w-4 mr-1" /> Print
+            </Button>
+          </div>
+        </div>
       </CardHeader>
-      <CardContent className="h-[400px]">
-        <ChartContainer config={chartConfig} className="h-full w-full">
-          <BarChart data={chartData}>
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis
-              dataKey="label"
-              tickMargin={10}
-              angle={chartData.length > 10 ? -45 : 0}
-              textAnchor={chartData.length > 10 ? "end" : "middle"}
-              height={chartData.length > 10 ? 80 : 40}
-            />
-            <YAxis />
-            <ChartTooltip content={<ChartTooltipContent indicator="line" />} />
-            {metrics.map((metric) => (
-              <Bar
-                key={metric}
-                dataKey={metric}
-                fill={chartConfig[metric]?.color}
-                radius={0}
+
+      {activeMetrics.length === 0 ? (
+        <CardContent className="h-[200px] flex items-center justify-center text-center text-red-600 font-medium">
+          Please select at least one metric to display the chart.
+        </CardContent>
+      ) : (
+        <CardContent ref={chartRef} className="h-[400px] md:h-[500px]">
+          <ResponsiveContainer width="100%" height="100%">
+            <BarChart
+              data={chartData}
+              margin={{ top: 40, right: 20, left: 20, bottom: 10 }}
+            >
+              <CartesianGrid vertical={false} />
+              <XAxis dataKey="label" tickMargin={10} />
+              <YAxis tickMargin={8} />
+              <Tooltip
+                cursor={{ fill: "hsl(var(--muted) / 0.5)" }}
+                contentStyle={{
+                  background: "hsl(var(--background))",
+                  border: "1px solid hsl(var(--border))",
+                }}
               />
-            ))}
-            <Legend
-              verticalAlign="top"
-              align="center"
-              wrapperStyle={{ paddingBottom: 10 }}
-            />
-          </BarChart>
-        </ChartContainer>
-      </CardContent>
+              <Legend verticalAlign="top" wrapperStyle={{ top: 0 }} />
+
+              {activeMetrics.map((metric, idx) => (
+                <Bar
+                  key={metric}
+                  dataKey={metric}
+                  fill={baseColors[metric]}
+                  stackId={isStacked ? "stack" : `group-${metric}`}
+                  radius={idx === activeMetrics.length - 1 ? 4 : 0}
+                  name={metricLabelMap[metric]}
+                >
+                  <LabelList
+                    dataKey={metric}
+                    position="inside"
+                    angle={isStacked ? 0 : -90}
+                    fill="#fff"
+                    fontSize={11}
+                    formatter={(value) => (Number(value) > 0 ? value : "")}
+                  />
+                </Bar>
+              ))}
+            </BarChart>
+          </ResponsiveContainer>
+        </CardContent>
+      )}
     </Card>
   );
-};
-
-export default CpCpChart;
-
-function formatMetric(metric: string): string {
-  switch (metric) {
-    case "hit":
-      return "Hit";
-    case "no_hit":
-      return "No-Hit";
-    case "own_state":
-      return "Own State";
-    case "inter_state":
-      return "Inter State";
-    default:
-      return metric;
-  }
 }

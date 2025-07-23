@@ -36,6 +36,7 @@ interface TpTpChartProps {
   filteredData: TpTpDailyData[];
   selectedStatuses: TpTpStatusKey[];
   filters: TpTpFilters;
+  title:String
 }
 
 function computeDayMetricTotals(
@@ -56,6 +57,7 @@ export default function TpTpChart({
   filteredData,
   selectedStatuses,
   filters,
+  title
 }: TpTpChartProps) {
   const chartRef = useRef<HTMLDivElement>(null);
   const [isStacked, setIsStacked] = useState(false);
@@ -104,7 +106,7 @@ export default function TpTpChart({
   }, [showDailyData, filteredData, activeMetrics, selectedStates]);
 
   const chartTitle = showDailyData
-    ? `Daily Breakdown (${dayCount} day${dayCount === 1 ? "" : "s"})`
+    ? `${title} Trends (${dayCount} day${dayCount === 1 ? "" : "s"})`
     : "TP-TP Totals Breakdown";
 
   // Print handler

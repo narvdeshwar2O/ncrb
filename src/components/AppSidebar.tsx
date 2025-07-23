@@ -116,11 +116,11 @@ const mainNavItems = [
 
 
 const traceReport=[
-  { title: "TP-TP", url: "/trace-report/tp-tp", icon: FileText },
-  { title: "TP-CP", url: "/trace-report/tp-cp", icon: FileText },
-  { title: "CP-CP", url: "/trace-report/cp-cp", icon: FileText },
-  { title: "CP-TP", url: "/trace-report/cp-tp", icon: FileText },
-  { title: "PP-PP", url: "/trace-report/pp-pp", icon: FileText },
+  { title: "Ten Print - Ten Print", url: "/trace-report/tp-tp", icon: FileText },
+  { title: "Ten Print - Chance Print", url: "/trace-report/tp-cp", icon: FileText },
+  { title: "Chance Print - Chance Print", url: "/trace-report/cp-cp", icon: FileText },
+  { title: "Chance Print - Ten Print", url: "/trace-report/cp-tp", icon: FileText },
+  { title: "Palm Print - Palm Print", url: "/trace-report/pp-pp", icon: FileText },
 ]
 // const ncrcNavItems = [
 //   {

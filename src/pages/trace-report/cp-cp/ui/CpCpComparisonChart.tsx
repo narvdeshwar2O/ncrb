@@ -1,33 +1,11 @@
-import * as React from "react";
-import {
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  ResponsiveContainer,
-  LabelList,
-} from "recharts";
-import { Card, CardHeader, CardContent } from "@/components/ui/card";
-import {
-  Select,
-  SelectTrigger,
-  SelectValue,
-  SelectContent,
-  SelectItem,
-} from "@/components/ui/select";
-import {
-  ChartContainer,
-  ChartTooltip,
-  ChartTooltipContent,
-} from "@/components/ui/chart";
+import { useMemo, useRef } from "react";
+import { GroupedBarChart } from "@/components/charts/GroupedBarChart";
+import { Card, CardContent } from "@/components/ui/card";
+import * as exportService from "@/utils/exportService";
 
 import { CpCpTableRow, CpCpStatusKey } from "../types";
 
-/* ------------------------------------------------------------------ */
-/* Labels + Colors                                                     */
-/* ------------------------------------------------------------------ */
-const LABELS: Record<CpCpStatusKey, string> = {
+const metricLabelMap: Record<CpCpStatusKey, string> = {
   hit: "Hit",
   no_hit: "No Hit",
   intra_state: "Own State",
@@ -35,156 +13,94 @@ const LABELS: Record<CpCpStatusKey, string> = {
   total: "Total",
 };
 
-// Use CSS custom props so colors adapt to light/dark (see Theme vars)
-const COLOR_MAP: Record<CpCpStatusKey, string> = {
-  hit: "hsl(var(--chart-1))",
-  no_hit: "hsl(var(--chart-2))",
-  intra_state: "hsl(var(--chart-3))",
-  inter_state: "hsl(var(--chart-4))",
-  total: "hsl(var(--chart-5))",
-};
-
-/* ------------------------------------------------------------------ */
-/* Props                                                               */
-/* ------------------------------------------------------------------ */
 interface CpCpComparisonChartProps {
   rows: CpCpTableRow[];
-  statuses: CpCpStatusKey[]; // metrics available in UI
-  selectedStates: string[]; // states user picked in filters
+  statuses: CpCpStatusKey[];
+  selectedStates: string[];
 }
 
-/* ------------------------------------------------------------------ */
-/* Component                                                           */
-/* ------------------------------------------------------------------ */
 export default function CpCpComparisonChart({
   rows,
   statuses,
   selectedStates,
 }: CpCpComparisonChartProps) {
-  // Drop duplicate + ensure we have valid keys
-  const statusOptions = React.useMemo<CpCpStatusKey[]>(() => {
-    const set = new Set<CpCpStatusKey>();
-    statuses.forEach((s) => set.add(s));
-    return Array.from(set);
-  }, [statuses]);
+  const chartWrapRef = useRef<HTMLDivElement>(null);
+  const activeMetrics: CpCpStatusKey[] = statuses?.length ? statuses : [];
 
-  // Default selected metric = first option (fallback hit)
-  const [selectedMetric, setSelectedMetric] = React.useState<CpCpStatusKey>(
-    statusOptions[0] ?? "hit"
-  );
+  const chartData = useMemo(() => {
+    const transposedData: Record<string, any> = {};
+    activeMetrics.forEach((metric) => {
+      transposedData[metric] = { metric: metricLabelMap[metric] };
+    });
 
-  // Chart data: each selected state → { state, value }
-  const chartData = React.useMemo(() => {
-    const lookup = new Map(rows.map((r) => [r.state, r]));
-    const statesToUse =
-      selectedStates.length > 0 ? selectedStates : rows.map((r) => r.state);
-
-    return statesToUse
-      .filter((s) => lookup.has(s))
-      .map((s) => {
-        const row = lookup.get(s)!;
-        const v = Number(row[selectedMetric] ?? 0);
-        return { state: s, value: v };
+    selectedStates.forEach((state) => {
+      const row = rows.find((r) => r.state === state);
+      activeMetrics.forEach((metric) => {
+        const value = Number((row as any)?.[metric] ?? 0);
+        if (transposedData[metric]) {
+          transposedData[metric][state] = value;
+        }
       });
-  }, [rows, selectedStates, selectedMetric]);
+    });
 
-  /* ---- Guard: need at least 2 states for comparison ---- */
-  if (selectedStates.length < 2) {
+    return Object.values(transposedData).filter((d) =>
+      selectedStates.some((s) => (d[s] ?? 0) > 0)
+    );
+  }, [rows, selectedStates, activeMetrics]);
+
+  const handleExportCSV = () => {
+    const headers = ["Metric", ...selectedStates];
+    const csvRows = chartData.map((d) => [
+      d.metric,
+      ...selectedStates.map((state) => d[state] ?? 0),
+    ]);
+    exportService.exportToCSV("cp-cp-comparison.csv", headers, csvRows);
+  };
+
+  const handlePrint = () => {
+    exportService.printComponent(chartWrapRef.current, "CP-CP State Comparison");
+  };
+
+  const handleExportExcel = () => {
+    const headers = ["Metric", ...selectedStates];
+    const rowsData = chartData.map((d) => [
+      d.metric,
+      ...selectedStates.map((state) => d[state] ?? 0),
+    ]);
+    const meta = {
+      states: selectedStates,
+      metrics: activeMetrics,
+      generatedAt: new Date().toISOString(),
+    };
+
+    exportService.exportToExcel({
+      element: chartWrapRef.current,
+      filename: "cp-cp-comparison.xlsx",
+      data: { headers, rows: rowsData, meta },
+    });
+  };
+
+  // Corrected Guard
+  if (selectedStates.length < 2 || selectedStates.length > 15) {
     return (
-      <Card className="w-full">
+      <Card className="mt-3">
         <CardContent className="p-4 text-center text-sm text-muted-foreground">
-          Select at least 2 states to view comparison.
+          Please select at least 2 and at most 15 states to view the chart.
         </CardContent>
       </Card>
     );
   }
-
-  /* ---- Guard: no data ---- */
-  if (!chartData.length) {
-    return (
-      <Card className="w-full">
-        <CardContent className="p-4 text-center text-sm text-muted-foreground">
-          No data available for the selected filters.
-        </CardContent>
-      </Card>
-    );
-  }
-
-  /* ---- ChartConfig for ChartContainer ---- */
-  const chartConfig = React.useMemo(
-    () => ({
-      [selectedMetric]: {
-        label: LABELS[selectedMetric],
-        color: COLOR_MAP[selectedMetric],
-      },
-    }),
-    [selectedMetric]
-  );
 
   return (
-    <Card className="w-full">
-      <CardHeader>
-        <div className="flex items-center justify-between gap-2 flex-wrap">
-          <h2 className="text-lg font-semibold">State Comparison</h2>
-          <Select
-            value={selectedMetric}
-            onValueChange={(v) => setSelectedMetric(v as CpCpStatusKey)}
-          >
-            <SelectTrigger className="w-[180px]">
-              <SelectValue placeholder="Select metric" />
-            </SelectTrigger>
-            <SelectContent>
-              {statusOptions.map((s) => (
-                <SelectItem key={s} value={s}>
-                  {LABELS[s]}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </div>
-      </CardHeader>
-
-      <CardContent>
-        <ChartContainer config={chartConfig} className="h-[400px] w-full">
-          <ResponsiveContainer width="100%" height="100%">
-            <BarChart
-              data={chartData}
-              margin={{ top: 20, right: 30, left: 20, bottom: 40 }}
-            >
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis
-                dataKey="state"
-                tick={{ fontSize: 12 }}
-                interval={0}
-                angle={0}
-                textAnchor="middle"
-              />
-              <YAxis />
-              <ChartTooltip
-                content={
-                  <ChartTooltipContent
-                    hideLabel={false}
-                    nameKey={LABELS[selectedMetric]}
-                  />
-                }
-              />
-              <Bar
-                dataKey="value"
-                fill={COLOR_MAP[selectedMetric]}
-                radius={[10, 10, 0, 0]}
-                name={LABELS[selectedMetric]}
-              >
-                <LabelList
-                  dataKey="value"
-                  position="inside"
-                  fill="hsl(var(--background))"
-                  fontSize={12}
-                />
-              </Bar>
-            </BarChart>
-          </ResponsiveContainer>
-        </ChartContainer>
-      </CardContent>
-    </Card>
+    <GroupedBarChart
+      chartRef={chartWrapRef}
+      title="CP-CP State Comparison by Metric"
+      data={chartData}
+      xAxisDataKey="metric"
+      barKeys={selectedStates}
+      onExportCSV={handleExportCSV}
+      onExportExcel={handleExportExcel}
+      onPrint={handlePrint}
+    />
   );
 }

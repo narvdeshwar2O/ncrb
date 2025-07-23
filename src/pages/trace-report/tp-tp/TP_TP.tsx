@@ -4,7 +4,6 @@ import {
   TpTpDailyData,
   TpTpFilters,
   TpTpStatusKey,
-  TP_TP_STATUS_KEYS, // Add if not already imported (for completeness)
 } from "./types";
 import {
   getLast7DaysRange,
@@ -182,6 +181,7 @@ const TP_TP: React.FC = () => {
                       filteredData={filteredData}
                       selectedStatuses={visibleStatuses}
                       filters={filters}
+                      title="Ten Print - Ten Print"
                     />
                   )}
                 </div>

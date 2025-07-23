@@ -1,94 +1,104 @@
-// components/tp-tp/ui/CpCpTable.tsx
-import * as React from "react";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
+import React, { useMemo, useRef } from "react";
+import { DataTable } from "@/components/tables/DataTable";
+import * as exportService from "@/utils/exportService";
 import { CpCpTableRow, CpCpStatusKey } from "../types";
 
 /**
- * Friendly display labels for each metric.
+ * Table configuration for CP-CP.
  */
-const LABELS: Record<CpCpStatusKey, string> = {
-  hit: "Hit",
-  no_hit: "No Hit",
-  intra_state: "Intra State",
-  inter_state: "Inter State",
-  total: "Total",
-};
+const CP_CP_TABLE_CONFIG = (statuses: CpCpStatusKey[]) => [
+  {
+    key: "cp_cp",
+    label: "CP-CP",
+    subColumns: statuses
+      .filter((s) => s !== "total")
+      .map((status) => ({
+        key: status,
+        label:
+          status === "hit"
+            ? "Hit"
+            : status === "no_hit"
+            ? "No Hit"
+            : status === "intra_state"
+            ? "Intra State"
+            : status === "inter_state"
+            ? "Inter State"
+            : status,
+      })),
+  },
+];
 
-export interface CpCpTableProps {
+interface CpCpTableProps {
   rows: CpCpTableRow[];
-  /** Metrics to show (excluding "total"). */
   statuses: CpCpStatusKey[];
-  /** Optional heading shintra over the metrics group. */
-  groupLabel?: string;
 }
 
-export function CpCpTable({
-  rows,
-  statuses,
-  groupLabel = "Metrics",
-}: CpCpTableProps) {
-  // Filter out total
-  const displayStatuses = React.useMemo<CpCpStatusKey[]>(
-    () => statuses.filter((s): s is CpCpStatusKey => s !== "total"),
-    [statuses]
-  );
+export default function CpCpTable({ rows, statuses }: CpCpTableProps) {
+  const tableRef = useRef<HTMLDivElement>(null);
+  const visibleStatuses = statuses.filter((s) => s !== "total");
 
-  if (!rows.length) {
+  // Prepare rows
+  const formattedRows = useMemo(() => {
+    return rows.map((row) => {
+      const metrics: Record<string, number> = {};
+      visibleStatuses.forEach((status) => {
+        metrics[status] = Number(row[status] ?? 0);
+      });
+      return { state: row.state, cp_cp: metrics };
+    });
+  }, [rows, visibleStatuses]);
+
+  const handleExportCSV = () => {
+    const headers: string[] = [
+      "State",
+      ...visibleStatuses.map((status) => {
+        switch (status) {
+          case "hit":
+            return "Hit";
+          case "no_hit":
+            return "No Hit";
+          case "intra_state":
+            return "Intra State";
+          case "inter_state":
+            return "Inter State";
+          default:
+            return status;
+        }
+      }),
+    ];
+
+    const dataRows: (string | number)[][] = formattedRows.map((row) => [
+      row.state,
+      ...visibleStatuses.map((status) => row.cp_cp[status] ?? 0),
+    ]);
+
+    exportService.exportToCSV("cp-cp-table.csv", headers, dataRows);
+  };
+
+  const handlePrint = () => {
+    exportService.printComponent(tableRef.current, "CP-CP Table");
+  };
+
+  // ✅ Conditional rendering AFTER all hooks
+  if (visibleStatuses.length === 0) {
     return (
       <div className="overflow-auto rounded-md border p-4 text-center text-sm text-muted-foreground">
-        No data available for the selected filters.
+        No metrics selected. Please choose at least one metric to view the table.
       </div>
     );
   }
 
   return (
-    <div className="overflow-auto rounded-md border">
-      <Table>
-        {/* Header */}
-        <TableHeader>
-          <TableRow>
-            <TableHead rowSpan={2} className="border-r text-center">
-              State
-            </TableHead>
-            <TableHead
-              colSpan={displayStatuses.length}
-              className="text-center border-r"
-            >
-              {groupLabel}
-            </TableHead>
-          </TableRow>
-          <TableRow>
-            {displayStatuses.map((status) => (
-              <TableHead key={status} className="text-center">
-                {LABELS[status]}
-              </TableHead>
-            ))}
-          </TableRow>
-        </TableHeader>
-
-        {/* Body */}
-        <TableBody>
-          {rows.map((row) => (
-            <TableRow key={row.state} className="text-center">
-              <TableCell className="font-medium border-r whitespace-nowrap">
-                {row.state}
-              </TableCell>
-              {displayStatuses.map((status) => (
-                <TableCell key={`${row.state}-${status}`}>
-                  {Number(row[status] ?? 0).toLocaleString()}
-                </TableCell>
-              ))}
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </div>
+    <DataTable
+      tableRef={tableRef}
+      title="CP-CP Table"
+      data={formattedRows}
+      primaryKey="state"
+      primaryKeyHeader="State"
+      columnConfig={CP_CP_TABLE_CONFIG(visibleStatuses)}
+      onExportCSV={handleExportCSV}
+      onPrint={handlePrint}
+      noDataMessage="No CP-CP data to display for the selected filters."
+    />
   );
 }

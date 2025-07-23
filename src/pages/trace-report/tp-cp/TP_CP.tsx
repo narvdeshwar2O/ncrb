@@ -182,6 +182,7 @@ const TP_TP: React.FC = () => {
                       filteredData={filteredData}
                       selectedStatuses={visibleStatuses}
                       filters={filters}
+                      title="Ten Print - Chance Print"
                     />
                   )}
                 </div>
