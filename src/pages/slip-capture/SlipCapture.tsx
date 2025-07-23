@@ -13,7 +13,7 @@ import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { StatusCard } from "./ui/StatusCard";
 import { SlipTable } from "./ui/SlipTable";
-import SlipComparisonChart from "./ui/SlipComparisonChart";
+import { SlipComparisonChart } from "./ui/SlipComparisonChart";
 import SlipTopFive from "./ui/SlipTopFive";
 import { SlipFiltersBar } from "./filters/SlipFiltersBar";
 import SlipCaptureChart from "./ui/SlipCaptureChart";
@@ -118,7 +118,11 @@ const SlipCapture: React.FC = () => {
                 {/* Status Summary Cards */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
                   {visibleStatuses.map((s) => (
-                    <StatusCard key={s} title={s} value={totalsByStatus[s] ?? 0} />
+                    <StatusCard
+                      key={s}
+                      title={s}
+                      value={totalsByStatus[s] ?? 0}
+                    />
                   ))}
                 </div>
 
@@ -130,8 +134,8 @@ const SlipCapture: React.FC = () => {
                 ) : (
                   <div className="w-full p-3 flex justify-center items-center">
                     <p className="border shadow-md p-3 rounded-md">
-                      Select at least one state to visualize the Arrested,
-                      Suspect, and Convicted data.
+                      Select one state to visualize the Arrested, Suspect, and
+                      Convicted data.
                     </p>
                   </div>
                 )}
@@ -152,14 +156,15 @@ const SlipCapture: React.FC = () => {
                     filters.states.length >= 2 && filters.states.length <= 5 ? (
                       <SlipComparisonChart
                         rows={tableRows}
-                        statuses={visibleStatuses}
+                        statuses={visibleStatuses} // From filters
                         selectedStates={filters.states}
+                        categories={["Crime Status"]}
                       />
                     ) : (
                       <div className="w-full p-3 flex justify-center items-center">
                         <p className="border shadow-md p-3 rounded-md">
-                          Please select at least 2 and at most 5 states for chart
-                          comparison.
+                          Please select at least 2 and at most 5 states for
+                          chart comparison.
                         </p>
                       </div>
                     )

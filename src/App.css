@@ -2,4 +2,11 @@
   .print-hide {
     display: none !important;
   }
+  .chart-legend-dot {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  .line-through {
+    text-decoration: none !important; /* Avoid strikethrough in print */
+  }
 }

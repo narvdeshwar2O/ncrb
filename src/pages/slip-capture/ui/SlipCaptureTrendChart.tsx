@@ -1,16 +1,16 @@
 "use client";
 
 import { useState } from "react";
-import { GitCommitVertical } from "lucide-react";
+import { GitCommitVertical, Download, Printer } from "lucide-react";
 import {
+  ResponsiveContainer,
   CartesianGrid,
-  Line,
   LineChart,
+  Line,
   XAxis,
   YAxis,
-  ResponsiveContainer,
+  Legend,
 } from "recharts";
-
 import {
   Card,
   CardContent,
@@ -24,15 +24,16 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
-
 import { SlipDailyData, StatusKey } from "../types";
+import { Button } from "@/components/ui/button";
+import * as exportService from "@/utils/exportService";
 
-// ✅ Theme-aware colors
+// ✅ Colors (using HEX for print safety)
 const chartConfig: ChartConfig = {
-  Arrested: { label: "Arrested", color: "hsl(var(--chart-1))" },
-  Convicted: { label: "Convicted", color: "hsl(var(--chart-2))" },
-  Suspect: { label: "Suspect", color: "hsl(var(--chart-3))" },
-  Total: { label: "Total", color: "hsl(var(--chart-4))" },
+  Arrested: { label: "Arrested", color: "#3B82F6" }, // Blue
+  Convicted: { label: "Convicted", color: "#22C55E" }, // Green
+  Suspect: { label: "Suspect", color: "#EF4444" }, // Red
+  Total: { label: "Total", color: "#F59E0B" }, // Amber
 };
 
 interface SlipCaptureTrendChartProps {
@@ -57,7 +58,7 @@ export function SlipCaptureTrendChart({
     );
   };
 
-  // ✅ Prepare Chart Data
+  // Prepare Chart Data
   const chartData = filteredData
     .map((day) => {
       const stateData = day.data[selectedState];
@@ -78,7 +79,45 @@ export function SlipCaptureTrendChart({
         Total: total,
       };
     })
-    .filter(Boolean);
+    .filter(Boolean) as any[];
+
+  // CSV Export
+  const handleExportCSV = () => {
+    const headers = ["Date", "Arrested", "Convicted", "Suspect", "Total"];
+    const rows = chartData.map((d) => [
+      d.date,
+      d.Arrested,
+      d.Convicted,
+      d.Suspect,
+      d.Total,
+    ]);
+    exportService.exportToCSV(`${selectedState}-trend.csv`, headers, rows);
+  };
+
+  const handlePrint = () => {
+    if (chartData.length === 0) {
+      alert(
+        "No data available to print. Please select a valid state and date range."
+      );
+      return;
+    }
+
+    // Temporarily hide all elements with class 'print-hide'
+    const hideElements = document.querySelectorAll<HTMLElement>(".print-hide");
+    hideElements.forEach((el) => (el.style.display = "none"));
+
+    // Perform printing
+    const element = document.getElementById("trend-chart-container");
+    exportService.printComponent(
+      element as HTMLDivElement,
+      `${selectedState} Trend Report`
+    );
+
+    // Restore elements after printing
+    setTimeout(() => {
+      hideElements.forEach((el) => (el.style.display = ""));
+    }, 500);
+  };
 
   if (chartData.length === 0) {
     return (
@@ -94,55 +133,35 @@ export function SlipCaptureTrendChart({
   }
 
   return (
-    <Card className="py-2">
+    <Card id="trend-chart-container" className="py-2">
       <CardHeader className="py-3">
-        <CardTitle className="text-base">
-          {selectedState} - Crime Trends
-        </CardTitle>
-        <CardDescription className="text-xs">
-          Arrested, Convicted, Suspect & Total
-        </CardDescription>
-      </CardHeader>
-      <CardContent className="p-0 h-[400px]">
-        {/* ✅ Legend (now includes Total as toggleable) */}
-        <div className="flex justify-center gap-4 py-2 border-b flex-wrap">
-          {(["Arrested", "Convicted", "Suspect", "Total"] as StatusKey[]).map(
-            (key) => (
-              <button
-                key={key}
-                onClick={() => toggleLine(key)}
-                className="flex items-center gap-1 text-xs sm:text-sm"
-              >
-                <span
-                  className="h-3 w-3 rounded-full"
-                  style={{
-                    backgroundColor: activeLines.includes(key)
-                      ? chartConfig[key].color
-                      : "transparent",
-                    border: `2px solid ${chartConfig[key].color}`,
-                  }}
-                />
-                <span
-                  className={
-                    activeLines.includes(key)
-                      ? "text-foreground"
-                      : "text-muted-foreground line-through"
-                  }
-                >
-                  {chartConfig[key].label}
-                </span>
-              </button>
-            )
-          )}
+        <div className="flex justify-between">
+          <div>
+            <CardTitle className="text-base">
+              {selectedState} - Crime Trends
+            </CardTitle>
+            <CardDescription className="text-xs">
+              Arrested, Convicted, Suspect & Total
+            </CardDescription>
+          </div>
+          <div className="flex gap-2 print-hide">
+            <Button variant="outline" size="sm" onClick={handleExportCSV}>
+              <Download className="h-4 w-4 mr-1" /> CSV
+            </Button>
+            <Button variant="outline" size="sm" onClick={handlePrint}>
+              <Printer className="h-4 w-4 mr-1" /> Print
+            </Button>
+          </div>
         </div>
+      </CardHeader>
 
-        {/* ✅ Chart */}
+      <CardContent className="p-0 h-[400px]">
         <ChartContainer config={chartConfig} className="h-full w-full p-2">
           <div className="w-full h-[300px] sm:h-[340px] md:h-[360px]">
             <ResponsiveContainer width="100%" height="100%">
               <LineChart
                 data={chartData}
-                margin={{ top: 8, right: 8, bottom: 4, left: 8 }}
+                margin={{ top: 20, right: 8, bottom: 4, left: 8 }}
               >
                 <CartesianGrid vertical={false} />
                 <XAxis
@@ -154,6 +173,15 @@ export function SlipCaptureTrendChart({
                 <YAxis width={48} />
                 <ChartTooltip content={<ChartTooltipContent />} />
 
+                {/* Legend */}
+                <Legend
+                  verticalAlign="top"
+                  wrapperStyle={{ top: 0 }}
+                  onClick={(e) => toggleLine(e.dataKey as StatusKey)}
+                  formatter={(value) => chartConfig[value as StatusKey].label}
+                />
+
+                {/* Lines */}
                 {activeLines.includes("Arrested") && (
                   <Line
                     dataKey="Arrested"
@@ -193,7 +221,7 @@ export function SlipCaptureTrendChart({
                           y={cy - r / 2}
                           width={r}
                           height={r}
-                          fill="hsl(var(--background))"
+                          fill="#FFFFFF"
                           stroke={chartConfig.Total.color}
                         />
                       );

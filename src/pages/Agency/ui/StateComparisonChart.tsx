@@ -1,10 +1,7 @@
-// src/components/StateComparisonChart.tsx
-
 import { useMemo, useRef } from "react";
 import { StateData } from "./AgencyTable";
 import { GroupedBarChart } from "@/components/charts/GroupedBarChart";
 import { Card, CardContent } from "@/components/ui/card";
-// 1. You correctly import the service
 import * as exportService from "@/utils/exportService";
 
 // Interface and type definitions
