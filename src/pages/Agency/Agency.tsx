@@ -143,11 +143,7 @@ function Agency() {
     return map;
   }, [filteredData, filters, activeCategories]);
 
-  const stateComp = useMemo(
-    () => computeStateTotals(filteredData),
-    [filteredData]
-  );
-
+  console.log("ACITVE ", activeCategories);
   // Loading
   if (loading) {
     return (

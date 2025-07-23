@@ -48,10 +48,7 @@ const categoryLabelMap: Record<Category, string> = {
 };
 
 const slugify = (text: string) =>
-  text
-    .toLowerCase()
-    .replace(/\s+/g, "-")
-    .replace(/[^\w-]+/g, "");
+  text.toLowerCase().replace(/\s+/g, "-").replace(/[^\w-]+/g, "");
 
 export function Top5DataView({
   allData,
@@ -68,10 +65,7 @@ export function Top5DataView({
   });
 
   // Safe categories
-  const safeCategories: Category[] = categories.filter(isValidCategory);
-  const activeCategories = safeCategories.length
-    ? safeCategories
-    : VALID_CATEGORIES;
+  const activeCategories: Category[] = categories.filter(isValidCategory);
 
   // Precompute Top Data
   const topDataByCategory = useMemo(() => {
@@ -92,17 +86,13 @@ export function Top5DataView({
   // Print All
   const handlePrintAll = () => {
     const printButtons = document.querySelectorAll(".print-hide");
-    console.log("Hiding buttons for print:", printButtons.length);
-    printButtons.forEach(
-      (btn) => ((btn as HTMLElement).style.display = "none")
-    );
+    printButtons.forEach((btn) => (btn as HTMLElement).style.display = "none");
 
     exportService.printComponent(viewRef.current, "Top 5 States Report - All");
 
-    // Restore button visibility
-    printButtons.forEach(
-      (btn) => ((btn as HTMLElement).style.display = "inline-flex")
-    );
+    setTimeout(() => {
+      printButtons.forEach((btn) => (btn as HTMLElement).style.display = "");
+    }, 500);
   };
 
   // Export All CSV
@@ -135,10 +125,6 @@ export function Top5DataView({
       | NodeListOf<HTMLElement>
       | undefined;
 
-    console.log(
-      `Hiding buttons for ${category} row print:`,
-      buttons?.length || 0
-    );
     buttons?.forEach((btn) => (btn.style.display = "none"));
 
     exportService.printComponent(
@@ -146,8 +132,9 @@ export function Top5DataView({
       `${categoryLabelMap[category]} - Top 5 States`
     );
 
-    // Restore button visibility
-    buttons?.forEach((btn) => (btn.style.display = "inline-flex"));
+    setTimeout(() => {
+      buttons?.forEach((btn) => (btn.style.display = ""));
+    }, 500);
   };
 
   // Export Row CSV
@@ -175,32 +162,36 @@ export function Top5DataView({
   };
 
   return (
-    <>
-      <Card ref={viewRef}>
-        <CardHeader className="flex-row items-center justify-between">
-          <CardTitle>Top 5 States by Category</CardTitle>
-          <div className="flex items-center gap-2">
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={handleExportAllCSV}
-              className="print-hide"
-            >
-              <Download className="h-4 w-4 mr-1" /> CSV All
-            </Button>
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={handlePrintAll}
-              className="print-hide"
-            >
-              <Printer className="h-4 w-4 mr-1" /> Print All
-            </Button>
-          </div>
-        </CardHeader>
+    <Card ref={viewRef}>
+      <CardHeader className="flex-row items-center justify-between">
+        <CardTitle>Top 5 States by Category</CardTitle>
+        <div className="flex items-center gap-2">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={handleExportAllCSV}
+            className="print-hide"
+          >
+            <Download className="h-4 w-4 mr-1" /> CSV All
+          </Button>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={handlePrintAll}
+            className="print-hide"
+          >
+            <Printer className="h-4 w-4 mr-1" /> Print All
+          </Button>
+        </div>
+      </CardHeader>
 
-        <CardContent className="space-y-6 pt-4">
-          {activeCategories.map((category) => {
+      <CardContent className="space-y-6 pt-4">
+        {activeCategories.length === 0 ? (
+          <div className="text-center p-4 text-muted-foreground">
+            No categories selected. Please choose at least one category.
+          </div>
+        ) : (
+          activeCategories.map((category) => {
             const label = categoryLabelMap[category];
             const catData = topDataByCategory[category];
 
@@ -249,9 +240,9 @@ export function Top5DataView({
                 </div>
               </div>
             );
-          })}
-        </CardContent>
-      </Card>
-    </>
+          })
+        )}
+      </CardContent>
+    </Card>
   );
 }
