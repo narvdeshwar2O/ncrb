@@ -1,179 +1,261 @@
-"use client";
-
-import React, { useMemo, useState } from "react";
-import { LineChart, Line, CartesianGrid, XAxis, YAxis } from "recharts";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { useState } from "react";
+import { GitCommitVertical, Download, Printer } from "lucide-react";
 import {
+  ResponsiveContainer,
+  CartesianGrid,
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+} from "recharts";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import {
+  ChartConfig,
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
-  ChartConfig,
 } from "@/components/ui/chart";
 import { TpTpDailyData } from "../types";
-import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
+import * as exportService from "@/utils/exportService";
+
+// ✅ Colors (using HEX for print safety)
+const chartConfig: ChartConfig = {
+  hit: { label: "Hit", color: "#3B82F6" }, // Blue
+  no_hit: { label: "No-Hit", color: "#22C55E" }, // Green
+  total: { label: "Total", color: "#F59E0B" }, // Amber
+};
+
+type TpTpStatusKey = "hit" | "no_hit" | "total";
 
 interface TpTpTrendChartProps {
   filteredData: TpTpDailyData[];
   selectedState: string;
 }
 
-/**
- * Colors: pick theme-vars so they work in light & dark.
- * You can remap these to CSS vars you've defined in theme.css if desired.
- */
-const chartConfig: ChartConfig = {
-  hit: { label: "Hit", color: "hsl(var(--chart-1))" },
-  no_hit: { label: "No-Hit", color: "hsl(var(--chart-2))" },
-  total: { label: "Total", color: "hsl(var(--chart-4))" },
-};
-
 export default function TpTpTrendChart({
   filteredData,
   selectedState,
 }: TpTpTrendChartProps) {
-  // Legend toggle state
-  const [activeKeys, setActiveKeys] = useState<
-    Array<"hit" | "no_hit" | "total">
-  >(["hit", "no_hit", "total"]);
+  const [activeLines, setActiveLines] = useState<TpTpStatusKey[]>([
+    "hit",
+    "no_hit",
+    "total",
+  ]);
 
-  const toggleKey = (k: "hit" | "no_hit" | "total") => {
-    setActiveKeys((prev) =>
-      prev.includes(k) ? prev.filter((x) => x !== k) : [...prev, k]
+  const toggleLine = (key: TpTpStatusKey) => {
+    setActiveLines((prev) =>
+      prev.includes(key) ? prev.filter((k) => k !== key) : [...prev, key]
     );
   };
 
-  // Prepare chart rows
-  const chartData = useMemo(() => {
-    if (!filteredData.length) return [];
-    return [...filteredData]
-      .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
-      .map((day) => {
-        const tpTp = day.data[selectedState]?.tp_tp;
-        const hit = tpTp?.hit ?? 0;
-        const no_hit = tpTp?.no_hit ?? 0;
-        // Prefer provided total; fallback to hit + no_hit
-        const total = tpTp?.total ?? hit + no_hit;
-        return {
-          label: new Date(day.date).toLocaleDateString("en-US", {
-            month: "short",
-            day: "numeric",
-          }),
-          hit,
-          no_hit,
-          total,
-        };
-      });
-  }, [filteredData, selectedState]);
+  // Prepare Chart Data
+  const chartData = filteredData
+    .map((day) => {
+      const tpTp = day.data[selectedState]?.tp_tp;
+      if (!tpTp) return null;
+      const hit = tpTp.hit ?? 0;
+      const no_hit = tpTp.no_hit ?? 0;
+      const total = hit + no_hit; // Compute total as sum (fallback if not provided)
 
-  // Guard: no data for that state
-  if (
-    !chartData.length ||
-    chartData.every((r) => r.hit === 0 && r.no_hit === 0 && r.total === 0)
-  ) {
+      return {
+        date: new Date(day.date).toLocaleDateString("en-US", {
+          month: "short",
+          day: "numeric",
+        }),
+        hit,
+        no_hit,
+        total,
+      };
+    })
+    .filter(Boolean) as any[];
+
+  // CSV Export
+  const handleExportCSV = () => {
+    const headers = ["Date", "Hit", "No-Hit", "Total"];
+    const rows = chartData.map((d) => [d.date, d.hit, d.no_hit, d.total]);
+    exportService.exportToCSV(`${selectedState}-trend.csv`, headers, rows);
+  };
+
+  // Print
+  const handlePrint = () => {
+    if (chartData.length === 0) {
+      alert(
+        "No data available to print. Please select a valid state and date range."
+      );
+      return;
+    }
+
+    // Hide print-hide elements
+    const hideElements = document.querySelectorAll<HTMLElement>(".print-hide");
+    hideElements.forEach((el) => (el.style.display = "none"));
+
+    // Perform printing
+    const element = document.getElementById("tptp-trend-chart");
+    exportService.printComponent(
+      element as HTMLDivElement,
+      `${selectedState} Trend Report`
+    );
+
+    // Restore elements after printing
+    setTimeout(() => {
+      hideElements.forEach((el) => (el.style.display = ""));
+    }, 500);
+  };
+
+  // Custom Legend Component
+  const renderLegend = () => {
+    const keys: TpTpStatusKey[] = ["hit", "no_hit", "total"];
     return (
-      <Card className="w-full">
-        <CardHeader>
-          <h3 className="text-base font-semibold">
-            TP‑TP Trend for {selectedState}
-          </h3>
+      <ul
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          gap: "16px",
+          listStyle: "none",
+          padding: "8px 0",
+          margin: "0 0 8px 0",
+          flexWrap: "wrap",
+        }}
+      >
+        {keys.map((key) => {
+          const isActive = activeLines.includes(key);
+          return (
+            <li
+              key={key}
+              onClick={() => toggleLine(key)}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "4px",
+                cursor: "pointer",
+                color: isActive ? chartConfig[key].color : "#A0AEC0", // Grey for inactive
+                fontSize: "12px",
+              }}
+            >
+              <span
+                style={{
+                  width: "12px",
+                  height: "12px",
+                  borderRadius: "50%",
+                  backgroundColor: isActive
+                    ? chartConfig[key].color
+                    : "#A0AEC0",
+                }}
+              />
+              {chartConfig[key].label}
+            </li>
+          );
+        })}
+      </ul>
+    );
+  };
+
+  if (chartData.length === 0) {
+    return (
+      <Card>
+        <CardHeader className="py-2">
+          <CardTitle className="text-base">No Data Available</CardTitle>
+          <CardDescription className="text-xs">
+            Select a date range and a state with valid data.
+          </CardDescription>
         </CardHeader>
-        <CardContent>
-          <p className="text-sm text-muted-foreground">
-            No data available for the selected state and date range.
-          </p>
-        </CardContent>
       </Card>
     );
   }
 
   return (
-    <Card className="w-full">
-      <CardHeader>
-        <h3 className="text-base font-semibold">
-          TP‑TP Trend for {selectedState}
-        </h3>
-      </CardHeader>
-      <CardContent className="h-[400px]">
-        {/* Top Legend */}
-        <div className="flex justify-center gap-4 pb-3">
-          {(["hit", "no_hit", "total"] as const).map((k) => {
-            const active = activeKeys.includes(k);
-            const color = chartConfig[k].color;
-            return (
-              <button
-                key={k}
-                type="button"
-                onClick={() => toggleKey(k)}
-                className={cn(
-                  "flex items-center gap-2 rounded-full border px-3 py-1 text-xs sm:text-sm transition",
-                  active
-                    ? "bg-background"
-                    : "opacity-60 line-through text-muted-foreground"
-                )}
-                style={{ borderColor: color }}
-              >
-                <span
-                  className="h-3 w-3 rounded-full"
-                  style={{
-                    backgroundColor: active ? color : "transparent",
-                    border: `2px solid ${color}`,
-                  }}
-                />
-                {chartConfig[k].label}
-              </button>
-            );
-          })}
+    <Card id="tptp-trend-chart" className="py-2">
+      <CardHeader className="py-3">
+        <div className="flex justify-between">
+          <div>
+            <CardTitle className="text-base">
+              {selectedState} - TP-TP Trends
+            </CardTitle>
+            <CardDescription className="text-xs">
+              Hit, No-Hit & Total
+            </CardDescription>
+          </div>
+          <div className="flex gap-2 print-hide">
+            <Button variant="outline" size="sm" onClick={handleExportCSV}>
+              <Download className="h-4 w-4 mr-1" /> CSV
+            </Button>
+            <Button variant="outline" size="sm" onClick={handlePrint}>
+              <Printer className="h-4 w-4 mr-1" /> Print
+            </Button>
+          </div>
         </div>
+      </CardHeader>
 
-        {/* Chart */}
-        <ChartContainer
-          config={chartConfig}
-          className="h-[calc(100%-2.25rem)] w-full"
-        >
-          <LineChart
-            data={chartData}
-            margin={{ top: 8, right: 8, bottom: 0, left: 8 }}
-          >
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis
-              dataKey="label"
-              tickMargin={8}
-              tickLine={false}
-              axisLine={false}
-            />
-            <YAxis width={48} />
-            <ChartTooltip content={<ChartTooltipContent indicator="line" />} />
+      <CardContent className="p-0 h-[400px]">
+        {/* Custom Legend */}
+        {renderLegend()}
 
-            {activeKeys.includes("hit") && (
-              <Line
-                type="monotone"
-                dataKey="hit"
-                stroke={chartConfig.hit.color}
-                strokeWidth={2}
-                dot={{ r: 4, stroke: chartConfig.hit.color, strokeWidth: 1 }}
-              />
-            )}
-            {activeKeys.includes("no_hit") && (
-              <Line
-                type="monotone"
-                dataKey="no_hit"
-                stroke={chartConfig.no_hit.color}
-                strokeWidth={2}
-                dot={{ r: 4, stroke: chartConfig.no_hit.color, strokeWidth: 1 }}
-              />
-            )}
-            {activeKeys.includes("total") && (
-              <Line
-                type="monotone"
-                dataKey="total"
-                stroke={chartConfig.total.color}
-                strokeWidth={2}
-                strokeDasharray="6 4"
-                activeDot={{ r: 5 }}
-                dot={{ r: 4, stroke: chartConfig.total.color, strokeWidth: 1 }}
-              />
-            )}
-          </LineChart>
+        <ChartContainer config={chartConfig} className="h-full w-full p-2">
+          <div className="w-full h-[300px] sm:h-[340px] md:h-[360px]">
+            <ResponsiveContainer width="100%" height="100%">
+              <LineChart
+                data={chartData}
+                margin={{ top: 20, right: 8, bottom: 4, left: 8 }}
+              >
+                <CartesianGrid vertical={false} />
+                <XAxis
+                  dataKey="date"
+                  tickLine={false}
+                  axisLine={false}
+                  tickMargin={8}
+                />
+                <YAxis width={48} />
+                <ChartTooltip content={<ChartTooltipContent />} />
+
+                {/* Lines */}
+                {activeLines.includes("hit") && (
+                  <Line
+                    dataKey="hit"
+                    stroke={chartConfig.hit.color}
+                    strokeWidth={2}
+                    dot={{ r: 3 }}
+                  />
+                )}
+                {activeLines.includes("no_hit") && (
+                  <Line
+                    dataKey="no_hit"
+                    stroke={chartConfig.no_hit.color}
+                    strokeWidth={2}
+                    dot={{ r: 3 }}
+                  />
+                )}
+                {activeLines.includes("total") && (
+                  <Line
+                    dataKey="total"
+                    stroke={chartConfig.total.color}
+                    strokeWidth={2}
+                    strokeDasharray="6 4"
+                    dot={({ cx, cy, payload }) => {
+                      const r = 14;
+                      return (
+                        <GitCommitVertical
+                          key={payload.date}
+                          x={cx - r / 2}
+                          y={cy - r / 2}
+                          width={r}
+                          height={r}
+                          fill="#FFFFFF"
+                          stroke={chartConfig.total.color}
+                        />
+                      );
+                    }}
+                  />
+                )}
+              </LineChart>
+            </ResponsiveContainer>
+          </div>
         </ChartContainer>
       </CardContent>
     </Card>

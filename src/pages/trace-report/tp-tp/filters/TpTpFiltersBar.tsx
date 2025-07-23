@@ -1,16 +1,22 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Calendar } from "@/components/ui/calendar";
-import { CalendarIcon, Filter, RotateCcw } from "lucide-react";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { format } from "date-fns";
+import { CalendarIcon, Filter as FilterIcon, RotateCcw } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { format, subDays, startOfDay, endOfDay } from "date-fns";
 import MultiSelectCheckbox from "@/components/ui/MultiSelectCheckbox";
+import { startOfDay, endOfDay, subDays } from "date-fns";
+
 import { TpTpFilters, TpTpStatusKey, TP_TP_STATUS_KEYS } from "../types";
 
 /* ------------------------------------------------------------------ */
-/* Helpers                                                             */
+/* Helpers                                                            */
 /* ------------------------------------------------------------------ */
 const getLastNDaysRange = (n: number) => {
   const to = endOfDay(new Date());
@@ -19,75 +25,86 @@ const getLastNDaysRange = (n: number) => {
 };
 
 /* ------------------------------------------------------------------ */
-/* Props                                                               */
+/* Props                                                              */
 /* ------------------------------------------------------------------ */
 interface TpTpFiltersBarProps {
   allStates: string[];
   value: TpTpFilters;
-  onChange: (f: TpTpFilters) => void;
+  onChange: (filters: TpTpFilters) => void;
 }
 
 /* ------------------------------------------------------------------ */
-/* Component                                                           */
+/* Component                                                          */
 /* ------------------------------------------------------------------ */
-export const TpTpFiltersBar: React.FC<TpTpFiltersBarProps> = ({
+export const TpTpFiltersBar = ({
   allStates,
   value,
   onChange,
-}) => {
-  const initialRange = getLastNDaysRange(7);
+}: TpTpFiltersBarProps) => {
   const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
+  const initialized = useRef(false);
 
-  const [selectedStates, setSelectedStates] = useState<string[]>(value.states);
-  const [selectedStatuses, setSelectedStatuses] = useState<TpTpStatusKey[]>(
-    value.statuses
-  );
+  // Friendly display labels for statuses
+  const statusLabelMap: Record<string, string> = {
+    Arrested: "Arrested",
+    Convicted: "Convicted",
+    Suspect: "Suspect",
+    Total: "Total",
+  };
 
-  const [daysPreset, setDaysPreset] = useState<"7" | "30" | "90" | "custom">("7");
-
-  // ✅ Remove total from the visible options
+  // ✅ Remove total from options (keeping as per original, but if you want to include "total", remove the filter)
   const STATUS_OPTIONS = TP_TP_STATUS_KEYS.filter((s) => s !== "total");
 
-  const updateFilters = (newFilters: Partial<TpTpFilters>) => {
-    const updated = { ...value, ...newFilters };
-    onChange(updated);
+  useEffect(() => {
+    if (
+      !initialized.current &&
+      (!value.states?.length || !value.statuses?.length)
+    ) {
+      initialized.current = true;
+      onChange({
+        dateRange: value.dateRange || { from: undefined, to: undefined },
+        states: value.states?.length ? value.states : [...allStates],
+        statuses: value.statuses?.length ? value.statuses : [...STATUS_OPTIONS],
+      });
+    }
+  }, [allStates, value, onChange]);
+
+  const selectedStates = value.states ?? [];
+  const selectedStatuses = value.statuses ?? [];
+  const noStatesSelected = selectedStates.length === 0;
+
+  const updateFilters = (patch: Partial<TpTpFilters>) => {
+    onChange({ ...value, ...patch });
   };
 
   const handleDateSelect = (range: { from?: Date; to?: Date } | undefined) => {
     if (!range) return;
-    updateFilters({ dateRange: { from: range.from || null, to: range.to || null } });
-    setDaysPreset("custom");
-  };
-
-  const setLastNDays = (n: number) => {
-    const range = getLastNDaysRange(n);
-    updateFilters({ dateRange: range });
-    setDaysPreset((n as 7 | 30 | 90).toString() as "7" | "30" | "90");
+    updateFilters({
+      dateRange: {
+        from: range.from || undefined,
+        to: range.to || undefined,
+      },
+    });
   };
 
   const resetFilters = () => {
-    const resetRange = initialRange;
-    const resetValue: TpTpFilters = {
-      dateRange: resetRange,
-      states: [],
-      statuses: [...STATUS_OPTIONS], // ✅ No total on reset
-    };
-    onChange(resetValue);
-    setSelectedStates([]);
-    setSelectedStatuses([...STATUS_OPTIONS]);
-    setDaysPreset("7");
+    onChange({
+      dateRange: { from: undefined, to: undefined },
+      states: [...allStates],
+      statuses: [...STATUS_OPTIONS],
+    });
   };
 
   return (
     <Card className="mb-6">
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
-          <Filter className="h-5 w-5" />
+          <FilterIcon className="h-5 w-5" />
           Filters
         </CardTitle>
       </CardHeader>
       <CardContent>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-3">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 gap-3">
           {/* Date Range */}
           <div className="space-y-2">
             <label className="text-sm font-medium">Date Range</label>
@@ -119,10 +136,10 @@ export const TpTpFiltersBar: React.FC<TpTpFiltersBarProps> = ({
                 <Calendar
                   initialFocus
                   mode="range"
-                  defaultMonth={value.dateRange.from || undefined}
+                  defaultMonth={value.dateRange.from}
                   selected={{
-                    from: value.dateRange.from || undefined,
-                    to: value.dateRange.to || undefined,
+                    from: value.dateRange.from,
+                    to: value.dateRange.to,
                   }}
                   onSelect={handleDateSelect}
                   numberOfMonths={1}
@@ -132,48 +149,25 @@ export const TpTpFiltersBar: React.FC<TpTpFiltersBarProps> = ({
             </Popover>
           </div>
 
-          {/* Last N Days */}
-          <div className="space-y-2">
-            <label className="text-sm font-medium">Select Days</label>
-            <select
-              className="w-full border rounded-md p-2 text-sm bg-card"
-              value={daysPreset === "custom" ? "" : daysPreset}
-              onChange={(e) => {
-                const val = e.target.value;
-                if (!val) {
-                  setDaysPreset("custom");
-                  return;
-                }
-                setLastNDays(parseInt(val, 10));
-              }}
-            >
-              <option value="">Custom Range</option>
-              <option value="7">Last 7 Days</option>
-              <option value="30">Last 30 Days</option>
-              <option value="90">Last 90 Days</option>
-            </select>
-          </div>
-
-          {/* States MultiSelect */}
+          {/* States */}
           <MultiSelectCheckbox
             label="States"
             options={allStates}
             selected={selectedStates}
-            onChange={(newStates) => {
-              setSelectedStates(newStates);
-              updateFilters({ states: newStates });
-            }}
+            onChange={(newStates) => updateFilters({ states: newStates })}
           />
 
-          {/* Status MultiSelect */}
+          {/* Metrics (disabled if no states) */}
           <MultiSelectCheckbox
             label="Metrics"
-            options={STATUS_OPTIONS as string[]}
+            options={[...STATUS_OPTIONS]}
             selected={selectedStatuses}
-            onChange={(newStatuses) => {
-              setSelectedStatuses(newStatuses as TpTpStatusKey[]);
-              updateFilters({ statuses: newStatuses as TpTpStatusKey[] });
-            }}
+            onChange={(newStatuses) =>
+              updateFilters({ statuses: newStatuses as TpTpStatusKey[] })
+            }
+            disabled={noStatesSelected}
+            disabledText="Select states first"
+            getOptionLabel={(v) => statusLabelMap[v] ?? v}
           />
 
           {/* Reset */}

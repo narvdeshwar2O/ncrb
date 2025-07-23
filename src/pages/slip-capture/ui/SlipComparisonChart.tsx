@@ -1,5 +1,3 @@
-"use client";
-
 import { useMemo, useRef } from "react";
 import { GroupedBarChart } from "@/components/charts/GroupedBarChart";
 import { Card, CardContent } from "@/components/ui/card";
@@ -47,13 +45,19 @@ export function SlipComparisonChart({
   // Export Handlers
   const handleExportCSV = () => {
     const headers = ["Status", ...selectedStates];
-    const rowsData = chartData.map((d) => [d.category, ...selectedStates.map((s) => d[s] ?? 0)]);
+    const rowsData = chartData.map((d) => [
+      d.category,
+      ...selectedStates.map((s) => d[s] ?? 0),
+    ]);
     exportService.exportToCSV("state-comparison.csv", headers, rowsData);
   };
 
   const handleExportExcel = () => {
     const headers = ["Status", ...selectedStates];
-    const rowsData = chartData.map((d) => [d.category, ...selectedStates.map((s) => d[s] ?? 0)]);
+    const rowsData = chartData.map((d) => [
+      d.category,
+      ...selectedStates.map((s) => d[s] ?? 0),
+    ]);
     const meta = {
       states: selectedStates,
       statuses: statuses,
@@ -67,7 +71,10 @@ export function SlipComparisonChart({
   };
 
   const handlePrint = () => {
-    exportService.printComponent(chartWrapRef.current, "State Comparison Chart");
+    exportService.printComponent(
+      chartWrapRef.current,
+      "State Comparison Chart"
+    );
   };
 
   // No states selected

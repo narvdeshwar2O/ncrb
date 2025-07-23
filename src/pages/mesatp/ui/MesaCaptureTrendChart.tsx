@@ -1,5 +1,3 @@
-"use client";
-
 import { useState } from "react";
 import { GitCommitVertical, Download, Printer } from "lucide-react";
 import {
@@ -154,7 +152,9 @@ export function MesaCaptureTrendChart({
                   width: "12px",
                   height: "12px",
                   borderRadius: "50%",
-                  backgroundColor: isActive ? chartConfig[key].color : "#A0AEC0",
+                  backgroundColor: isActive
+                    ? chartConfig[key].color
+                    : "#A0AEC0",
                 }}
               />
               {chartConfig[key].label}

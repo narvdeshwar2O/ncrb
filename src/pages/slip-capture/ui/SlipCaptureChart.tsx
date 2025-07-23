@@ -1,5 +1,3 @@
-"use client";
-
 import { useMemo, useRef, useState } from "react";
 import {
   Bar,
@@ -86,8 +84,15 @@ export default function SlipCaptureChart({
   // Export CSV
   const handleExportCSV = () => {
     const headers = ["Date", ...crimeTypes];
-    const rows = chartData.map((item) => [item.label, ...crimeTypes.map((c) => item[c] ?? 0)]);
-    exportService.exportToCSV(`${chartTitle.replace(/\s+/g, "_")}.csv`, headers, rows);
+    const rows = chartData.map((item) => [
+      item.label,
+      ...crimeTypes.map((c) => item[c] ?? 0),
+    ]);
+    exportService.exportToCSV(
+      `${chartTitle.replace(/\s+/g, "_")}.csv`,
+      headers,
+      rows
+    );
   };
 
   // Print
@@ -142,7 +147,10 @@ export default function SlipCaptureChart({
           </div>
         ) : (
           <ResponsiveContainer width="100%" height="100%">
-            <BarChart data={chartData} margin={{ top: 40, right: 20, left: 20, bottom: 10 }}>
+            <BarChart
+              data={chartData}
+              margin={{ top: 40, right: 20, left: 20, bottom: 10 }}
+            >
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis
                 dataKey="label"

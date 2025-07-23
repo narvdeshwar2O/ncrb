@@ -1,5 +1,3 @@
-"use client";
-
 import * as React from "react";
 import {
   BarChart,
@@ -51,8 +49,8 @@ const COLOR_MAP: Record<CpCpStatusKey, string> = {
 /* ------------------------------------------------------------------ */
 interface CpCpComparisonChartProps {
   rows: CpCpTableRow[];
-  statuses: CpCpStatusKey[];   // metrics available in UI
-  selectedStates: string[];    // states user picked in filters
+  statuses: CpCpStatusKey[]; // metrics available in UI
+  selectedStates: string[]; // states user picked in filters
 }
 
 /* ------------------------------------------------------------------ */

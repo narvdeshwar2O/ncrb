@@ -1,94 +1,75 @@
-// components/tp-tp/ui/TpTpTable.tsx
-import * as React from "react";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
+import React, { useMemo, useRef } from "react";
+import { DataTable } from "@/components/tables/DataTable";
+import * as exportService from "@/utils/exportService";
 import { TpTpTableRow, TpTpStatusKey } from "../types";
 
 /**
- * Friendly display labels for each metric.
+ * Table configuration for TP-TP.
+ * We exclude "total" because you mentioned it's not needed for display.
  */
-const LABELS: Record<TpTpStatusKey, string> = {
-  hit: "Hit",
-  no_hit: "No Hit",
-  own_state: "Own State",
-  inter_state: "Inter State",
-  total: "Total", // kept for label mapping but won't be rendered
-};
+const TP_TP_TABLE_CONFIG = [
+  {
+    key: "tp_tp",
+    label: "TP-TP",
+    subColumns: [
+      { key: "hit", label: "Hit" },
+      { key: "no_hit", label: "No Hit" },
+      { key: "own_state", label: "Own State" },
+      { key: "inter_state", label: "Inter State" },
+    ],
+  },
+];
 
-export interface TpTpTableProps {
+interface TpTpTableProps {
   rows: TpTpTableRow[];
-  /** Metrics to show (excluding "total"). */
   statuses: TpTpStatusKey[];
-  /** Optional heading shown over the metrics group. */
-  groupLabel?: string;
 }
 
-export function TpTpTable({
-  rows,
-  statuses,
-  groupLabel = "Metrics",
-}: TpTpTableProps) {
-  // Filter out total
-  const displayStatuses = React.useMemo<TpTpStatusKey[]>(
-    () => statuses.filter((s): s is TpTpStatusKey => s !== "total"),
-    [statuses]
-  );
+export default function TpTpTable({ rows, statuses }: TpTpTableProps) {
+  const tableRef = useRef<HTMLDivElement>(null);
 
-  if (!rows.length) {
-    return (
-      <div className="overflow-auto rounded-md border p-4 text-center text-sm text-muted-foreground">
-        No data available for the selected filters.
-      </div>
-    );
-  }
+  // Prepare rows for DataTable
+  const formattedRows = useMemo(() => {
+    return rows.map((row) => {
+      // Build a nested "tp_tp" object for DataTable
+      const metrics: Record<string, number> = {};
+      statuses
+        .filter((s) => s !== "total")
+        .forEach((status) => {
+          metrics[status] = Number(row[status] ?? 0); // ✅ Force number
+        });
+
+      return {
+        state: row.state,
+        tp_tp: metrics,
+      };
+    });
+  }, [rows, statuses]);
+
+  const handleExportCSV = () => {
+    const headers: string[] = ["State", ...TP_TP_TABLE_CONFIG[0].subColumns.map((col) => col.label)];
+    const dataRows: (string | number)[][] = formattedRows.map((row) => [
+      row.state,
+      ...TP_TP_TABLE_CONFIG[0].subColumns.map((col) => row.tp_tp[col.key] ?? 0),
+    ]);
+    exportService.exportToCSV("tp-tp-table.csv", headers, dataRows);
+  };
+
+  const handlePrint = () => {
+    exportService.printComponent(tableRef.current, "TP-TP Table");
+  };
 
   return (
-    <div className="overflow-auto rounded-md border">
-      <Table>
-        {/* Header */}
-        <TableHeader>
-          <TableRow>
-            <TableHead rowSpan={2} className="border-r text-center">
-              State
-            </TableHead>
-            <TableHead
-              colSpan={displayStatuses.length}
-              className="text-center border-r"
-            >
-              {groupLabel}
-            </TableHead>
-          </TableRow>
-          <TableRow>
-            {displayStatuses.map((status) => (
-              <TableHead key={status} className="text-center">
-                {LABELS[status]}
-              </TableHead>
-            ))}
-          </TableRow>
-        </TableHeader>
-
-        {/* Body */}
-        <TableBody>
-          {rows.map((row) => (
-            <TableRow key={row.state} className="text-center">
-              <TableCell className="font-medium border-r whitespace-nowrap">
-                {row.state}
-              </TableCell>
-              {displayStatuses.map((status) => (
-                <TableCell key={`${row.state}-${status}`}>
-                  {Number(row[status] ?? 0).toLocaleString()}
-                </TableCell>
-              ))}
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </div>
+    <DataTable
+      tableRef={tableRef}
+      title="TP-TP Table"
+      data={formattedRows}
+      primaryKey="state"
+      primaryKeyHeader="State"
+      columnConfig={TP_TP_TABLE_CONFIG}
+      onExportCSV={handleExportCSV}
+      onPrint={handlePrint}
+      noDataMessage="No TP-TP data to display for the selected filters."
+    />
   );
 }

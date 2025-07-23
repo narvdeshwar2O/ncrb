@@ -1,5 +1,3 @@
-"use client";
-
 import { useMemo, useRef } from "react";
 import { GroupedBarChart } from "@/components/charts/GroupedBarChart";
 import { Card, CardContent } from "@/components/ui/card";
@@ -57,12 +55,19 @@ export default function MesaComparisonChart({
     exportService.exportToExcel({
       element: chartWrapRef.current,
       filename: "mesa-comparison.xlsx",
-      data: { headers, rows: rowsData, meta: { generatedAt: new Date().toISOString() } },
+      data: {
+        headers,
+        rows: rowsData,
+        meta: { generatedAt: new Date().toISOString() },
+      },
     });
   };
 
   const handlePrint = () => {
-    exportService.printComponent(chartWrapRef.current, "Mesa State Comparison Chart");
+    exportService.printComponent(
+      chartWrapRef.current,
+      "Mesa State Comparison Chart"
+    );
   };
 
   // **UI Conditions after hooks**
