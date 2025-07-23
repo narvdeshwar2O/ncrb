@@ -1,62 +1,71 @@
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow
-} from "@/components/ui/table";
-import { SlipTableRow, StatusKey } from "../types";
+import React, { useMemo, useRef } from "react";
+import { DataTable } from "@/components/tables/DataTable";
+import * as exportService from "@/utils/exportService";
+import { MesaTableRow, MesaStatusKey } from "../types";
 
-interface SlipTableProps {
-  rows: SlipTableRow[]; // aggregated per state
-  statuses: StatusKey[]; // which statuses to show
+interface MesaTableProps {
+  rows: MesaTableRow[];
+  statuses: MesaStatusKey[];
 }
 
-export function SlipTable({ rows, statuses }: SlipTableProps) {
-  return (
-    <div className="overflow-auto rounded-md border">
-      <Table>
-        {/* Table Header */}
-        <TableHeader>
-          <TableRow>
-            <TableHead rowSpan={2} className="border-r text-center">
-              State
-            </TableHead>
-            <TableHead
-              colSpan={statuses.length + 1}
-              className="text-center border-r"
-            >
-              Arrest Status
-            </TableHead>
-          </TableRow>
-          <TableRow>
-            {statuses.map((status) => (
-              <TableHead key={status} className="text-center">
-                {status}
-              </TableHead>
-            ))}
-            <TableHead className="text-center border-r">Total</TableHead>
-          </TableRow>
-        </TableHeader>
+export function MesaTable({ rows, statuses }: MesaTableProps) {
+  const tableRef = useRef<HTMLDivElement>(null);
 
-        {/* Table Body */}
-        <TableBody>
-          {rows.map((row) => (
-            <TableRow key={row.state} className="text-center">
-              <TableCell className="font-medium border-r">{row.state}</TableCell>
-              {statuses.map((status) => (
-                <TableCell key={`${row.state}-${status}`}>
-                  {(row[status] as number).toLocaleString()}
-                </TableCell>
-              ))}
-              <TableCell className="font-semibold border-r">
-                {(row.total as number).toLocaleString()}
-              </TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </div>
+  // Convert flat rows to nested structure
+  const nestedRows = useMemo(
+    () =>
+      rows.map((row) => ({
+        state: row.state,
+        arrestStatus: statuses.reduce(
+          (acc, status) => ({
+            ...acc,
+            [status]: row[status] ?? 0,
+          }),
+          {}
+        ),
+      })),
+    [rows, statuses]
+  );
+
+  // Column configuration
+  const mesaTableConfig = [
+    {
+      key: "arrestStatus",
+      label: "Arrest Status",
+      subColumns: statuses.map((status) => ({
+        key: status,
+        label: status,
+      })),
+    },
+  ];
+
+  // CSV Export Handler
+  const handleExportCSV = () => {
+    const headers: string[] = ["State", ...statuses];
+    const dataRows: (string | number)[][] = rows.map((row) => [
+      row.state,
+      ...statuses.map((status) => row[status] ?? 0),
+    ]);
+
+    exportService.exportToCSV("mesa-table.csv", headers, dataRows);
+  };
+
+  // Print Handler
+  const handlePrint = () => {
+    exportService.printComponent(tableRef.current, "Mesa Table");
+  };
+
+  return (
+    <DataTable
+      tableRef={tableRef}
+      title="Mesa Table"
+      data={nestedRows}
+      primaryKey="state"
+      primaryKeyHeader="State"
+      columnConfig={mesaTableConfig}
+      onExportCSV={handleExportCSV}
+      onPrint={handlePrint}
+      noDataMessage="No mesa data available for the selected filters."
+    />
   );
 }

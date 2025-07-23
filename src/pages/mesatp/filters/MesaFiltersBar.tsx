@@ -1,23 +1,18 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Calendar } from "@/components/ui/calendar";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { Calendar } from "@/components/ui/calendar";
-import { CalendarIcon, Filter, RotateCcw } from "lucide-react";
+import { format, startOfDay, subDays, endOfDay } from "date-fns";
+import { CalendarIcon, Filter as FilterIcon, RotateCcw } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { format, subDays, startOfDay, endOfDay } from "date-fns";
+
 import MultiSelectCheckbox from "@/components/ui/MultiSelectCheckbox";
 import { SlipFilters, MesaStatusKey, MESA_STATUS_KEYS } from "../types";
-
-const getLastNDaysRange = (n: number) => {
-  const to = endOfDay(new Date());
-  const from = startOfDay(subDays(to, n - 1));
-  return { from, to };
-};
 
 interface MesaFiltersBarProps {
   allStates: string[];
@@ -25,68 +20,72 @@ interface MesaFiltersBarProps {
   onChange: (f: SlipFilters) => void;
 }
 
-export const MesaFiltersBar: React.FC<MesaFiltersBarProps> = ({
+const getLastNDaysRange = (n: number) => {
+  const to = endOfDay(new Date());
+  const from = startOfDay(subDays(to, n - 1));
+  return { from, to };
+};
+
+export const MesaFiltersBar = ({
   allStates,
   value,
   onChange,
-}) => {
-  const initialRange = getLastNDaysRange(7);
+}: MesaFiltersBarProps) => {
   const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
 
-  const [selectedStates, setSelectedStates] = useState<string[]>(value.states);
-  const [selectedStatuses, setSelectedStatuses] = useState<MesaStatusKey[]>(
-    value.statuses
-  );
+  // All valid status keys (no "Total" needed)
+  const STATUS_OPTIONS = [...MESA_STATUS_KEYS];
 
-  const [daysPreset, setDaysPreset] = useState<"7" | "30" | "90" | "custom">(
-    "7"
-  );
+  const selectedStates = value.states ?? [];
+  const selectedStatuses = value.statuses ?? [];
 
-  // ✅ Remove "Total" from options
-  const STATUS_OPTIONS = MESA_STATUS_KEYS.filter((key) => key !== "Total");
+  const noStatesSelected = selectedStates.length === 0;
 
-  const updateFilters = (newFilters: Partial<SlipFilters>) => {
-    const updated = { ...value, ...newFilters };
-    onChange(updated);
+  // --- Default selection of all states & all crime types ---
+  useEffect(() => {
+    const isEmpty =
+      !value.states?.length || !value.statuses?.length || !value.dateRange;
+    if (isEmpty) {
+      onChange({
+        states: [...allStates],
+        statuses: [...STATUS_OPTIONS],
+        dateRange: value.dateRange ?? getLastNDaysRange(7),
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const updateFilters = (patch: Partial<SlipFilters>) => {
+    onChange({ ...value, ...patch });
   };
 
-  const handleDateSelect = (range: { from?: Date; to?: Date } | undefined) => {
+  const handleDateSelect = (
+    range: { from: Date | undefined; to: Date | undefined } | undefined
+  ) => {
     if (!range) return;
     updateFilters({
       dateRange: { from: range.from || null, to: range.to || null },
     });
-    setDaysPreset("custom");
-  };
-
-  const setLastNDays = (n: number) => {
-    const range = getLastNDaysRange(n);
-    updateFilters({ dateRange: range });
-    setDaysPreset((n as 7 | 30 | 90).toString() as "7" | "30" | "90");
   };
 
   const resetFilters = () => {
-    const resetRange = initialRange;
-    const resetValue: SlipFilters = {
-      dateRange: resetRange,
-      states: [],
-      statuses: [...STATUS_OPTIONS] as MesaStatusKey[],
-    };
-    onChange(resetValue);
-    setSelectedStates([]);
-    setSelectedStatuses([...STATUS_OPTIONS] as MesaStatusKey[]);
-    setDaysPreset("7");
+    updateFilters({
+      dateRange: getLastNDaysRange(7),
+      states: [...allStates],
+      statuses: [...STATUS_OPTIONS],
+    });
   };
 
   return (
     <Card className="mb-6">
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
-          <Filter className="h-5 w-5" />
+          <FilterIcon className="h-5 w-5" />
           Filters
         </CardTitle>
       </CardHeader>
       <CardContent>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-3">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-3">
           {/* Date Range */}
           <div className="space-y-2">
             <label className="text-sm font-medium">Date Range</label>
@@ -96,11 +95,11 @@ export const MesaFiltersBar: React.FC<MesaFiltersBarProps> = ({
                   variant="outline"
                   className={cn(
                     "w-full justify-start text-left font-normal",
-                    !value.dateRange.from && "text-muted-foreground"
+                    !value.dateRange?.from && "text-muted-foreground"
                   )}
                 >
                   <CalendarIcon className="mr-2 h-4 w-4" />
-                  {value.dateRange.from ? (
+                  {value.dateRange?.from ? (
                     value.dateRange.to ? (
                       <>
                         {format(value.dateRange.from, "LLL dd, y")} -{" "}
@@ -118,10 +117,10 @@ export const MesaFiltersBar: React.FC<MesaFiltersBarProps> = ({
                 <Calendar
                   initialFocus
                   mode="range"
-                  defaultMonth={value.dateRange.from || undefined}
+                  defaultMonth={value.dateRange?.from || undefined}
                   selected={{
-                    from: value.dateRange.from || undefined,
-                    to: value.dateRange.to || undefined,
+                    from: value.dateRange?.from || undefined,
+                    to: value.dateRange?.to || undefined,
                   }}
                   onSelect={handleDateSelect}
                   numberOfMonths={1}
@@ -131,48 +130,24 @@ export const MesaFiltersBar: React.FC<MesaFiltersBarProps> = ({
             </Popover>
           </div>
 
-          {/* Last N Days */}
-          <div className="space-y-2">
-            <label className="text-sm font-medium">Select Days</label>
-            <select
-              className="w-full border rounded-md p-2 text-sm bg-card"
-              value={daysPreset === "custom" ? "" : daysPreset}
-              onChange={(e) => {
-                const val = e.target.value;
-                if (!val) {
-                  setDaysPreset("custom");
-                  return;
-                }
-                setLastNDays(parseInt(val, 10));
-              }}
-            >
-              <option value="">Custom Range</option>
-              <option value="7">Last 7 Days</option>
-              <option value="30">Last 30 Days</option>
-              <option value="90">Last 90 Days</option>
-            </select>
-          </div>
-
           {/* States MultiSelect */}
           <MultiSelectCheckbox
             label="States"
             options={allStates}
             selected={selectedStates}
-            onChange={(newStates) => {
-              setSelectedStates(newStates);
-              updateFilters({ states: newStates });
-            }}
+            onChange={(newStates) => updateFilters({ states: newStates })}
           />
 
-          {/* Status MultiSelect */}
+          {/* Crime Type MultiSelect */}
           <MultiSelectCheckbox
             label="Crime Type"
-            options={STATUS_OPTIONS as string[]}
+            options={STATUS_OPTIONS}
             selected={selectedStatuses}
-            onChange={(newStatuses) => {
-              setSelectedStatuses(newStatuses as MesaStatusKey[]);
-              updateFilters({ statuses: newStatuses as MesaStatusKey[] });
-            }}
+            onChange={(newStatuses) =>
+              updateFilters({ statuses: newStatuses as MesaStatusKey[] })
+            }
+            disabled={noStatesSelected}
+            disabledText="Select states first"
           />
 
           {/* Reset */}

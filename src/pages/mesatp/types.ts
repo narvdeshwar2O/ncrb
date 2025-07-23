@@ -10,7 +10,6 @@ export interface MesaDailyData {
       Deportee: number;
       UIFP: number;
       Suspect: number;
-      total?: number;
     }
   >;
 }
@@ -22,6 +21,7 @@ export const MESA_STATUS_KEYS = [
   "Deportee",
   "UIFP",
   "Suspect",
+  "Total"
 ] as const;
 
 export type MesaStatusKey = (typeof MESA_STATUS_KEYS)[number];
@@ -32,8 +32,7 @@ export interface SlipFilters {
   statuses: MesaStatusKey[];
 }
 
-export interface SlipTableRow {
+export interface MesaTableRow {
   state: string;
-  total?: number;
   [key: string]: number | string | undefined;
 }
