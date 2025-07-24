@@ -136,7 +136,7 @@ const PP_PP: React.FC = () => {
             </Card>
 
             {showTable ? (
-              <CpCpTable rows={tableRows} statuses={visibleStatuses} />
+              <CpCpTable rows={tableRows} statuses={visibleStatuses} title="Palm Print - Palm Print" label="Palm Print - Palm Print"/>
             ) : (
               <>
                 {/* Status Summary Cards */}

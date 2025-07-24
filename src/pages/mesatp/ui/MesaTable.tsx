@@ -31,7 +31,7 @@ export function MesaTable({ rows, statuses }: MesaTableProps) {
   const mesaTableConfig = [
     {
       key: "arrestStatus",
-      label: "Arrest Status",
+      label: "Crime Type",
       subColumns: statuses.map((status) => ({
         key: status,
         label: status,

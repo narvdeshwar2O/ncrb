@@ -33,7 +33,6 @@ export default function MesaTopFive({
   // Active statuses (filter out Total)
   const activeStatuses: MesaStatusKey[] = useMemo(() => {
     const narrowed = statuses.filter(isValidStatus);
-    console.log("when this is changes", statuses);
     return narrowed; // No fallback to VALID_STATUSES
   }, [statuses]);
 
@@ -102,7 +101,6 @@ export default function MesaTopFive({
     exportService.exportRawDataToCSV("top-5-mesa-report.csv", csvRows);
     hideButtons(false);
   };
-  console.log("ndsjfds", activeStatuses);
   return (
     <Card ref={viewRef} className="mt-4">
       <CardHeader className="flex-row items-center justify-between">

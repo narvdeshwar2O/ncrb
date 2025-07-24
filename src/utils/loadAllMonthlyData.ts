@@ -77,9 +77,9 @@ export async function loadAllMonthlyData({
 
       // Build file name & path dynamically
       const fileName = `${filePrefix}_${month}_${dayStr}_2025.json`;
-      // console.log("fileName", fileName);
+      // ;
       const filePath = `${basePath}/${month}/daily/${fileName}`;
-      // console.log("filePath", filePath);
+      // ;
 
       try {
         const res = await fetch(filePath);
@@ -110,6 +110,6 @@ export async function loadAllMonthlyData({
       }
     }
   }
-  // console.log("result", results);
+  // ;
   return results;
 }

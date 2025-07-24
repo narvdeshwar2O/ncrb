@@ -10,14 +10,9 @@ interface Totals {
 interface RenderCardProps {
   title: string;
   total: Totals;
-  selectedDataTypes?: string[]; // which metrics are active
+  selectedDataTypes?: string[];
 }
 
-/**
- * Always render all three metrics.
- * If a metric is *not* in `selectedDataTypes`, display 0 for that field.
- * If `selectedDataTypes` is empty or undefined, treat as "none selected" (show 0s).
- */
 const RenderCard: React.FC<RenderCardProps> = ({
   title,
   total,
@@ -30,24 +25,34 @@ const RenderCard: React.FC<RenderCardProps> = ({
     return selectedDataTypes.includes(key) ? total[key] : 0;
   };
 
+  const enrollment = getValue("enrollment");
+  const hit = getValue("hit");
+  const nohit = getValue("nohit");
+
   return (
     <Card className="border border-l-4 border-blue-600 bg-card shadow-sm">
       <CardHeader>
         <CardTitle className="text-lg">{title}</CardTitle>
       </CardHeader>
       <CardContent className="space-y-2 text-sm text-muted-foreground">
-        <p>
-          Enrollment:{" "}
-          <span className="font-semibold text-foreground">{getValue("enrollment")}</span>
-        </p>
-        <p>
-          Hit:{" "}
-          <span className="font-semibold text-foreground">{getValue("hit")}</span>
-        </p>
-        <p>
-          No Hit:{" "}
-          <span className="font-semibold text-foreground">{getValue("nohit")}</span>
-        </p>
+        {enrollment > 0 && (
+          <p>
+            Enrollment:{" "}
+            <span className="font-semibold text-foreground">{enrollment}</span>
+          </p>
+        )}
+        {hit > 0 && (
+          <p>
+            Hit:{" "}
+            <span className="font-semibold text-foreground">{hit}</span>
+          </p>
+        )}
+        {nohit > 0 && (
+          <p>
+            No Hit:{" "}
+            <span className="font-semibold text-foreground">{nohit}</span>
+          </p>
+        )}
       </CardContent>
     </Card>
   );

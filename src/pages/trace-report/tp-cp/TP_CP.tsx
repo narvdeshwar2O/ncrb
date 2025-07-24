@@ -1,11 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { loadAllMonthlyData } from "@/utils/loadAllMonthlyData";
-import {
-  TpTpDailyData,
-  TpTpFilters,
-  TpTpStatusKey,
-
-} from "../tp-tp/types";
+import { TpTpDailyData, TpTpFilters, TpTpStatusKey } from "../tp-tp/types";
 import {
   getLast7DaysRange,
   extractStates,
@@ -123,7 +118,12 @@ const TP_TP: React.FC = () => {
             </Card>
 
             {showTable ? (
-              <TpTpTable rows={tableRows} statuses={visibleStatuses} />
+              <TpTpTable
+                rows={tableRows}
+                statuses={visibleStatuses}
+                title="Ten Print - Chance Print"
+                label="Ten Print - Chance Print"
+              />
             ) : (
               <>
                 {/* Status Summary Cards */}

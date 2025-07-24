@@ -143,7 +143,6 @@ function Agency() {
     return map;
   }, [filteredData, filters, activeCategories]);
 
-  console.log("ACITVE ", activeCategories);
   // Loading
   if (loading) {
     return (

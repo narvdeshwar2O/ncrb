@@ -45,9 +45,15 @@ export function DataTable({
   onPrint,
   noDataMessage = "No data available.",
 }: DataTableProps) {
-  const { visibleColumns, colSpans } = useMemo(() => {
+  const labelMap: Record<string, string> = {
+    CP: "Chance Print",
+    TP: "Ten Print",
+  };
+
+  const { visibleColumns, colSpans, totalVisibleCols } = useMemo(() => {
     const visibility: Record<string, Record<string, boolean>> = {};
     const spans: Record<string, number> = {};
+    let totalVisible = 0;
 
     for (const group of columnConfig) {
       visibility[group.key] = {};
@@ -62,15 +68,33 @@ export function DataTable({
         }
       }
       spans[group.key] = visibleCount;
+      totalVisible += visibleCount;
     }
-    return { visibleColumns: visibility, colSpans: spans };
+    return {
+      visibleColumns: visibility,
+      colSpans: spans,
+      totalVisibleCols: totalVisible,
+    };
   }, [data, columnConfig]);
 
+  // No data available at all
   if (data.length === 0) {
     return (
       <Card className="mt-3">
         <CardContent className="p-4 text-center text-sm text-muted-foreground">
           {noDataMessage}
+        </CardContent>
+      </Card>
+    );
+  }
+
+  // Only primary column (e.g., state) is visible
+  if (totalVisibleCols === 0) {
+    return (
+      <Card className="mt-3">
+        <CardContent className="p-4 text-center text-sm text-muted-foreground">
+          Please select at least one metric other than 'State' to view the
+          table.
         </CardContent>
       </Card>
     );
@@ -96,7 +120,10 @@ export function DataTable({
             <TableHeader>
               {/* Top header row with group names */}
               <TableRow className="text-center">
-                <TableHead rowSpan={2} className="text-center border-r align-middle">
+                <TableHead
+                  rowSpan={2}
+                  className="text-center border-r align-middle"
+                >
                   {primaryKeyHeader}
                 </TableHead>
                 {columnConfig.map((group) =>
@@ -106,7 +133,7 @@ export function DataTable({
                       colSpan={colSpans[group.key]}
                       className="text-center border-r"
                     >
-                      {group.label}
+                      {labelMap[group.label] ?? group.label}
                     </TableHead>
                   ) : null
                 )}
@@ -115,20 +142,22 @@ export function DataTable({
               {/* Second header row with sub-column names */}
               <TableRow>
                 {columnConfig.map((group) =>
-                  group.subColumns.map((subCol, idx) => {
+                  group.subColumns.map((subCol) => {
                     const isVisible = visibleColumns[group.key]?.[subCol.key];
                     if (!isVisible) return null;
 
-                    // Add right border to the last visible sub-column of a group
                     const visibleSubCols = group.subColumns.filter(
                       (sc) => visibleColumns[group.key]?.[sc.key]
                     );
-                    const isLastVisible = visibleSubCols.at(-1)?.key === subCol.key;
+                    const isLastVisible =
+                      visibleSubCols.at(-1)?.key === subCol.key;
 
                     return (
                       <TableHead
                         key={`${group.key}-${subCol.key}`}
-                        className={`text-center ${isLastVisible ? "border-r" : ""}`}
+                        className={`text-center ${
+                          isLastVisible ? "border-r" : ""
+                        }`}
                       >
                         {subCol.label}
                       </TableHead>
@@ -141,19 +170,20 @@ export function DataTable({
             <TableBody>
               {data.map((row) => (
                 <TableRow key={row[primaryKey]} className="text-center">
-                  <TableCell className="font-medium border-r text-left">
+                  <TableCell className="font-medium border-r text-center">
                     {row[primaryKey]}
                   </TableCell>
                   {columnConfig.map((group) =>
                     group.subColumns.map((subCol) => {
                       const isVisible = visibleColumns[group.key]?.[subCol.key];
-                       if (!isVisible) return null;
+                      if (!isVisible) return null;
 
                       const visibleSubCols = group.subColumns.filter(
                         (sc) => visibleColumns[group.key]?.[sc.key]
                       );
-                      const isLastVisible = visibleSubCols.at(-1)?.key === subCol.key;
-                      
+                      const isLastVisible =
+                        visibleSubCols.at(-1)?.key === subCol.key;
+
                       return (
                         <TableCell
                           key={`${group.key}-${subCol.key}`}

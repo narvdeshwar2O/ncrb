@@ -4,12 +4,12 @@ import * as exportService from "@/utils/exportService";
 import { CpCpTableRow, CpCpStatusKey } from "../types";
 
 /**
- * Table configuration for CP-CP.
+ * Table configuration for CP-CP (with dynamic label).
  */
-const CP_CP_TABLE_CONFIG = (statuses: CpCpStatusKey[]) => [
+const CP_CP_TABLE_CONFIG = (statuses: CpCpStatusKey[], label: string) => [
   {
     key: "cp_cp",
-    label: "CP-CP",
+    label: label, // 👈 dynamic label
     subColumns: statuses
       .filter((s) => s !== "total")
       .map((status) => ({
@@ -31,9 +31,11 @@ const CP_CP_TABLE_CONFIG = (statuses: CpCpStatusKey[]) => [
 interface CpCpTableProps {
   rows: CpCpTableRow[];
   statuses: CpCpStatusKey[];
+  title: string; // 👈 dynamic title
+  label: string; // 👈 dynamic label
 }
 
-export default function CpCpTable({ rows, statuses }: CpCpTableProps) {
+export default function CpCpTable({ rows, statuses, title, label }: CpCpTableProps) {
   const tableRef = useRef<HTMLDivElement>(null);
   const visibleStatuses = statuses.filter((s) => s !== "total");
 
@@ -72,14 +74,14 @@ export default function CpCpTable({ rows, statuses }: CpCpTableProps) {
       ...visibleStatuses.map((status) => row.cp_cp[status] ?? 0),
     ]);
 
-    exportService.exportToCSV("cp-cp-table.csv", headers, dataRows);
+    exportService.exportToCSV(`${label.toLowerCase().replace(/\s/g, "-")}-table.csv`, headers, dataRows);
   };
 
   const handlePrint = () => {
-    exportService.printComponent(tableRef.current, "CP-CP Table");
+    exportService.printComponent(tableRef.current, title);
   };
 
-  // ✅ Conditional rendering AFTER all hooks
+  // ✅ Conditional fallback
   if (visibleStatuses.length === 0) {
     return (
       <div className="overflow-auto rounded-md border p-4 text-center text-sm text-muted-foreground">
@@ -91,14 +93,14 @@ export default function CpCpTable({ rows, statuses }: CpCpTableProps) {
   return (
     <DataTable
       tableRef={tableRef}
-      title="CP-CP Table"
+      title={title}
       data={formattedRows}
       primaryKey="state"
       primaryKeyHeader="State"
-      columnConfig={CP_CP_TABLE_CONFIG(visibleStatuses)}
+      columnConfig={CP_CP_TABLE_CONFIG(visibleStatuses, label)}
       onExportCSV={handleExportCSV}
       onPrint={handlePrint}
-      noDataMessage="No CP-CP data to display for the selected filters."
+      noDataMessage={`No ${label} data to display for the selected filters.`}
     />
   );
 }

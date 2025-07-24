@@ -1,12 +1,8 @@
-// src/components/AgencyTable.tsx
-
 import React, { useMemo, useRef } from "react";
 import { DataTable } from "@/components/tables/DataTable";
-// 1. Import the new modular service
 import * as exportService from "@/utils/exportService";
 import { FilterState } from "@/components/filters/types/FilterTypes";
 
-// Keep your existing type definitions
 export interface Totals {
   enrollment: number;
   hit: number;

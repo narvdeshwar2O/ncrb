@@ -79,7 +79,6 @@ function MesaTP() {
     );
   }
 
-  console.log("Current fillters", filters);
   return (
     <div className="p-3">
       <div className="p-3 space-y-3 bg-background rounded-md shadow-lg border">

@@ -81,7 +81,6 @@ export function MultipleChart({
     filters.dataTypes.length > 0
       ? filters.dataTypes
       : ["enrollment", "hit", "nohit"];
-  console.log("Filter", activeCategories);
   const chartData = useMemo(() => {
     if (showDailyData) {
       const sorted = [...filteredData].sort(

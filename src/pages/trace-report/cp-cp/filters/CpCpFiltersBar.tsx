@@ -35,7 +35,6 @@ export const CpCpFiltersBar = ({
 
   const uniqueAllStates = useMemo(() => {
     const unique = [...new Set(allStates)];
-    console.log("allStates:", allStates, "uniqueAllStates:", unique);
     return unique;
   }, [allStates]);
 
@@ -43,12 +42,6 @@ export const CpCpFiltersBar = ({
     const options = [
       ...new Set(CP_CP_STATUS_KEYS.filter((s) => s !== "total")),
     ];
-    console.log(
-      "CP_CP_STATUS_KEYS:",
-      CP_CP_STATUS_KEYS,
-      "STATUS_OPTIONS:",
-      options
-    );
     return options;
   }, []);
 

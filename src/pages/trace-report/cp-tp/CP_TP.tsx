@@ -139,7 +139,7 @@ const CP_TP: React.FC = () => {
             </Card>
 
             {showTable ? (
-              <CpCpTable rows={tableRows} statuses={visibleStatuses} />
+              <CpCpTable rows={tableRows} statuses={visibleStatuses} title="Chance Print - Ten Print" label="Chance Print - Ten Print" />
             ) : (
               <>
                 {/* Status Summary Cards */}

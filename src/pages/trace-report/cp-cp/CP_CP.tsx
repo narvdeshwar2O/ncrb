@@ -124,7 +124,7 @@ const CP_CP: React.FC = () => {
             </Card>
 
             {showTable ? (
-              <CpCpTable rows={tableRows} statuses={visibleStatuses} />
+              <CpCpTable rows={tableRows} statuses={visibleStatuses} title="Chance Print - Chance Print" label="Chance Print - Chance Print"/>
             ) : (
               <>
                 {/* Status Summary Cards */}
