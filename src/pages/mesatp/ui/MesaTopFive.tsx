@@ -33,7 +33,8 @@ export default function MesaTopFive({
   // Active statuses (filter out Total)
   const activeStatuses: MesaStatusKey[] = useMemo(() => {
     const narrowed = statuses.filter(isValidStatus);
-    return narrowed.length ? narrowed : VALID_STATUSES;
+    console.log("when this is changes", statuses);
+    return narrowed; // No fallback to VALID_STATUSES
   }, [statuses]);
 
   // Compute top 5 states for each active status
@@ -81,7 +82,10 @@ export default function MesaTopFive({
 
   const handlePrintAll = () => {
     hideButtons(true);
-    exportService.printComponent(viewRef.current, "Top 5 Crime Status Report (Mesa)");
+    exportService.printComponent(
+      viewRef.current,
+      "Top 5 Crime Status Report (Mesa)"
+    );
     setTimeout(() => hideButtons(false), 500);
   };
 
@@ -98,7 +102,7 @@ export default function MesaTopFive({
     exportService.exportRawDataToCSV("top-5-mesa-report.csv", csvRows);
     hideButtons(false);
   };
-
+  console.log("ndsjfds", activeStatuses);
   return (
     <Card ref={viewRef} className="mt-4">
       <CardHeader className="flex-row items-center justify-between">

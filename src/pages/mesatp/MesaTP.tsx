@@ -15,7 +15,7 @@ import { MesaFiltersBar } from "./filters/MesaFiltersBar";
 import { SlipFilters, MESA_STATUS_KEYS, MesaDailyData } from "./types";
 
 import { MesaCard } from "./ui/MesaCard";
-import { MesaTable, } from "./ui/MesaTable";
+import { MesaTable } from "./ui/MesaTable";
 import MesaComparisonChart from "./ui/MesaComparisonChart";
 import MesaTopFive from "./ui/MesaTopFive";
 import MesaCaptureChart from "./ui/MesaCaptureChart";
@@ -79,6 +79,7 @@ function MesaTP() {
     );
   }
 
+  console.log("Current fillters", filters);
   return (
     <div className="p-3">
       <div className="p-3 space-y-3 bg-background rounded-md shadow-lg border">
@@ -110,10 +111,7 @@ function MesaTP() {
                     }`}
                   </strong>
                 </p>
-                <Button
-                  size="sm"
-                  onClick={() => setShowTable((prev) => !prev)}
-                >
+                <Button size="sm" onClick={() => setShowTable((prev) => !prev)}>
                   {showTable ? "Hide Tabular Data" : "Show Tabular Data"}
                 </Button>
               </CardContent>
@@ -126,7 +124,11 @@ function MesaTP() {
                 {/* Summary Cards */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
                   {filters.statuses.map((s) => (
-                    <MesaCard key={s} title={s} value={totalsByStatus[s] ?? 0} />
+                    <MesaCard
+                      key={s}
+                      title={s}
+                      value={totalsByStatus[s] ?? 0}
+                    />
                   ))}
                 </div>
 

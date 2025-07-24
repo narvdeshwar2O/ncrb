@@ -32,28 +32,26 @@ export const MesaFiltersBar = ({
   onChange,
 }: MesaFiltersBarProps) => {
   const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
+  const [defaultApplied, setDefaultApplied] = useState(false);
 
-  // All valid status keys (no "Total" needed)
-  const STATUS_OPTIONS = [...MESA_STATUS_KEYS];
+  // Remove "Total" from the crime type options
+  const STATUS_OPTIONS = MESA_STATUS_KEYS.filter((s) => s !== "Total");
 
   const selectedStates = value.states ?? [];
   const selectedStatuses = value.statuses ?? [];
 
   const noStatesSelected = selectedStates.length === 0;
 
-  // --- Default selection of all states & all crime types ---
   useEffect(() => {
-    const isEmpty =
-      !value.states?.length || !value.statuses?.length || !value.dateRange;
-    if (isEmpty) {
+    if (!defaultApplied) {
       onChange({
         states: [...allStates],
         statuses: [...STATUS_OPTIONS],
         dateRange: value.dateRange ?? getLastNDaysRange(7),
       });
+      setDefaultApplied(true);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [allStates, STATUS_OPTIONS, onChange, value.dateRange, defaultApplied]);
 
   const updateFilters = (patch: Partial<SlipFilters>) => {
     onChange({ ...value, ...patch });
