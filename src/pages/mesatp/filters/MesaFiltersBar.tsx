@@ -43,15 +43,15 @@ export const MesaFiltersBar = ({
   const noStatesSelected = selectedStates.length === 0;
 
   useEffect(() => {
-    if (!defaultApplied) {
+    if (!defaultApplied && allStates.length > 0) {
       onChange({
         states: [...allStates],
         statuses: [...STATUS_OPTIONS],
-        dateRange: value.dateRange ?? getLastNDaysRange(7),
+        dateRange: getLastNDaysRange(7),
       });
       setDefaultApplied(true);
     }
-  }, [allStates, STATUS_OPTIONS, onChange, value.dateRange, defaultApplied]);
+  }, [allStates, defaultApplied, onChange, STATUS_OPTIONS]);
 
   const updateFilters = (patch: Partial<SlipFilters>) => {
     onChange({ ...value, ...patch });
