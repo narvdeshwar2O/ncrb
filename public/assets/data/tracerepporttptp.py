@@ -15,7 +15,7 @@ states = [
 
 # Date range
 start_date = datetime.strptime("01-04-2025", "%d-%m-%Y")
-end_date = datetime.strptime("20-07-2025", "%d-%m-%Y")
+end_date = datetime.strptime("25-07-2025", "%d-%m-%Y")
 allowed_months = ["04", "05", "06", "07"]  # April to July (till 20th)
 
 # Base directory
