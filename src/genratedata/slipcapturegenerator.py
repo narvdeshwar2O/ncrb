@@ -10,7 +10,7 @@ states = [
     "Jammu Kashmir & Ladakh", "Jharkhand", "Karnataka", "Kerala", "Lakshadweep",
     "Madhya Pradesh", "Maharashtra", "Manipur", "Meghalaya", "Mizoram", "Nagaland",
     "Odisha", "Puducherry", "Punjab", "Rajasthan", "Sikkim", "Tamil Nadu", "Telangana",
-    "Tripura", "Uttar Pradesh", "Uttarakhand", "West Bengal", "CFPB"
+    "Tripura", "Uttar Pradesh", "Uttarakhand", "West Bengal"
 ]
 
 types = [
@@ -18,12 +18,10 @@ types = [
     "UIFP", "Suspect", "UDB", "Absconder"
 ]
 
-
 start_date = datetime.strptime("01-04-2025", "%d-%m-%Y")
-end_date = datetime.strptime("20-07-2025", "%d-%m-%Y")
+end_date = datetime.strptime("25-07-2025", "%d-%m-%Y")
 
-
-allowed_months = ["04", "05", "06","07"]  # April, May, June
+allowed_months = ["04", "05", "06", "07"]  # April, May, June, July
 
 # Base directory
 base_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "slip_capture", "2025"))
@@ -45,22 +43,20 @@ def generate_state_data():
 # ✅ Iterate through each date in range
 current_date = start_date
 while current_date <= end_date:
-    month = current_date.strftime("%d")
-    
-    # ✅ Only process April, May, June
+    month = current_date.strftime("%m")  # ✅ Fix: Use %m to get month
     if month in allowed_months:
         month_path = os.path.join(base_dir, month, "daily")
         os.makedirs(month_path, exist_ok=True)
 
-        filename = f"slip_cp_output_{current_date.strftime('%d-%m-%Y')}.json"
+        filename = f"slip_cp_output_{current_date.strftime('%m_%d_%Y')}.json"
         full_path = os.path.join(month_path, filename)
 
         # ✅ Write random data to the file
         with open(full_path, "w") as f:
             json.dump(generate_state_data(), f, indent=2)
-        
+
         print(f"Created: {full_path}")
 
     current_date += timedelta(days=1)
 
-print("All JSON files generated for April, May, June (and July 20 cutoff).")
+print("All JSON files generated for April, May, June, July.")
