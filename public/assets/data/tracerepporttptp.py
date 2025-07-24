@@ -19,7 +19,7 @@ end_date = datetime.strptime("25-07-2025", "%d-%m-%Y")
 allowed_months = ["04", "05", "06", "07"]  # April to July (till 20th)
 
 # Base directory
-base_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "trace_report_cp_cp", "2025"))
+base_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "trace_report_cp_tp", "2025"))
 
 # ✅ Function to generate `pp_pp` data for a state
 def generate_pp_pp_data():
@@ -41,7 +41,7 @@ def generate_state_data():
     data = {}
     for state in states:
         data[state] = {
-            "cp_cp": generate_pp_pp_data()
+            "cp_tp": generate_pp_pp_data()
         }
     return data
 
@@ -54,7 +54,7 @@ while current_date <= end_date:
         month_path = os.path.join(base_dir, month, "daily")
         os.makedirs(month_path, exist_ok=True)
 
-        filename = f"cp_cp_output_{current_date.strftime('%m_%d_%Y')}.json"
+        filename = f"cp_tp_output_{current_date.strftime('%m_%d_%Y')}.json"
         full_path = os.path.join(month_path, filename)
 
         # ✅ Write random data to the file
