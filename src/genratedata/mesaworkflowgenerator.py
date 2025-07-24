@@ -10,7 +10,7 @@ states = [
     "Jammu Kashmir & Ladakh", "Jharkhand", "Karnataka", "Kerala", "Lakshadweep",
     "Madhya Pradesh", "Maharashtra", "Manipur", "Meghalaya", "Mizoram", "Nagaland",
     "Odisha", "Puducherry", "Punjab", "Rajasthan", "Sikkim", "Tamil Nadu", "Telangana",
-    "Tripura", "Uttar Pradesh", "Uttarakhand", "West Bengal", "CFPB"
+    "Tripura", "Uttar Pradesh", "Uttarakhand", "West Bengal",
 ]
 
 types = [
@@ -19,9 +19,9 @@ types = [
 ]
 
 start_date = datetime.strptime("01-04-2025", "%d-%m-%Y")
-end_date = datetime.strptime("20-07-2025", "%d-%m-%Y")
+end_date = datetime.strptime("25-07-2025", "%d-%m-%Y")
 
-allowed_months = ["04", "05", "06", "07"]  # April, May, June, July
+allowed_months = ["04", "05", "06", "07"] 
 
 # Base directory
 base_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "mesa", "2025"))
