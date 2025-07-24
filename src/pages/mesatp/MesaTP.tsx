@@ -158,7 +158,7 @@ function MesaTP() {
                   </Button>
 
                   {showCompareChart ? (
-                    filters.states.length >= 2 && filters.states.length <= 5 ? (
+                    filters.states.length >= 2 && filters.states.length <= 15 ? (
                       <MesaComparisonChart
                         rows={tableRows}
                         statuses={filters.statuses}

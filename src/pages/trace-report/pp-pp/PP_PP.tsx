@@ -177,7 +177,7 @@ const PP_PP: React.FC = () => {
                   </Button>
 
                   {showCompareChart ? (
-                    filters.states.length >= 2 && filters.states.length <= 5 ? (
+                    filters.states.length >= 2 && filters.states.length <=15 ? (
                       <CpCpComparisonChart
                         rows={tableRows}
                         statuses={visibleStatuses}
@@ -186,7 +186,7 @@ const PP_PP: React.FC = () => {
                     ) : (
                       <div className="w-full p-3 flex justify-center items-center">
                         <p className="border shadow-md p-3 rounded-md">
-                          Please select at least 2 and at most 5 states for
+                          Please select at least 2 and at most 15 states for
                           chart comparison.
                         </p>
                       </div>

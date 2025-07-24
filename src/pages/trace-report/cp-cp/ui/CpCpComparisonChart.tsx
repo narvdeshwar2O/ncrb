@@ -81,7 +81,7 @@ export default function CpCpComparisonChart({
   };
 
   // Corrected Guard
-  if (selectedStates.length < 2 || selectedStates.length > 15) {
+  if (selectedStates.length < 2 && selectedStates.length <=15) {
     return (
       <Card className="mt-3">
         <CardContent className="p-4 text-center text-sm text-muted-foreground">
@@ -94,7 +94,7 @@ export default function CpCpComparisonChart({
   return (
     <GroupedBarChart
       chartRef={chartWrapRef}
-      title="CP-CP State Comparison by Metric"
+      title="State Comparison by Metric"
       data={chartData}
       xAxisDataKey="metric"
       barKeys={selectedStates}

@@ -5,7 +5,6 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { loadAllMonthlyData } from "@/utils/loadAllMonthlyData";
 import aggregateByState from "@/utils/agregateByStateForTable";
 import computeCombinedTotal from "@/utils/computeCombinedTotal";
-import computeStateTotals from "@/utils/computeStateTotals";
 
 import RenderCard from "./ui/RenderCard";
 import { AgencyFilters } from "./filters/AgencyFilters";
