@@ -26,12 +26,12 @@ import { SlipDailyData, StatusKey } from "../types";
 import { Button } from "@/components/ui/button";
 import * as exportService from "@/utils/exportService";
 
-// ✅ Colors (using HEX for print safety)
+// Chart configuration
 const chartConfig: ChartConfig = {
-  Arrested: { label: "Arrested", color: "#3B82F6" }, // Blue
-  Convicted: { label: "Convicted", color: "#22C55E" }, // Green
-  Suspect: { label: "Suspect", color: "#EF4444" }, // Red
-  Total: { label: "Total", color: "#F59E0B" }, // Amber
+  Arrested: { label: "Arrested", color: "#3B82F6" },
+  Convicted: { label: "Convicted", color: "#22C55E" },
+  Suspect: { label: "Suspect", color: "#EF4444" },
+  Total: { label: "Total", color: "#F59E0B" },
 };
 
 interface SlipCaptureTrendChartProps {
@@ -56,11 +56,11 @@ export function SlipCaptureTrendChart({
     );
   };
 
-  // Prepare Chart Data
   const chartData = filteredData
     .map((day) => {
       const stateData = day.data[selectedState];
       if (!stateData) return null;
+
       const arrested = stateData.Arrested ?? 0;
       const convicted = stateData.Convicted ?? 0;
       const suspect = stateData.Suspect ?? 0;
@@ -79,7 +79,6 @@ export function SlipCaptureTrendChart({
     })
     .filter(Boolean) as any[];
 
-  // CSV Export
   const handleExportCSV = () => {
     const headers = ["Date", "Arrested", "Convicted", "Suspect", "Total"];
     const rows = chartData.map((d) => [
@@ -100,18 +99,15 @@ export function SlipCaptureTrendChart({
       return;
     }
 
-    // Temporarily hide all elements with class 'print-hide'
     const hideElements = document.querySelectorAll<HTMLElement>(".print-hide");
     hideElements.forEach((el) => (el.style.display = "none"));
 
-    // Perform printing
     const element = document.getElementById("trend-chart-container");
     exportService.printComponent(
       element as HTMLDivElement,
       `${selectedState} Trend Report`
     );
 
-    // Restore elements after printing
     setTimeout(() => {
       hideElements.forEach((el) => (el.style.display = ""));
     }, 500);
@@ -171,15 +167,29 @@ export function SlipCaptureTrendChart({
                 <YAxis width={48} />
                 <ChartTooltip content={<ChartTooltipContent />} />
 
-                {/* Legend */}
+                {/* ✅ Fixed legend that doesn't hide lines */}
                 <Legend
                   verticalAlign="top"
-                  wrapperStyle={{ top: 0 }}
-                  onClick={(e) => toggleLine(e.dataKey as StatusKey)}
-                  formatter={(value) => chartConfig[value as StatusKey].label}
+                  wrapperStyle={{ top: 0, cursor: "pointer" }}
+                  payload={Object.keys(chartConfig).map((key) => ({
+                    id: key,
+                    value: chartConfig[key as StatusKey].label,
+                    type: "line",
+                    color: chartConfig[key as StatusKey].color,
+                    inactive: !activeLines.includes(key as StatusKey),
+                  }))}
+                  onClick={(e) => toggleLine(e.id as StatusKey)}
+                  formatter={(value, entry) => {
+                    const isActive = activeLines.includes(entry?.id as StatusKey);
+                    return (
+                      <span style={{ opacity: isActive ? 1 : 0.4 }}>
+                        {value}
+                      </span>
+                    );
+                  }}
                 />
 
-                {/* Lines */}
+                {/* ✅ Conditionally render lines */}
                 {activeLines.includes("Arrested") && (
                   <Line
                     dataKey="Arrested"
