@@ -191,7 +191,8 @@ function Agency() {
 
             {showTable ? (
               <AgencyTable data={tableData} filters={filters} />
-            ) : (
+            ) : filters.dataTypes.length > 0 &&
+              filters.categories.length > 0 ? (
               <>
                 {/* Summary Cards w/ friendly category names */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
@@ -212,7 +213,7 @@ function Agency() {
                   >
                     {showCompareChart
                       ? "Hide Comparison Chart"
-                      : "Show Comparision Chart"}
+                      : "Show Comparison Chart"}
                   </button>
 
                   {showCompareChart ? (
@@ -259,6 +260,13 @@ function Agency() {
                   dataTypes={filters.dataTypes}
                 />
               </>
+            ) : (
+              <div className="w-full p-6 text-center border rounded-md shadow-sm bg-muted/30">
+                <p className="font-medium">
+                  No data type selected. Use the <em>Data Types</em> or <em>Categories</em> filter
+                  above to select one or more data types.
+                </p>
+              </div>
             )}
           </>
         )}
