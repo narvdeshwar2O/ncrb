@@ -1,13 +1,20 @@
 import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import { Calendar } from "@/components/ui/calendar";
 import { CalendarIcon, Filter, RotateCcw } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { format} from "date-fns";
+import { format } from "date-fns";
 import MultiSelectCheckbox from "@/components/ui/MultiSelectCheckbox";
 import { SlipFilters, StatusKey, STATUS_KEYS } from "../types";
+import { CustomCaption } from "@/components/ui/CustomCaption";
+import { getLastNDaysRange } from "@/utils/getLastNdays";
+import { quickRanges } from "@/utils/quickRanges";
 
 interface SlipFiltersBarProps {
   allStates: string[];
@@ -22,7 +29,9 @@ export const SlipFiltersBar: React.FC<SlipFiltersBarProps> = ({
 }) => {
   const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
   const [selectedStates, setSelectedStates] = useState<string[]>(value.states);
-  const [selectedStatuses, setSelectedStatuses] = useState<StatusKey[]>(value.statuses);
+  const [selectedStatuses, setSelectedStatuses] = useState<StatusKey[]>(
+    value.statuses
+  );
 
   const STATUS_OPTIONS = STATUS_KEYS.filter((key) => key !== "Total");
 
@@ -68,7 +77,7 @@ export const SlipFiltersBar: React.FC<SlipFiltersBarProps> = ({
         </CardTitle>
       </CardHeader>
       <CardContent>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-3">
           {/* Date Range */}
           <div className="space-y-2">
             <label className="text-sm font-medium">Date Range</label>
@@ -108,9 +117,30 @@ export const SlipFiltersBar: React.FC<SlipFiltersBarProps> = ({
                     updateFilters({ dateRange: range });
                   }}
                   numberOfMonths={1}
+                  components={{
+                    Caption: CustomCaption,
+                  }}
                 />
               </PopoverContent>
             </Popover>
+          </div>
+          {/* Dropdown for quick range selection */}
+          <div className="space-y-2">
+            <label htmlFor="">Quick Ranges</label>
+            <select
+              className="w-full border rounded-md text-sm py-2 px-2 bg-card"
+              onChange={(e) => {
+                const days = parseInt(e.target.value, 10);
+                if (days) updateFilters({ dateRange: getLastNDaysRange(days) });
+              }}
+              defaultValue=""
+            >
+              {quickRanges  .map((range) => (
+                <option key={range.value} value={range.value}>
+                  {range.label}
+                </option>
+              ))}
+            </select>
           </div>
 
           {/* States MultiSelect */}

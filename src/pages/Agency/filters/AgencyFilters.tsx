@@ -17,6 +17,9 @@ import {
   DashboardFiltersProps,
 } from "../../../components/filters/types/FilterTypes";
 import MultiSelectCheckbox from "@/components/ui/MultiSelectCheckbox";
+import { CustomCaption } from "@/components/ui/CustomCaption";
+import { quickRanges } from "@/utils/quickRanges";
+import { getLastNDaysRange } from "@/utils/getLastNdays";
 
 const dataTypeOptions = ["enrollment", "hit", "nohit"] as const;
 const categoryOptions = ["tp", "cp", "mesa"] as const;
@@ -74,16 +77,17 @@ export const AgencyFilters = ({
         </CardTitle>
       </CardHeader>
       <CardContent>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 xl:grid-cols-5 gap-3">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 xl:grid-cols-6 gap-3">
           {/* Date Range */}
-          <div className="space-y-2">
+          <div className="space-y-2 col-span-1">
             <label className="text-sm font-medium">Date Range</label>
+
             <Popover open={isDatePickerOpen} onOpenChange={setIsDatePickerOpen}>
               <PopoverTrigger asChild>
                 <Button
                   variant="outline"
                   className={cn(
-                    "w-full justify-start text-left font-normal",
+                    "w-full justify-start text-left font-normal overflow-hidden whitespace-nowrap text-ellipsis",
                     !filters.dateRange.from && "text-muted-foreground"
                   )}
                 >
@@ -104,19 +108,33 @@ export const AgencyFilters = ({
               </PopoverTrigger>
               <PopoverContent className="w-auto p-0" align="start">
                 <Calendar
-                  initialFocus
                   mode="range"
-                  defaultMonth={filters.dateRange.from}
-                  selected={{
-                    from: filters.dateRange.from,
-                    to: filters.dateRange.to,
-                  }}
+                  selected={filters.dateRange}
                   onSelect={handleDateSelect}
-                  numberOfMonths={1}
-                  className="pointer-events-auto"
+                  components={{
+                    Caption: CustomCaption,
+                  }}
                 />
               </PopoverContent>
             </Popover>
+          </div>
+          {/* Dropdown for quick range selection */}
+          <div className="space-y-2">
+            <label htmlFor="">Quick Ranges</label>
+            <select
+              className="w-full border rounded-md text-sm py-2 px-2 bg-card"
+              onChange={(e) => {
+                const days = parseInt(e.target.value, 10);
+                if (days) updateFilters({ dateRange: getLastNDaysRange(days) });
+              }}
+              defaultValue=""
+            >
+              {quickRanges.map((range) => (
+                <option key={range.value} value={range.value}>
+                  {range.label}
+                </option>
+              ))}
+            </select>
           </div>
 
           {/* States */}
@@ -142,7 +160,9 @@ export const AgencyFilters = ({
             label="Categories"
             options={[...categoryOptions]}
             selected={selectedCategories}
-            onChange={(newCategories) => updateFilters({ categories: newCategories })}
+            onChange={(newCategories) =>
+              updateFilters({ categories: newCategories })
+            }
             disabled={noStatesSelected}
             disabledText="Select states first"
             getOptionLabel={(v) => categoryLabelMap[v] ?? v}

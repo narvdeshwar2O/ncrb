@@ -12,6 +12,8 @@ import { CalendarIcon, Filter as FilterIcon, RotateCcw } from "lucide-react";
 import { cn } from "@/lib/utils";
 import MultiSelectCheckbox from "@/components/ui/MultiSelectCheckbox";
 import { CpCpFilters, CpCpStatusKey, CP_CP_STATUS_KEYS } from "../types";
+import { CustomCaption } from "@/components/ui/CustomCaption";
+import { quickRanges } from "@/utils/quickRanges";
 
 const getLastNDaysRange = (n: number) => {
   const to = endOfDay(new Date());
@@ -99,7 +101,7 @@ export const CpCpFiltersBar = ({
         </CardTitle>
       </CardHeader>
       <CardContent>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 gap-3">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 xl:grid-cols-5 gap-3">
           <div className="space-y-2">
             <label className="text-sm font-medium">Date Range</label>
             <Popover open={isDatePickerOpen} onOpenChange={setIsDatePickerOpen}>
@@ -138,9 +140,29 @@ export const CpCpFiltersBar = ({
                   onSelect={handleDateSelect}
                   numberOfMonths={1}
                   className="pointer-events-auto"
+                  components={{
+                    Caption: CustomCaption,
+                  }}
                 />
               </PopoverContent>
             </Popover>
+          </div>
+          <div className="space-y-2">
+            <label htmlFor="">Quick Ranges</label>
+            <select
+              className="w-full border rounded-md text-sm py-2 px-2 bg-card"
+              onChange={(e) => {
+                const days = parseInt(e.target.value, 10);
+                if (days) updateFilters({ dateRange: getLastNDaysRange(days) });
+              }}
+              defaultValue=""
+            >
+              {quickRanges.map((range) => (
+                <option key={range.value} value={range.value}>
+                  {range.label}
+                </option>
+              ))}
+            </select>
           </div>
           <MultiSelectCheckbox
             label="States"
