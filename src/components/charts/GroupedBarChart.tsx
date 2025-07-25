@@ -27,7 +27,6 @@ interface GroupedBarChartProps {
   colors?: string[];
   chartHeight?: number;
   onExportCSV: () => void;
-  onExportExcel: () => void;
   onPrint: () => void;
 }
 
@@ -40,7 +39,7 @@ export function GroupedBarChart({
   colors = DEFAULT_COLORS,
   chartHeight = 600,
   onExportCSV,
-  onExportExcel,
+
   onPrint,
 }: GroupedBarChartProps) {
   const legendPayload: Payload[] = useMemo(
@@ -60,7 +59,7 @@ export function GroupedBarChart({
         <div className="flex justify-between items-center w-full">
           <h2 className="text-lg font-semibold">{title}</h2>
           <div className="flex items-center gap-2">
-            <Button variant="outline" size="sm" onClick={onExportExcel}>
+            <Button variant="outline" size="sm" onClick={onExportCSV}>
               <Download className="h-4 w-4 mr-1" /> CSV
             </Button>
             <Button variant="outline" size="sm" onClick={onPrint}>

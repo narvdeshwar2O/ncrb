@@ -76,28 +76,6 @@ export function StateComparisonChart({
     exportService.printComponent(chartWrapRef.current, "State Comparison Chart");
   };
 
-  const handleExportExcel = () => {
-    // Prepare all necessary data for the Excel export
-    const headers = ["Category", ...selectedStates];
-    const rows = chartData.map((d) => [
-      d.category,
-      ...selectedStates.map((state) => d[state] ?? 0),
-    ]);
-    const meta = {
-      states: selectedStates,
-      metrics: activeMetrics,
-      categories: activeCategories,
-      generatedAt: new Date().toISOString(),
-    };
-
-    // Delegate the entire complex operation to the service
-    exportService.exportToExcel({
-      element: chartWrapRef.current,
-      filename: "state-comparison-by-category.xlsx",
-      data: { headers, rows, meta },
-    });
-  };
-
   if (!selectedStates.length) {
     return (
       <Card className="mt-3">
@@ -117,7 +95,7 @@ export function StateComparisonChart({
       xAxisDataKey="category"
       barKeys={selectedStates}
       onExportCSV={handleExportCSV}
-      onExportExcel={handleExportExcel}
+      
       onPrint={handlePrint}
     />
   );
