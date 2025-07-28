@@ -60,7 +60,7 @@ export const SlipFiltersBar: React.FC<SlipFiltersBarProps> = ({
 
   const resetFilters = () => {
     updateFilters({
-      dateRange: value.dateRange,
+      dateRange: getLastNDaysRange(7),
       states: [...allStates],
       statuses: [...STATUS_OPTIONS],
     });
@@ -135,7 +135,7 @@ export const SlipFiltersBar: React.FC<SlipFiltersBarProps> = ({
               }}
               defaultValue=""
             >
-              {quickRanges  .map((range) => (
+              {quickRanges.map((range) => (
                 <option key={range.value} value={range.value}>
                   {range.label}
                 </option>

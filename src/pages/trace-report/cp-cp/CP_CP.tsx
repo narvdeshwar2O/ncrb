@@ -7,7 +7,6 @@ import {
   CP_CP_STATUS_KEYS,
 } from "./types";
 import {
-  getLast7DaysRange,
   extractStates,
   filterCpCpData,
   computeTotalsByStatus,
@@ -23,6 +22,7 @@ import CpCpTrendChart from "./ui/CpCpTrendChart";
 import CpCpTable from "./ui/CpCpTable";
 import CpCpTopFive from "./ui/CpCpTopFive";
 import CpCpChart from "./ui/CpCpChart";
+import { getLastNDaysRange } from "@/utils/getLastNdays";
 
 const statusLabelMap: Record<CpCpStatusKey, string> = {
   hit: "Hit",
@@ -33,7 +33,7 @@ const statusLabelMap: Record<CpCpStatusKey, string> = {
 };
 
 const CP_CP: React.FC = () => {
-  const [{ from, to }] = useState(getLast7DaysRange());
+  const [{ from, to }] = useState(getLastNDaysRange(7));
   const [allData, setAllData] = useState<CpCpDailyData[]>([]);
   const [loading, setLoading] = useState(true);
   const [filters, setFilters] = useState<CpCpFilters>({
@@ -124,7 +124,12 @@ const CP_CP: React.FC = () => {
             </Card>
 
             {showTable ? (
-              <CpCpTable rows={tableRows} statuses={visibleStatuses} title="Chance Print - Chance Print" label="Chance Print - Chance Print"/>
+              <CpCpTable
+                rows={tableRows}
+                statuses={visibleStatuses}
+                title="Chance Print - Chance Print"
+                label="Chance Print - Chance Print"
+              />
             ) : (
               <>
                 {/* Status Summary Cards */}

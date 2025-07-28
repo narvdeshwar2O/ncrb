@@ -89,12 +89,17 @@ function Agency() {
         categories,
       } = filters;
 
-      const normalize = (d: Date) =>
-        new Date(d.getFullYear(), d.getMonth(), d.getDate());
+      const normalize = (d: Date | undefined | null) =>
+        d instanceof Date && !isNaN(d.getTime())
+          ? new Date(d.getFullYear(), d.getMonth(), d.getDate())
+          : undefined;
 
       const entryDate = normalize(new Date(entry.date));
-      const fromDate = normalize(filters.dateRange.from);
-      const toDate = normalize(filters.dateRange.to);
+      const fromDate = normalize(from);
+      const toDate = normalize(to);
+
+      // Skip if entryDate is invalid
+      if (!entryDate) return false;
 
       if (fromDate && entryDate < fromDate) return false;
       if (toDate && entryDate > toDate) return false;
@@ -113,6 +118,7 @@ function Agency() {
       });
     });
   }, [allData, filters]);
+
   console.log("data", filteredData);
 
   // Selected states

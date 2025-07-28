@@ -24,11 +24,10 @@ import { getLastNDaysRange } from "@/utils/getLastNdays";
 const dataTypeOptions = ["enrollment", "hit", "nohit"] as const;
 const categoryOptions = ["tp", "cp", "mesa"] as const;
 
-// Friendly display labels
 const categoryLabelMap: Record<string, string> = {
   tp: "Ten Print",
   cp: "Chance Print",
-  mesa: "MESA", // change if you want something else
+  mesa: "MESA",
 };
 
 interface ControlledAgencyFiltersProps extends DashboardFiltersProps {
@@ -40,7 +39,6 @@ export const AgencyFilters = ({
   onFiltersChange,
 }: ControlledAgencyFiltersProps) => {
   const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
-
 
   const selectedStates = filters.state ?? [];
   const selectedDataTypes = filters.dataTypes ?? [...dataTypeOptions];
@@ -61,7 +59,7 @@ export const AgencyFilters = ({
 
   const resetFilters = () => {
     updateFilters({
-      dateRange: { from: undefined, to: undefined },
+      dateRange: getLastNDaysRange(7),
       state: [...allStates],
       dataTypes: [...dataTypeOptions],
       categories: [...categoryOptions],
@@ -77,7 +75,7 @@ export const AgencyFilters = ({
         </CardTitle>
       </CardHeader>
       <CardContent>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 xl:grid-cols-6 gap-3">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 xl:grid-cols-5 gap-3">
           {/* Date Range */}
           <div className="space-y-2 col-span-1">
             <label className="text-sm font-medium">Date Range</label>
@@ -115,29 +113,44 @@ export const AgencyFilters = ({
                     Caption: CustomCaption,
                   }}
                 />
+                <div className="bg-card grid grid-cols-2 sm:grid-cols-2 mx-auto w-[90%] mb-3 gap-2">
+                  <button
+                    className="bg-card px-3 py-[5px] rounded-md border"
+                    onClick={() =>
+                      updateFilters({ dateRange: getLastNDaysRange(7) })
+                    }
+                  >
+                    Last 7 Days
+                  </button>
+                  <button
+                    className="bg-card px-3 py-[5px] rounded-md border"
+                    onClick={() =>
+                      updateFilters({ dateRange: getLastNDaysRange(30) })
+                    }
+                  >
+                    Last 30 Days
+                  </button>
+                  <button
+                    className="bg-card px-3 py-[5px] rounded-md border"
+                    onClick={() =>
+                      updateFilters({ dateRange: getLastNDaysRange(90) })
+                    }
+                  >
+                    Last 90 Days
+                  </button>
+                  <button
+                    className="bg-card px-3 py-[5px] rounded-md border"
+                    onClick={() => {
+                      alert("Logic for 'All Data' is not implemented yet!");
+                    }}
+                  >
+                    All Data
+                  </button>
+                </div>
               </PopoverContent>
             </Popover>
           </div>
-          {/* Dropdown for quick range selection */}
-          <div className="space-y-2">
-            <label htmlFor="">Quick Ranges</label>
-            <select
-              className="w-full border rounded-md text-sm py-2 px-2 bg-card"
-              onChange={(e) => {
-                const days = parseInt(e.target.value, 10);
-                if (days) updateFilters({ dateRange: getLastNDaysRange(days) });
-              }}
-              defaultValue=""
-            >
-              {quickRanges.map((range) => (
-                <option key={range.value} value={range.value}>
-                  {range.label}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          {/* States */}
+            {/* States */}
           <MultiSelectCheckbox
             label="States"
             options={allStates}

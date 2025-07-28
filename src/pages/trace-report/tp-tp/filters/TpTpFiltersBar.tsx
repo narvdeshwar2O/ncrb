@@ -16,15 +16,8 @@ import { startOfDay, endOfDay, subDays } from "date-fns";
 import { TpTpFilters, TpTpStatusKey, TP_TP_STATUS_KEYS } from "../types";
 import { CustomCaption } from "@/components/ui/CustomCaption";
 import { quickRanges } from "@/utils/quickRanges";
+import { getLastNDaysRange } from "@/utils/getLastNdays";
 
-/* ------------------------------------------------------------------ */
-/* Helpers                                                            */
-/* ------------------------------------------------------------------ */
-const getLastNDaysRange = (n: number) => {
-  const to = endOfDay(new Date());
-  const from = startOfDay(subDays(to, n - 1));
-  return { from, to };
-};
 
 /* ------------------------------------------------------------------ */
 /* Props                                                              */
@@ -54,7 +47,6 @@ export const TpTpFiltersBar = ({
     Total: "Total",
   };
 
-  // ✅ Remove total from options (keeping as per original, but if you want to include "total", remove the filter)
   const STATUS_OPTIONS = TP_TP_STATUS_KEYS.filter((s) => s !== "total");
 
   useEffect(() => {
@@ -91,7 +83,7 @@ export const TpTpFiltersBar = ({
 
   const resetFilters = () => {
     onChange({
-      dateRange: { from: undefined, to: undefined },
+      dateRange: getLastNDaysRange(7),
       states: [...allStates],
       statuses: [...STATUS_OPTIONS],
     });
