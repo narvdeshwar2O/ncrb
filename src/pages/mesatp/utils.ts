@@ -1,7 +1,12 @@
 // components/slip-capture/utils.ts
-import { SlipDailyData, SlipFilters, SlipTableRow, StatusKey } from "./types";
+import {
+  MesaDailyData,
+  SlipFilters,
+  MesaTableRow,
+  MesaStatusKey,
+} from "./types";
 
-export const getLastNDaysRange(7) = () => {
+export const getLastNDaysRange = () => {
   const today = new Date();
   const to = today;
   const from = new Date();
@@ -9,7 +14,7 @@ export const getLastNDaysRange(7) = () => {
   return { from, to };
 };
 
-export function extractStates(data: SlipDailyData[]): string[] {
+export function extractStates(data: MesaDailyData[]): string[] {
   const set = new Set<string>();
   for (const day of data) {
     for (const st of Object.keys(day.data)) set.add(st);
@@ -18,25 +23,40 @@ export function extractStates(data: SlipDailyData[]): string[] {
 }
 
 export function filterSlipData(
-  all: SlipDailyData[],
+  all: MesaDailyData[],
   filters: SlipFilters
-): SlipDailyData[] {
+): MesaDailyData[] {
   const { from, to } = filters.dateRange;
   const { states } = filters;
   const restrictStates = states && states.length > 0;
 
   return all.filter((entry) => {
     const d = new Date(entry.date);
-    if (from && d < from) return false;
-    if (to && d > to) return false;
+    d.setHours(0, 0, 0, 0); // ⬅️ normalize entry date
+
+    const normFrom = from
+      ? new Date(
+          from.setFullYear(from.getFullYear(), from.getMonth(), from.getDate())
+        )
+      : null;
+    const normTo = to
+      ? new Date(to.setFullYear(to.getFullYear(), to.getMonth(), to.getDate()))
+      : null;
+
+    if (normFrom) normFrom.setHours(0, 0, 0, 0);
+    if (normTo) normTo.setHours(0, 0, 0, 0);
+
+    if (normFrom && d < normFrom) return false;
+    if (normTo && d > normTo) return false;
     if (!restrictStates) return true;
+
     return states.some((s) => s in entry.data);
   });
 }
 
 export function computeTotalsByStatus(
-  filtered: SlipDailyData[],
-  statuses: StatusKey[],
+  filtered: MesaDailyData[],
+  statuses: MesaStatusKey[],
   restrictStates?: string[]
 ) {
   const sums: Record<string, number> = {};
@@ -61,10 +81,10 @@ export function computeTotalsByStatus(
 }
 
 export function buildSlipTableData(
-  filtered: SlipDailyData[],
-  statuses: StatusKey[],
+  filtered: MesaDailyData[],
+  statuses: MesaStatusKey[],
   selectedStates: string[] = []
-): SlipTableRow[] {
+): MesaTableRow[] {
   const stateTotals: Record<string, Record<string, number>> = {};
 
   for (const day of filtered) {
@@ -81,7 +101,7 @@ export function buildSlipTableData(
 
       const target = stateTotals[state];
       for (const s of statuses) {
-        const v = rec?.[s as StatusKey] ?? 0;
+        const v = rec?.[s as MesaStatusKey] ?? 0;
         target[s] += v;
         target.total += v;
       }
@@ -92,10 +112,14 @@ export function buildSlipTableData(
     .map(([state, stats]) => ({ state, ...stats }))
     .sort(
       (a, b) => (b.total as number) - (a.total as number)
-    ) as SlipTableRow[];
+    ) as MesaTableRow[];
 }
 
-export function topNByStatus(table: SlipTableRow[], status: StatusKey, n = 5) {
+export function topNByStatus(
+  table: MesaTableRow[],
+  status: MesaStatusKey,
+  n = 5
+) {
   return [...table]
     .sort((a, b) => (b[status] as number) - (a[status] as number))
     .slice(0, n);
