@@ -25,11 +25,17 @@ export function filterSlipData(
   const { states } = filters;
   const restrictStates = states && states.length > 0;
 
+  const normFrom = from ? new Date(from.setHours(0, 0, 0, 0)) : null;
+  const normTo = to ? new Date(to.setHours(0, 0, 0, 0)) : null;
+
   return all.filter((entry) => {
     const d = new Date(entry.date);
-    if (from && d < from) return false;
-    if (to && d > to) return false;
+    d.setHours(0, 0, 0, 0); // ⬅️ Normalize entry date
+
+    if (normFrom && d < normFrom) return false;
+    if (normTo && d > normTo) return false;
     if (!restrictStates) return true;
+
     return states.some((s) => s in entry.data);
   });
 }

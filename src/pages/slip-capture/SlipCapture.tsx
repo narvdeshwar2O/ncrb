@@ -58,6 +58,7 @@ const SlipCapture: React.FC = () => {
     if (filters.states.length === 0) return [];
     return filterSlipData(allData, filters);
   }, [allData, filters]);
+  console.log("dfs", filters.dateRange);
   console.log("fie", filteredData);
 
   const tableRows = useMemo(
