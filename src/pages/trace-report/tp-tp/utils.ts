@@ -35,9 +35,22 @@ export function filterTpTpData(
 
   return all.filter((entry) => {
     const d = new Date(entry.date);
-    if (from && d < from) return false;
-    if (to && d > to) return false;
+    d.setHours(0, 0, 0, 0); // Normalize entry date
+
+    if (from) {
+      const normFrom = new Date(from);
+      normFrom.setHours(0, 0, 0, 0);
+      if (d < normFrom) return false;
+    }
+
+    if (to) {
+      const normTo = new Date(to);
+      normTo.setHours(0, 0, 0, 0);
+      if (d > normTo) return false;
+    }
+
     if (!restrictStates) return true;
+
     return states.some((s) => s in entry.data);
   });
 }
@@ -104,7 +117,6 @@ export function buildTpTpTableData(
       return (b[firstStatus] ?? 0) - (a[firstStatus] ?? 0);
     }) as TpTpTableRow[];
 }
-
 
 // ✅ Top N by Metric
 export function topNByStatus(
