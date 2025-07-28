@@ -56,7 +56,7 @@ function Agency() {
   const [showTable, setShowTable] = useState(false);
   const [showCompareChart, setCompareChart] = useState(false);
   const [loading, setLoading] = useState(true);
-
+  console.log("datarange", filters.dateRange);
   // --- Ensure valid date range whenever filters.dateRange changes
   useEffect(() => {
     setFilters((prev) => {
@@ -73,12 +73,21 @@ function Agency() {
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
-      const loaded = await loadAllMonthlyData({ type: "cfpb" });
+      const { from, to } = filters.dateRange;
+
+      const startDate = from?.toISOString().split("T")[0];
+      const endDate = to?.toISOString().split("T")[0];
+      console.log("frwe", typeof filters.dateRange);
+      const loaded = await loadAllMonthlyData({
+        startDate,
+        endDate,
+        type: "cfpb",
+      });
       setAllData(loaded);
       setLoading(false);
     };
     fetchData();
-  }, []);
+  }, [filters.dateRange]);
 
   // --- Filtered Data
   const filteredData = useMemo(() => {
@@ -151,7 +160,7 @@ function Agency() {
   // Loading
   if (loading) {
     return (
-      <div className="p-6 flex justify-center items-center h-[calc(100vh-48px)]">
+      <div className="p-6 flex justify-center max-w-80 items-center h-[calc(100vh-48px)]">
         <div className="flex flex-col items-center gap-2">
           <Skeleton className="h-8 w-48 mb-2 flex items-center justify-center">
             Loading...

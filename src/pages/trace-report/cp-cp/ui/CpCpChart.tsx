@@ -117,8 +117,8 @@ export default function CpCpChart({
       .replace(/[^\w-]+/g, "");
 
   return (
-    <Card className="p-1 w-full mt-3">
-      <CardHeader className="flex flex-col gap-2 items-center">
+    <Card className="w-full !shadow-none !border-none !p-0">
+      <CardHeader className="flex flex-col gap-2 items-center border-t">
         <div className="flex justify-between w-full items-center">
           <h3 className="text-base font-medium">{chartTitle}</h3>
           <div className="flex items-center gap-2">
