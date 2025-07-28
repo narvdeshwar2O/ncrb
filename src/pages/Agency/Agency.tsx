@@ -15,6 +15,7 @@ import { StateComparisonChart } from "./ui/StateComparisonChart";
 
 import { states as allStates } from "../../components/filters/data/statesData";
 import { FilterState } from "../../components/filters/types/FilterTypes";
+import { getLastNDaysRange } from "@/utils/getLastNdays";
 
 export interface DailyData {
   date: string;
@@ -41,21 +42,13 @@ const categoryOptions = ["tp", "cp", "mesa"] as const;
 const categoryLabelMap: Record<string, string> = {
   tp: "Ten Print",
   cp: "Chance Print",
-  mesa: "MESA", // change if you want something else
-};
-
-const getLast7DaysRange = () => {
-  const today = new Date();
-  const to = new Date(today);
-  const from = new Date();
-  from.setDate(today.getDate() - 7);
-  return { from, to };
+  mesa: "MESA",
 };
 
 function Agency() {
   const [allData, setAllData] = useState<DailyData[]>([]);
   const [filters, setFilters] = useState<FilterState>({
-    dateRange: getLast7DaysRange(),
+    dateRange: getLastNDaysRange(7),
     state: [...allStates],
     dataTypes: [...dataTypeOptions],
     categories: [...categoryOptions],
@@ -96,9 +89,15 @@ function Agency() {
         categories,
       } = filters;
 
-      const entryDate = new Date(entry.date);
-      if (from && entryDate < from) return false;
-      if (to && entryDate > to) return false;
+      const normalize = (d: Date) =>
+        new Date(d.getFullYear(), d.getMonth(), d.getDate());
+
+      const entryDate = normalize(new Date(entry.date));
+      const fromDate = normalize(filters.dateRange.from);
+      const toDate = normalize(filters.dateRange.to);
+
+      if (fromDate && entryDate < fromDate) return false;
+      if (toDate && entryDate > toDate) return false;
 
       const activeCategories = categories?.length
         ? categories
@@ -114,6 +113,7 @@ function Agency() {
       });
     });
   }, [allData, filters]);
+  console.log("data", filteredData);
 
   // Selected states
   const selectedStates = filters.state;
@@ -263,8 +263,9 @@ function Agency() {
             ) : (
               <div className="w-full p-6 text-center border rounded-md shadow-sm bg-muted/30">
                 <p className="font-medium">
-                  No data type selected. Use the <em>Data Types</em> or <em>Categories</em> filter
-                  above to select one or more data types.
+                  No data type selected. Use the <em>Data Types</em> or{" "}
+                  <em>Categories</em> filter above to select one or more data
+                  types.
                 </p>
               </div>
             )}

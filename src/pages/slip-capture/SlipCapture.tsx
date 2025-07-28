@@ -2,7 +2,6 @@ import React, { useEffect, useMemo, useState } from "react";
 import { loadAllMonthlyData } from "@/utils/loadAllMonthlyData";
 import { SlipDailyData, SlipFilters, STATUS_KEYS, StatusKey } from "./types";
 import {
-  getLast7DaysRange,
   extractStates,
   filterSlipData,
   computeTotalsByStatus,
@@ -18,9 +17,10 @@ import SlipTopFive from "./ui/SlipTopFive";
 import { SlipFiltersBar } from "./filters/SlipFiltersBar";
 import SlipCaptureChart from "./ui/SlipCaptureChart";
 import { SlipCaptureTrendChart } from "./ui/SlipCaptureTrendChart";
+import { getLastNDaysRange } from "@/utils/getLastNdays";
 
 const SlipCapture: React.FC = () => {
-  const [{ from, to }] = useState(getLast7DaysRange());
+  const [{ from, to }] = useState(getLastNDaysRange(7));
   const [allData, setAllData] = useState<SlipDailyData[]>([]);
   const [loading, setLoading] = useState(true);
   const [filters, setFilters] = useState<SlipFilters>({
@@ -58,6 +58,7 @@ const SlipCapture: React.FC = () => {
     if (filters.states.length === 0) return [];
     return filterSlipData(allData, filters);
   }, [allData, filters]);
+  console.log("fie", filteredData);
 
   const tableRows = useMemo(
     () => buildSlipTableData(filteredData, visibleStatuses, filters.states),
@@ -153,7 +154,8 @@ const SlipCapture: React.FC = () => {
                   </Button>
 
                   {showCompareChart ? (
-                    filters.states.length >= 2 && filters.states.length <= 15 ? (
+                    filters.states.length >= 2 &&
+                    filters.states.length <= 15 ? (
                       <SlipComparisonChart
                         rows={tableRows}
                         statuses={visibleStatuses} // From filters

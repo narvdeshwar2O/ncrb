@@ -1,6 +1,10 @@
 export const getLastNDaysRange = (n: number) => {
-  const today = new Date();
-  const from = new Date();
-  from.setDate(today.getDate() - n);
-  return { from, to: today };
+  const end = new Date();
+  end.setHours(23, 59, 59, 999);
+
+  const start = new Date(end);
+  start.setDate(start.getDate() - (n - 1));
+  start.setHours(0, 0, 0, 0);
+
+  return { from: start, to: end };
 };

@@ -41,7 +41,7 @@ export const AgencyFilters = ({
 }: ControlledAgencyFiltersProps) => {
   const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
 
-  // Already arrays
+
   const selectedStates = filters.state ?? [];
   const selectedDataTypes = filters.dataTypes ?? [...dataTypeOptions];
   const selectedCategories = filters.categories ?? [...categoryOptions];

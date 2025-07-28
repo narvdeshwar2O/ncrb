@@ -1,7 +1,7 @@
 // components/slip-capture/utils.ts
 import { SlipDailyData, SlipFilters, SlipTableRow, StatusKey } from "./types";
 
-export const getLast7DaysRange = () => {
+export const getLastNDaysRange(7) = () => {
   const today = new Date();
   const to = today;
   const from = new Date();
