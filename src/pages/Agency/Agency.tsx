@@ -73,21 +73,14 @@ function Agency() {
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
-      const { from, to } = filters.dateRange;
-
-      const startDate = from?.toISOString().split("T")[0];
-      const endDate = to?.toISOString().split("T")[0];
-      console.log("frwe", typeof filters.dateRange);
       const loaded = await loadAllMonthlyData({
-        startDate,
-        endDate,
         type: "cfpb",
       });
       setAllData(loaded);
       setLoading(false);
     };
     fetchData();
-  }, [filters.dateRange]);
+  }, []);
 
   // --- Filtered Data
   const filteredData = useMemo(() => {
@@ -160,12 +153,10 @@ function Agency() {
   // Loading
   if (loading) {
     return (
-      <div className="p-6 flex justify-center max-w-80 items-center h-[calc(100vh-48px)]">
-        <div className="flex flex-col items-center gap-2">
-          <Skeleton className="h-8 w-48 mb-2 flex items-center justify-center">
-            Loading...
-          </Skeleton>
-        </div>
+      <div className="p-6 flex justify-center items-center h-[calc(100vh-48px)]">
+        <Skeleton className="h-8 w-48 mb-2 flex justify-center items-center">
+          Loading...
+        </Skeleton>
       </div>
     );
   }

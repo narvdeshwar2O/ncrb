@@ -77,7 +77,7 @@ export const SlipFiltersBar: React.FC<SlipFiltersBarProps> = ({
         </CardTitle>
       </CardHeader>
       <CardContent>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-3">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
           {/* Date Range */}
           <div className="space-y-2">
             <label className="text-sm font-medium">Date Range</label>
@@ -121,28 +121,43 @@ export const SlipFiltersBar: React.FC<SlipFiltersBarProps> = ({
                     Caption: CustomCaption,
                   }}
                 />
+                <div className="bg-card grid grid-cols-2 sm:grid-cols-2 mx-auto w-[90%] mb-3 gap-2">
+                  <button
+                    className="bg-card px-3 py-[5px] rounded-md border"
+                    onClick={() =>
+                      updateFilters({ dateRange: getLastNDaysRange(7) })
+                    }
+                  >
+                    Last 7 Days
+                  </button>
+                  <button
+                    className="bg-card px-3 py-[5px] rounded-md border"
+                    onClick={() =>
+                      updateFilters({ dateRange: getLastNDaysRange(30) })
+                    }
+                  >
+                    Last 30 Days
+                  </button>
+                  <button
+                    className="bg-card px-3 py-[5px] rounded-md border"
+                    onClick={() =>
+                      updateFilters({ dateRange: getLastNDaysRange(90) })
+                    }
+                  >
+                    Last 90 Days
+                  </button>
+                  <button
+                    className="bg-card px-3 py-[5px] rounded-md border"
+                    onClick={() => {
+                      alert("Logic for 'All Data' is not implemented yet!");
+                    }}
+                  >
+                    All Data
+                  </button>
+                </div>
               </PopoverContent>
             </Popover>
           </div>
-          {/* Dropdown for quick range selection */}
-          <div className="space-y-2">
-            <label htmlFor="">Quick Ranges</label>
-            <select
-              className="w-full border rounded-md text-sm py-2 px-2 bg-card"
-              onChange={(e) => {
-                const days = parseInt(e.target.value, 10);
-                if (days) updateFilters({ dateRange: getLastNDaysRange(days) });
-              }}
-              defaultValue=""
-            >
-              {quickRanges.map((range) => (
-                <option key={range.value} value={range.value}>
-                  {range.label}
-                </option>
-              ))}
-            </select>
-          </div>
-
           {/* States MultiSelect */}
           <MultiSelectCheckbox
             label="States"
