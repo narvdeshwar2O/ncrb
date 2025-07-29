@@ -98,7 +98,7 @@ export default function MesaTopFive({
       topList.forEach((item) => csvRows.push([item.state, item.value]));
       csvRows.push([]);
     });
-    exportService.exportRawDataToCSV("top-5-mesa-report.csv", csvRows);
+    exportService.exportToCSV("top-5-mesa-report.csv", [], csvRows);
     hideButtons(false);
   };
   return (

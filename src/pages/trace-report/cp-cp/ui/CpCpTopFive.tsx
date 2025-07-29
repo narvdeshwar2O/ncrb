@@ -126,20 +126,27 @@ export default function CpCpTopFive({
 
   // Export All CSV
   const handleExportAllCSV = () => {
-    const csvRows: (string | number)[][] = [];
+    const allRows: (string | number)[][] = [];
+
     activeStatuses.forEach((status) => {
       const statusLabel = statusLabelMap[status];
       const statusData = topDataByStatus[status] || [];
 
-      csvRows.push([`Top 5 - ${statusLabel}`]);
-      csvRows.push(["State", "Value"]);
+      allRows.push([`Top 5 - ${statusLabel}`]);
+      allRows.push(["State", "Value"]);
+
       statusData.forEach((item) => {
-        csvRows.push([item.state, item.value]);
+        allRows.push([item.state, item.value]);
       });
-      csvRows.push([]);
+
+      allRows.push([]); // Empty row between sections
     });
 
-    exportService.exportRawDataToCSV("cp-cp-top-5-report-all.csv", csvRows);
+    exportService.exportToCSV(
+      "cp-cp-top-5-report-all.csv",
+      ["State", "Value"],
+      allRows
+    );
   };
 
   // Print single status block
@@ -159,25 +166,6 @@ export default function CpCpTopFive({
     setTimeout(() => {
       buttons?.forEach((btn) => (btn.style.display = ""));
     }, 500);
-  };
-
-  // Export CSV for single status
-  const handleExportRowCSV = (status: StatusKey) => {
-    const csvRows: (string | number)[][] = [];
-    const statusLabel = statusLabelMap[status];
-    const statusData = topDataByStatus[status] || [];
-
-    csvRows.push([`Top 5 - ${statusLabel}`]);
-    csvRows.push(["State", "Value"]);
-    statusData.forEach((item) => {
-      csvRows.push([item.state, item.value]);
-    });
-    csvRows.push([]);
-
-    exportService.exportRawDataToCSV(
-      `${slugify(statusLabel)}-top-5.csv`,
-      csvRows
-    );
   };
 
   return (

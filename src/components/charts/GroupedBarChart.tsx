@@ -69,46 +69,49 @@ export function GroupedBarChart({
         </div>
       </CardHeader>
 
-      <CardContent ref={chartRef}>
-        <ResponsiveContainer width="100%" height={chartHeight}>
-          <BarChart
-            data={data}
-            margin={{ top: 40, right: 20, left: 20, bottom: 10 }}
-          >
-            <XAxis dataKey={xAxisDataKey} tickLine={false} />
-            <YAxis />
-            <Tooltip
-              cursor={{ fill: "hsl(var(--muted) / 0.5)" }}
-              contentStyle={{
-                background: "hsl(var(--background))",
-                border: "1px solid hsl(var(--border))",
-              }}
-            />
-            <Legend
-              verticalAlign="top"
-              wrapperStyle={{ top: 10 }}
-              payload={legendPayload}
-            />
-            {barKeys.map((key, index) => (
-              <Bar
-                key={key}
-                dataKey={key}
-                fill={getColor(index, colors)}
-                name={key}
-                radius={[4, 4, 0, 0]}
-              >
-                <LabelList
+      {/* ✅ Only this part will be exported/printed */}
+      <CardContent>
+        <div ref={chartRef}>
+          <ResponsiveContainer width="100%" height={chartHeight}>
+            <BarChart
+              data={data}
+              margin={{ top: 40, right: 20, left: 20, bottom: 10 }}
+            >
+              <XAxis dataKey={xAxisDataKey} tickLine={false} />
+              <YAxis />
+              <Tooltip
+                cursor={{ fill: "hsl(var(--muted) / 0.5)" }}
+                contentStyle={{
+                  background: "hsl(var(--background))",
+                  border: "1px solid hsl(var(--border))",
+                }}
+              />
+              <Legend
+                verticalAlign="top"
+                wrapperStyle={{ top: 10 }}
+                payload={legendPayload}
+              />
+              {barKeys.map((key, index) => (
+                <Bar
+                  key={key}
                   dataKey={key}
-                  angle={-90}
-                  position="inside"
-                  fill="#fff"
-                  fontSize={12}
-                  formatter={(value) => (Number(value) > 0 ? value : "")}
-                />
-              </Bar>
-            ))}
-          </BarChart>
-        </ResponsiveContainer>
+                  fill={getColor(index, colors)}
+                  name={key}
+                  radius={[4, 4, 0, 0]}
+                >
+                  <LabelList
+                    dataKey={key}
+                    angle={-90}
+                    position="inside"
+                    fill="#fff"
+                    fontSize={12}
+                    formatter={(value) => (Number(value) > 0 ? value : "")}
+                  />
+                </Bar>
+              ))}
+            </BarChart>
+          </ResponsiveContainer>
+        </div>
       </CardContent>
     </Card>
   );

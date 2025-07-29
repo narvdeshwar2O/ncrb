@@ -146,7 +146,7 @@ export default function TpTpTopFive({
       csvRows.push([]);
     });
 
-    exportService.exportRawDataToCSV("top-5-report-all.csv", csvRows);
+    exportService.exportToCSV("top-5-report-all.csv", [], csvRows);
   };
 
   // Print single status block
@@ -181,10 +181,7 @@ export default function TpTpTopFive({
     });
     csvRows.push([]);
 
-    exportService.exportRawDataToCSV(
-      `${slugify(statusLabel)}-top-5.csv`,
-      csvRows
-    );
+    exportService.exportToCSV(`${slugify(statusLabel)}-top-5.csv`, [], csvRows);
   };
 
   return (

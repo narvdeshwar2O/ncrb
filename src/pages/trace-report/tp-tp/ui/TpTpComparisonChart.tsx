@@ -84,12 +84,7 @@ export default function TpTpComparisonChart({
       generatedAt: new Date().toISOString(),
     };
 
-    // Delegate the entire complex operation to the service
-    exportService.exportToExcel({
-      element: chartWrapRef.current,
-      filename: "state-comparison-by-metric.xlsx",
-      data: { headers, rows, meta },
-    });
+    exportService.exportToCSV("state-comparison-by-metric.csv", headers, rows);
   };
 
   if (selectedStates.length < 2) {
@@ -111,7 +106,6 @@ export default function TpTpComparisonChart({
       xAxisDataKey="metric"
       barKeys={selectedStates}
       onExportCSV={handleExportCSV}
-      onExportExcel={handleExportExcel}
       onPrint={handlePrint}
     />
   );

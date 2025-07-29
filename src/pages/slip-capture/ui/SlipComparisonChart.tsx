@@ -52,24 +52,6 @@ export function SlipComparisonChart({
     exportService.exportToCSV("state-comparison.csv", headers, rowsData);
   };
 
-  const handleExportExcel = () => {
-    const headers = ["Status", ...selectedStates];
-    const rowsData = chartData.map((d) => [
-      d.category,
-      ...selectedStates.map((s) => d[s] ?? 0),
-    ]);
-    const meta = {
-      states: selectedStates,
-      statuses: statuses,
-      generatedAt: new Date().toISOString(),
-    };
-    exportService.exportToExcel({
-      element: chartWrapRef.current,
-      filename: "state-comparison.xlsx",
-      data: { headers, rows: rowsData, meta },
-    });
-  };
-
   const handlePrint = () => {
     exportService.printComponent(
       chartWrapRef.current,
@@ -97,7 +79,6 @@ export function SlipComparisonChart({
         xAxisDataKey="category"
         barKeys={selectedStates}
         onExportCSV={handleExportCSV}
-        onExportExcel={handleExportExcel}
         onPrint={handlePrint}
       />
     </div>

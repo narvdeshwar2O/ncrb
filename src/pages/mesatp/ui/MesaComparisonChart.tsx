@@ -52,15 +52,7 @@ export default function MesaComparisonChart({
       d.category,
       ...selectedStates.map((s) => d[s] ?? 0),
     ]);
-    exportService.exportToExcel({
-      element: chartWrapRef.current,
-      filename: "mesa-comparison.xlsx",
-      data: {
-        headers,
-        rows: rowsData,
-        meta: { generatedAt: new Date().toISOString() },
-      },
-    });
+    exportService.exportToCSV("mesa-comparison.csv", headers, rowsData);
   };
 
   const handlePrint = () => {
@@ -100,7 +92,6 @@ export default function MesaComparisonChart({
         xAxisDataKey="category"
         barKeys={selectedStates}
         onExportCSV={handleExportCSV}
-        onExportExcel={handleExportExcel}
         onPrint={handlePrint}
       />
     </div>

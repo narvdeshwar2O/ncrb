@@ -58,7 +58,10 @@ export default function CpCpComparisonChart({
   };
 
   const handlePrint = () => {
-    exportService.printComponent(chartWrapRef.current, "CP-CP State Comparison");
+    exportService.printComponent(
+      chartWrapRef.current,
+      "CP-CP State Comparison"
+    );
   };
 
   const handleExportExcel = () => {
@@ -73,15 +76,11 @@ export default function CpCpComparisonChart({
       generatedAt: new Date().toISOString(),
     };
 
-    exportService.exportToExcel({
-      element: chartWrapRef.current,
-      filename: "cp-cp-comparison.xlsx",
-      data: { headers, rows: rowsData, meta },
-    });
+    exportService.exportToCSV("cp-cp-comparison.csv", headers, rowsData);
   };
 
   // Corrected Guard
-  if (selectedStates.length < 2 && selectedStates.length <=15) {
+  if (selectedStates.length < 2 && selectedStates.length <= 15) {
     return (
       <Card className="mt-3">
         <CardContent className="p-4 text-center text-sm text-muted-foreground">
@@ -99,7 +98,6 @@ export default function CpCpComparisonChart({
       xAxisDataKey="metric"
       barKeys={selectedStates}
       onExportCSV={handleExportCSV}
-      onExportExcel={handleExportExcel}
       onPrint={handlePrint}
     />
   );

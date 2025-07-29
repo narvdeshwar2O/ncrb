@@ -82,15 +82,22 @@ export default function SlipTopFive({
 
   const handleExportAllCSV = () => {
     hideButtons(true);
+
     const csvRows: (string | number)[][] = [];
+    const headers = ["State", "Value"];
+
     activeStatuses.forEach((status) => {
       const topList = topDataByStatus[status] || [];
+
+      // Add a subheading for each status section
       csvRows.push([`Top 5 - ${status}`]);
-      csvRows.push(["State", "Value"]);
+      csvRows.push(headers);
+
       topList.forEach((item) => csvRows.push([item.state, item.value]));
-      csvRows.push([]);
+      csvRows.push([]); // Blank line for spacing between sections
     });
-    exportService.exportRawDataToCSV("top-5-slip-report.csv", csvRows);
+
+    exportService.exportToCSV("top-5-slip-report.csv", [], csvRows);
     hideButtons(false);
   };
 
