@@ -48,7 +48,10 @@ const categoryLabelMap: Record<Category, string> = {
 };
 
 const slugify = (text: string) =>
-  text.toLowerCase().replace(/\s+/g, "-").replace(/[^\w-]+/g, "");
+  text
+    .toLowerCase()
+    .replace(/\s+/g, "-")
+    .replace(/[^\w-]+/g, "");
 
 export function Top5DataView({
   allData,
@@ -86,17 +89,20 @@ export function Top5DataView({
   // Print All
   const handlePrintAll = () => {
     const printButtons = document.querySelectorAll(".print-hide");
-    printButtons.forEach((btn) => (btn as HTMLElement).style.display = "none");
+    printButtons.forEach(
+      (btn) => ((btn as HTMLElement).style.display = "none")
+    );
 
     exportService.printComponent(viewRef.current, "Top 5 States Report - All");
 
     setTimeout(() => {
-      printButtons.forEach((btn) => (btn as HTMLElement).style.display = "");
+      printButtons.forEach((btn) => ((btn as HTMLElement).style.display = ""));
     }, 500);
   };
 
   // Export All CSV
   const handleExportAllCSV = () => {
+    console.log("dsfasfsadf","sSs")
     const csvRows: (string | number)[][] = [];
     activeCategories.forEach((category) => {
       const categoryLabel = categoryLabelMap[category];
@@ -115,7 +121,7 @@ export function Top5DataView({
       });
     });
 
-    exportService.exportRawDataToCSV("top-5-report-all.csv", csvRows);
+    exportService.exportToCSV("top-5-report-all.csv", [], csvRows);
   };
 
   // Print Row
@@ -155,10 +161,7 @@ export function Top5DataView({
       }
     });
 
-    exportService.exportRawDataToCSV(
-      `${slugify(categoryLabel)}-top-5.csv`,
-      csvRows
-    );
+    exportService.exportToCSV("top-5-report-all.csv", [], csvRows);
   };
 
   return (
