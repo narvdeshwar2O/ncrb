@@ -1,4 +1,4 @@
-import { useMemo, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import {
   Bar,
   BarChart,
@@ -26,6 +26,7 @@ import { Download, Printer } from "lucide-react";
 import * as exportService from "@/utils/exportService";
 import { FilterState } from "@/components/filters/types/FilterTypes";
 
+
 interface DailyData {
   date: string;
   data: Record<
@@ -48,12 +49,14 @@ export interface MultipleChartProps {
   categoryLabelMap?: Record<string, string>;
 }
 
+
 // Base colors for bar segments by data type
 const baseColors = {
   enrollment: "hsl(217, 100%, 65%)",
   hit: "hsl(174, 70%, 55%)",
   nohit: "hsl(40, 100%, 60%)",
 };
+
 
 // Colors for Pie slices
 const pieSliceColors = [
@@ -64,6 +67,7 @@ const pieSliceColors = [
   "hsl(265, 70%, 55%)",
   "hsl(29, 90%, 50%)",
 ];
+
 
 // Utility function to sum daily totals per category for selected states
 function computeDayCategoryTotals(
@@ -99,6 +103,18 @@ export function MultipleChart(props: MultipleChartProps) {
   const [viewMode, setViewMode] = useState<"stacked" | "grouped" | "pie">(
     "stacked"
   );
+
+  // Control showing the pie chart after a delay for smoother load with tooltip
+  const [isPieReady, setIsPieReady] = useState(false);
+  useEffect(() => {
+    if (viewMode === "pie") {
+      setIsPieReady(false);
+      const timer = setTimeout(() => setIsPieReady(true), 350);
+      return () => clearTimeout(timer);
+    } else {
+      setIsPieReady(false); // reset when not pie
+    }
+  }, [viewMode]);
 
   // Determine if daily data is shown based on date range and data length
   const hasDateRange = filters.dateRange.from && filters.dateRange.to;
@@ -199,7 +215,7 @@ export function MultipleChart(props: MultipleChartProps) {
       .replace(/\s+/g, "-")
       .replace(/[^\w-]+/g, "");
 
-  // Pie chart data: flatten category and datatype totals into cells
+  // Pie chart data: flatten category and datatype totals into slices
   const pieData = useMemo(() => {
     return activeCategories
       .flatMap((cat) =>
@@ -271,40 +287,47 @@ export function MultipleChart(props: MultipleChartProps) {
       ) : (
         <CardContent
           ref={chartRef}
-          className={
-            viewMode === "pie" ? "h-[400px]" : "h-[400px] md:h-[500px]"
-          }
+          className={viewMode === "pie" ? "h-[400px]" : "h-[400px] md:h-[500px]"}
         >
           {viewMode === "pie" ? (
-            <ResponsiveContainer width="100%" height="100%">
-              <PieChart>
-                <Pie
-                  data={pieData}
-                  dataKey="value"
-                  nameKey="name"
-                  cx="50%"
-                  cy="50%"
-                  outerRadius={100}
-                  label={({ name, value }) => `${name}: ${value}`}
-                >
-                  {pieData.map((entry, idx) => (
-                    <Cell
-                      key={`cell-${idx}`}
-                      fill={pieSliceColors[idx % pieSliceColors.length]}
-                    />
-                  ))}
-                </Pie>
-                <Legend verticalAlign="top" wrapperStyle={{ top: 0 }} />
-                <Tooltip
-                  contentStyle={{
-                    background: "bg-card",
-                    border: "1px solid white",
-                    fontWeight: "400",
-                    borderRadius: "10px",
-                  }}
-                />
-              </PieChart>
-            </ResponsiveContainer>
+            isPieReady ? (
+              <ResponsiveContainer width="100%" height="100%">
+                <PieChart>
+                  <Pie
+                    data={pieData}
+                    dataKey="value"
+                    nameKey="name"
+                    cx="50%"
+                    cy="50%"
+                    outerRadius={100}
+                    label={({ name, value }) => `${name}: ${value}`}
+                  >
+                    {pieData.map((entry, idx) => (
+                      <Cell
+                        key={`cell-${idx}`}
+                        fill={pieSliceColors[idx % pieSliceColors.length]}
+                      />
+                    ))}
+                  </Pie>
+                  <Legend verticalAlign="top" wrapperStyle={{ top: 0 }} />
+                  <Tooltip
+                    contentStyle={{
+                      background: "bg-card",
+                      border: "1px solid white",
+                      fontWeight: "400",
+                      borderRadius: "10px",
+                    }}
+                  />
+                </PieChart>
+              </ResponsiveContainer>
+            ) : (
+              <div className="w-full h-full flex items-center justify-center">
+                <div className="text-muted-foreground text-base animate-pulse">
+                  Loading Pie Chart...
+                </div>
+                {/* Replace with shadcn Skeleton or Spinner for better UX */}
+              </div>
+            )
           ) : (
             <ResponsiveContainer width="100%" height="100%">
               <BarChart
@@ -322,7 +345,6 @@ export function MultipleChart(props: MultipleChartProps) {
                   }}
                 />
                 <Legend verticalAlign="top" wrapperStyle={{ top: 0 }} />
-
                 {showDailyBarChart
                   ? activeCategories.flatMap((cat) =>
                       selectedDataTypes.map((type, idx) => (
