@@ -14,12 +14,17 @@ import {
   Cell,
 } from "recharts";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { FilterState } from "@/components/filters/types/FilterTypes";
 import { Button } from "@/components/ui/button";
-import { Download, Printer, Layers3, PieChart as PieIcon } from "lucide-react";
+import {
+  Select,
+  SelectTrigger,
+  SelectContent,
+  SelectItem,
+  SelectValue,
+} from "@/components/ui/select";
+import { Download, Printer } from "lucide-react";
 import * as exportService from "@/utils/exportService";
-// If using Shadcn UI's Select, import it here
-// import { Select, SelectTrigger, SelectContent, SelectItem } from "@/components/ui/select";
+import { FilterState } from "@/components/filters/types/FilterTypes";
 
 interface DailyData {
   date: string;
@@ -31,6 +36,7 @@ interface DailyData {
     >
   >;
 }
+
 export interface MultipleChartProps {
   filteredData: DailyData[];
   filters: FilterState;
@@ -42,11 +48,14 @@ export interface MultipleChartProps {
   categoryLabelMap?: Record<string, string>;
 }
 
+// Base colors for bar segments by data type
 const baseColors = {
   enrollment: "hsl(217, 100%, 65%)",
   hit: "hsl(174, 70%, 55%)",
   nohit: "hsl(40, 100%, 60%)",
 };
+
+// Colors for Pie slices
 const pieSliceColors = [
   "hsl(217, 100%, 65%)",
   "hsl(174, 70%, 55%)",
@@ -56,6 +65,7 @@ const pieSliceColors = [
   "hsl(29, 90%, 50%)",
 ];
 
+// Utility function to sum daily totals per category for selected states
 function computeDayCategoryTotals(
   day: DailyData,
   category: "tp" | "cp" | "mesa",
@@ -82,23 +92,26 @@ export function MultipleChart(props: MultipleChartProps) {
     totalsByCategory,
     categoryLabelMap,
   } = props;
+
   const chartRef = useRef<HTMLDivElement>(null);
 
-  // "stacked", "grouped", or "pie"
+  // Chart view mode: stacked, grouped, pie
   const [viewMode, setViewMode] = useState<"stacked" | "grouped" | "pie">(
     "stacked"
   );
 
+  // Determine if daily data is shown based on date range and data length
   const hasDateRange = filters.dateRange.from && filters.dateRange.to;
   const dayCount = filteredData.length;
   const showDailyData = hasDateRange && dayCount > 0 && dayCount <= 90;
 
   const selectedStates = filters.state ?? [];
   const selectedDataTypes =
-    filters.dataTypes.length > 0
+    filters.dataTypes && filters.dataTypes.length > 0
       ? filters.dataTypes
       : ["enrollment", "hit", "nohit"];
 
+  // Create chart data for bar chart mode (daily or aggregated)
   const chartData = useMemo(() => {
     if (showDailyData) {
       const sorted = [...filteredData].sort(
@@ -126,6 +139,7 @@ export function MultipleChart(props: MultipleChartProps) {
       });
     }
 
+    // Aggregated data if no date range or daily data not shown
     return activeCategories.map((cat) => ({
       label: categoryLabelMap?.[cat] ?? cat.toUpperCase(),
       enrollment: totalsByCategory[cat]?.enrollment ?? 0,
@@ -146,15 +160,7 @@ export function MultipleChart(props: MultipleChartProps) {
     ? `Daily Breakdown (${dayCount} day${dayCount === 1 ? "" : "s"})`
     : "Agency Totals Breakdown";
 
-  const handlePrint = () => {
-    const actionButtons = chartRef.current?.querySelectorAll(".print-hide");
-    actionButtons?.forEach((btn) => btn.setAttribute("style", "display:none"));
-    exportService.printComponent(chartRef.current, chartTitle);
-    setTimeout(() => {
-      actionButtons?.forEach((btn) => btn.removeAttribute("style"));
-    }, 500);
-  };
-
+  // CSV export handler
   const handleExportCSV = () => {
     const headers = [
       showDailyData ? "Date" : "Category",
@@ -177,13 +183,23 @@ export function MultipleChart(props: MultipleChartProps) {
     exportService.exportToCSV(`${slugify(chartTitle)}.csv`, headers, rows);
   };
 
+  // Print handler
+  const handlePrint = () => {
+    const actionButtons = chartRef.current?.querySelectorAll(".print-hide");
+    actionButtons?.forEach((btn) => btn.setAttribute("style", "display:none"));
+    exportService.printComponent(chartRef.current, chartTitle);
+    setTimeout(() => {
+      actionButtons?.forEach((btn) => btn.removeAttribute("style"));
+    }, 500);
+  };
+
   const slugify = (text: string) =>
     text
       .toLowerCase()
       .replace(/\s+/g, "-")
       .replace(/[^\w-]+/g, "");
 
-  // Pie chart data
+  // Pie chart data: flatten category and datatype totals into cells
   const pieData = useMemo(() => {
     return activeCategories
       .flatMap((cat) =>
@@ -199,6 +215,9 @@ export function MultipleChart(props: MultipleChartProps) {
       .filter((d) => d.value > 0);
   }, [activeCategories, selectedDataTypes, totalsByCategory, categoryLabelMap]);
 
+  // Determine if daily data mode is active for bar chart rendering
+  const showDailyBarChart = showDailyData && viewMode !== "pie";
+
   return (
     <Card className="p-1 w-full mt-3">
       <CardHeader className="flex flex-col gap-2 items-center">
@@ -206,22 +225,25 @@ export function MultipleChart(props: MultipleChartProps) {
           <h3 className="text-base font-medium">{chartTitle}</h3>
 
           <div className="flex items-center gap-2">
-            <select
+            {/* shadcn Select to choose viewMode */}
+            <Select
               value={viewMode}
-              onChange={(e) => setViewMode(e.target.value as any)}
-              className="border rounded p-1 text-sm font-medium bg-card"
-              style={{ minWidth: 110 }}
+              onValueChange={(val) => {
+                if (val === "stacked" || val === "grouped" || val === "pie") {
+                  setViewMode(val);
+                }
+              }}
             >
-              <option className="cursor-pointer" value="stacked">
-                Stacked
-              </option>
-              <option className="cursor-pointer" value="grouped">
-                Grouped
-              </option>
-              <option className="cursor-pointer" value="pie">
-                Pie
-              </option>
-            </select>
+              <SelectTrigger className="w-[130px] text-sm font-medium bg-card">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="stacked">Stacked</SelectItem>
+                <SelectItem value="grouped">Grouped</SelectItem>
+                <SelectItem value="pie">Pie</SelectItem>
+              </SelectContent>
+            </Select>
+
             <Button
               variant="outline"
               size="sm"
@@ -272,8 +294,15 @@ export function MultipleChart(props: MultipleChartProps) {
                     />
                   ))}
                 </Pie>
-                <Tooltip />
-                <Legend />
+                <Legend verticalAlign="top" wrapperStyle={{ top: 0 }} />
+                <Tooltip
+                  contentStyle={{
+                    background: "bg-card",
+                    border: "1px solid white",
+                    fontWeight: "400",
+                    borderRadius: "10px",
+                  }}
+                />
               </PieChart>
             </ResponsiveContainer>
           ) : (
@@ -294,7 +323,7 @@ export function MultipleChart(props: MultipleChartProps) {
                 />
                 <Legend verticalAlign="top" wrapperStyle={{ top: 0 }} />
 
-                {showDailyData
+                {showDailyBarChart
                   ? activeCategories.flatMap((cat) =>
                       selectedDataTypes.map((type, idx) => (
                         <Bar

@@ -8,7 +8,6 @@ import {
   CpCpRecord,
 } from "../cp-cp/types";
 import {
-  getLast7DaysRange,
   extractStates,
   filterCpCpData,
   computeTotalsByStatus,
@@ -24,6 +23,7 @@ import CpCpTrendChart from "../cp-cp/ui/CpCpTrendChart";
 import  CpCpTable  from "../cp-cp/ui/CpCpTable";
 import CpCpTopFive from "../cp-cp/ui/CpCpTopFive";
 import CpCpChart from "../cp-cp/ui/CpCpChart";
+import { getLastNDaysRange } from "@/utils/getLastNdays";
 
 const statusLabelMap: Record<CpCpStatusKey, string> = {
   hit: "Hit",
@@ -34,7 +34,7 @@ const statusLabelMap: Record<CpCpStatusKey, string> = {
 };
 
 const CP_TP: React.FC = () => {
-  const [{ from, to }] = useState(getLast7DaysRange());
+  const [{ from, to }] = useState(getLastNDaysRange(7));
   const [allData, setAllData] = useState<CpCpDailyData[]>([]);
   const [loading, setLoading] = useState(true);
   const [filters, setFilters] = useState<CpCpFilters>({

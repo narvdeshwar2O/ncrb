@@ -8,7 +8,6 @@ import {
   CpCpRecord,
 } from "../cp-cp/types";
 import {
-  getLast7DaysRange,
   extractStates,
   filterCpCpData,
   computeTotalsByStatus,
@@ -24,6 +23,7 @@ import CpCpTopFive from "../cp-cp/ui/CpCpTopFive";
 import { CpCpFiltersBar } from "../cp-cp/filters/CpCpFiltersBar";
 import CpCpChart from "../cp-cp/ui/CpCpChart";
 import CpCpTrendChart from "../cp-cp/ui/CpCpTrendChart";
+import { getLastNDaysRange } from "@/utils/getLastNdays";
 
 const statusLabelMap: Record<CpCpStatusKey, string> = {
   hit: "Hit",
@@ -34,7 +34,7 @@ const statusLabelMap: Record<CpCpStatusKey, string> = {
 };
 
 const PP_PP: React.FC = () => {
-  const [{ from, to }] = useState(getLast7DaysRange());
+  const [{ from, to }] = useState(getLastNDaysRange(7));
   const [allData, setAllData] = useState<CpCpDailyData[]>([]);
   const [loading, setLoading] = useState(true);
   const [filters, setFilters] = useState<CpCpFilters>({
@@ -136,7 +136,12 @@ const PP_PP: React.FC = () => {
             </Card>
 
             {showTable ? (
-              <CpCpTable rows={tableRows} statuses={visibleStatuses} title="Palm Print - Palm Print" label="Palm Print - Palm Print"/>
+              <CpCpTable
+                rows={tableRows}
+                statuses={visibleStatuses}
+                title="Palm Print - Palm Print"
+                label="Palm Print - Palm Print"
+              />
             ) : (
               <>
                 {/* Status Summary Cards */}
@@ -177,7 +182,8 @@ const PP_PP: React.FC = () => {
                   </Button>
 
                   {showCompareChart ? (
-                    filters.states.length >= 2 && filters.states.length <=15 ? (
+                    filters.states.length >= 2 &&
+                    filters.states.length <= 15 ? (
                       <CpCpComparisonChart
                         rows={tableRows}
                         statuses={visibleStatuses}

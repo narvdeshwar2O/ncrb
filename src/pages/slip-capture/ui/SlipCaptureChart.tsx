@@ -9,12 +9,22 @@ import {
   Legend,
   ResponsiveContainer,
   LabelList,
+  PieChart,
+  Pie,
+  Cell,
 } from "recharts";
 import { Card, CardHeader, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Download, Printer, Layers3 } from "lucide-react";
+import { Download, Printer } from "lucide-react";
 import * as exportService from "@/utils/exportService";
 import { SlipDailyData, StatusKey } from "../types";
+import {
+  Select,
+  SelectTrigger,
+  SelectContent,
+  SelectItem,
+  SelectValue,
+} from "@/components/ui/select";
 
 interface SlipChartProps {
   filteredData: SlipDailyData[];
@@ -37,14 +47,21 @@ export default function SlipCaptureChart({
   selectedCrimeTypes,
 }: SlipChartProps) {
   const chartRef = useRef<HTMLDivElement>(null);
-  const [isStacked, setIsStacked] = useState(true);
+  const [chartType, setChartType] = useState<"stacked" | "grouped" | "pie">(
+    "stacked"
+  );
 
   const crimeTypes = useMemo(
     () => selectedCrimeTypes.filter((type) => type !== "Total"),
     [selectedCrimeTypes]
   );
+  const handleChartTypeChange = (value: string) => {
+    if (value === "stacked" || value === "grouped" || value === "pie") {
+      setChartType(value);
+    }
+  };
 
-  // Chart Data
+  // Bar Chart Data
   const chartData = useMemo(() => {
     return filteredData
       .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
@@ -55,7 +72,6 @@ export default function SlipCaptureChart({
             day: "numeric",
           }),
         };
-
         for (const crimeType of crimeTypes) {
           let total = 0;
           for (const stateData of Object.values(day.data)) {
@@ -65,6 +81,25 @@ export default function SlipCaptureChart({
         }
         return row;
       });
+  }, [filteredData, crimeTypes]);
+
+  // Pie Chart Data
+  const pieData = useMemo(() => {
+    const totals: Record<string, number> = {};
+    for (const day of filteredData) {
+      for (const crimeType of crimeTypes) {
+        let total = 0;
+        for (const stateData of Object.values(day.data)) {
+          total += stateData[crimeType] ?? 0;
+        }
+        totals[crimeType] = (totals[crimeType] ?? 0) + total;
+      }
+    }
+    return crimeTypes.map((type, idx) => ({
+      name: type,
+      value: totals[type] ?? 0,
+      color: COLORS[idx % COLORS.length],
+    }));
   }, [filteredData, crimeTypes]);
 
   // Chart Config
@@ -83,16 +118,26 @@ export default function SlipCaptureChart({
 
   // Export CSV
   const handleExportCSV = () => {
-    const headers = ["Date", ...crimeTypes];
-    const rows = chartData.map((item) => [
-      item.label,
-      ...crimeTypes.map((c) => item[c] ?? 0),
-    ]);
-    exportService.exportToCSV(
-      `${chartTitle.replace(/\s+/g, "_")}.csv`,
-      headers,
-      rows
-    );
+    if (chartType === "pie") {
+      const headers = ["Crime Type", "Total"];
+      const rows = pieData.map((it) => [it.name, it.value]);
+      exportService.exportToCSV(
+        `${chartTitle.replace(/\s+/g, "_")}_Pie.csv`,
+        headers,
+        rows
+      );
+    } else {
+      const headers = ["Date", ...crimeTypes];
+      const rows = chartData.map((item) => [
+        item.label,
+        ...crimeTypes.map((c) => item[c] ?? 0),
+      ]);
+      exportService.exportToCSV(
+        `${chartTitle.replace(/\s+/g, "_")}.csv`,
+        headers,
+        rows
+      );
+    }
   };
 
   // Print
@@ -111,15 +156,16 @@ export default function SlipCaptureChart({
         <div className="flex justify-between items-center">
           <h3 className="text-base font-semibold">{chartTitle}</h3>
           <div className="flex gap-2">
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => setIsStacked((prev) => !prev)}
-              className="print-hide"
-            >
-              <Layers3 className="h-4 w-4 mr-1" />
-              {isStacked ? "Grouped" : "Stacked"}
-            </Button>
+            <Select value={chartType} onValueChange={handleChartTypeChange}>
+              <SelectTrigger className="w-[120px] print-hide">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="stacked">Stacked</SelectItem>
+                <SelectItem value="grouped">Grouped</SelectItem>
+                <SelectItem value="pie">Pie</SelectItem>
+              </SelectContent>
+            </Select>
             <Button
               variant="outline"
               size="sm"
@@ -139,12 +185,40 @@ export default function SlipCaptureChart({
           </div>
         </div>
       </CardHeader>
-
       <CardContent ref={chartRef} className="h-[400px]">
         {crimeTypes.length === 0 ? (
           <div className="h-full flex items-center justify-center text-red-600 font-medium">
             Please select at least one crime type to display the chart.
           </div>
+        ) : chartType === "pie" ? (
+          <ResponsiveContainer width="100%" height="100%">
+            <PieChart>
+              <Pie
+                data={pieData}
+                dataKey="value"
+                nameKey="name"
+                cx="50%"
+                cy="50%"
+                outerRadius={120}
+                label={({ name, value }) =>
+                  value > 0 ? `${name}: ${value}` : ""
+                }
+              >
+                {pieData.map((entry, idx) => (
+                  <Cell key={`cell-${idx}`} fill={entry.color} />
+                ))}
+              </Pie>
+              <Legend verticalAlign="top" wrapperStyle={{ top: 0 }} />
+              <Tooltip
+                contentStyle={{
+                  background: "bg-card",
+                  border: "1px solid white",
+                  fontWeight: "400",
+                  borderRadius: "10px",
+                }}
+              />
+            </PieChart>
+          </ResponsiveContainer>
         ) : (
           <ResponsiveContainer width="100%" height="100%">
             <BarChart
@@ -163,24 +237,23 @@ export default function SlipCaptureChart({
               <Tooltip
                 cursor={{ fill: "hsl(var(--muted) / 0.5)" }}
                 contentStyle={{
-                  background: "hsl(var(--background))",
+                  background: "bg-card",
                   border: "1px solid hsl(var(--border))",
                 }}
               />
               <Legend verticalAlign="top" wrapperStyle={{ top: 0 }} />
-
               {crimeTypes.map((crimeType, idx) => (
                 <Bar
                   key={crimeType}
                   dataKey={crimeType}
                   fill={chartConfig[crimeType]?.color}
-                  stackId={isStacked ? "stack" : undefined}
+                  stackId={chartType === "stacked" ? "stack" : undefined}
                   radius={idx === crimeTypes.length - 1 ? 4 : 0}
                 >
                   <LabelList
                     dataKey={crimeType}
                     position="inside"
-                    angle={isStacked ? 0 : -90}
+                    angle={chartType === "stacked" ? 0 : -90}
                     fill="#fff"
                     fontSize={11}
                     formatter={(value) => (Number(value) > 0 ? value : "")}

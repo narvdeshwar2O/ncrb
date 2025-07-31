@@ -2,7 +2,6 @@ import React, { useEffect, useMemo, useState } from "react";
 import { loadAllMonthlyData } from "@/utils/loadAllMonthlyData";
 import { TpTpDailyData, TpTpFilters, TpTpStatusKey } from "../tp-tp/types";
 import {
-  getLast7DaysRange,
   extractStates,
   filterTpTpData,
   computeTotalsByStatus,
@@ -18,6 +17,7 @@ import TpTpTrendChart from "../tp-tp/ui/TpTpTrendChart";
 import TpTpTable from "../tp-tp/ui/TpTpTable";
 import TpTpTopFive from "../tp-tp/ui/TpTpTopFive";
 import TpTpChart from "../tp-tp/ui/TpTpChart";
+import { getLastNDaysRange } from "@/utils/getLastNdays";
 
 const statusLabelMap: Record<TpTpStatusKey, string> = {
   hit: "Hit",
@@ -28,7 +28,7 @@ const statusLabelMap: Record<TpTpStatusKey, string> = {
 };
 
 const TP_TP: React.FC = () => {
-  const [{ from, to }] = useState(getLast7DaysRange());
+  const [{ from, to }] = useState(getLastNDaysRange(7));
   const [allData, setAllData] = useState<TpTpDailyData[]>([]);
   const [loading, setLoading] = useState(true);
   const [filters, setFilters] = useState<TpTpFilters>({
