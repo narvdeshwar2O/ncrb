@@ -9,10 +9,20 @@ import {
   Legend,
   ResponsiveContainer,
   LabelList,
+  Pie,
+  PieChart,
+  Cell,
 } from "recharts";
 import { Card, CardHeader, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Download, Printer, Layers3 } from "lucide-react";
+import {
+  Select,
+  SelectTrigger,
+  SelectContent,
+  SelectItem,
+  SelectValue,
+} from "@/components/ui/select";
+import { Download, Printer } from "lucide-react";
 import * as exportService from "@/utils/exportService";
 import { CpCpDailyData, CpCpStatusKey } from "../types";
 
@@ -22,8 +32,15 @@ const baseColors: Record<CpCpStatusKey, string> = {
   no_hit: "hsl(174, 70%, 55%)",
   intra_state: "hsl(40, 100%, 60%)",
   inter_state: "hsl(0, 70%, 60%)",
-  total: "hsl(200, 20%, 50%)", // not used in chart but kept for mapping
+  total: "hsl(200, 20%, 50%)",
 };
+
+const pieSliceColors = [
+  "hsl(217, 100%, 65%)",
+  "hsl(174, 70%, 55%)",
+  "hsl(40, 100%, 60%)",
+  "hsl(0, 70%, 60%)",
+];
 
 const metricLabelMap: Record<CpCpStatusKey, string> = {
   hit: "Hit",
@@ -36,7 +53,7 @@ const metricLabelMap: Record<CpCpStatusKey, string> = {
 interface CpCpChartProps {
   filteredData: CpCpDailyData[];
   selectedStatuses: CpCpStatusKey[];
-  title:String
+  title: string;
 }
 
 function computeDayMetricTotals(day: CpCpDailyData, metric: CpCpStatusKey) {
@@ -52,24 +69,23 @@ function computeDayMetricTotals(day: CpCpDailyData, metric: CpCpStatusKey) {
 export default function CpCpChart({
   filteredData,
   selectedStatuses,
-  title
+  title,
 }: CpCpChartProps) {
   const chartRef = useRef<HTMLDivElement>(null);
-  const [isStacked, setIsStacked] = useState(false);
+  const [chartType, setChartType] = useState<"stacked" | "grouped" | "pie">("stacked");
 
-  // Active metrics (exclude total)
+  // Filter metrics (omit 'total')
   const activeMetrics = useMemo(
     () => selectedStatuses.filter((s) => s !== "total"),
     [selectedStatuses]
   );
 
-  // Build chart data
+  // Build chart data (Bar)
   const chartData = useMemo(() => {
     if (filteredData.length > 0) {
       const sorted = [...filteredData].sort(
         (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
       );
-
       return sorted.map((day) => {
         const row: Record<string, any> = {
           label: new Date(day.date).toLocaleDateString("en-US", {
@@ -83,12 +99,25 @@ export default function CpCpChart({
         return row;
       });
     }
-
-    // fallback (empty data)
     return [];
   }, [filteredData, activeMetrics]);
 
   const chartTitle = `${title} Trends (${chartData.length} day${chartData.length === 1 ? "" : "s"})`;
+
+  // Pie chart data: Aggregate all data per metric for single-pie
+  const pieData = useMemo(() => {
+    return activeMetrics.map((metric, idx) => {
+      const total = filteredData.reduce(
+        (acc, day) => acc + computeDayMetricTotals(day, metric),
+        0
+      );
+      return {
+        name: metricLabelMap[metric],
+        value: total,
+        color: pieSliceColors[idx % pieSliceColors.length],
+      };
+    }).filter((d) => d.value > 0);
+  }, [filteredData, activeMetrics]);
 
   // Print handler
   const handlePrint = () => {
@@ -100,14 +129,20 @@ export default function CpCpChart({
     }, 500);
   };
 
-  // CSV Export
+  // CSV export handler
   const handleExportCSV = () => {
-    const headers = ["Date", ...activeMetrics.map((m) => metricLabelMap[m])];
-    const rows = chartData.map((item) => [
-      item.label,
-      ...activeMetrics.map((metric) => item[metric] ?? 0),
-    ]);
-    exportService.exportToCSV(`${slugify(chartTitle)}.csv`, headers, rows);
+    if (chartType === "pie") {
+      const headers = ["Metric", "Total"];
+      const rows = pieData.map((row) => [row.name, row.value]);
+      exportService.exportToCSV(`${slugify(chartTitle)}_Pie.csv`, headers, rows);
+    } else {
+      const headers = ["Date", ...activeMetrics.map((m) => metricLabelMap[m])];
+      const rows = chartData.map((item) => [
+        item.label,
+        ...activeMetrics.map((metric) => item[metric] ?? 0),
+      ]);
+      exportService.exportToCSV(`${slugify(chartTitle)}.csv`, headers, rows);
+    }
   };
 
   const slugify = (text: string) =>
@@ -122,15 +157,21 @@ export default function CpCpChart({
         <div className="flex justify-between w-full items-center">
           <h3 className="text-base font-medium">{chartTitle}</h3>
           <div className="flex items-center gap-2">
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => setIsStacked((prev) => !prev)}
-              className="print-hide"
+            <Select
+              value={chartType}
+              onValueChange={(val) =>
+                setChartType(val as "stacked" | "grouped" | "pie")
+              }
             >
-              <Layers3 className="h-4 w-4 mr-1" />
-              {isStacked ? "Grouped" : "Stacked"}
-            </Button>
+              <SelectTrigger className="w-[120px] print-hide">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="stacked">Stacked</SelectItem>
+                <SelectItem value="grouped">Grouped</SelectItem>
+                <SelectItem value="pie">Pie</SelectItem>
+              </SelectContent>
+            </Select>
             <Button
               variant="outline"
               size="sm"
@@ -157,44 +198,67 @@ export default function CpCpChart({
         </CardContent>
       ) : (
         <CardContent ref={chartRef} className="h-[400px] md:h-[500px]">
-          <ResponsiveContainer width="100%" height="100%">
-            <BarChart
-              data={chartData}
-              margin={{ top: 40, right: 20, left: 20, bottom: 10 }}
-            >
-              <CartesianGrid vertical={false} />
-              <XAxis dataKey="label" tickMargin={10} />
-              <YAxis tickMargin={8} />
-              <Tooltip
-                cursor={{ fill: "hsl(var(--muted) / 0.5)" }}
-                contentStyle={{
-                  background: "hsl(var(--background))",
-                  border: "1px solid hsl(var(--border))",
-                }}
-              />
-              <Legend verticalAlign="top" wrapperStyle={{ top: 0 }} />
-
-              {activeMetrics.map((metric, idx) => (
-                <Bar
-                  key={metric}
-                  dataKey={metric}
-                  fill={baseColors[metric]}
-                  stackId={isStacked ? "stack" : `group-${metric}`}
-                  radius={idx === activeMetrics.length - 1 ? 4 : 0}
-                  name={metricLabelMap[metric]}
+          {chartType === "pie" ? (
+            <ResponsiveContainer width="100%" height="100%">
+              <PieChart>
+                <Pie
+                  data={pieData}
+                  dataKey="value"
+                  nameKey="name"
+                  cx="50%"
+                  cy="50%"
+                  outerRadius={120}
+                  label={({ name, value }) =>
+                    value && value > 0 ? `${name}: ${value}` : ""
+                  }
                 >
-                  <LabelList
+                  {pieData.map((entry, idx) => (
+                    <Cell key={`cell-${idx}`} fill={entry.color} />
+                  ))}
+                </Pie>
+                <Legend verticalAlign="top" wrapperStyle={{ top: 0 }} />
+                <Tooltip />
+              </PieChart>
+            </ResponsiveContainer>
+          ) : (
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart
+                data={chartData}
+                margin={{ top: 40, right: 20, left: 20, bottom: 10 }}
+              >
+                <CartesianGrid vertical={false} />
+                <XAxis dataKey="label" tickMargin={10} />
+                <YAxis tickMargin={8} />
+                <Tooltip
+                  cursor={{ fill: "hsl(var(--muted) / 0.5)" }}
+                  contentStyle={{
+                    background: "hsl(var(--background))",
+                    border: "1px solid hsl(var(--border))",
+                  }}
+                />
+                <Legend verticalAlign="top" wrapperStyle={{ top: 0 }} />
+                {activeMetrics.map((metric, idx) => (
+                  <Bar
+                    key={metric}
                     dataKey={metric}
-                    position="inside"
-                    angle={isStacked ? 0 : -90}
-                    fill="#fff"
-                    fontSize={11}
-                    formatter={(value) => (Number(value) > 0 ? value : "")}
-                  />
-                </Bar>
-              ))}
-            </BarChart>
-          </ResponsiveContainer>
+                    fill={baseColors[metric]}
+                    stackId={chartType === "stacked" ? "stack" : undefined}
+                    radius={idx === activeMetrics.length - 1 ? 4 : 0}
+                    name={metricLabelMap[metric]}
+                  >
+                    <LabelList
+                      dataKey={metric}
+                      position="inside"
+                      angle={chartType === "stacked" ? 0 : -90}
+                      fill="#fff"
+                      fontSize={11}
+                      formatter={(value) => (Number(value) > 0 ? value : "")}
+                    />
+                  </Bar>
+                ))}
+              </BarChart>
+            </ResponsiveContainer>
+          )}
         </CardContent>
       )}
     </Card>
