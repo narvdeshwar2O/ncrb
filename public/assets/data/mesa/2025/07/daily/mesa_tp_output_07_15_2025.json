@@ -1,317 +1,317 @@
 {
   "Andaman and Nicobar Islands": {
-    "Arrested": 28,
-    "Convicted": 136,
-    "Externee": 158,
-    "Deportee": 118,
-    "UIFP": 71,
-    "Suspect": 126,
-    "total": 637
+    "Arrested": 94,
+    "Convicted": 58,
+    "Externee": 43,
+    "Deportee": 193,
+    "UIFP": 93,
+    "Suspect": 155,
+    "total": 636
   },
   "Andhra Pradesh": {
-    "Arrested": 98,
-    "Convicted": 180,
-    "Externee": 111,
-    "Deportee": 196,
-    "UIFP": 73,
-    "Suspect": 91,
-    "total": 749
+    "Arrested": 115,
+    "Convicted": 178,
+    "Externee": 164,
+    "Deportee": 192,
+    "UIFP": 181,
+    "Suspect": 73,
+    "total": 903
   },
   "Arunachal Pradesh": {
-    "Arrested": 89,
-    "Convicted": 20,
-    "Externee": 41,
-    "Deportee": 97,
-    "UIFP": 195,
-    "Suspect": 130,
-    "total": 572
+    "Arrested": 164,
+    "Convicted": 74,
+    "Externee": 95,
+    "Deportee": 172,
+    "UIFP": 179,
+    "Suspect": 54,
+    "total": 738
   },
   "Assam": {
-    "Arrested": 106,
-    "Convicted": 55,
-    "Externee": 40,
-    "Deportee": 26,
-    "UIFP": 16,
-    "Suspect": 83,
-    "total": 326
+    "Arrested": 97,
+    "Convicted": 75,
+    "Externee": 27,
+    "Deportee": 180,
+    "UIFP": 35,
+    "Suspect": 119,
+    "total": 533
   },
   "Bihar": {
-    "Arrested": 184,
-    "Convicted": 175,
-    "Externee": 28,
-    "Deportee": 135,
-    "UIFP": 94,
-    "Suspect": 74,
-    "total": 690
-  },
-  "Chandigarh": {
-    "Arrested": 155,
-    "Convicted": 200,
-    "Externee": 187,
-    "Deportee": 171,
+    "Arrested": 10,
+    "Convicted": 125,
+    "Externee": 115,
+    "Deportee": 124,
     "UIFP": 104,
-    "Suspect": 170,
-    "total": 987
-  },
-  "Chhattisgarh": {
-    "Arrested": 44,
-    "Convicted": 193,
-    "Externee": 73,
-    "Deportee": 93,
-    "UIFP": 19,
-    "Suspect": 50,
-    "total": 472
-  },
-  "Dadra and Nagar Haveli and Daman and Diu": {
-    "Arrested": 184,
-    "Convicted": 138,
-    "Externee": 45,
-    "Deportee": 95,
-    "UIFP": 101,
-    "Suspect": 11,
-    "total": 574
-  },
-  "Delhi": {
-    "Arrested": 155,
-    "Convicted": 141,
-    "Externee": 42,
-    "Deportee": 172,
-    "UIFP": 102,
-    "Suspect": 19,
-    "total": 631
-  },
-  "Goa": {
-    "Arrested": 48,
-    "Convicted": 161,
-    "Externee": 112,
-    "Deportee": 155,
-    "UIFP": 112,
-    "Suspect": 159,
-    "total": 747
-  },
-  "Gujarat": {
-    "Arrested": 129,
-    "Convicted": 131,
-    "Externee": 102,
-    "Deportee": 109,
-    "UIFP": 189,
-    "Suspect": 174,
-    "total": 834
-  },
-  "Haryana": {
-    "Arrested": 104,
-    "Convicted": 38,
-    "Externee": 109,
-    "Deportee": 23,
-    "UIFP": 102,
-    "Suspect": 200,
-    "total": 576
-  },
-  "Himachal Pradesh": {
-    "Arrested": 47,
-    "Convicted": 152,
-    "Externee": 139,
-    "Deportee": 109,
-    "UIFP": 147,
-    "Suspect": 105,
-    "total": 699
-  },
-  "Jammu Kashmir & Ladakh": {
-    "Arrested": 77,
-    "Convicted": 171,
-    "Externee": 117,
-    "Deportee": 111,
-    "UIFP": 74,
-    "Suspect": 159,
-    "total": 709
-  },
-  "Jharkhand": {
-    "Arrested": 56,
-    "Convicted": 75,
-    "Externee": 114,
-    "Deportee": 88,
-    "UIFP": 79,
-    "Suspect": 178,
-    "total": 590
-  },
-  "Karnataka": {
-    "Arrested": 81,
-    "Convicted": 194,
-    "Externee": 40,
-    "Deportee": 66,
-    "UIFP": 146,
-    "Suspect": 24,
-    "total": 551
-  },
-  "Kerala": {
-    "Arrested": 48,
-    "Convicted": 58,
-    "Externee": 41,
-    "Deportee": 151,
-    "UIFP": 122,
-    "Suspect": 117,
-    "total": 537
-  },
-  "Lakshadweep": {
-    "Arrested": 110,
-    "Convicted": 135,
-    "Externee": 152,
-    "Deportee": 142,
-    "UIFP": 74,
-    "Suspect": 79,
-    "total": 692
-  },
-  "Madhya Pradesh": {
-    "Arrested": 103,
-    "Convicted": 18,
-    "Externee": 58,
-    "Deportee": 114,
-    "UIFP": 57,
-    "Suspect": 142,
-    "total": 492
-  },
-  "Maharashtra": {
-    "Arrested": 102,
-    "Convicted": 172,
-    "Externee": 45,
-    "Deportee": 28,
-    "UIFP": 167,
-    "Suspect": 14,
-    "total": 528
-  },
-  "Manipur": {
-    "Arrested": 120,
-    "Convicted": 194,
-    "Externee": 149,
-    "Deportee": 72,
-    "UIFP": 50,
-    "Suspect": 45,
-    "total": 630
-  },
-  "Meghalaya": {
-    "Arrested": 136,
-    "Convicted": 49,
-    "Externee": 140,
-    "Deportee": 23,
-    "UIFP": 57,
-    "Suspect": 94,
-    "total": 499
-  },
-  "Mizoram": {
-    "Arrested": 194,
-    "Convicted": 20,
-    "Externee": 165,
-    "Deportee": 87,
-    "UIFP": 101,
-    "Suspect": 116,
-    "total": 683
-  },
-  "Nagaland": {
-    "Arrested": 107,
-    "Convicted": 99,
-    "Externee": 187,
-    "Deportee": 34,
-    "UIFP": 61,
-    "Suspect": 115,
-    "total": 603
-  },
-  "Odisha": {
-    "Arrested": 81,
-    "Convicted": 198,
-    "Externee": 30,
-    "Deportee": 10,
-    "UIFP": 191,
-    "Suspect": 145,
-    "total": 655
-  },
-  "Puducherry": {
-    "Arrested": 176,
-    "Convicted": 200,
-    "Externee": 156,
-    "Deportee": 146,
-    "UIFP": 47,
-    "Suspect": 71,
-    "total": 796
-  },
-  "Punjab": {
-    "Arrested": 63,
-    "Convicted": 160,
-    "Externee": 168,
-    "Deportee": 150,
-    "UIFP": 192,
-    "Suspect": 58,
-    "total": 791
-  },
-  "Rajasthan": {
-    "Arrested": 124,
-    "Convicted": 99,
-    "Externee": 112,
-    "Deportee": 93,
-    "UIFP": 197,
-    "Suspect": 36,
-    "total": 661
-  },
-  "Sikkim": {
-    "Arrested": 122,
-    "Convicted": 129,
-    "Externee": 75,
-    "Deportee": 76,
-    "UIFP": 87,
-    "Suspect": 34,
-    "total": 523
-  },
-  "Tamil Nadu": {
-    "Arrested": 149,
-    "Convicted": 43,
-    "Externee": 76,
-    "Deportee": 154,
-    "UIFP": 119,
-    "Suspect": 110,
-    "total": 651
-  },
-  "Telangana": {
-    "Arrested": 185,
-    "Convicted": 198,
-    "Externee": 186,
-    "Deportee": 139,
-    "UIFP": 25,
-    "Suspect": 173,
-    "total": 906
-  },
-  "Tripura": {
-    "Arrested": 64,
-    "Convicted": 82,
-    "Externee": 19,
-    "Deportee": 44,
-    "UIFP": 151,
-    "Suspect": 199,
-    "total": 559
-  },
-  "Uttar Pradesh": {
-    "Arrested": 185,
-    "Convicted": 185,
-    "Externee": 176,
-    "Deportee": 169,
-    "UIFP": 81,
-    "Suspect": 108,
-    "total": 904
-  },
-  "Uttarakhand": {
-    "Arrested": 190,
-    "Convicted": 55,
-    "Externee": 42,
-    "Deportee": 74,
-    "UIFP": 47,
-    "Suspect": 119,
+    "Suspect": 49,
     "total": 527
   },
-  "West Bengal": {
-    "Arrested": 39,
-    "Convicted": 108,
-    "Externee": 197,
+  "Chandigarh": {
+    "Arrested": 113,
+    "Convicted": 151,
+    "Externee": 173,
+    "Deportee": 146,
+    "UIFP": 179,
+    "Suspect": 181,
+    "total": 943
+  },
+  "Chhattisgarh": {
+    "Arrested": 123,
+    "Convicted": 122,
+    "Externee": 46,
+    "Deportee": 52,
+    "UIFP": 11,
+    "Suspect": 168,
+    "total": 522
+  },
+  "Dadra and Nagar Haveli and Daman and Diu": {
+    "Arrested": 160,
+    "Convicted": 198,
+    "Externee": 78,
+    "Deportee": 121,
+    "UIFP": 107,
+    "Suspect": 185,
+    "total": 849
+  },
+  "Delhi": {
+    "Arrested": 26,
+    "Convicted": 99,
+    "Externee": 132,
+    "Deportee": 59,
+    "UIFP": 39,
+    "Suspect": 73,
+    "total": 428
+  },
+  "Goa": {
+    "Arrested": 159,
+    "Convicted": 51,
+    "Externee": 113,
+    "Deportee": 153,
+    "UIFP": 198,
+    "Suspect": 123,
+    "total": 797
+  },
+  "Gujarat": {
+    "Arrested": 109,
+    "Convicted": 106,
+    "Externee": 176,
+    "Deportee": 91,
+    "UIFP": 119,
+    "Suspect": 116,
+    "total": 717
+  },
+  "Haryana": {
+    "Arrested": 162,
+    "Convicted": 133,
+    "Externee": 104,
+    "Deportee": 47,
+    "UIFP": 100,
+    "Suspect": 127,
+    "total": 673
+  },
+  "Himachal Pradesh": {
+    "Arrested": 152,
+    "Convicted": 25,
+    "Externee": 107,
     "Deportee": 114,
-    "UIFP": 160,
-    "Suspect": 72,
-    "total": 690
+    "UIFP": 29,
+    "Suspect": 23,
+    "total": 450
+  },
+  "Jammu Kashmir & Ladakh": {
+    "Arrested": 145,
+    "Convicted": 99,
+    "Externee": 96,
+    "Deportee": 122,
+    "UIFP": 59,
+    "Suspect": 101,
+    "total": 622
+  },
+  "Jharkhand": {
+    "Arrested": 94,
+    "Convicted": 60,
+    "Externee": 133,
+    "Deportee": 111,
+    "UIFP": 97,
+    "Suspect": 176,
+    "total": 671
+  },
+  "Karnataka": {
+    "Arrested": 104,
+    "Convicted": 13,
+    "Externee": 189,
+    "Deportee": 179,
+    "UIFP": 108,
+    "Suspect": 150,
+    "total": 743
+  },
+  "Kerala": {
+    "Arrested": 102,
+    "Convicted": 60,
+    "Externee": 101,
+    "Deportee": 24,
+    "UIFP": 131,
+    "Suspect": 195,
+    "total": 613
+  },
+  "Lakshadweep": {
+    "Arrested": 174,
+    "Convicted": 155,
+    "Externee": 152,
+    "Deportee": 12,
+    "UIFP": 98,
+    "Suspect": 164,
+    "total": 755
+  },
+  "Madhya Pradesh": {
+    "Arrested": 74,
+    "Convicted": 148,
+    "Externee": 16,
+    "Deportee": 118,
+    "UIFP": 26,
+    "Suspect": 190,
+    "total": 572
+  },
+  "Maharashtra": {
+    "Arrested": 16,
+    "Convicted": 50,
+    "Externee": 148,
+    "Deportee": 86,
+    "UIFP": 119,
+    "Suspect": 57,
+    "total": 476
+  },
+  "Manipur": {
+    "Arrested": 188,
+    "Convicted": 115,
+    "Externee": 179,
+    "Deportee": 104,
+    "UIFP": 45,
+    "Suspect": 152,
+    "total": 783
+  },
+  "Meghalaya": {
+    "Arrested": 70,
+    "Convicted": 96,
+    "Externee": 189,
+    "Deportee": 100,
+    "UIFP": 20,
+    "Suspect": 167,
+    "total": 642
+  },
+  "Mizoram": {
+    "Arrested": 124,
+    "Convicted": 154,
+    "Externee": 62,
+    "Deportee": 145,
+    "UIFP": 66,
+    "Suspect": 194,
+    "total": 745
+  },
+  "Nagaland": {
+    "Arrested": 95,
+    "Convicted": 161,
+    "Externee": 113,
+    "Deportee": 62,
+    "UIFP": 97,
+    "Suspect": 171,
+    "total": 699
+  },
+  "Odisha": {
+    "Arrested": 173,
+    "Convicted": 47,
+    "Externee": 101,
+    "Deportee": 194,
+    "UIFP": 95,
+    "Suspect": 147,
+    "total": 757
+  },
+  "Puducherry": {
+    "Arrested": 21,
+    "Convicted": 75,
+    "Externee": 41,
+    "Deportee": 148,
+    "UIFP": 37,
+    "Suspect": 101,
+    "total": 423
+  },
+  "Punjab": {
+    "Arrested": 193,
+    "Convicted": 148,
+    "Externee": 191,
+    "Deportee": 145,
+    "UIFP": 92,
+    "Suspect": 149,
+    "total": 918
+  },
+  "Rajasthan": {
+    "Arrested": 166,
+    "Convicted": 129,
+    "Externee": 155,
+    "Deportee": 171,
+    "UIFP": 146,
+    "Suspect": 133,
+    "total": 900
+  },
+  "Sikkim": {
+    "Arrested": 165,
+    "Convicted": 199,
+    "Externee": 11,
+    "Deportee": 49,
+    "UIFP": 148,
+    "Suspect": 90,
+    "total": 662
+  },
+  "Tamil Nadu": {
+    "Arrested": 85,
+    "Convicted": 62,
+    "Externee": 77,
+    "Deportee": 165,
+    "UIFP": 187,
+    "Suspect": 177,
+    "total": 753
+  },
+  "Telangana": {
+    "Arrested": 67,
+    "Convicted": 43,
+    "Externee": 78,
+    "Deportee": 116,
+    "UIFP": 35,
+    "Suspect": 133,
+    "total": 472
+  },
+  "Tripura": {
+    "Arrested": 65,
+    "Convicted": 194,
+    "Externee": 164,
+    "Deportee": 156,
+    "UIFP": 36,
+    "Suspect": 45,
+    "total": 660
+  },
+  "Uttar Pradesh": {
+    "Arrested": 187,
+    "Convicted": 147,
+    "Externee": 83,
+    "Deportee": 86,
+    "UIFP": 47,
+    "Suspect": 107,
+    "total": 657
+  },
+  "Uttarakhand": {
+    "Arrested": 81,
+    "Convicted": 138,
+    "Externee": 69,
+    "Deportee": 136,
+    "UIFP": 78,
+    "Suspect": 99,
+    "total": 601
+  },
+  "West Bengal": {
+    "Arrested": 174,
+    "Convicted": 107,
+    "Externee": 47,
+    "Deportee": 107,
+    "UIFP": 28,
+    "Suspect": 15,
+    "total": 478
   }
 }

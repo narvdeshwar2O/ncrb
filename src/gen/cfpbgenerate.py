@@ -21,7 +21,7 @@ days_in_month = {
     "04": 30,
     "05": 31,
     "06": 30,
-    "07": 25
+    "07": 31
 }
 
 def generate_day_data():
