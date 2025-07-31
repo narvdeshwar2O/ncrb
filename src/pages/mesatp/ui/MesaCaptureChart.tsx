@@ -9,10 +9,20 @@ import {
   Legend,
   ResponsiveContainer,
   LabelList,
+  Pie,
+  PieChart,
+  Cell,
 } from "recharts";
 import { Card, CardHeader, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Download, Printer, Layers3 } from "lucide-react";
+import {
+  Select,
+  SelectTrigger,
+  SelectContent,
+  SelectItem,
+  SelectValue,
+} from "@/components/ui/select";
+import { Download, Printer } from "lucide-react";
 import * as exportService from "@/utils/exportService";
 import { MesaDailyData, MesaStatusKey } from "../types";
 
@@ -37,15 +47,14 @@ export default function MesaCaptureChart({
   selectedCrimeTypes,
 }: MesaCaptureChartProps) {
   const chartRef = useRef<HTMLDivElement>(null);
-  const [isStacked, setIsStacked] = useState(true);
 
-  // Remove "Total"
+  const [chartType, setChartType] = useState<"stacked" | "grouped" | "pie">("stacked");
   const crimeTypes = useMemo(
     () => selectedCrimeTypes.filter((type) => type !== "Total"),
     [selectedCrimeTypes]
   );
 
-  // Chart Data
+  // For bar chart
   const chartData = useMemo(() => {
     return filteredData
       .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
@@ -56,7 +65,6 @@ export default function MesaCaptureChart({
             day: "numeric",
           }),
         };
-
         for (const crimeType of crimeTypes) {
           let total = 0;
           for (const stateData of Object.values(day.data)) {
@@ -68,35 +76,47 @@ export default function MesaCaptureChart({
       });
   }, [filteredData, crimeTypes]);
 
-  // Chart Config
-  const chartConfig = useMemo(() => {
-    const config: any = {};
-    crimeTypes.forEach((type, idx) => {
-      config[type] = {
-        label: type,
-        color: COLORS[idx % COLORS.length],
-      };
+  // For pie chart (aggregate)
+  const pieData = useMemo(() => {
+    const totals: Record<string, number> = {};
+    for (const crimeType of crimeTypes) {
+      totals[crimeType] = 0;
+    }
+    filteredData.forEach((day) => {
+      for (const crimeType of crimeTypes) {
+        for (const stateData of Object.values(day.data)) {
+          totals[crimeType] += stateData[crimeType] ?? 0;
+        }
+      }
     });
-    return config;
-  }, [crimeTypes]);
+    return crimeTypes.map((type, idx) => ({
+      name: type,
+      value: totals[type] ?? 0,
+      color: COLORS[idx % COLORS.length],
+    }));
+  }, [filteredData, crimeTypes]);
 
   const chartTitle = `Crime Type Trends (${chartData.length} days)`;
 
-  // Export CSV
   const handleExportCSV = () => {
-    const headers = ["Date", ...crimeTypes];
-    const rows = chartData.map((item) => [
-      item.label,
-      ...crimeTypes.map((c) => item[c] ?? 0),
-    ]);
-    exportService.exportToCSV(
-      `${chartTitle.replace(/\s+/g, "_")}.csv`,
-      headers,
-      rows
-    );
+    if (chartType === "pie") {
+      const headers = ["Crime Type", "Total"];
+      const rows = pieData.map((row) => [row.name, row.value]);
+      exportService.exportToCSV(`${chartTitle.replace(/\s+/g, "_")}_Pie.csv`, headers, rows);
+    } else {
+      const headers = ["Date", ...crimeTypes];
+      const rows = chartData.map((item) => [
+        item.label,
+        ...crimeTypes.map((c) => item[c] ?? 0),
+      ]);
+      exportService.exportToCSV(
+        `${chartTitle.replace(/\s+/g, "_")}.csv`,
+        headers,
+        rows
+      );
+    }
   };
 
-  // Print
   const handlePrint = () => {
     const actionButtons = chartRef.current?.querySelectorAll(".print-hide");
     actionButtons?.forEach((btn) => btn.setAttribute("style", "display:none"));
@@ -112,15 +132,16 @@ export default function MesaCaptureChart({
         <div className="flex justify-between items-center">
           <h3 className="text-base font-semibold">{chartTitle}</h3>
           <div className="flex gap-2">
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => setIsStacked((prev) => !prev)}
-              className="print-hide"
-            >
-              <Layers3 className="h-4 w-4 mr-1" />
-              {isStacked ? "Grouped" : "Stacked"}
-            </Button>
+            <Select value={chartType} onValueChange={val => setChartType(val as any)}>
+              <SelectTrigger className="w-[110px] print-hide">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="stacked">Stacked</SelectItem>
+                <SelectItem value="grouped">Grouped</SelectItem>
+                <SelectItem value="pie">Pie</SelectItem>
+              </SelectContent>
+            </Select>
             <Button
               variant="outline"
               size="sm"
@@ -146,6 +167,31 @@ export default function MesaCaptureChart({
           <div className="h-full flex items-center justify-center text-red-600 font-medium">
             Please select at least one crime type to display the chart.
           </div>
+        ) : chartType === "pie" ? (
+          <ResponsiveContainer width="100%" height="100%">
+            <PieChart>
+              <Pie
+                data={pieData}
+                dataKey="value"
+                nameKey="name"
+                cx="50%"
+                cy="50%"
+                outerRadius={120}
+                label={({ name, value }) => (value > 0 ? `${name}: ${value}` : "")}
+              >
+                {pieData.map((entry, idx) => (
+                  <Cell key={`cell-${idx}`} fill={entry.color} />
+                ))}
+              </Pie>
+              <Legend verticalAlign="top" wrapperStyle={{ top: 0 }} />
+              <Tooltip contentStyle={{
+                    background: "bg-card",
+                    border: "1px solid white",
+                    fontWeight: "400",
+                    borderRadius: "10px",
+                  }}/>
+            </PieChart>
+          </ResponsiveContainer>
         ) : (
           <ResponsiveContainer width="100%" height="100%">
             <BarChart
@@ -174,17 +220,17 @@ export default function MesaCaptureChart({
                 <Bar
                   key={crimeType}
                   dataKey={crimeType}
-                  fill={chartConfig[crimeType]?.color}
-                  stackId={isStacked ? "stack" : undefined}
+                  fill={COLORS[idx % COLORS.length]}
+                  stackId={chartType === "stacked" ? "stack" : undefined}
                   radius={idx === crimeTypes.length - 1 ? 4 : 0}
                 >
                   <LabelList
                     dataKey={crimeType}
                     position="inside"
-                    angle={isStacked ? 0 : -90}
+                    angle={chartType === "stacked" ? 0 : -90}
                     fill="#fff"
                     fontSize={11}
-                    formatter={(value) => (Number(value) > 0 ? value : "")}
+                    formatter={val => (Number(val) > 0 ? val : "")}
                   />
                 </Bar>
               ))}
