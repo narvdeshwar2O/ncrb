@@ -1,18 +1,4 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
-import {
-  Bar,
-  BarChart,
-  CartesianGrid,
-  XAxis,
-  YAxis,
-  Tooltip,
-  Legend,
-  ResponsiveContainer,
-  LabelList,
-  Pie,
-  PieChart,
-  Cell,
-} from "recharts";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import {
@@ -24,55 +10,60 @@ import {
 } from "@/components/ui/select";
 import { Download, Printer } from "lucide-react";
 import * as exportService from "@/utils/exportService";
+import { BarChartComponent } from "./BarChartComponent";
+import { PieChartComponent } from "./PieChartComponent";
 import { FilterState } from "@/components/filters/types/FilterTypes";
 
-
-interface DailyData {
-  date: string;
-  data: Record<
-    string,
-    Record<
-      string,
-      { enrollment: number; hit: number; nohit: number; total: number }
-    >
-  >;
-}
-
-export interface MultipleChartProps {
-  filteredData: DailyData[];
-  filters: FilterState;
-  activeCategories: string[];
-  totalsByCategory: Record<
-    string,
-    { enrollment: number; hit: number; nohit: number }
-  >;
-  categoryLabelMap?: Record<string, string>;
-}
-
-
-// Base colors for bar segments by data type
-const baseColors = {
-  enrollment: "hsl(217, 100%, 65%)",
-  hit: "hsl(174, 70%, 55%)",
-  nohit: "hsl(40, 100%, 60%)",
-};
-
-
-// Colors for Pie slices
-const pieSliceColors = [
-  "hsl(217, 100%, 65%)",
-  "hsl(174, 70%, 55%)",
-  "hsl(40, 100%, 60%)",
-  "hsl(340, 80%, 60%)",
-  "hsl(265, 70%, 55%)",
-  "hsl(29, 90%, 50%)",
+// -------- COLOR & UTILITIES ---------
+const colorPalette = [
+  "#1875F0",
+  "#22B573",
+  "#F6C244", // Cat1
+  "#EC4967",
+  "#B392F0",
+  "#FF9950", // Cat2
+  "#26C6DA",
+  "#26A69A",
+  "#FFA726", // Cat3
+  "#F4511E",
+  "#8D6E63",
+  "#789262", // Cat4
+  "#FF61A6",
+  "#af52de",
+  "#f7b731", // Cat5
 ];
+const pieSliceColors = [
+  "#1875F0",
+  "#22B573",
+  "#F6C244",
+  "#EC4967",
+  "#B392F0",
+  "#FF9950",
+  "#26C6DA",
+  "#26A69A",
+  "#FFA726",
+  "#F4511E",
+  "#8D6E63",
+  "#789262",
+  "#FF61A6",
+  "#af52de",
+  "#f7b731",
+];
+function getBarColor(
+  cat: string | number,
+  type: string | number,
+  catList: string[],
+  typeList: string[]
+) {
+  const catIdx = catList.indexOf(cat as string);
+  const typeIdx = typeList.indexOf(type as string);
+  const idx = catIdx * typeList.length + typeIdx;
+  return colorPalette[idx % colorPalette.length];
+}
 
-
-// Utility function to sum daily totals per category for selected states
 function computeDayCategoryTotals(
-  day: DailyData,
-  category: "tp" | "cp" | "mesa",
+  day: any,
+  category: "tp" | "cp" | "live enrollement (mesa)",
   states: string[]
 ) {
   let enrollment = 0;
@@ -88,6 +79,28 @@ function computeDayCategoryTotals(
   return { enrollment, hit, nohit };
 }
 
+// ----------- Main Component -----------
+export interface DailyData {
+  date: string;
+  data: Record<
+    string,
+    Record<
+      string,
+      { enrollment: number; hit: number; nohit: number; total: number }
+    >
+  >;
+}
+export interface MultipleChartProps {
+  filteredData: DailyData[];
+  filters: FilterState;
+  activeCategories: string[];
+  totalsByCategory: Record<
+    string,
+    { enrollment: number; hit: number; nohit: number }
+  >;
+  categoryLabelMap?: Record<string, string>;
+}
+
 export function MultipleChart(props: MultipleChartProps) {
   const {
     filteredData,
@@ -99,12 +112,10 @@ export function MultipleChart(props: MultipleChartProps) {
 
   const chartRef = useRef<HTMLDivElement>(null);
 
-  // Chart view mode: stacked, grouped, pie
   const [viewMode, setViewMode] = useState<"stacked" | "grouped" | "pie">(
     "stacked"
   );
 
-  // Control showing the pie chart after a delay for smoother load with tooltip
   const [isPieReady, setIsPieReady] = useState(false);
   useEffect(() => {
     if (viewMode === "pie") {
@@ -112,11 +123,10 @@ export function MultipleChart(props: MultipleChartProps) {
       const timer = setTimeout(() => setIsPieReady(true), 350);
       return () => clearTimeout(timer);
     } else {
-      setIsPieReady(false); // reset when not pie
+      setIsPieReady(false);
     }
   }, [viewMode]);
 
-  // Determine if daily data is shown based on date range and data length
   const hasDateRange = filters.dateRange.from && filters.dateRange.to;
   const dayCount = filteredData.length;
   const showDailyData = hasDateRange && dayCount > 0 && dayCount <= 90;
@@ -127,13 +137,12 @@ export function MultipleChart(props: MultipleChartProps) {
       ? filters.dataTypes
       : ["enrollment", "hit", "nohit"];
 
-  // Create chart data for bar chart mode (daily or aggregated)
+  // Chart data
   const chartData = useMemo(() => {
     if (showDailyData) {
       const sorted = [...filteredData].sort(
         (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
       );
-
       return sorted.map((day) => {
         const row: Record<string, any> = {
           label: new Date(day.date).toLocaleDateString("en-US", {
@@ -144,7 +153,7 @@ export function MultipleChart(props: MultipleChartProps) {
         activeCategories.forEach((cat) => {
           const totals = computeDayCategoryTotals(
             day,
-            cat as "tp" | "cp" | "mesa",
+            cat as "tp" | "cp" | "live enrollement (mesa)",
             selectedStates
           );
           selectedDataTypes.forEach((type) => {
@@ -154,8 +163,7 @@ export function MultipleChart(props: MultipleChartProps) {
         return row;
       });
     }
-
-    // Aggregated data if no date range or daily data not shown
+    // Aggregated data
     return activeCategories.map((cat) => ({
       label: categoryLabelMap?.[cat] ?? cat.toUpperCase(),
       enrollment: totalsByCategory[cat]?.enrollment ?? 0,
@@ -176,7 +184,6 @@ export function MultipleChart(props: MultipleChartProps) {
     ? `Daily Breakdown (${dayCount} day${dayCount === 1 ? "" : "s"})`
     : "Agency Totals Breakdown";
 
-  // CSV export handler
   const handleExportCSV = () => {
     const headers = [
       showDailyData ? "Date" : "Category",
@@ -199,7 +206,6 @@ export function MultipleChart(props: MultipleChartProps) {
     exportService.exportToCSV(`${slugify(chartTitle)}.csv`, headers, rows);
   };
 
-  // Print handler
   const handlePrint = () => {
     const actionButtons = chartRef.current?.querySelectorAll(".print-hide");
     actionButtons?.forEach((btn) => btn.setAttribute("style", "display:none"));
@@ -215,7 +221,6 @@ export function MultipleChart(props: MultipleChartProps) {
       .replace(/\s+/g, "-")
       .replace(/[^\w-]+/g, "");
 
-  // Pie chart data: flatten category and datatype totals into slices
   const pieData = useMemo(() => {
     return activeCategories
       .flatMap((cat) =>
@@ -231,7 +236,6 @@ export function MultipleChart(props: MultipleChartProps) {
       .filter((d) => d.value > 0);
   }, [activeCategories, selectedDataTypes, totalsByCategory, categoryLabelMap]);
 
-  // Determine if daily data mode is active for bar chart rendering
   const showDailyBarChart = showDailyData && viewMode !== "pie";
 
   return (
@@ -239,9 +243,7 @@ export function MultipleChart(props: MultipleChartProps) {
       <CardHeader className="flex flex-col gap-2 items-center">
         <div className="flex justify-between w-full items-center">
           <h3 className="text-base font-medium">{chartTitle}</h3>
-
           <div className="flex items-center gap-2">
-            {/* shadcn Select to choose viewMode */}
             <Select
               value={viewMode}
               onValueChange={(val) => {
@@ -259,7 +261,6 @@ export function MultipleChart(props: MultipleChartProps) {
                 <SelectItem value="pie">Pie</SelectItem>
               </SelectContent>
             </Select>
-
             <Button
               variant="outline"
               size="sm"
@@ -279,7 +280,6 @@ export function MultipleChart(props: MultipleChartProps) {
           </div>
         </div>
       </CardHeader>
-
       {activeCategories.length === 0 ? (
         <CardContent className="h-[200px] flex items-center justify-center text-center text-red-600 font-medium">
           Please select at least one category to display the chart.
@@ -287,119 +287,33 @@ export function MultipleChart(props: MultipleChartProps) {
       ) : (
         <CardContent
           ref={chartRef}
-          className={viewMode === "pie" ? "h-[400px]" : "h-[400px] md:h-[500px]"}
+          className={
+            viewMode === "pie" ? "h-[400px]" : "h-[400px] md:h-[500px]"
+          }
         >
           {viewMode === "pie" ? (
             isPieReady ? (
-              <ResponsiveContainer width="100%" height="100%">
-                <PieChart>
-                  <Pie
-                    data={pieData}
-                    dataKey="value"
-                    nameKey="name"
-                    cx="50%"
-                    cy="50%"
-                    outerRadius={100}
-                    label={({ name, value }) => `${name}: ${value}`}
-                  >
-                    {pieData.map((entry, idx) => (
-                      <Cell
-                        key={`cell-${idx}`}
-                        fill={pieSliceColors[idx % pieSliceColors.length]}
-                      />
-                    ))}
-                  </Pie>
-                  <Legend verticalAlign="top" wrapperStyle={{ top: 0 }} />
-                  <Tooltip
-                    contentStyle={{
-                      background: "bg-card",
-                      border: "1px solid white",
-                      fontWeight: "400",
-                      borderRadius: "10px",
-                    }}
-                  />
-                </PieChart>
-              </ResponsiveContainer>
+              <PieChartComponent
+                pieData={pieData}
+                pieSliceColors={pieSliceColors}
+              />
             ) : (
               <div className="w-full h-full flex items-center justify-center">
                 <div className="text-muted-foreground text-base animate-pulse">
                   Loading Pie Chart...
                 </div>
-                {/* Replace with shadcn Skeleton or Spinner for better UX */}
               </div>
             )
           ) : (
-            <ResponsiveContainer width="100%" height="100%">
-              <BarChart
-                data={chartData}
-                margin={{ top: 40, right: 20, left: 20, bottom: 10 }}
-              >
-                <CartesianGrid vertical={false} />
-                <XAxis dataKey="label" tickMargin={10} />
-                <YAxis tickMargin={8} />
-                <Tooltip
-                  cursor={{ fill: "hsl(var(--muted) / 0.5)" }}
-                  contentStyle={{
-                    background: "hsl(var(--background))",
-                    border: "1px solid hsl(var(--border))",
-                  }}
-                />
-                <Legend verticalAlign="top" wrapperStyle={{ top: 0 }} />
-                {showDailyBarChart
-                  ? activeCategories.flatMap((cat) =>
-                      selectedDataTypes.map((type, idx) => (
-                        <Bar
-                          key={`${cat}_${type}`}
-                          dataKey={`${cat}_${type}`}
-                          fill={baseColors[type as keyof typeof baseColors]}
-                          stackId={
-                            viewMode === "stacked"
-                              ? `${cat}-stack`
-                              : `${cat}-${type}-group`
-                          }
-                          radius={idx === selectedDataTypes.length - 1 ? 4 : 0}
-                          name={`${
-                            categoryLabelMap?.[cat] ?? cat.toUpperCase()
-                          } ${type.charAt(0).toUpperCase() + type.slice(1)}`}
-                        >
-                          <LabelList
-                            dataKey={`${cat}_${type}`}
-                            position="inside"
-                            angle={-90}
-                            fill="#fff"
-                            fontSize={11}
-                            formatter={(value) =>
-                              Number(value) > 0 ? value : ""
-                            }
-                          />
-                        </Bar>
-                      ))
-                    )
-                  : selectedDataTypes.map((type, idx) => (
-                      <Bar
-                        key={type}
-                        dataKey={type}
-                        fill={baseColors[type as keyof typeof baseColors]}
-                        stackId={
-                          viewMode === "stacked" ? "agg-stack" : `group-${type}`
-                        }
-                        radius={idx === selectedDataTypes.length - 1 ? 4 : 0}
-                        name={type.charAt(0).toUpperCase() + type.slice(1)}
-                      >
-                        <LabelList
-                          dataKey={type}
-                          position="inside"
-                          angle={-90}
-                          fill="#fff"
-                          fontSize={11}
-                          formatter={(value) =>
-                            Number(value) > 0 ? value : ""
-                          }
-                        />
-                      </Bar>
-                    ))}
-              </BarChart>
-            </ResponsiveContainer>
+            <BarChartComponent
+              chartData={chartData}
+              activeCategories={activeCategories}
+              selectedDataTypes={selectedDataTypes}
+              categoryLabelMap={categoryLabelMap}
+              viewMode={viewMode}
+              getBarColor={getBarColor}
+              showDailyBarChart={showDailyBarChart}
+            />
           )}
         </CardContent>
       )}
