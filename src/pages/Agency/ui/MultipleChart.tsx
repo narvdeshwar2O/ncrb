@@ -13,8 +13,8 @@ import * as exportService from "@/utils/exportService";
 import { BarChartComponent } from "./BarChartComponent";
 import { PieChartComponent } from "./PieChartComponent";
 import { FilterState } from "@/components/filters/types/FilterTypes";
+import { DailyData } from "../utils";
 
-// -------- COLOR & UTILITIES ---------
 const colorPalette = [
   "#1875F0",
   "#22B573",
@@ -79,17 +79,6 @@ function computeDayCategoryTotals(
   return { enrollment, hit, nohit };
 }
 
-// ----------- Main Component -----------
-export interface DailyData {
-  date: string;
-  data: Record<
-    string,
-    Record<
-      string,
-      { enrollment: number; hit: number; nohit: number; total: number }
-    >
-  >;
-}
 export interface MultipleChartProps {
   filteredData: DailyData[];
   filters: FilterState;

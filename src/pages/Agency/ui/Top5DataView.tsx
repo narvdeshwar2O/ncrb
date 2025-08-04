@@ -1,11 +1,11 @@
 import { useMemo, useRef } from "react";
 import getTopStatesByDateRange from "@/utils/getTopStatesByDateRange";
 import ChartCard from "./ChartCard";
-import type { DailyData } from "../Agency";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Download, Printer } from "lucide-react";
 import * as exportService from "@/utils/exportService";
+import { categoryLabelMap, DailyData } from "../utils";
 
 // ---------------- Types ----------------
 type Category = "tp" | "cp" | "mesa";
@@ -41,17 +41,6 @@ const VALID_CATEGORIES: Category[] = ["tp", "cp", "mesa"];
 const isValidCategory = (v: string): v is Category =>
   (VALID_CATEGORIES as string[]).includes(v);
 
-const categoryLabelMap: Record<Category, string> = {
-  tp: "Ten Print",
-  cp: "Chance Print",
-  mesa: "MESA",
-};
-
-const slugify = (text: string) =>
-  text
-    .toLowerCase()
-    .replace(/\s+/g, "-")
-    .replace(/[^\w-]+/g, "");
 
 export function Top5DataView({
   allData,
@@ -102,7 +91,6 @@ export function Top5DataView({
 
   // Export All CSV
   const handleExportAllCSV = () => {
-    console.log("dsfasfsadf","sSs")
     const csvRows: (string | number)[][] = [];
     activeCategories.forEach((category) => {
       const categoryLabel = categoryLabelMap[category];

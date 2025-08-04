@@ -1,40 +1,46 @@
-import { FilterState } from "@/components/filters/types/FilterTypes";
-import { DailyData } from "@/pages/agency/Agency";
-import { StateData } from "@/pages/agency/ui/AgencyTable";
+import { DailyData } from "@/pages/agency/utils";
+import { FilterState } from "../components/filters/types/FilterTypes";
 
-function aggregateByState(
-  filteredData: DailyData[],
+export default function aggregateByState(
+  data: DailyData[],
   filters: FilterState
-): StateData {
-  const result: StateData = {};
+) {
+  const result: Record<string, any> = {};
+  const selectedDistricts = filters.districts ?? [];
 
-  filteredData.forEach((day) => {
-    Object.entries(day.data).forEach(([state, categories]) => {
-      // Check state filter
-      if (filters.state.length && !filters.state.includes(state)) {
-        return;
-      }
+  data.forEach((entry) => {
+    filters.state.forEach((state) => {
+      const districts = entry.data[state];
+      if (!districts) return;
 
       if (!result[state]) {
-        result[state] = {
-          tp: { enrollment: 0, hit: 0, nohit: 0 },
-          cp: { enrollment: 0, hit: 0, nohit: 0 },
-          mesa: { enrollment: 0, hit: 0, nohit: 0 },
-        };
+        result[state] = {};
+        filters.categories.forEach((cat) => {
+          result[state][cat] = {
+            enrollment: 0,
+            hit: 0,
+            nohit: 0,
+          };
+        });
       }
 
-      Object.entries(categories).forEach(([cat, values]) => {
-        if (!filters.categories.includes(cat)) return;
+      Object.entries(districts).forEach(
+        ([districtName, districtData]: [string, any]) => {
+          const includeDistrict =
+            selectedDistricts.length === 0 || selectedDistricts.includes(districtName);
 
-        const categoryData = result[state][cat as "tp" | "cp" | "mesa"];
-        filters.dataTypes.forEach((type) => {
-          categoryData[type] += values[type];
-        });
-      });
+          if (!includeDistrict) return;
+
+          filters.categories.forEach((cat) => {
+            if (!districtData[cat]) return;
+            result[state][cat].enrollment += districtData[cat].enrollment || 0;
+            result[state][cat].hit += districtData[cat].hit || 0;
+            result[state][cat].nohit += districtData[cat].nohit || 0;
+          });
+        }
+      );
     });
   });
 
   return result;
 }
-
-export default aggregateByState;

@@ -3,9 +3,8 @@ export interface FilterState {
     from: Date | undefined;
     to: Date | undefined;
   };
-  district?: string;
-  state?: string[]
-  crimeType?: string;
+  state: string[];
+  districts?: string[];
   dataTypes?: string[];
   categories?: string[];
 }

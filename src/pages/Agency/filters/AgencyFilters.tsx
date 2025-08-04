@@ -10,7 +10,6 @@ import {
 import { format } from "date-fns";
 import { CalendarIcon, Filter as FilterIcon, RotateCcw } from "lucide-react";
 import { cn } from "@/lib/utils";
-
 import { states as allStates } from "../../../components/filters/data/statesData";
 import {
   FilterState,
@@ -18,20 +17,17 @@ import {
 } from "../../../components/filters/types/FilterTypes";
 import MultiSelectCheckbox from "@/components/ui/MultiSelectCheckbox";
 import { CustomCaption } from "@/components/ui/CustomCaption";
-import { quickRanges } from "@/utils/quickRanges";
 import { getLastNDaysRange } from "@/utils/getLastNdays";
-
-const dataTypeOptions = ["enrollment", "hit", "nohit"] as const;
-const categoryOptions = ["tp", "cp", "mesa"] as const;
-
-const categoryLabelMap: Record<string, string> = {
-  tp: "Ten Print",
-  cp: "Chance Print",
-  mesa: "MESA",
-};
+import { categoryLabelMap, categoryOptions, dataTypeOptions } from "../utils";
+import { stateWithDistrict } from "@/utils/statesDistricts";
 
 interface ControlledAgencyFiltersProps extends DashboardFiltersProps {
-  filters: FilterState; // controlled
+  filters: FilterState;
+}
+
+function getDistrictsForStates(states: string[]) {
+  const districts = states.flatMap((state) => stateWithDistrict[state] || []);
+  return [...new Set(districts)].sort(); // Remove duplicates and sort
 }
 
 export const AgencyFilters = ({
@@ -41,8 +37,12 @@ export const AgencyFilters = ({
   const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
 
   const selectedStates = filters.state ?? [];
-  const selectedDataTypes = filters.dataTypes ?? [...dataTypeOptions];
-  const selectedCategories = filters.categories ?? [...categoryOptions];
+  const selectedDistricts = filters.districts ?? [];
+  const selectedDataTypes = filters.dataTypes ?? [];
+  const selectedCategories = filters.categories ?? [];
+
+  // Derive districts options directly from selected states - no local state needed
+  const districtOptions = getDistrictsForStates(selectedStates);
 
   const noStatesSelected = selectedStates.length === 0;
 
@@ -63,6 +63,7 @@ export const AgencyFilters = ({
       state: [...allStates],
       dataTypes: [...dataTypeOptions],
       categories: [...categoryOptions],
+      districts: getDistrictsForStates([...allStates]),
     });
   };
 
@@ -79,7 +80,6 @@ export const AgencyFilters = ({
           {/* Date Range */}
           <div className="space-y-2 col-span-1">
             <label className="text-sm font-medium">Date Range</label>
-
             <Popover open={isDatePickerOpen} onOpenChange={setIsDatePickerOpen}>
               <PopoverTrigger asChild>
                 <Button
@@ -109,9 +109,7 @@ export const AgencyFilters = ({
                   mode="range"
                   selected={filters.dateRange}
                   onSelect={handleDateSelect}
-                  components={{
-                    Caption: CustomCaption,
-                  }}
+                  components={{ Caption: CustomCaption }}
                 />
                 <div className="bg-card grid grid-cols-2 sm:grid-cols-2 mx-auto w-[90%] mb-3 gap-2">
                   <button
@@ -150,7 +148,8 @@ export const AgencyFilters = ({
               </PopoverContent>
             </Popover>
           </div>
-            {/* States */}
+
+          {/* States */}
           <MultiSelectCheckbox
             label="States"
             options={allStates}
@@ -158,7 +157,17 @@ export const AgencyFilters = ({
             onChange={(newStates) => updateFilters({ state: newStates })}
           />
 
-          {/* Data Types (disabled if no states) */}
+          {/* Districts */}
+          <MultiSelectCheckbox
+            label="Districts"
+            options={districtOptions}
+            selected={selectedDistricts}
+            onChange={(newDistricts) => updateFilters({ districts: newDistricts })}
+            disabled={noStatesSelected}
+            disabledText="Select states first"
+          />
+
+          {/* Data Types */}
           <MultiSelectCheckbox
             label="Data Types"
             options={[...dataTypeOptions]}
@@ -168,7 +177,7 @@ export const AgencyFilters = ({
             disabledText="Select states first"
           />
 
-          {/* Categories (disabled if no states) */}
+          {/* Categories */}
           <MultiSelectCheckbox
             label="Categories"
             options={[...categoryOptions]}
