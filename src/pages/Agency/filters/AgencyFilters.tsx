@@ -18,7 +18,7 @@ import {
 import MultiSelectCheckbox from "@/components/ui/MultiSelectCheckbox";
 import { CustomCaption } from "@/components/ui/CustomCaption";
 import { getLastNDaysRange } from "@/utils/getLastNdays";
-import { categoryLabelMap, categoryOptions, dataTypeOptions } from "../utils";
+import { categoryLabelMap, categoryOptions, dataTypeOptions } from "../types";
 import { stateWithDistrict } from "@/utils/statesDistricts";
 
 interface ControlledAgencyFiltersProps extends DashboardFiltersProps {
@@ -41,10 +41,9 @@ export const AgencyFilters = ({
   const selectedDataTypes = filters.dataTypes ?? [];
   const selectedCategories = filters.categories ?? [];
 
-  // Derive districts options directly from selected states - no local state needed
   const districtOptions = getDistrictsForStates(selectedStates);
-
   const noStatesSelected = selectedStates.length === 0;
+  const noDistrictSelected = selectedDistricts.length === 0;
 
   const updateFilters = (patch: Partial<FilterState>) => {
     onFiltersChange({ ...filters, ...patch });
@@ -58,12 +57,13 @@ export const AgencyFilters = ({
   };
 
   const resetFilters = () => {
+    const defaultState = [allStates[0]];
     updateFilters({
       dateRange: getLastNDaysRange(7),
-      state: [...allStates],
+      state: defaultState,
       dataTypes: [...dataTypeOptions],
       categories: [...categoryOptions],
-      districts: getDistrictsForStates([...allStates]),
+      districts: getDistrictsForStates(defaultState),
     });
   };
 
@@ -76,7 +76,7 @@ export const AgencyFilters = ({
         </CardTitle>
       </CardHeader>
       <CardContent>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 xl:grid-cols-5 gap-3">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 xl:grid-cols-6 gap-3">
           {/* Date Range */}
           <div className="space-y-2 col-span-1">
             <label className="text-sm font-medium">Date Range</label>
@@ -154,7 +154,12 @@ export const AgencyFilters = ({
             label="States"
             options={allStates}
             selected={selectedStates}
-            onChange={(newStates) => updateFilters({ state: newStates })}
+            onChange={(newStates) => {
+              updateFilters({
+                state: newStates,
+                districts: getDistrictsForStates(newStates),
+              });
+            }}
           />
 
           {/* Districts */}
@@ -164,7 +169,7 @@ export const AgencyFilters = ({
             selected={selectedDistricts}
             onChange={(newDistricts) => updateFilters({ districts: newDistricts })}
             disabled={noStatesSelected}
-            disabledText="Select states first"
+            disabledText={noStatesSelected ? "Select states first" : "No district selected"}
           />
 
           {/* Data Types */}
@@ -173,8 +178,14 @@ export const AgencyFilters = ({
             options={[...dataTypeOptions]}
             selected={selectedDataTypes}
             onChange={(newTypes) => updateFilters({ dataTypes: newTypes })}
-            disabled={noStatesSelected}
-            disabledText="Select states first"
+            disabled={noStatesSelected || noDistrictSelected}
+            disabledText={
+              noStatesSelected
+                ? "Select states first"
+                : noDistrictSelected
+                ? "No district selected"
+                : undefined
+            }
           />
 
           {/* Categories */}
@@ -185,8 +196,14 @@ export const AgencyFilters = ({
             onChange={(newCategories) =>
               updateFilters({ categories: newCategories })
             }
-            disabled={noStatesSelected}
-            disabledText="Select states first"
+            disabled={noStatesSelected || noDistrictSelected}
+            disabledText={
+              noStatesSelected
+                ? "Select states first"
+                : noDistrictSelected
+                ? "No district selected"
+                : undefined
+            }
             getOptionLabel={(v) => categoryLabelMap[v] ?? v}
           />
 

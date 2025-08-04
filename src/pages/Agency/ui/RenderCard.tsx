@@ -1,11 +1,6 @@
 import React from "react";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
-
-interface Totals {
-  enrollment: number;
-  hit: number;
-  nohit: number;
-}
+import { Totals } from "../types";
 
 interface RenderCardProps {
   title: string;
@@ -28,6 +23,7 @@ const RenderCard: React.FC<RenderCardProps> = ({
   const enrollment = getValue("enrollment");
   const hit = getValue("hit");
   const nohit = getValue("nohit");
+  const others = getValue("others");
 
   return (
     <Card className="border border-l-4 border-blue-600 bg-card shadow-sm">
@@ -43,14 +39,19 @@ const RenderCard: React.FC<RenderCardProps> = ({
         )}
         {hit > 0 && (
           <p>
-            Hit:{" "}
-            <span className="font-semibold text-foreground">{hit}</span>
+            Hit: <span className="font-semibold text-foreground">{hit}</span>
           </p>
         )}
         {nohit > 0 && (
           <p>
             No Hit:{" "}
             <span className="font-semibold text-foreground">{nohit}</span>
+          </p>
+        )}
+        {others > 0 && (
+          <p>
+            Others:{" "}
+            <span className="font-semibold text-foreground">{others}</span>
           </p>
         )}
       </CardContent>

@@ -5,7 +5,7 @@ import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Download, Printer } from "lucide-react";
 import * as exportService from "@/utils/exportService";
-import { categoryLabelMap, DailyData } from "../utils";
+import { categoryLabelMap, DailyData } from "../types";
 
 // ---------------- Types ----------------
 type Category = "tp" | "cp" | "mesa";
@@ -40,7 +40,6 @@ const metricsConfig: {
 const VALID_CATEGORIES: Category[] = ["tp", "cp", "mesa"];
 const isValidCategory = (v: string): v is Category =>
   (VALID_CATEGORIES as string[]).includes(v);
-
 
 export function Top5DataView({
   allData,

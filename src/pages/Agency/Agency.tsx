@@ -19,46 +19,39 @@ import {
   DailyData,
   dataTypeOptions,
   Totals,
-} from "./utils";
-import { stateWithDistrict } from "@/utils/statesDistricts";
-
-// Utility function
-function getDistrictsForStates(states: string[]) {
-  const districts = states.flatMap((state) => stateWithDistrict[state] || []);
-  return [...new Set(districts)].sort(); // unique sorted districts
-}
+} from "./types";
+import { getDistrictsForStates } from "./utils";
 
 function Agency() {
+  ``;
   const [allData, setAllData] = useState<DailyData[]>([]);
   const [filters, setFilters] = useState<FilterState>({
     dateRange: getLastNDaysRange(7),
-    state: [...allStates],
+    state: [allStates[0]],
     dataTypes: [...dataTypeOptions],
     categories: [...categoryOptions],
-    districts: getDistrictsForStates([...allStates]),
+    districts: getDistrictsForStates([allStates[0]]),
   });
+
   const [showTable, setShowTable] = useState(false);
   const [showCompareChart, setCompareChart] = useState(false);
   const [loading, setLoading] = useState(true);
 
-  // Keep districts in sync with selected states
   useEffect(() => {
-    const nextDistricts = getDistrictsForStates(filters.state || []);
-    // Only update if actually changed - to prevent infinite loops
-    if (
+    const autoDistricts = getDistrictsForStates(filters.state || []);
+    const shouldUpdateDistricts =
       !filters.districts ||
-      filters.districts.length !== nextDistricts.length ||
-      !filters.districts.every((d) => nextDistricts.includes(d))
-    ) {
+      filters.districts.length === 0 ||
+      !filters.districts.every((d) => autoDistricts.includes(d));
+
+    if (shouldUpdateDistricts) {
       setFilters((prev) => ({
         ...prev,
-        districts: nextDistricts,
+        districts: autoDistricts,
       }));
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filters.state.join(",")]);
 
-  // Fix dateRange inverted, if any
   useEffect(() => {
     setFilters((prev) => {
       const { from, to } = prev.dateRange;
@@ -70,7 +63,6 @@ function Agency() {
     });
   }, [filters.dateRange]);
 
-  // Load all data once
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
@@ -81,7 +73,6 @@ function Agency() {
     fetchData();
   }, []);
 
-  // Filter all data based on filters
   const filteredData = useMemo(() => {
     return allData.filter((entry) => {
       const {
@@ -105,9 +96,7 @@ function Agency() {
       ) {
         return false;
       }
-      if (!state || state.length === 0) {
-        return false;
-      }
+      if (!state || state.length === 0) return false;
 
       const activeCategories = categories?.length
         ? categories
@@ -118,7 +107,9 @@ function Agency() {
         if (!districts) return false;
 
         return Object.values(districts).some((districtData: any) =>
-          Object.keys(districtData).some((cat) => activeCategories.includes(cat))
+          Object.keys(districtData).some((cat) =>
+            activeCategories.includes(cat)
+          )
         );
       });
     });
@@ -132,6 +123,9 @@ function Agency() {
     [filteredData, filters]
   );
 
+  const noDistrictsSelectedUI =
+    filters.state.length > 0 && filters.districts.length === 0;
+
   const activeCategories = filters.categories?.length
     ? filters.categories
     : [...categoryOptions];
@@ -139,7 +133,11 @@ function Agency() {
   const totalsByCategory = useMemo(() => {
     const map: Record<string, Totals> = {};
     activeCategories.forEach((cat) => {
-      map[cat] = computeCombinedTotal(filteredData, cat as "tp" | "cp" | "mesa", filters);
+      map[cat] = computeCombinedTotal(
+        filteredData,
+        cat as "tp" | "cp" | "mesa",
+        filters
+      );
     });
     return map;
   }, [filteredData, filters, activeCategories]);
@@ -154,6 +152,8 @@ function Agency() {
     );
   }
 
+  console.log("dsfag", noDistrictsSelectedUI);
+
   return (
     <div className="p-3">
       <div className="p-3 space-y-3 bg-background rounded-md shadow-lg border">
@@ -162,7 +162,14 @@ function Agency() {
         {noStatesSelected ? (
           <div className="w-full p-6 text-center border rounded-md shadow-sm bg-muted/30">
             <p className="font-medium">
-              No states selected. Use the <em>States</em> filter above to select one or more states.
+              No states selected. Use the <em>States</em> filter above to select
+              one or more states.
+            </p>
+          </div>
+        ) : noDistrictsSelectedUI ? (
+          <div className="w-full p-6 text-center border rounded-md shadow-sm bg-muted/30 text-red-600">
+            <p className="font-medium">
+              No district selected . Please choose atleast one district.
             </p>
           </div>
         ) : (
@@ -172,7 +179,9 @@ function Agency() {
                 <p>
                   <strong>You are currently viewing:</strong>&nbsp;
                   <strong>{filteredData.length}</strong> days of data for&nbsp;
-                  <strong>{`${selectedStates.length} state${selectedStates.length > 1 ? "s" : ""}`}</strong>
+                  <strong>{`${selectedStates.length} state${
+                    selectedStates.length > 1 ? "s" : ""
+                  }`}</strong>
                 </p>
                 <button
                   className="bg-blue-600 px-3 py-2 rounded-md text-card font-semibold text-white"
@@ -204,7 +213,9 @@ function Agency() {
                     className="bg-blue-600 px-3 py-2 rounded-md text-card font-semibold text-white max-w-[20%] text-nowrap"
                     onClick={() => setCompareChart((prev) => !prev)}
                   >
-                    {showCompareChart ? "Hide Comparison Chart" : "Show Comparison Chart"}
+                    {showCompareChart
+                      ? "Hide Comparison Chart"
+                      : "Show Comparison Chart"}
                   </button>
 
                   {showCompareChart ? (
@@ -219,7 +230,8 @@ function Agency() {
                     ) : (
                       <div className="w-full p-3 flex justify-center items-center">
                         <p className="border shadow-md p-3 rounded-md">
-                          Please select at least 2 and at most 15 states for chart comparison.
+                          Please select at least 2 and at most 15 states for
+                          chart comparison.
                         </p>
                       </div>
                     )
@@ -231,7 +243,11 @@ function Agency() {
                       totalsByCategory={{
                         tp: computeCombinedTotal(filteredData, "tp", filters),
                         cp: computeCombinedTotal(filteredData, "cp", filters),
-                        mesa: computeCombinedTotal(filteredData, "mesa", filters),
+                        mesa: computeCombinedTotal(
+                          filteredData,
+                          "mesa",
+                          filters
+                        ),
                       }}
                       categoryLabelMap={categoryLabelMap}
                     />
@@ -250,7 +266,8 @@ function Agency() {
               <div className="w-full p-6 text-center border rounded-md shadow-sm bg-muted/30">
                 <p className="font-medium">
                   No data type selected. Use the <em>Data Types</em> or{" "}
-                  <em>Categories</em> filter above to select one or more data types.
+                  <em>Categories</em> filter above to select one or more data
+                  types.
                 </p>
               </div>
             )}

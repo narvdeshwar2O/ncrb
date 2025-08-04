@@ -21,12 +21,24 @@ export async function loadAllMonthlyData({
 }: LoadParams): Promise<{ date: string; data: any }[]> {
   const results: { date: string; data: any }[] = [];
 
-  const defaultMonths = ["04", "05", "06", "07"];
+  const defaultMonths = [
+    "01",
+    "02",
+    "03",
+    "04",
+    "05",
+    "06",
+    "07",
+    "08",
+    "09",
+    "10",
+    "11",
+    "12",
+  ];
 
   const start = startDate ? new Date(startDate) : undefined;
   const end = endDate ? new Date(endDate) : undefined;
 
-  // Define dynamic path and filename patterns based on `type`
   const config = {
     cfpb: {
       basePath: "/assets/data/cfpb_generic_report/2025",

@@ -1,4 +1,4 @@
-import { DailyData } from "@/pages/agency/utils";
+import { DailyData } from "@/pages/agency/types";
 import { FilterState } from "../components/filters/types/FilterTypes";
 
 export default function aggregateByState(
@@ -27,7 +27,8 @@ export default function aggregateByState(
       Object.entries(districts).forEach(
         ([districtName, districtData]: [string, any]) => {
           const includeDistrict =
-            selectedDistricts.length === 0 || selectedDistricts.includes(districtName);
+            selectedDistricts.length === 0 ||
+            selectedDistricts.includes(districtName);
 
           if (!includeDistrict) return;
 
