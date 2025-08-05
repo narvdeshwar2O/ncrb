@@ -8,11 +8,13 @@ import * as exportService from "@/utils/exportService";
 interface StateComparisonChartProps {
   data: StateData;
   selectedStates: string[];
-  dataTypes: string[];
+  dataTypes: string[]; 
   categories?: string[];
 }
-type MetricKey = "enrollment" | "hit" | "nohit";
+
+type MetricKey ="hit" | "nohit";
 type CategoryKey = "tp" | "cp" | "mesa";
+
 const categoryLabelMap: Record<CategoryKey, string> = {
   tp: "Ten Print",
   cp: "Chance Print",
@@ -22,16 +24,9 @@ const categoryLabelMap: Record<CategoryKey, string> = {
 export function StateComparisonChart({
   data,
   selectedStates,
-  dataTypes,
   categories,
 }: StateComparisonChartProps) {
   const chartWrapRef = useRef<HTMLDivElement>(null);
-
-  // Data preparation logic remains within the component, which is correct
-  const activeMetrics: MetricKey[] = (
-    dataTypes?.length ? dataTypes : ["enrollment", "hit", "nohit"]
-  ) as MetricKey[];
-
   const activeCategories: CategoryKey[] = (
     categories?.length
       ? categories.filter((c) => ["tp", "cp", "mesa"].includes(c))
@@ -43,37 +38,43 @@ export function StateComparisonChart({
     activeCategories.forEach((cat) => {
       transposedData[cat] = { category: categoryLabelMap[cat] };
     });
+
     selectedStates.forEach((state) => {
       const stateInfo = data[state] || {};
       activeCategories.forEach((cat) => {
-        const rec = (stateInfo as any)[cat] as { [K in MetricKey]?: number } | undefined;
-        const sum = activeMetrics.reduce((acc, m) => acc + (rec?.[m] ?? 0), 0);
+        const rec = (stateInfo as any)[cat] as
+          | { [K in MetricKey]?: number }
+          | undefined;
+        const sum = (rec?.hit ?? 0) + (rec?.nohit ?? 0);
         if (transposedData[cat]) {
           transposedData[cat][state] = sum;
         }
       });
     });
+
     return Object.values(transposedData).filter((d) =>
       selectedStates.some((s) => (d[s] ?? 0) > 0)
     );
-  }, [selectedStates, data, activeCategories, activeMetrics]);
-
-  // --- HANDLERS NOW PREPARE DATA AND DELEGATE ---
+  }, [selectedStates, data, activeCategories]);
 
   const handleExportCSV = () => {
-    // 2. Prepare data specific to this component
     const headers = ["Category", ...selectedStates];
     const rows = chartData.map((d) => [
       d.category,
       ...selectedStates.map((state) => d[state] ?? 0),
     ]);
-    // 3. Delegate to the service
-    exportService.exportToCSV("state-comparison-by-category.csv", headers, rows);
+    exportService.exportToCSV(
+      "state-comparison-by-category.csv",
+      headers,
+      rows
+    );
   };
 
   const handlePrint = () => {
-    // Delegate to the service, providing the specific element and title
-    exportService.printComponent(chartWrapRef.current, "State Comparison Chart");
+    exportService.printComponent(
+      chartWrapRef.current,
+      "State Comparison Chart"
+    );
   };
 
   if (!selectedStates.length) {
@@ -86,16 +87,14 @@ export function StateComparisonChart({
     );
   }
 
-  // The component renders the chart and passes the clean handlers down
   return (
     <GroupedBarChart
       chartRef={chartWrapRef}
-      title="State Comparison by Category"
+      title="State Comparison by Category ( Hit + NoHit) "
       data={chartData}
       xAxisDataKey="category"
       barKeys={selectedStates}
       onExportCSV={handleExportCSV}
-      
       onPrint={handlePrint}
     />
   );

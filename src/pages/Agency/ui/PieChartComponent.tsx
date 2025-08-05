@@ -16,11 +16,15 @@ interface PieChartComponentProps {
 export function PieChartComponent(props: PieChartComponentProps) {
   const { pieData, pieSliceColors } = props;
 
+  const filteredPieData = pieData.filter(
+    (entry) => !entry.name.toLowerCase().includes("total")
+  );
+
   return (
     <ResponsiveContainer width="100%" height="100%">
       <PieChart>
         <Pie
-          data={pieData}
+          data={filteredPieData}
           dataKey="value"
           nameKey="name"
           cx="50%"
@@ -28,7 +32,7 @@ export function PieChartComponent(props: PieChartComponentProps) {
           outerRadius={100}
           label={({ name, value }) => `${name}: ${value}`}
         >
-          {pieData.map((entry, idx) => (
+          {filteredPieData.map((entry, idx) => (
             <Cell
               key={`cell-${idx}`}
               fill={pieSliceColors[idx % pieSliceColors.length]}
@@ -36,6 +40,7 @@ export function PieChartComponent(props: PieChartComponentProps) {
           ))}
         </Pie>
         <Legend verticalAlign="top" wrapperStyle={{ top: 0 }} />
+        <Tooltip />
       </PieChart>
     </ResponsiveContainer>
   );

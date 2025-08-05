@@ -1,31 +1,10 @@
-interface DailyData {
-  date: string;
-  data: Record<
-    string,
-    Record<
-      string,
-      { enrollment: number; hit: number; nohit: number; total: number }
-    >
-  >;
-}
-
-interface DistrictStats {
-  district: string;
-  enrollment: number;
-  hit: number;
-  nohit: number;
-}
-
-interface StateStats {
-  state: string;
-  enrollment: number;
-  hit: number;
-  nohit: number;
-  districts: DistrictStats[];
-}
+import {
+  DailyData,
+  StateStats,
+  CategoryKey,
+} from "@/pages/agency/types";
 
 interface TopStatesResult {
-  enrollmentTop5: StateStats[];
   hitTop5: StateStats[];
   nohitTop5: StateStats[];
 }
@@ -34,12 +13,11 @@ export function getTopStatesByDateRange(
   data: DailyData[] | undefined,
   from: Date,
   to: Date,
-  selectedCategory: "tp" | "cp" | "mesa"
+  selectedCategory: CategoryKey
 ): TopStatesResult {
   if (!Array.isArray(data)) {
     console.warn("Invalid data passed to getTopStatesByDateRange:", data);
     return {
-      enrollmentTop5: [],
       hitTop5: [],
       nohitTop5: [],
     };
@@ -52,10 +30,11 @@ export function getTopStatesByDateRange(
     if (date < from || date > to) continue;
 
     for (const [state, districts] of Object.entries(day.data)) {
+      if (state.toLowerCase() === "total") continue;
+
       if (!stateAggregate[state]) {
         stateAggregate[state] = {
           state,
-          enrollment: 0,
           hit: 0,
           nohit: 0,
           districts: [],
@@ -72,19 +51,16 @@ export function getTopStatesByDateRange(
         );
 
         if (existingDistrict) {
-          existingDistrict.enrollment += cat.enrollment;
           existingDistrict.hit += cat.hit;
           existingDistrict.nohit += cat.nohit;
         } else {
           stateData.districts.push({
             district,
-            enrollment: cat.enrollment,
             hit: cat.hit,
             nohit: cat.nohit,
           });
         }
 
-        stateData.enrollment += cat.enrollment;
         stateData.hit += cat.hit;
         stateData.nohit += cat.nohit;
       }
@@ -94,9 +70,6 @@ export function getTopStatesByDateRange(
   const stateList = Object.values(stateAggregate);
 
   return {
-    enrollmentTop5: [...stateList]
-      .sort((a, b) => b.enrollment - a.enrollment)
-      .slice(0, 5),
     hitTop5: [...stateList].sort((a, b) => b.hit - a.hit).slice(0, 5),
     nohitTop5: [...stateList].sort((a, b) => b.nohit - a.nohit).slice(0, 5),
   };

@@ -25,10 +25,9 @@ export default function aggregateByState(
         stateResult[state] = {};
         filters.categories.forEach((cat) => {
           stateResult[state][cat] = {
-            enrollment: 0,
             hit: 0,
             nohit: 0,
-            others: 0,
+            total: 0,
           };
         });
       }
@@ -41,10 +40,10 @@ export default function aggregateByState(
             districtResult[districtName] = {};
             filters.categories.forEach((cat) => {
               districtResult[districtName][cat] = {
-                enrollment: 0,
+               
                 hit: 0,
                 nohit: 0,
-                others: 0,
+                total: 0,
               };
             });
           }
@@ -52,15 +51,15 @@ export default function aggregateByState(
           filters.categories.forEach((cat) => {
             if (!districtData[cat]) return;
 
-            stateResult[state][cat].enrollment += districtData[cat].enrollment || 0;
             stateResult[state][cat].hit += districtData[cat].hit || 0;
             stateResult[state][cat].nohit += districtData[cat].nohit || 0;
-            stateResult[state][cat].others += districtData[cat].others || 0;
+            stateResult[state][cat].total += districtData[cat].total || 0;
 
-            districtResult[districtName][cat].enrollment += districtData[cat].enrollment || 0;
             districtResult[districtName][cat].hit += districtData[cat].hit || 0;
-            districtResult[districtName][cat].nohit += districtData[cat].nohit || 0;
-            districtResult[districtName][cat].others += districtData[cat].others || 0;
+            districtResult[districtName][cat].nohit +=
+              districtData[cat].nohit || 0;
+            districtResult[districtName][cat].total +=
+              districtData[cat].total || 0;
           });
         }
       );

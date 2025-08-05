@@ -1,16 +1,16 @@
-import { useState, useMemo } from "react";
-import {
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  Tooltip,
-  ResponsiveContainer,
-  LabelList,
-  CartesianGrid,
-} from "recharts";
+"use client";
+
+import { useMemo } from "react";
 import getTopStatesByDateRange from "@/utils/getTopStatesByDateRange";
-import { DailyData } from "../types";
+import ChartCard from "./ChartCard";
+import { Button } from "@/components/ui/button";
+import { Download, Printer } from "lucide-react";
+import * as exportService from "@/utils/exportService";
+import { DailyData, CategoryKey, categoryOptions } from "../types";
+
+function isValidCategoryKey(category: string): category is CategoryKey {
+  return categoryOptions.includes(category as CategoryKey);
+}
 
 interface Props {
   allData: DailyData[];
@@ -20,6 +20,120 @@ interface Props {
   dataTypes: string[];
 }
 
+// Separate component for each category to handle hooks properly
+const CategorySection = ({ 
+  category, 
+  allData, 
+  from, 
+  to, 
+  dataTypes 
+}: { 
+  category: CategoryKey;
+  allData: DailyData[];
+  from: Date;
+  to: Date;
+  dataTypes: string[];
+}) => {
+  const topStatesData = useMemo(
+    () => getTopStatesByDateRange(allData, from, to, category),
+    [allData, from, to, category]
+  );
+
+  const allMetricData = useMemo(() => 
+    dataTypes
+      .filter((metric) => metric !== "total")
+      .map((metric) => {
+        const metricTop5 = topStatesData?.[`${metric}Top5`] || [];
+        return {
+          metric,
+          chartData: metricTop5
+            .filter(
+              (item) =>
+                item.state.toLowerCase() !== "total" &&
+                item[metric] !== undefined
+            )
+            .map((item) => ({
+              state: item.state,
+              value: item[metric],
+            })),
+        };
+      }), [topStatesData, dataTypes]
+  );
+
+  const hideButtons = (hide: boolean) => {
+    const buttons = document.querySelectorAll(".print-hide");
+    buttons.forEach((btn) => {
+      (btn as HTMLElement).style.display = hide ? "none" : "";
+    });
+  };
+
+  const handlePrintCategory = () => {
+    hideButtons(true);
+    const element = document.getElementById(`category-${category}`);
+    if (element) {
+      exportService.printComponent(
+        element as HTMLDivElement,
+        `Top 5 - ${category.toUpperCase()}`
+      );
+    }
+    setTimeout(() => hideButtons(false), 500);
+  };
+
+  const handleExportCategoryCSV = () => {
+    hideButtons(true);
+    const csvRows: (string | number)[][] = [];
+    allMetricData.forEach(({ metric, chartData }) => {
+      csvRows.push([
+        `Top 5 - ${metric.toUpperCase()} (${category.toUpperCase()})`,
+      ]);
+      csvRows.push(["State", "Value"]);
+      chartData.forEach((item) =>
+        csvRows.push([item.state, item.value])
+      );
+      csvRows.push([]);
+    });
+    exportService.exportToCSV(`top-5-${category}.csv`, [], csvRows);
+    hideButtons(false);
+  };
+
+  return (
+    <div id={`category-${category}`}>
+      <div className="mb-4 flex items-center justify-between">
+        <h2 className="text-xl font-bold text-foreground tracking-tight">
+          Top 5 States - {category.toUpperCase()}
+        </h2>
+        <div className="flex gap-2">
+          <Button
+            variant="outline"
+            onClick={handleExportCategoryCSV}
+            className="print-hide"
+            size="sm"
+          >
+            <Download className="h-4 w-4 mr-1" /> CSV
+          </Button>
+          <Button
+            variant="outline"
+            onClick={handlePrintCategory}
+            className="print-hide"
+            size="sm"
+          >
+            <Printer className="h-4 w-4 mr-1" /> Print
+          </Button>
+        </div>
+      </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+        {allMetricData.map(({ metric, chartData }) => (
+          <ChartCard
+            key={metric}
+            title={`${metric.toUpperCase()} (${category.toUpperCase()})`}
+            data={chartData}
+          />
+        ))}
+      </div>
+    </div>
+  );
+};
+
 export const Top5DataView = ({
   allData,
   from,
@@ -27,91 +141,23 @@ export const Top5DataView = ({
   categories,
   dataTypes,
 }: Props) => {
-  const [selectedState, setSelectedState] = useState<string | null>(null);
-
-  const handleStateClick = (stateName: string) => {
-    setSelectedState((prev) => (prev === stateName ? null : stateName));
-  };
+  const validCategories = useMemo(
+    () => categories.filter(isValidCategoryKey),
+    [categories]
+  );
 
   return (
     <div className="space-y-10 mt-6">
-      {categories.map((category) => {
-        const topStatesData = useMemo(
-          () => getTopStatesByDateRange(allData, from, to, category),
-          [allData, from, to, category]
-        );
-
-        return (
-          <div key={category}>
-            <h3 className="text-lg font-semibold mb-4">
-              Top 5 States - {category.toUpperCase()}
-            </h3>
-
-            {dataTypes.map((metric) => {
-              const metricTop5 = topStatesData?.[`${metric}Top5`] || [];
-
-              return (
-                <div key={metric} className="mb-8">
-                  <h4 className="text-md font-semibold mb-2 capitalize">
-                    Metric: {metric}
-                  </h4>
-
-                  {metricTop5.map((state) => {
-                    const stateValue = state[metric];
-                    const districts = [...state.districts].sort(
-                      (a, b) => b[metric] - a[metric]
-                    );
-
-                    return (
-                      <div key={state.state} className="mb-4">
-                        <div
-                          className="cursor-pointer hover:bg-muted p-2 rounded-md transition"
-                          onClick={() => handleStateClick(state.state)}
-                        >
-                          <ResponsiveContainer width="100%" height={50}>
-                            <BarChart data={[{ name: state.state, value: stateValue }]}>
-                              <XAxis dataKey="name" hide />
-                              <YAxis hide />
-                              <Tooltip />
-                              <Bar dataKey="value" fill="#8884d8">
-                                <LabelList dataKey="value" position="right" />
-                              </Bar>
-                            </BarChart>
-                          </ResponsiveContainer>
-                        </div>
-
-                        {selectedState === state.state && (
-                          <div className="pl-6 mt-2">
-                            <h5 className="text-sm font-semibold mb-2">District-wise</h5>
-                            <ResponsiveContainer width="100%" height={40 * districts.length}>
-                              <BarChart
-                                layout="vertical"
-                                data={districts.map((d) => ({
-                                  name: d.district,
-                                  value: d[metric],
-                                }))}
-                                margin={{ top: 5, right: 20, left: 20, bottom: 5 }}
-                              >
-                                <XAxis type="number" />
-                                <YAxis type="category" dataKey="name" width={120} />
-                                <Tooltip />
-                                <CartesianGrid strokeDasharray="3 3" />
-                                <Bar dataKey="value" fill="#82ca9d">
-                                  <LabelList dataKey="value" position="right" />
-                                </Bar>
-                              </BarChart>
-                            </ResponsiveContainer>
-                          </div>
-                        )}
-                      </div>
-                    );
-                  })}
-                </div>
-              );
-            })}
-          </div>
-        );
-      })}
+      {validCategories.map((category) => (
+        <CategorySection
+          key={category}
+          category={category}
+          allData={allData}
+          from={from}
+          to={to}
+          dataTypes={dataTypes}
+        />
+      ))}
     </div>
   );
 };

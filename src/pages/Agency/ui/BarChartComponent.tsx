@@ -37,7 +37,8 @@ export function BarChartComponent(props: BarChartComponentProps) {
     showDailyBarChart,
   } = props;
 
-  console.log("chart data", chartData);
+  // ✅ Filter out "total" once here
+  const filteredDataTypes = selectedDataTypes.filter((type) => type !== "total");
 
   React.useEffect(() => {
     if (chartData.length > 0) {
@@ -62,9 +63,10 @@ export function BarChartComponent(props: BarChartComponentProps) {
           }}
         />
         <Legend verticalAlign="top" wrapperStyle={{ top: 0 }} />
+
         {showDailyBarChart
           ? activeCategories.flatMap((cat) =>
-              selectedDataTypes.map((type) => {
+              filteredDataTypes.map((type) => {
                 const dataKey = `${cat}_${type}`;
                 if (chartData.length > 0 && !(dataKey in chartData[0])) {
                   return null; // Defensive: skip bars if key missing
@@ -77,7 +79,7 @@ export function BarChartComponent(props: BarChartComponentProps) {
                       cat,
                       type,
                       activeCategories,
-                      selectedDataTypes
+                      filteredDataTypes
                     )}
                     stackId={
                       viewMode === "stacked"
@@ -100,11 +102,11 @@ export function BarChartComponent(props: BarChartComponentProps) {
                 );
               })
             )
-          : selectedDataTypes.map((type) => (
+          : filteredDataTypes.map((type) => (
               <Bar
                 key={type}
                 dataKey={type}
-                fill={getBarColor("agg", type, ["agg"], selectedDataTypes)}
+                fill={getBarColor("agg", type, ["agg"], filteredDataTypes)}
                 stackId={viewMode === "stacked" ? "agg-stack" : `group-${type}`}
                 name={type.charAt(0).toUpperCase() + type.slice(1)}
               >

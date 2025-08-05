@@ -26,6 +26,8 @@ interface AgencyTableProps {
 
 export default function AgencyTable({ data, filters }: AgencyTableProps) {
   const tableRef = useRef<HTMLDivElement>(null);
+
+  console.log("sdfgsdgd", data);
   const [viewMode, setViewMode] = useState<"state" | "district">("state");
 
   const allColumns = [
@@ -33,30 +35,27 @@ export default function AgencyTable({ data, filters }: AgencyTableProps) {
       key: "cp",
       label: "CP",
       subColumns: [
-        { key: "enrollment", label: "Enrollment" },
         { key: "hit", label: "Hit" },
         { key: "nohit", label: "NoHit" },
-        { key: "others", label: "Others" },
+        { key: "total", label: "Total" },
       ],
     },
     {
       key: "tp",
       label: "TP",
       subColumns: [
-        { key: "enrollment", label: "Enrollment" },
         { key: "hit", label: "Hit" },
         { key: "nohit", label: "NoHit" },
-        { key: "others", label: "Others" },
+        { key: "total", label: "Total" },
       ],
     },
     {
       key: "mesa",
       label: "MESA",
       subColumns: [
-        { key: "enrollment", label: "Enrollment" },
         { key: "hit", label: "Hit" },
         { key: "nohit", label: "NoHit" },
-        { key: "others", label: "Others" },
+        { key: "total", label: "Total" },
       ],
     },
   ];
@@ -103,9 +102,7 @@ export default function AgencyTable({ data, filters }: AgencyTableProps) {
   }, [viewMode, data, filters.dataTypes, columnConfig]);
 
   const handleExportCSV = () => {
-    const headers: string[] = [
-      viewMode === "district" ? "District" : "State",
-    ];
+    const headers: string[] = [viewMode === "district" ? "District" : "State"];
     const dataRows: (string | number)[][] = [];
 
     tableRows.forEach((row, rowIndex) => {

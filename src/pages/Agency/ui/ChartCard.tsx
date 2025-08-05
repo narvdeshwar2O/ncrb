@@ -25,7 +25,6 @@ function ChartCard({ title, data }: ChartCardProps) {
     rank: index + 1,
   }));
 
-  // Custom label with ellipsis
   const EllipsisLabel = (props: any) => {
     const { x, y, width, height, value } = props;
     const padding = 4;
@@ -38,7 +37,10 @@ function ChartCard({ title, data }: ChartCardProps) {
     const ctx = document.createElement("canvas").getContext("2d");
     if (ctx) {
       ctx.font = "12px sans-serif";
-      while (ctx.measureText(truncated).width > maxTextWidth && truncated.length > 0) {
+      while (
+        ctx.measureText(truncated).width > maxTextWidth &&
+        truncated.length > 0
+      ) {
         truncated = truncated.slice(0, -1);
       }
       if (truncated !== text) truncated += "...";
@@ -60,14 +62,20 @@ function ChartCard({ title, data }: ChartCardProps) {
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="text-center text-sm font-semibold">Top 5 states : {title}</CardTitle>
+        <CardTitle className="text-center text-sm font-semibold">
+          Top 5 states : {title}
+        </CardTitle>
       </CardHeader>
       <CardContent>
         <ChartContainer
           config={{ value: { label: title, color: "var(--chart-2)" } }}
         >
-          <BarChart data={rankedData} layout="vertical" margin={{ right: 30 }}>
-            <CartesianGrid horizontal={false} vertical={false}/>
+          <BarChart
+            data={rankedData}
+            layout="vertical"
+            margin={{ right: 30, left: -10, bottom: 5 }}
+          >
+            <CartesianGrid horizontal={false} vertical={false} />
             <YAxis
               dataKey="rank"
               type="category"
@@ -80,14 +88,23 @@ function ChartCard({ title, data }: ChartCardProps) {
               cursor={false}
               content={<ChartTooltipContent indicator="line" />}
             />
-            <Bar dataKey="value" fill="#2563eb" radius={[0, 8, 8, 0]} barSize={20}>
+            <Bar
+              dataKey="value"
+              fill="#2563eb"
+              radius={[0, 8, 8, 0]}
+              barSize={30}
+            >
               {/* Use custom ellipsis label */}
-              <LabelList dataKey="state" position="insideLeft" content={<EllipsisLabel />} />
+              <LabelList
+                dataKey="state"
+                position="insideLeft"
+                content={<EllipsisLabel />}
+              />
               {/* Value on right */}
               <LabelList
                 dataKey="value"
                 position="right"
-                offset={8}
+                offset={5}
                 className="fill-foreground"
                 fontSize={10}
               />

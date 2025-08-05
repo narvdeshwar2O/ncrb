@@ -14,16 +14,15 @@ const RenderCard: React.FC<RenderCardProps> = ({
   selectedDataTypes = [],
 }) => {
   const hasSelection = selectedDataTypes.length > 0;
-
+  console.log("fgsdgf", total);
   const getValue = (key: keyof Totals): number => {
     if (!hasSelection) return 0;
     return selectedDataTypes.includes(key) ? total[key] : 0;
   };
 
-  const enrollment = getValue("enrollment");
   const hit = getValue("hit");
   const nohit = getValue("nohit");
-  const others = getValue("others");
+  const totalCount = getValue("total");
 
   return (
     <Card className="border border-l-4 border-blue-600 bg-card shadow-sm">
@@ -31,12 +30,6 @@ const RenderCard: React.FC<RenderCardProps> = ({
         <CardTitle className="text-lg">{title}</CardTitle>
       </CardHeader>
       <CardContent className="space-y-2 text-sm text-muted-foreground">
-        {enrollment > 0 && (
-          <p>
-            Enrollment:{" "}
-            <span className="font-semibold text-foreground">{enrollment}</span>
-          </p>
-        )}
         {hit > 0 && (
           <p>
             Hit: <span className="font-semibold text-foreground">{hit}</span>
@@ -48,10 +41,10 @@ const RenderCard: React.FC<RenderCardProps> = ({
             <span className="font-semibold text-foreground">{nohit}</span>
           </p>
         )}
-        {others > 0 && (
+        {totalCount > 0 && (
           <p>
-            Others:{" "}
-            <span className="font-semibold text-foreground">{others}</span>
+            Total:{" "}
+            <span className="font-semibold text-foreground">{totalCount}</span>
           </p>
         )}
       </CardContent>

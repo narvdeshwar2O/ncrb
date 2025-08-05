@@ -7,10 +7,9 @@ export default function computeCombinedTotal(
   filters: FilterState
 ) {
   const total = {
-    enrollment: 0,
     hit: 0,
     nohit: 0,
-    others: 0,
+    total:0
   };
 
   const selectedDistricts = filters.districts ?? []; // Default to empty array
@@ -28,10 +27,9 @@ export default function computeCombinedTotal(
           if (!includeDistrict || !districtData[category]) return;
 
           const catData = districtData[category];
-          total.enrollment += catData.enrollment || 0;
           total.hit += catData.hit || 0;
           total.nohit += catData.nohit || 0;
-          total.others += catData.others || 0;
+          total.total += catData.total || 0;
         }
       );
     });

@@ -2,10 +2,7 @@ export interface DailyData {
   date: string;
   data: Record<
     string,
-    Record<
-      string,
-      { enrollment: number; hit: number; nohit: number; others: number }
-    >
+    Record<string, { hit: number; nohit: number; total: number }>
   >;
 }
 
@@ -16,17 +13,32 @@ export const categoryLabelMap: Record<string, string> = {
 };
 
 export interface Totals {
-  enrollment: number;
   hit: number;
   nohit: number;
-  others: number;
+  total: number;
+}
+
+export interface DistrictStats {
+  district: string;
+  hit: number;
+  nohit: number;
+}
+
+export interface StateStats {
+  state: string;
+  hit: number;
+  nohit: number;
+  districts: DistrictStats[];
 }
 
 export const categoryOptions = ["tp", "cp", "mesa"] as const;
 
-export const dataTypeOptions = [
-  "enrollment",
-  "hit",
-  "nohit",
-  "others",
-] as const;
+export const dataTypeOptions = ["hit", "nohit", "total"] as const;
+
+export type CategoryKey = "tp" | "cp" | "mesa";
+
+export interface CategoryMetrics {
+  hit: number;
+  nohit: number;
+  total: number; // included in data but will be excluded from logic
+}

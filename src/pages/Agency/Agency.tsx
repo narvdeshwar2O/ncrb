@@ -1,7 +1,7 @@
 import { useEffect, useState, useMemo } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
-import { loadAllMonthlyData } from "@/utils/loadAllMonthlyData";
+import { useMonthlyData } from "@/hooks/useMonthlyData";
 import aggregateByState from "@/utils/agregateByStateForTable";
 import computeCombinedTotal from "@/utils/computeCombinedTotal";
 import RenderCard from "./ui/RenderCard";
@@ -16,14 +16,14 @@ import { getLastNDaysRange } from "@/utils/getLastNdays";
 import {
   categoryLabelMap,
   categoryOptions,
-  DailyData,
   dataTypeOptions,
   Totals,
 } from "./types";
 import { getDistrictsForStates } from "./utils";
 
 function Agency() {
-  const [allData, setAllData] = useState<DailyData[]>([]);
+  const { data: allData, loading } = useMonthlyData("cfpb"); // ✅ using custom hook
+
   const [filters, setFilters] = useState<FilterState>({
     dateRange: getLastNDaysRange(7),
     state: [allStates[0]],
@@ -34,7 +34,6 @@ function Agency() {
 
   const [showTable, setShowTable] = useState(false);
   const [showCompareChart, setCompareChart] = useState(false);
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const autoDistricts = getDistrictsForStates(filters.state || []);
@@ -61,16 +60,6 @@ function Agency() {
       return prev;
     });
   }, [filters.dateRange]);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      setLoading(true);
-      const loaded = await loadAllMonthlyData({ type: "cfpb" });
-      setAllData(loaded);
-      setLoading(false);
-    };
-    fetchData();
-  }, []);
 
   const filteredData = useMemo(() => {
     return allData.filter((entry) => {
@@ -113,7 +102,6 @@ function Agency() {
       });
     });
   }, [allData, filters]);
-  console.log(":sadd", filteredData);
 
   const selectedStates = filters.state ?? [];
   const noStatesSelected = selectedStates.length === 0;
@@ -156,6 +144,7 @@ function Agency() {
       </div>
     );
   }
+
   return (
     <div className="p-3">
       <div className="p-3 space-y-3 bg-background rounded-md shadow-lg border">
@@ -171,7 +160,7 @@ function Agency() {
         ) : noDistrictsSelectedUI ? (
           <div className="w-full p-6 text-center border rounded-md shadow-sm bg-muted/30 text-red-600">
             <p className="font-medium">
-              No district selected . Please choose atleast one district.
+              No district selected. Please choose at least one district.
             </p>
           </div>
         ) : (
@@ -224,7 +213,7 @@ function Agency() {
                     selectedStates.length >= 2 &&
                     selectedStates.length <= 15 ? (
                       <StateComparisonChart
-                        data={tableData}
+                        data={tableData.stateResult}
                         selectedStates={selectedStates}
                         dataTypes={filters.dataTypes}
                         categories={filters.categories}
