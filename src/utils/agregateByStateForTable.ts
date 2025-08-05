@@ -1,47 +1,71 @@
 import { DailyData } from "@/pages/agency/types";
 import { FilterState } from "../components/filters/types/FilterTypes";
-
+import { StateData } from "@/pages/agency/ui/AgencyTable";
 export default function aggregateByState(
   data: DailyData[],
   filters: FilterState
-) {
-  const result: Record<string, any> = {};
+): { stateResult: StateData; districtResult: StateData } {
   const selectedDistricts = filters.districts ?? [];
+
+  // Always return objects with correct structure
+  const stateResult: StateData = {};
+  const districtResult: StateData = {};
+
+  // If no districts selected, return empty but valid structure
+  if (selectedDistricts.length === 0) {
+    return { stateResult, districtResult };
+  }
 
   data.forEach((entry) => {
     filters.state.forEach((state) => {
       const districts = entry.data[state];
       if (!districts) return;
 
-      if (!result[state]) {
-        result[state] = {};
+      if (!stateResult[state]) {
+        stateResult[state] = {};
         filters.categories.forEach((cat) => {
-          result[state][cat] = {
+          stateResult[state][cat] = {
             enrollment: 0,
             hit: 0,
             nohit: 0,
+            others: 0,
           };
         });
       }
 
       Object.entries(districts).forEach(
         ([districtName, districtData]: [string, any]) => {
-          const includeDistrict =
-            selectedDistricts.length === 0 ||
-            selectedDistricts.includes(districtName);
+          if (!selectedDistricts.includes(districtName)) return;
 
-          if (!includeDistrict) return;
+          if (!districtResult[districtName]) {
+            districtResult[districtName] = {};
+            filters.categories.forEach((cat) => {
+              districtResult[districtName][cat] = {
+                enrollment: 0,
+                hit: 0,
+                nohit: 0,
+                others: 0,
+              };
+            });
+          }
 
           filters.categories.forEach((cat) => {
             if (!districtData[cat]) return;
-            result[state][cat].enrollment += districtData[cat].enrollment || 0;
-            result[state][cat].hit += districtData[cat].hit || 0;
-            result[state][cat].nohit += districtData[cat].nohit || 0;
+
+            stateResult[state][cat].enrollment += districtData[cat].enrollment || 0;
+            stateResult[state][cat].hit += districtData[cat].hit || 0;
+            stateResult[state][cat].nohit += districtData[cat].nohit || 0;
+            stateResult[state][cat].others += districtData[cat].others || 0;
+
+            districtResult[districtName][cat].enrollment += districtData[cat].enrollment || 0;
+            districtResult[districtName][cat].hit += districtData[cat].hit || 0;
+            districtResult[districtName][cat].nohit += districtData[cat].nohit || 0;
+            districtResult[districtName][cat].others += districtData[cat].others || 0;
           });
         }
       );
     });
   });
 
-  return result;
+  return { stateResult, districtResult };
 }

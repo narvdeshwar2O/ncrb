@@ -1,87 +1,121 @@
-import React, { useMemo, useRef } from "react";
+import React, { useMemo, useRef, useState } from "react";
 import { DataTable } from "@/components/tables/DataTable";
 import * as exportService from "@/utils/exportService";
 import { FilterState } from "@/components/filters/types/FilterTypes";
+import { Totals } from "../types";
 
-export interface Totals {
-  enrollment: number;
-  hit: number;
-  nohit: number;
-}
 export interface StateRow {
   state: string;
   tp?: Totals;
   cp?: Totals;
   mesa?: Totals;
 }
+
 export type StateData = Record<
   string,
   { tp?: Totals; cp?: Totals; mesa?: Totals }
 >;
 
 interface AgencyTableProps {
-  data: StateData;
+  data: {
+    stateResult: StateData;
+    districtResult: StateData;
+  };
   filters: FilterState;
 }
 
-// Keep the specific configuration for the Agency Table
-const agencyTableConfig = [
-  {
-    key: "cp",
-    label: "CP",
-    subColumns: [
-      { key: "enrollment", label: "Enroll" },
-      { key: "hit", label: "Hit" },
-      { key: "nohit", label: "NoHit" },
-    ],
-  },
-  {
-    key: "tp",
-    label: "TP",
-    subColumns: [
-      { key: "enrollment", label: "Enroll" },
-      { key: "hit", label: "Hit" },
-      { key: "nohit", label: "NoHit" },
-    ],
-  },
-  {
-    key: "mesa",
-    label: "MESA",
-    subColumns: [
-      { key: "enrollment", label: "Enroll" },
-      { key: "hit", label: "Hit" },
-      { key: "nohit", label: "NoHit" },
-    ],
-  },
-];
-
-export default function AgencyTable({ data }: AgencyTableProps) {
+export default function AgencyTable({ data, filters }: AgencyTableProps) {
   const tableRef = useRef<HTMLDivElement>(null);
+  const [viewMode, setViewMode] = useState<"state" | "district">("state");
 
-  // The data transformation logic remains the same
-  const rows = useMemo<StateRow[]>(() => {
-    return Object.entries(data).map(([state, cats]) => ({
-      state,
-      tp: cats.tp,
-      cp: cats.cp,
-      mesa: cats.mesa,
-    }));
-  }, [data]);
+  const allColumns = [
+    {
+      key: "cp",
+      label: "CP",
+      subColumns: [
+        { key: "enrollment", label: "Enrollment" },
+        { key: "hit", label: "Hit" },
+        { key: "nohit", label: "NoHit" },
+        { key: "others", label: "Others" },
+      ],
+    },
+    {
+      key: "tp",
+      label: "TP",
+      subColumns: [
+        { key: "enrollment", label: "Enrollment" },
+        { key: "hit", label: "Hit" },
+        { key: "nohit", label: "NoHit" },
+        { key: "others", label: "Others" },
+      ],
+    },
+    {
+      key: "mesa",
+      label: "MESA",
+      subColumns: [
+        { key: "enrollment", label: "Enrollment" },
+        { key: "hit", label: "Hit" },
+        { key: "nohit", label: "NoHit" },
+        { key: "others", label: "Others" },
+      ],
+    },
+  ];
 
-  // 2. Update the CSV export handler
+  const columnConfig = useMemo(() => {
+    return allColumns
+      .map((group) => ({
+        ...group,
+        subColumns: group.subColumns.filter((sub) =>
+          filters.dataTypes.includes(sub.key)
+        ),
+      }))
+      .filter((group) => group.subColumns.length > 0);
+  }, [filters.dataTypes]);
+
+  const tableRows = useMemo<StateRow[]>(() => {
+    const sourceData =
+      viewMode === "district" ? data.districtResult : data.stateResult;
+
+    if (!sourceData) return [];
+
+    return Object.entries(sourceData)
+      .map(([name, cats]) => ({
+        state: name,
+        tp: cats.tp,
+        cp: cats.cp,
+        mesa: cats.mesa,
+      }))
+      .filter((row) => {
+        const selectedTypes = filters.dataTypes;
+
+        if (!selectedTypes || selectedTypes.length === 0) return true;
+
+        return columnConfig.some((group) => {
+          const section = row[group.key as keyof StateRow];
+          if (!section) return false;
+
+          return selectedTypes.some((type) => {
+            const value = section[type as keyof Totals];
+            return value !== undefined && value !== 0;
+          });
+        });
+      });
+  }, [viewMode, data, filters.dataTypes, columnConfig]);
+
   const handleExportCSV = () => {
-    const headers: string[] = ["State"];
+    const headers: string[] = [
+      viewMode === "district" ? "District" : "State",
+    ];
     const dataRows: (string | number)[][] = [];
 
-    // This logic correctly prepares the CSV data based on visible columns
-    rows.forEach((row, rowIndex) => {
+    tableRows.forEach((row, rowIndex) => {
       const dataRow: (string | number)[] = [row.state];
-      agencyTableConfig.forEach((group) => {
+      columnConfig.forEach((group) => {
         group.subColumns.forEach((subCol) => {
           const value =
             row[group.key as keyof StateRow]?.[subCol.key as keyof Totals] ?? 0;
           if (
-            rows.some(
+            tableRows.some(
               (r) =>
                 (r[group.key as keyof StateRow]?.[subCol.key as keyof Totals] ??
                   0) !== 0
@@ -97,27 +131,33 @@ export default function AgencyTable({ data }: AgencyTableProps) {
       dataRows.push(dataRow);
     });
 
-    // Delegate the actual export task to the service
-    exportService.exportToCSV("agency-table.csv", headers, dataRows);
+    const filename =
+      viewMode === "district" ? "district-table.csv" : "state-table.csv";
+    exportService.exportToCSV(filename, headers, dataRows);
   };
 
-  // 3. Update the print handler
   const handlePrint = () => {
-    // Delegate the print task to the service
-    exportService.printComponent(tableRef.current, "Agency Table");
+    exportService.printComponent(
+      tableRef.current,
+      viewMode === "district" ? "District Table" : "State Table"
+    );
   };
 
   return (
     <DataTable
       tableRef={tableRef}
-      title="Agency Table"
-      data={rows}
+      title={viewMode === "state" ? "State Report" : "District Report"}
+      data={tableRows}
       primaryKey="state"
-      primaryKeyHeader="State"
-      columnConfig={agencyTableConfig}
+      primaryKeyHeader={viewMode === "state" ? "State" : "District"}
+      columnConfig={columnConfig}
       onExportCSV={handleExportCSV}
       onPrint={handlePrint}
-      noDataMessage="No agency data to display for the selected filters."
+      onToggleViewMode={() =>
+        setViewMode((prev) => (prev === "state" ? "district" : "state"))
+      }
+      viewMode={viewMode}
+      noDataMessage="No data available."
     />
   );
 }

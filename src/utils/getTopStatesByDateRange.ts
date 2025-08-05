@@ -9,11 +9,19 @@ interface DailyData {
   >;
 }
 
+interface DistrictStats {
+  district: string;
+  enrollment: number;
+  hit: number;
+  nohit: number;
+}
+
 interface StateStats {
   state: string;
   enrollment: number;
   hit: number;
   nohit: number;
+  districts: DistrictStats[];
 }
 
 interface TopStatesResult {
@@ -22,50 +30,76 @@ interface TopStatesResult {
   nohitTop5: StateStats[];
 }
 
-function getTopStatesByDateRange(
-  dailyData: DailyData[],
+export function getTopStatesByDateRange(
+  data: DailyData[] | undefined,
   from: Date,
   to: Date,
-  category: "tp" | "cp" | "mesa" // ✅ Dynamic category parameter
+  selectedCategory: "tp" | "cp" | "mesa"
 ): TopStatesResult {
-  const stateAggregate: Record<
-    string,
-    { enrollment: number; hit: number; nohit: number }
-  > = {};
+  if (!Array.isArray(data)) {
+    console.warn("Invalid data passed to getTopStatesByDateRange:", data);
+    return {
+      enrollmentTop5: [],
+      hitTop5: [],
+      nohitTop5: [],
+    };
+  }
 
-  for (const day of dailyData) {
-    const dayDate = new Date(day.date);
-    if (dayDate < from || dayDate > to) continue;
+  const stateAggregate: Record<string, StateStats> = {};
 
-    for (const [state, categories] of Object.entries(day.data)) {
+  for (const day of data) {
+    const date = new Date(day.date);
+    if (date < from || date > to) continue;
+
+    for (const [state, districts] of Object.entries(day.data)) {
       if (!stateAggregate[state]) {
-        stateAggregate[state] = { enrollment: 0, hit: 0, nohit: 0 };
+        stateAggregate[state] = {
+          state,
+          enrollment: 0,
+          hit: 0,
+          nohit: 0,
+          districts: [],
+        };
       }
 
-      // ✅ Aggregate only the selected category
-      if (categories[category]) {
-        stateAggregate[state].enrollment += categories[category].enrollment;
-        stateAggregate[state].hit += categories[category].hit;
-        stateAggregate[state].nohit += categories[category].nohit;
+      for (const [district, categories] of Object.entries(districts)) {
+        const cat = categories[selectedCategory];
+        if (!cat) continue;
+
+        const stateData = stateAggregate[state];
+        const existingDistrict = stateData.districts.find(
+          (d) => d.district === district
+        );
+
+        if (existingDistrict) {
+          existingDistrict.enrollment += cat.enrollment;
+          existingDistrict.hit += cat.hit;
+          existingDistrict.nohit += cat.nohit;
+        } else {
+          stateData.districts.push({
+            district,
+            enrollment: cat.enrollment,
+            hit: cat.hit,
+            nohit: cat.nohit,
+          });
+        }
+
+        stateData.enrollment += cat.enrollment;
+        stateData.hit += cat.hit;
+        stateData.nohit += cat.nohit;
       }
     }
   }
 
-  const result: StateStats[] = Object.entries(stateAggregate).map(
-    ([state, values]) => ({
-      state,
-      ...values,
-    })
-  );
+  const stateList = Object.values(stateAggregate);
 
-  // ✅ Sort individually for each metric
-  const enrollmentTop5 = [...result]
-    .sort((a, b) => b.enrollment - a.enrollment)
-    .slice(0, 5);
-  const hitTop5 = [...result].sort((a, b) => b.hit - a.hit).slice(0, 5);
-  const nohitTop5 = [...result].sort((a, b) => b.nohit - a.nohit).slice(0, 5);
-
-  return { enrollmentTop5, hitTop5, nohitTop5 };
+  return {
+    enrollmentTop5: [...stateList]
+      .sort((a, b) => b.enrollment - a.enrollment)
+      .slice(0, 5),
+    hitTop5: [...stateList].sort((a, b) => b.hit - a.hit).slice(0, 5),
+    nohitTop5: [...stateList].sort((a, b) => b.nohit - a.nohit).slice(0, 5),
+  };
 }
 
 export default getTopStatesByDateRange;

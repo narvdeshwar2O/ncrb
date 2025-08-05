@@ -31,6 +31,8 @@ interface DataTableProps {
   columnConfig: ColumnGroup[];
   onExportCSV: () => void;
   onPrint: () => void;
+  onToggleViewMode: () => void;
+  viewMode: "state" | "district";
   noDataMessage?: string;
 }
 
@@ -43,7 +45,9 @@ export function DataTable({
   columnConfig,
   onExportCSV,
   onPrint,
-  noDataMessage = "No data available.",
+  noDataMessage,
+  onToggleViewMode,
+  viewMode,
 }: DataTableProps) {
   const labelMap: Record<string, string> = {
     CP: "Chance Print",
@@ -88,7 +92,6 @@ export function DataTable({
     );
   }
 
-  // Only primary column (e.g., state) is visible
   if (totalVisibleCols === 0) {
     return (
       <Card className="mt-3">
@@ -105,6 +108,9 @@ export function DataTable({
       <CardHeader className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between border-b">
         <CardTitle>{title}</CardTitle>
         <div className="flex gap-2">
+          <Button variant="outline" size="sm" onClick={onToggleViewMode}>
+            View: {viewMode === "state" ? "State" : "District"}
+          </Button>
           <Button variant="outline" size="sm" onClick={onExportCSV}>
             <Download className="h-4 w-4 mr-1" /> CSV
           </Button>

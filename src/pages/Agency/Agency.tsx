@@ -23,7 +23,6 @@ import {
 import { getDistrictsForStates } from "./utils";
 
 function Agency() {
-  ``;
   const [allData, setAllData] = useState<DailyData[]>([]);
   const [filters, setFilters] = useState<FilterState>({
     dateRange: getLastNDaysRange(7),
@@ -114,14 +113,20 @@ function Agency() {
       });
     });
   }, [allData, filters]);
+  console.log(":sadd", filteredData);
 
   const selectedStates = filters.state ?? [];
   const noStatesSelected = selectedStates.length === 0;
 
-  const tableData = useMemo(
-    () => aggregateByState(filteredData, filters),
-    [filteredData, filters]
-  );
+  const tableData = useMemo(() => {
+    if (filters.districts.length === 0) {
+      return {
+        stateResult: {},
+        districtResult: {},
+      };
+    }
+    return aggregateByState(filteredData, filters);
+  }, [filteredData, filters]);
 
   const noDistrictsSelectedUI =
     filters.state.length > 0 && filters.districts.length === 0;
@@ -151,9 +156,6 @@ function Agency() {
       </div>
     );
   }
-
-  console.log("dsfag", noDistrictsSelectedUI);
-
   return (
     <div className="p-3">
       <div className="p-3 space-y-3 bg-background rounded-md shadow-lg border">

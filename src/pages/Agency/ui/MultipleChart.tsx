@@ -18,23 +18,6 @@ import { DailyData } from "../types";
 const colorPalette = [
   "#1875F0",
   "#22B573",
-  "#F6C244", // Cat1
-  "#EC4967",
-  "#B392F0",
-  "#FF9950", // Cat2
-  "#26C6DA",
-  "#26A69A",
-  "#FFA726", // Cat3
-  "#F4511E",
-  "#8D6E63",
-  "#789262", // Cat4
-  "#FF61A6",
-  "#af52de",
-  "#f7b731", // Cat5
-];
-const pieSliceColors = [
-  "#1875F0",
-  "#22B573",
   "#F6C244",
   "#EC4967",
   "#B392F0",
@@ -49,6 +32,8 @@ const pieSliceColors = [
   "#af52de",
   "#f7b731",
 ];
+const pieSliceColors = [...colorPalette];
+
 function getBarColor(
   cat: string | number,
   type: string | number,
@@ -63,14 +48,16 @@ function getBarColor(
 
 function computeDayCategoryTotals(
   day: any,
-  category: "tp" | "cp" | "live enrollement (mesa)",
-  states: string[]
+  category: "tp" | "cp" | "mesa",
+  units: string[]
 ) {
-  let enrollment = 0;
-  let hit = 0;
-  let nohit = 0;
-  for (const st of states) {
-    const catRec = day.data?.[st]?.[category];
+  let enrollment = 0,
+    hit = 0,
+    nohit = 0;
+  for (const unit of units) {
+    const catRec = Object.values(day.data || {}).flatMap((stateData) =>
+      stateData?.[unit]?.[category] ? [stateData[unit][category]] : []
+    )[0];
     if (!catRec) continue;
     enrollment += catRec.enrollment ?? 0;
     hit += catRec.hit ?? 0;
@@ -100,12 +87,11 @@ export function MultipleChart(props: MultipleChartProps) {
   } = props;
 
   const chartRef = useRef<HTMLDivElement>(null);
-
   const [viewMode, setViewMode] = useState<"stacked" | "grouped" | "pie">(
     "stacked"
   );
-
   const [isPieReady, setIsPieReady] = useState(false);
+
   useEffect(() => {
     if (viewMode === "pie") {
       setIsPieReady(false);
@@ -120,13 +106,32 @@ export function MultipleChart(props: MultipleChartProps) {
   const dayCount = filteredData.length;
   const showDailyData = hasDateRange && dayCount > 0 && dayCount <= 90;
 
-  const selectedStates = filters.state ?? [];
-  const selectedDataTypes =
-    filters.dataTypes && filters.dataTypes.length > 0
-      ? filters.dataTypes
-      : ["enrollment", "hit", "nohit"];
+  const selectedUnits = useMemo(() => {
+    // ✅ Use specific districts if selected
+    if (filters.districts?.length) {
+      return filters.districts;
+    }
 
-  // Chart data
+    // 🔁 Else, pull all districts under selected states
+    if (!filters.state?.length) return [];
+    const units = new Set<string>();
+    filteredData.forEach((day) => {
+      filters.state?.forEach((stateName) => {
+        const stateDistricts = day.data?.[stateName];
+        if (stateDistricts) {
+          Object.keys(stateDistricts).forEach((district) =>
+            units.add(district)
+          );
+        }
+      });
+    });
+    return Array.from(units);
+  }, [filteredData, filters.state, filters.districts]); // ✅ fix dependency here
+
+  const selectedDataTypes = filters.dataTypes?.length
+    ? filters.dataTypes
+    : ["enrollment", "hit", "nohit"];
+
   const chartData = useMemo(() => {
     if (showDailyData) {
       const sorted = [...filteredData].sort(
@@ -142,8 +147,8 @@ export function MultipleChart(props: MultipleChartProps) {
         activeCategories.forEach((cat) => {
           const totals = computeDayCategoryTotals(
             day,
-            cat as "tp" | "cp" | "live enrollement (mesa)",
-            selectedStates
+            cat as "tp" | "cp" | "mesa",
+            selectedUnits
           );
           selectedDataTypes.forEach((type) => {
             row[`${cat}_${type}`] = totals[type as keyof typeof totals];
@@ -152,7 +157,6 @@ export function MultipleChart(props: MultipleChartProps) {
         return row;
       });
     }
-    // Aggregated data
     return activeCategories.map((cat) => ({
       label: categoryLabelMap?.[cat] ?? cat.toUpperCase(),
       enrollment: totalsByCategory[cat]?.enrollment ?? 0,
@@ -163,11 +167,13 @@ export function MultipleChart(props: MultipleChartProps) {
     showDailyData,
     filteredData,
     activeCategories,
-    selectedStates,
+    selectedUnits,
     selectedDataTypes,
     totalsByCategory,
     categoryLabelMap,
   ]);
+
+  console.log("dasfd", filters);
 
   const chartTitle = showDailyData
     ? `Daily Breakdown (${dayCount} day${dayCount === 1 ? "" : "s"})`
@@ -182,7 +188,6 @@ export function MultipleChart(props: MultipleChartProps) {
         )
       ),
     ];
-
     const rows = chartData.map((item) => [
       item.label,
       ...activeCategories.flatMap((cat) =>
@@ -191,7 +196,6 @@ export function MultipleChart(props: MultipleChartProps) {
         )
       ),
     ]);
-
     exportService.exportToCSV(`${slugify(chartTitle)}.csv`, headers, rows);
   };
 
@@ -269,6 +273,7 @@ export function MultipleChart(props: MultipleChartProps) {
           </div>
         </div>
       </CardHeader>
+
       {activeCategories.length === 0 ? (
         <CardContent className="h-[200px] flex items-center justify-center text-center text-red-600 font-medium">
           Please select at least one category to display the chart.
@@ -277,7 +282,7 @@ export function MultipleChart(props: MultipleChartProps) {
         <CardContent
           ref={chartRef}
           className={
-            viewMode === "pie" ? "h-[400px]" : "h-[400px] md:h-[500px]"
+            viewMode === "pie" ? "h-[500px]" : "h-[500px] md:h-[600px]"
           }
         >
           {viewMode === "pie" ? (

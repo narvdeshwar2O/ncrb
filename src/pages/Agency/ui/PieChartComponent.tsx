@@ -36,14 +36,6 @@ export function PieChartComponent(props: PieChartComponentProps) {
           ))}
         </Pie>
         <Legend verticalAlign="top" wrapperStyle={{ top: 0 }} />
-        <Tooltip
-          contentStyle={{
-            background: "bg-card",
-            border: "1px solid white",
-            fontWeight: "400",
-            borderRadius: "10px",
-          }}
-        />
       </PieChart>
     </ResponsiveContainer>
   );

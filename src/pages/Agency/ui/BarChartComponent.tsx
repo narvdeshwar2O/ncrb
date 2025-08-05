@@ -37,6 +37,14 @@ export function BarChartComponent(props: BarChartComponentProps) {
     showDailyBarChart,
   } = props;
 
+  console.log("chart data", chartData);
+
+  React.useEffect(() => {
+    if (chartData.length > 0) {
+      console.log("BarChart data keys:", Object.keys(chartData[0]));
+    }
+  }, [chartData]);
+
   return (
     <ResponsiveContainer width="100%" height="100%">
       <BarChart
@@ -56,52 +64,48 @@ export function BarChartComponent(props: BarChartComponentProps) {
         <Legend verticalAlign="top" wrapperStyle={{ top: 0 }} />
         {showDailyBarChart
           ? activeCategories.flatMap((cat) =>
-              selectedDataTypes.map((type, idx) => (
-                <Bar
-                  key={`${cat}_${type}`}
-                  dataKey={`${cat}_${type}`}
-                  fill={getBarColor(
-                    cat,
-                    type,
-                    activeCategories,
-                    selectedDataTypes
-                  )}
-                  stackId={
-                    viewMode === "stacked"
-                      ? `${cat}-stack`
-                      : `${cat}-${type}-group`
-                  }
-                //   radius={idx === selectedDataTypes.length - 1 ? 2 : 0}
-                  name={`${
-                    categoryLabelMap?.[cat] ?? cat.toUpperCase()
-                  } ${type.charAt(0).toUpperCase() + type.slice(1)}`}
-                >
-                  <LabelList
-                    dataKey={`${cat}_${type}`}
-                    position="inside"
-                    angle={-90}
-                    fill="#fff"
-                    fontSize={11}
-                    formatter={(value) => (Number(value) > 0 ? value : "")}
-                  />
-                </Bar>
-              ))
+              selectedDataTypes.map((type) => {
+                const dataKey = `${cat}_${type}`;
+                if (chartData.length > 0 && !(dataKey in chartData[0])) {
+                  return null; // Defensive: skip bars if key missing
+                }
+                return (
+                  <Bar
+                    key={dataKey}
+                    dataKey={dataKey}
+                    fill={getBarColor(
+                      cat,
+                      type,
+                      activeCategories,
+                      selectedDataTypes
+                    )}
+                    stackId={
+                      viewMode === "stacked"
+                        ? `${cat}-stack`
+                        : `${cat}-${type}-group`
+                    }
+                    name={`${categoryLabelMap?.[cat] ?? cat.toUpperCase()} ${
+                      type.charAt(0).toUpperCase() + type.slice(1)
+                    }`}
+                  >
+                    <LabelList
+                      dataKey={dataKey}
+                      position="inside"
+                      angle={-90}
+                      fill="#fff"
+                      fontSize={11}
+                      formatter={(value) => (Number(value) > 0 ? value : "")}
+                    />
+                  </Bar>
+                );
+              })
             )
-          : selectedDataTypes.map((type, idx) => (
+          : selectedDataTypes.map((type) => (
               <Bar
                 key={type}
                 dataKey={type}
-                fill={getBarColor(
-                  "agg",
-                  type,
-                  ["agg"],
-                  selectedDataTypes
-                )}
-                stackId={
-                  viewMode === "stacked"
-                    ? "agg-stack"
-                    : `group-${type}`
-                }
+                fill={getBarColor("agg", type, ["agg"], selectedDataTypes)}
+                stackId={viewMode === "stacked" ? "agg-stack" : `group-${type}`}
                 name={type.charAt(0).toUpperCase() + type.slice(1)}
               >
                 <LabelList
