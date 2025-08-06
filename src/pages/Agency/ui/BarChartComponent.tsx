@@ -37,8 +37,10 @@ export function BarChartComponent(props: BarChartComponentProps) {
     showDailyBarChart,
   } = props;
 
-  // ✅ Filter out "total" once here
-  const filteredDataTypes = selectedDataTypes.filter((type) => type !== "total");
+  console.log("chartData", chartData);
+  const filteredDataTypes = selectedDataTypes.filter(
+    (type) => type !== "total"
+  );
 
   React.useEffect(() => {
     if (chartData.length > 0) {

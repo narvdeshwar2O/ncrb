@@ -21,13 +21,13 @@ interface Props {
 }
 
 // Separate component for each category to handle hooks properly
-const CategorySection = ({ 
-  category, 
-  allData, 
-  from, 
-  to, 
-  dataTypes 
-}: { 
+const CategorySection = ({
+  category,
+  allData,
+  from,
+  to,
+  dataTypes,
+}: {
   category: CategoryKey;
   allData: DailyData[];
   from: Date;
@@ -39,25 +39,27 @@ const CategorySection = ({
     [allData, from, to, category]
   );
 
-  const allMetricData = useMemo(() => 
-    dataTypes
-      .filter((metric) => metric !== "total")
-      .map((metric) => {
-        const metricTop5 = topStatesData?.[`${metric}Top5`] || [];
-        return {
-          metric,
-          chartData: metricTop5
-            .filter(
-              (item) =>
-                item.state.toLowerCase() !== "total" &&
-                item[metric] !== undefined
-            )
-            .map((item) => ({
-              state: item.state,
-              value: item[metric],
-            })),
-        };
-      }), [topStatesData, dataTypes]
+  const allMetricData = useMemo(
+    () =>
+      dataTypes
+        .filter((metric) => metric !== "total")
+        .map((metric) => {
+          const metricTop5 = topStatesData?.[`${metric}Top5`] || [];
+          return {
+            metric,
+            chartData: metricTop5
+              .filter(
+                (item) =>
+                  item.state.toLowerCase() !== "total" &&
+                  item[metric] !== undefined
+              )
+              .map((item) => ({
+                state: item.state,
+                value: item[metric],
+              })),
+          };
+        }),
+    [topStatesData, dataTypes]
   );
 
   const hideButtons = (hide: boolean) => {
@@ -87,9 +89,7 @@ const CategorySection = ({
         `Top 5 - ${metric.toUpperCase()} (${category.toUpperCase()})`,
       ]);
       csvRows.push(["State", "Value"]);
-      chartData.forEach((item) =>
-        csvRows.push([item.state, item.value])
-      );
+      chartData.forEach((item) => csvRows.push([item.state, item.value]));
       csvRows.push([]);
     });
     exportService.exportToCSV(`top-5-${category}.csv`, [], csvRows);
@@ -146,6 +146,7 @@ export const Top5DataView = ({
     [categories]
   );
 
+  console.log("first", allData);
   return (
     <div className="space-y-3 mt-6">
       {validCategories.map((category) => (

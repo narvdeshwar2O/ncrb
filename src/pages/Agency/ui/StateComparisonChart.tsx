@@ -8,11 +8,11 @@ import * as exportService from "@/utils/exportService";
 interface StateComparisonChartProps {
   data: StateData;
   selectedStates: string[];
-  dataTypes: string[]; 
+  dataTypes: string[];
   categories?: string[];
 }
 
-type MetricKey ="hit" | "nohit";
+type MetricKey = "hit" | "nohit";
 type CategoryKey = "tp" | "cp" | "mesa";
 
 const categoryLabelMap: Record<CategoryKey, string> = {
@@ -46,15 +46,11 @@ export function StateComparisonChart({
           | { [K in MetricKey]?: number }
           | undefined;
         const sum = (rec?.hit ?? 0) + (rec?.nohit ?? 0);
-        if (transposedData[cat]) {
-          transposedData[cat][state] = sum;
-        }
+        transposedData[cat][state] = sum;
       });
     });
 
-    return Object.values(transposedData).filter((d) =>
-      selectedStates.some((s) => (d[s] ?? 0) > 0)
-    );
+    return Object.values(transposedData); // ✅ No filtering
   }, [selectedStates, data, activeCategories]);
 
   const handleExportCSV = () => {

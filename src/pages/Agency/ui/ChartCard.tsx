@@ -30,9 +30,10 @@ function ChartCard({ title, data }: ChartCardProps) {
     const maxTextWidth = width - padding * 2;
 
     const text = String(value);
-    let truncated = text;
+    const capitalizedText =
+      text.charAt(0).toUpperCase() + text.slice(1).toLowerCase();
+    let truncated = capitalizedText;
 
-    // Canvas trick to measure text width
     const ctx = document.createElement("canvas").getContext("2d");
     if (ctx) {
       ctx.font = "12px sans-serif";
@@ -42,7 +43,7 @@ function ChartCard({ title, data }: ChartCardProps) {
       ) {
         truncated = truncated.slice(0, -1);
       }
-      if (truncated !== text) truncated += "...";
+      if (truncated !== capitalizedText) truncated += "...";
     }
 
     return (
@@ -56,6 +57,21 @@ function ChartCard({ title, data }: ChartCardProps) {
         {truncated}
       </text>
     );
+  };
+
+  // Custom tooltip component
+  const CustomTooltip = ({ active, payload, label }: any) => {
+    if (active && payload && payload.length) {
+      const data = payload[0].payload;
+      return (
+        <div className="bg-white border border-gray-200 rounded-lg shadow-lg p-3">
+          <p className="font-semibold text-gray-800 capitalize">
+            {data.state}:{data.value}
+          </p>
+        </div>
+      );
+    }
+    return null;
   };
 
   return (
@@ -83,10 +99,7 @@ function ChartCard({ title, data }: ChartCardProps) {
               tickFormatter={(value) => `#${value}`}
             />
             <XAxis dataKey="value" type="number" hide />
-            <ChartTooltip
-              cursor={false}
-              content={<ChartTooltipContent indicator="line" />}
-            />
+            <ChartTooltip cursor={false} content={<CustomTooltip />} />
             <Bar
               dataKey="value"
               fill="#2563eb"
@@ -98,6 +111,7 @@ function ChartCard({ title, data }: ChartCardProps) {
                 dataKey="state"
                 position="insideLeft"
                 content={<EllipsisLabel />}
+                className="capitalize"
               />
               {/* Value on right */}
               <LabelList

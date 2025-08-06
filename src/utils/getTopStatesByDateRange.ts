@@ -1,12 +1,9 @@
-import {
-  DailyData,
-  StateStats,
-  CategoryKey,
-} from "@/pages/agency/types";
+import { DailyData, StateStats, CategoryKey } from "@/pages/agency/types";
 
 interface TopStatesResult {
   hitTop5: StateStats[];
   nohitTop5: StateStats[];
+  enrolTop5: StateStats[];
 }
 
 export function getTopStatesByDateRange(
@@ -20,6 +17,7 @@ export function getTopStatesByDateRange(
     return {
       hitTop5: [],
       nohitTop5: [],
+      enrolTop5: [],
     };
   }
 
@@ -37,6 +35,7 @@ export function getTopStatesByDateRange(
           state,
           hit: 0,
           nohit: 0,
+          enrol: 0,
           districts: [],
         };
       }
@@ -51,18 +50,21 @@ export function getTopStatesByDateRange(
         );
 
         if (existingDistrict) {
-          existingDistrict.hit += cat.hit;
-          existingDistrict.nohit += cat.nohit;
+          existingDistrict.hit += cat.hit ?? 0;
+          existingDistrict.nohit += cat.nohit ?? 0;
+          existingDistrict.enrol += cat.enrol ?? 0;
         } else {
           stateData.districts.push({
             district,
-            hit: cat.hit,
-            nohit: cat.nohit,
+            hit: cat.hit ?? 0,
+            nohit: cat.nohit ?? 0,
+            enrol: cat.enrol ?? 0,
           });
         }
 
-        stateData.hit += cat.hit;
-        stateData.nohit += cat.nohit;
+        stateData.hit += cat.hit ?? 0;
+        stateData.nohit += cat.nohit ?? 0;
+        stateData.enrol += cat.enrol ?? 0;
       }
     }
   }
@@ -72,6 +74,7 @@ export function getTopStatesByDateRange(
   return {
     hitTop5: [...stateList].sort((a, b) => b.hit - a.hit).slice(0, 5),
     nohitTop5: [...stateList].sort((a, b) => b.nohit - a.nohit).slice(0, 5),
+    enrolTop5: [...stateList].sort((a, b) => b.enrol - a.enrol).slice(0, 5),
   };
 }
 

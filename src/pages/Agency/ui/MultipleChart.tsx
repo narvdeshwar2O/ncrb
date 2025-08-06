@@ -49,19 +49,54 @@ function getBarColor(
 function computeDayCategoryTotals(
   day: any,
   category: "tp" | "cp" | "mesa",
-  units: string[]
+  selectedStates: string[],
+  selectedDistricts: string[]
 ) {
   let hit = 0,
+    enrol = 0,
     nohit = 0;
-  for (const unit of units) {
-    const catRec = Object.values(day.data || {}).flatMap((stateData) =>
-      stateData?.[unit]?.[category] ? [stateData[unit][category]] : []
-    )[0];
-    if (!catRec) continue;
-    hit += catRec.hit ?? 0;
-    nohit += catRec.nohit ?? 0;
+
+  // If no data exists, return zeros
+  if (!day.data) {
+    return { hit, nohit, enrol };
   }
-  return { hit, nohit };
+
+  // Iterate through all states in the data
+  for (const stateKey of Object.keys(day.data)) {
+    const stateData = day.data[stateKey];
+    if (!stateData) continue;
+
+    // Check if this state should be included based on filters
+    const stateKeyLower = stateKey.toLowerCase().trim();
+    const shouldIncludeState = selectedStates.length === 0 || 
+      selectedStates.some(state => state.toLowerCase().trim() === stateKeyLower);
+    
+    if (!shouldIncludeState) continue;
+
+    // Iterate through districts in this state
+    for (const districtKey of Object.keys(stateData)) {
+      const districtData = stateData[districtKey];
+      if (!districtData || typeof districtData !== 'object') continue;
+
+      // Check if this district should be included based on filters
+      const districtKeyLower = districtKey.toLowerCase().trim();
+      const shouldIncludeDistrict = selectedDistricts.length === 0 ||
+        selectedDistricts.some(district => district.toLowerCase().trim() === districtKeyLower);
+      
+      if (!shouldIncludeDistrict) continue;
+
+      // Get the category data
+      const catRec = districtData[category];
+      if (!catRec || typeof catRec !== 'object') continue;
+
+      // Add the values
+      enrol += Number(catRec.enrol) || 0;
+      hit += Number(catRec.hit) || 0;
+      nohit += Number(catRec.nohit) || 0;
+    }
+  }
+
+  return { hit, nohit, enrol };
 }
 
 export interface MultipleChartProps {
@@ -70,7 +105,7 @@ export interface MultipleChartProps {
   activeCategories: string[];
   totalsByCategory: Record<
     string,
-    { hit: number; nohit: number; total: number }
+    { enrol: number; hit: number; nohit: number; total: number }
   >;
   categoryLabelMap?: Record<string, string>;
 }
@@ -100,69 +135,83 @@ export function MultipleChart(props: MultipleChartProps) {
     }
   }, [viewMode]);
 
-  const hasDateRange = filters.dateRange.from && filters.dateRange.to;
+  const hasDateRange = filters.dateRange?.from && filters.dateRange?.to;
   const dayCount = filteredData.length;
   const showDailyData = hasDateRange && dayCount > 0 && dayCount <= 90;
 
-  const selectedUnits = useMemo(() => {
-    if (filters.districts?.length) {
-      return filters.districts;
-    }
-    if (!filters.state?.length) return [];
-    const units = new Set<string>();
-    filteredData.forEach((day) => {
-      filters.state?.forEach((stateName) => {
-        const stateDistricts = day.data?.[stateName];
-        if (stateDistricts) {
-          Object.keys(stateDistricts).forEach((district) =>
-            units.add(district)
-          );
-        }
-      });
-    });
-    return Array.from(units);
-  }, [filteredData, filters.state, filters.districts]); // ✅ fix dependency here
+  // Get selected states and districts from filters
+  const selectedStates = filters.state || [];
+  const selectedDistricts = filters.districts || [];
+
+  console.log("filtered data", filteredData);
+  console.log("selected states", selectedStates);
+  console.log("selected districts", selectedDistricts);
 
   const selectedDataTypes = filters.dataTypes?.length
     ? filters.dataTypes
     : ["hit", "nohit"];
 
   const chartData = useMemo(() => {
+    console.log("Computing chart data...");
+    console.log("showDailyData:", showDailyData);
+    console.log("activeCategories:", activeCategories);
+    
     if (showDailyData) {
       const sorted = [...filteredData].sort(
         (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
       );
-      return sorted.map((day) => {
+      
+      const dailyData = sorted.map((day) => {
         const row: Record<string, any> = {
           label: new Date(day.date).toLocaleDateString("en-US", {
             month: "short",
             day: "numeric",
           }),
         };
+        
         activeCategories.forEach((cat) => {
           const totals = computeDayCategoryTotals(
             day,
             cat as "tp" | "cp" | "mesa",
-            selectedUnits
+            selectedStates,
+            selectedDistricts
           );
+          
           selectedDataTypes.forEach((type) => {
-            row[`${cat}_${type}`] = totals[type as keyof typeof totals];
+            const key = `${cat}_${type}`;
+            row[key] = totals[type as keyof typeof totals];
+            console.log(`Day ${row.label}, ${key}:`, row[key]);
           });
         });
+        
         return row;
       });
+      
+      console.log("Daily chart data:", dailyData);
+      return dailyData;
     }
-    return activeCategories.map((cat) => ({
-      label: categoryLabelMap?.[cat] ?? cat.toUpperCase(),
-      hit: totalsByCategory[cat]?.hit ?? 0,
-      nohit: totalsByCategory[cat]?.nohit ?? 0,
-      total: totalsByCategory[cat]?.total ?? 0,
-    }));
+
+    // For category totals view
+    const categoryData = activeCategories.map((cat) => {
+      const data = {
+        label: categoryLabelMap?.[cat] ?? cat.toUpperCase(),
+        enrol: totalsByCategory[cat]?.enrol ?? 0,
+        hit: totalsByCategory[cat]?.hit ?? 0,
+        nohit: totalsByCategory[cat]?.nohit ?? 0,
+        total: totalsByCategory[cat]?.total ?? 0,
+      };
+      console.log(`Category ${cat}:`, data);
+      return data;
+    });
+    
+    console.log("Category chart data:", categoryData);
+    return categoryData;
   }, [
     showDailyData,
     filteredData,
     activeCategories,
-    selectedUnits,
+    selectedStates,
+    selectedDistricts,
     selectedDataTypes,
     totalsByCategory,
     categoryLabelMap,

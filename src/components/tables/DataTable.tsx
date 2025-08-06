@@ -63,9 +63,7 @@ export function DataTable({
       visibility[group.key] = {};
       let visibleCount = 0;
       for (const subCol of group.subColumns) {
-        const isVisible = data.some(
-          (row) => (row[group.key]?.[subCol.key] ?? 0) !== 0
-        );
+        const isVisible = true; // Always show because it's part of columnConfig
         visibility[group.key][subCol.key] = isVisible;
         if (isVisible) {
           visibleCount++;
@@ -74,14 +72,15 @@ export function DataTable({
       spans[group.key] = visibleCount;
       totalVisible += visibleCount;
     }
+
     return {
       visibleColumns: visibility,
       colSpans: spans,
       totalVisibleCols: totalVisible,
     };
-  }, [data, columnConfig]);
+  }, [columnConfig]);
 
-  // No data available at all
+  // If no data rows
   if (data.length === 0) {
     return (
       <Card className="mt-3">

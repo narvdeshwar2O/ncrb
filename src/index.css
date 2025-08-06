@@ -1,7 +1,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
+.recharts-tooltip-wrapper {
+  z-index: 9999 !important;
+} 
 @layer base {
   :root {
     --background: 0 0% 100%;

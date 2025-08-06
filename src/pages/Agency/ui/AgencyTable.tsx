@@ -35,6 +35,7 @@ export default function AgencyTable({ data, filters }: AgencyTableProps) {
       key: "cp",
       label: "CP",
       subColumns: [
+        { key: "enrol", label: "Enrollment" },
         { key: "hit", label: "Hit" },
         { key: "nohit", label: "NoHit" },
         { key: "total", label: "Total" },
@@ -44,6 +45,7 @@ export default function AgencyTable({ data, filters }: AgencyTableProps) {
       key: "tp",
       label: "TP",
       subColumns: [
+        { key: "enrol", label: "Enrollment" },
         { key: "hit", label: "Hit" },
         { key: "nohit", label: "NoHit" },
         { key: "total", label: "Total" },
@@ -53,6 +55,7 @@ export default function AgencyTable({ data, filters }: AgencyTableProps) {
       key: "mesa",
       label: "MESA",
       subColumns: [
+        { key: "enrol", label: "Enrollment" },
         { key: "hit", label: "Hit" },
         { key: "nohit", label: "NoHit" },
         { key: "total", label: "Total" },
@@ -89,14 +92,10 @@ export default function AgencyTable({ data, filters }: AgencyTableProps) {
 
         if (!selectedTypes || selectedTypes.length === 0) return true;
 
+        // Keep the row if it has at least one selected category (tp/cp/mesa)
         return columnConfig.some((group) => {
           const section = row[group.key as keyof StateRow];
-          if (!section) return false;
-
-          return selectedTypes.some((type) => {
-            const value = section[type as keyof Totals];
-            return value !== undefined && value !== 0;
-          });
+          return !!section; // Do NOT check for zero values
         });
       });
   }, [viewMode, data, filters.dataTypes, columnConfig]);
