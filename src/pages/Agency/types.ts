@@ -16,29 +16,33 @@ export interface Totals {
   hit: number;
   nohit: number;
   total: number;
+  enrol:number
 }
 
 export interface DistrictStats {
   district: string;
   hit: number;
   nohit: number;
+  enrol:number
 }
 
 export interface StateStats {
   state: string;
   hit: number;
   nohit: number;
+  enrol:number
   districts: DistrictStats[];
 }
 
 export const categoryOptions = ["tp", "cp", "mesa"] as const;
 
-export const dataTypeOptions = ["hit", "nohit", "total"] as const;
+export const dataTypeOptions = ["hit", "nohit", "total","enrol"] as const;
 
 export type CategoryKey = "tp" | "cp" | "mesa";
 
 export interface CategoryMetrics {
   hit: number;
   nohit: number;
-  total: number; // included in data but will be excluded from logic
+  total: number; 
+  enrol:number
 }

@@ -42,7 +42,7 @@ export function BarChartComponent(props: BarChartComponentProps) {
 
   React.useEffect(() => {
     if (chartData.length > 0) {
-      console.log("BarChart data keys:", Object.keys(chartData[0]));
+      // console.log("BarChart data keys:", Object.keys(chartData[0]));
     }
   }, [chartData]);
 

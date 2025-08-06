@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { loadAllMonthlyData } from "@/utils/loadAllMonthlyData";
 import { DailyData } from "@/pages/agency/types";
+import { loadAllMonthlyDataReal } from "@/utils/loadAllMonthlyDataRealData";
 
 type DataType =
   | "cfpb"
@@ -10,7 +11,7 @@ type DataType =
   | "tp_cp"
   | "cp_cp"
   | "cp_tp"
-  | "pp_pp";
+  | "pp_pp"|"agency";
 
 type UseMonthlyDataReturn = {
   data: DailyData[];
@@ -24,7 +25,7 @@ export function useMonthlyData(type: DataType): UseMonthlyDataReturn {
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
-      const loaded = await loadAllMonthlyData({ type });
+      const loaded = await loadAllMonthlyDataReal({ type });
 
       const normalized = loaded.map((entry) => ({
         ...entry,

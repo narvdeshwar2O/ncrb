@@ -27,7 +27,7 @@ interface AgencyTableProps {
 export default function AgencyTable({ data, filters }: AgencyTableProps) {
   const tableRef = useRef<HTMLDivElement>(null);
 
-  console.log("sdfgsdgd", data);
+  console.log("Table data", data);
   const [viewMode, setViewMode] = useState<"state" | "district">("state");
 
   const allColumns = [

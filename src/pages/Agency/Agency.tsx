@@ -22,7 +22,8 @@ import {
 import { getDistrictsForStates } from "./utils";
 
 function Agency() {
-  const { data: allData, loading } = useMonthlyData("cfpb"); // ✅ using custom hook
+  const { data: allData, loading } = useMonthlyData("agency");
+  // //console.log("object", allData[0].data);
 
   const [filters, setFilters] = useState<FilterState>({
     dateRange: getLastNDaysRange(7),
@@ -77,6 +78,7 @@ function Agency() {
       const entryDate = normalize(new Date(entry.date));
       const fromDate = normalize(from);
       const toDate = normalize(to);
+      //console.log("filter date ranges", fromDate, toDate);
       if (
         !entryDate ||
         (fromDate && entryDate < fromDate) ||
@@ -107,6 +109,7 @@ function Agency() {
   const noStatesSelected = selectedStates.length === 0;
 
   const tableData = useMemo(() => {
+    console.log("Data for table", allData);
     if (filters.districts.length === 0) {
       return {
         stateResult: {},
@@ -134,7 +137,7 @@ function Agency() {
     });
     return map;
   }, [filteredData, filters, activeCategories]);
-
+  //console.log("total by category", filteredData);
   if (loading) {
     return (
       <div className="p-6 flex justify-center items-center h-[calc(100vh-48px)]">

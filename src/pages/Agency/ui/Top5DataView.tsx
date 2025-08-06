@@ -121,7 +121,7 @@ const CategorySection = ({
           </Button>
         </div>
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
         {allMetricData.map(({ metric, chartData }) => (
           <ChartCard
             key={metric}
@@ -147,7 +147,7 @@ export const Top5DataView = ({
   );
 
   return (
-    <div className="space-y-10 mt-6">
+    <div className="space-y-3 mt-6">
       {validCategories.map((category) => (
         <CategorySection
           key={category}

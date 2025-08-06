@@ -19,7 +19,6 @@ interface ChartCardProps {
 }
 
 function ChartCard({ title, data }: ChartCardProps) {
-  // Assign ranks: 1 → 5
   const rankedData = [...data].slice(0, 5).map((item, index) => ({
     ...item,
     rank: index + 1,

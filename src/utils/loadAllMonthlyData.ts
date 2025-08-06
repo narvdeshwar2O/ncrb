@@ -72,6 +72,10 @@ export async function loadAllMonthlyData({
       basePath: "/assets/data/trace_report_pp_pp/2025",
       filePrefix: "pp_pp_output",
     },
+    agency:{
+      basePath: "/assets/data/trace_report_pp_pp/2025",
+      filePrefix: "pp_pp_output",
+    }
   };
 
   const { basePath, filePrefix } = config[type];
