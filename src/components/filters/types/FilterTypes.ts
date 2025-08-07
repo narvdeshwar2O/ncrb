@@ -1,5 +1,5 @@
 export interface FilterState {
-  dateRange: {
+  dateRange?: {
     from: Date | undefined;
     to: Date | undefined;
   };

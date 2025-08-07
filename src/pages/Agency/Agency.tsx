@@ -20,10 +20,13 @@ import {
   Totals,
 } from "./types";
 import { getDistrictsForStates } from "./utils";
+import { LoadParams } from "@/utils/loadAllMonthlyDataRealData";
 
 function Agency() {
-  const { data: allData, loading } = useMonthlyData("agency");
-  // //console.log("object", allData[0].data);
+  const [loadAllData, setLoadAllData] = useState<LoadParams["type"]>("agency");
+  const { data: allData, loading } = useMonthlyData(loadAllData);
+  const isConsolidated = loadAllData === "agency_consoldated";
+  console.log("dsadssa", allData);
 
   const [filters, setFilters] = useState<FilterState>({
     dateRange: getLastNDaysRange(7),
@@ -64,6 +67,26 @@ function Agency() {
 
   const filteredData = useMemo(() => {
     return allData.filter((entry) => {
+      if (isConsolidated) {
+        const { state, categories } = filters;
+        if (!state || state.length === 0) return false;
+        const activeCategories = categories?.length
+          ? categories
+          : [...categoryOptions];
+
+        return state.some((selectedState) => {
+          const districts = entry.data[selectedState];
+          if (!districts) return false;
+
+          return Object.values(districts).some((districtData: any) =>
+            Object.keys(districtData).some((cat) =>
+              activeCategories.includes(cat)
+            )
+          );
+        });
+      }
+
+      // Original logic for daily data
       const {
         dateRange: { from, to },
         state,
@@ -78,7 +101,6 @@ function Agency() {
       const entryDate = normalize(new Date(entry.date));
       const fromDate = normalize(from);
       const toDate = normalize(to);
-      //console.log("filter date ranges", fromDate, toDate);
       if (
         !entryDate ||
         (fromDate && entryDate < fromDate) ||
@@ -103,7 +125,9 @@ function Agency() {
         );
       });
     });
-  }, [allData, filters]);
+  }, [allData, filters, isConsolidated]);
+
+  console.log("filters", filteredData);
 
   const selectedStates = filters.state ?? [];
   const noStatesSelected = selectedStates.length === 0;
@@ -137,7 +161,6 @@ function Agency() {
     });
     return map;
   }, [filteredData, filters, activeCategories]);
-  //console.log("total by category", filteredData);
   if (loading) {
     return (
       <div className="p-6 flex justify-center items-center h-[calc(100vh-48px)]">
@@ -151,7 +174,12 @@ function Agency() {
   return (
     <div className="p-3">
       <div className="p-3 space-y-3 bg-background rounded-md shadow-lg border">
-        <AgencyFilters filters={filters} onFiltersChange={setFilters} />
+        <AgencyFilters
+          filters={filters}
+          onFiltersChange={setFilters}
+          onLoadAllData={() => setLoadAllData("agency_consoldated")}
+          onLoadDailyData={() => setLoadAllData("agency")}
+        />
 
         {noStatesSelected ? (
           <div className="w-full p-6 text-center border rounded-md shadow-sm bg-muted/30">
@@ -170,13 +198,21 @@ function Agency() {
           <>
             <Card className="border-l-4 border-blue-600 bg-card shadow-sm">
               <CardContent className="py-2 px-2 text-sm text-muted-foreground flex justify-between items-center">
-                <p>
-                  <strong>You are currently viewing:</strong>&nbsp;
-                  <strong>{filteredData.length}</strong> days of data for&nbsp;
-                  <strong>{`${selectedStates.length} state${
-                    selectedStates.length > 1 ? "s" : ""
-                  }`}</strong>
-                </p>
+                {isConsolidated ? (
+                  <h1>You are currently viewing all data</h1>
+                ) : (
+                  <p>
+                    <strong>You are currently viewing:</strong>&nbsp;
+                    <strong>{filteredData.length}</strong> days of data
+                    for&nbsp;
+                    <strong>
+                      {`${selectedStates.length} state${
+                        selectedStates.length > 1 ? "s" : ""
+                      }`}
+                    </strong>
+                  </p>
+                )}
+
                 <button
                   className="bg-blue-600 px-3 py-2 rounded-md text-card font-semibold text-white"
                   onClick={() => setShowTable((prev) => !prev)}
@@ -254,6 +290,7 @@ function Agency() {
                   to={filters.dateRange.to}
                   categories={filters.categories}
                   dataTypes={filters.dataTypes}
+                  selectedStates={filters.state}
                 />
               </>
             ) : (

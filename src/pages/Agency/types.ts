@@ -27,6 +27,7 @@ export interface DistrictStats {
   total?: number;
 }
 
+
 export interface StateStats {
   state: string;
   hit: number;

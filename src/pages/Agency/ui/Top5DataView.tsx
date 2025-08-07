@@ -1,12 +1,20 @@
 "use client";
 
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import getTopStatesByDateRange from "@/utils/getTopStatesByDateRange";
 import ChartCard from "./ChartCard";
 import { Button } from "@/components/ui/button";
-import { Download, Printer } from "lucide-react";
+import { Download, Printer, MapPin, Globe } from "lucide-react";
 import * as exportService from "@/utils/exportService";
-import { DailyData, CategoryKey, categoryOptions } from "../types";
+import {
+  DailyData,
+  CategoryKey,
+  categoryOptions,
+  DistrictStats,
+  categoryLabelMap,
+} from "../types";
+import { useToast } from "@/components/ui/use-toast";
+import { Toaster } from "@/components/ui/toaster";
 
 function isValidCategoryKey(category: string): category is CategoryKey {
   return categoryOptions.includes(category as CategoryKey);
@@ -18,114 +26,180 @@ interface Props {
   to: Date;
   categories: string[];
   dataTypes: string[];
+  selectedStates?: string[];
 }
 
-// Separate component for each category to handle hooks properly
+const getTopDistrictsByState = (
+  allData: DailyData[],
+  from: Date,
+  to: Date,
+  stateName: string,
+  category: CategoryKey
+) => {
+  const districtTotals: Record<string, Record<string, number>> = {};
+
+  allData.forEach((day) => {
+    const dayDate = new Date(day.date);
+    if (dayDate >= from && dayDate <= to) {
+      let stateData = null;
+      const stateNameLower = stateName.toLowerCase().trim();
+
+      for (const stateKey of Object.keys(day.data || {})) {
+        if (stateKey.toLowerCase().trim() === stateNameLower) {
+          stateData = day.data[stateKey];
+          break;
+        }
+      }
+
+      if (stateData) {
+        Object.keys(stateData).forEach((district) => {
+          const districtData = stateData[district];
+          if (districtData && typeof districtData === "object") {
+            const categoryData = districtData[category];
+            if (categoryData && typeof categoryData === "object") {
+              if (!districtTotals[district]) {
+                districtTotals[district] = { hit: 0, nohit: 0, enrol: 0 };
+              }
+              districtTotals[district].hit += Number(categoryData.hit) || 0;
+              districtTotals[district].nohit += Number(categoryData.nohit) || 0;
+              districtTotals[district].enrol += Number(categoryData.enrol) || 0;
+            }
+          }
+        });
+      }
+    }
+  });
+
+  const districts: DistrictStats[] = Object.keys(districtTotals).map(
+    (district) => ({
+      district,
+      hit: districtTotals[district].hit,
+      nohit: districtTotals[district].nohit,
+      enrol: districtTotals[district].enrol,
+    })
+  );
+
+  return {
+    hitTop5: districts
+      .sort((a, b) => b.hit - a.hit)
+      .slice(0, 5)
+      .map((d) => ({ state: d.district, hit: d.hit })),
+    nohitTop5: districts
+      .sort((a, b) => b.nohit - a.nohit)
+      .slice(0, 5)
+      .map((d) => ({ state: d.district, nohit: d.nohit })),
+    enrolTop5: districts
+      .sort((a, b) => b.enrol - a.enrol)
+      .slice(0, 5)
+      .map((d) => ({ state: d.district, enrol: d.enrol })),
+  };
+};
+
 const CategorySection = ({
   category,
   allData,
   from,
   to,
   dataTypes,
+  selectedStates = [],
 }: {
   category: CategoryKey;
   allData: DailyData[];
   from: Date;
   to: Date;
   dataTypes: string[];
+  selectedStates?: string[];
 }) => {
+  const [viewMode, setViewMode] = useState<"state" | "district">("state");
+  const { toast } = useToast();
+
   const topStatesData = useMemo(
     () => getTopStatesByDateRange(allData, from, to, category),
     [allData, from, to, category]
   );
+
+  const topDistrictsData = useMemo(() => {
+    if (selectedStates.length === 1) {
+      return getTopDistrictsByState(allData, from, to, selectedStates[0], category);
+    }
+    return null;
+  }, [allData, from, to, selectedStates, category]);
+
+  const canShowDistricts = selectedStates.length === 1;
+
+  const currentData =
+    viewMode === "district" && topDistrictsData
+      ? topDistrictsData
+      : topStatesData;
 
   const allMetricData = useMemo(
     () =>
       dataTypes
         .filter((metric) => metric !== "total")
         .map((metric) => {
-          const metricTop5 = topStatesData?.[`${metric}Top5`] || [];
+          const metricTop5 = currentData?.[`${metric}Top5`] || [];
           return {
             metric,
             chartData: metricTop5
-              .filter(
-                (item) =>
-                  item.state.toLowerCase() !== "total" &&
-                  item[metric] !== undefined
-              )
-              .map((item) => ({
-                state: item.state,
-                value: item[metric],
-              })),
+              .filter((item) => item.state?.toLowerCase() !== "total" && item[metric] !== undefined)
+              .map((item) => ({ state: item.state, value: item[metric] })),
           };
         }),
-    [topStatesData, dataTypes]
+    [currentData, dataTypes]
   );
 
-  const hideButtons = (hide: boolean) => {
-    const buttons = document.querySelectorAll(".print-hide");
-    buttons.forEach((btn) => {
-      (btn as HTMLElement).style.display = hide ? "none" : "";
-    });
-  };
-
-  const handlePrintCategory = () => {
-    hideButtons(true);
-    const element = document.getElementById(`category-${category}`);
-    if (element) {
-      exportService.printComponent(
-        element as HTMLDivElement,
-        `Top 5 - ${category.toUpperCase()}`
-      );
+  const handleToggleDistrictView = () => {
+    if (!canShowDistricts && viewMode === "state") {
+      toast({
+        variant: "destructive",
+        title: "Cannot switch to district view",
+        description: `You have selected ${selectedStates.length} states. Please select only one.`,
+        duration: 2500,
+      });
+      return;
     }
-    setTimeout(() => hideButtons(false), 500);
-  };
-
-  const handleExportCategoryCSV = () => {
-    hideButtons(true);
-    const csvRows: (string | number)[][] = [];
-    allMetricData.forEach(({ metric, chartData }) => {
-      csvRows.push([
-        `Top 5 - ${metric.toUpperCase()} (${category.toUpperCase()})`,
-      ]);
-      csvRows.push(["State", "Value"]);
-      chartData.forEach((item) => csvRows.push([item.state, item.value]));
-      csvRows.push([]);
-    });
-    exportService.exportToCSV(`top-5-${category}.csv`, [], csvRows);
-    hideButtons(false);
+    setViewMode(viewMode === "state" ? "district" : "state");
   };
 
   return (
     <div id={`category-${category}`}>
       <div className="mb-4 flex items-center justify-between">
         <h2 className="text-xl font-bold text-foreground tracking-tight">
-          Top 5 States - {category.toUpperCase()}
+          {viewMode === "district"
+            ? `Top 5 Districts - ${categoryLabelMap[category] || category.toUpperCase()} (${selectedStates[0]})`
+            : `Top 5 States - ${categoryLabelMap[category] || category.toUpperCase()}`}
         </h2>
         <div className="flex gap-2">
           <Button
-            variant="outline"
-            onClick={handleExportCategoryCSV}
+            variant={viewMode === "district" ? "default" : "outline"}
+            onClick={handleToggleDistrictView}
             className="print-hide"
             size="sm"
           >
+            {viewMode === "district" ? (
+              <>
+                <MapPin className="h-4 w-4 mr-1" /> Districts
+              </>
+            ) : (
+              <>
+                <Globe className="h-4 w-4 mr-1" /> {canShowDistricts ? "District wise" : "Select 1 state only"}
+              </>
+            )}
+          </Button>
+          <Button variant="outline" className="print-hide" size="sm">
             <Download className="h-4 w-4 mr-1" /> CSV
           </Button>
-          <Button
-            variant="outline"
-            onClick={handlePrintCategory}
-            className="print-hide"
-            size="sm"
-          >
+          <Button variant="outline" className="print-hide" size="sm">
             <Printer className="h-4 w-4 mr-1" /> Print
           </Button>
         </div>
       </div>
+
       <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
         {allMetricData.map(({ metric, chartData }) => (
           <ChartCard
             key={metric}
-            title={`${metric.toUpperCase()} (${category.toUpperCase()})`}
+            title={`${metric.toUpperCase()} (${categoryLabelMap[category] || category.toUpperCase()})`}
             data={chartData}
           />
         ))}
@@ -134,31 +208,26 @@ const CategorySection = ({
   );
 };
 
-export const Top5DataView = ({
-  allData,
-  from,
-  to,
-  categories,
-  dataTypes,
-}: Props) => {
-  const validCategories = useMemo(
-    () => categories.filter(isValidCategoryKey),
-    [categories]
-  );
+export const Top5DataView = ({ allData, from, to, categories, dataTypes, selectedStates = [] }: Props) => {
+  const validCategories = useMemo(() => categories.filter(isValidCategoryKey), [categories]);
 
-  console.log("first", allData);
   return (
-    <div className="space-y-3 mt-6">
-      {validCategories.map((category) => (
-        <CategorySection
-          key={category}
-          category={category}
-          allData={allData}
-          from={from}
-          to={to}
-          dataTypes={dataTypes}
-        />
-      ))}
-    </div>
+    <>
+      <div className="space-y-3 mt-6">
+        {validCategories.map((category) => (
+          <CategorySection
+            key={category}
+            category={category}
+            allData={allData}
+            from={from}
+            to={to}
+            dataTypes={dataTypes}
+            selectedStates={selectedStates}
+          />
+        ))}
+      </div>
+      
+      <Toaster />
+    </>
   );
 };

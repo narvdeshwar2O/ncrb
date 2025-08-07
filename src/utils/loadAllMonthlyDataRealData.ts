@@ -1,4 +1,4 @@
-interface LoadParams {
+export interface LoadParams {
   startDate?: string;
   endDate?: string;
   stateFilter?: string;
@@ -11,7 +11,8 @@ interface LoadParams {
     | "cp_cp"
     | "cp_tp"
     | "pp_pp"
-    | "agency";
+    | "agency"
+    | "agency_consoldated";
 }
 
 export async function loadAllMonthlyDataReal({
@@ -38,6 +39,10 @@ export async function loadAllMonthlyDataReal({
       basePath: "/assets/data/enr_report/2025",
       filePrefix: "final_nested_state_district",
     },
+    agency_consoldated: {
+      basePath: "/assets/data/enr_report",
+      filePrefix: "all_consolidated_data.json",
+    },
   };
 
   const config = configMap[type];
@@ -48,6 +53,37 @@ export async function loadAllMonthlyDataReal({
 
   const { basePath, filePrefix } = config;
 
+  // ✅ Handle consolidated data separately
+  if (type === "agency_consoldated") {
+    const filePath = `${basePath}/${filePrefix}`;
+    try {
+      const res = await fetch(filePath);
+      if (!res.ok) throw new Error("File not found");
+
+      const json = await res.json();
+
+      let filteredData = json;
+      if (stateFilter) {
+        // If JSON is an object with states as keys
+        if (typeof json === "object" && !Array.isArray(json)) {
+          filteredData = json[stateFilter] ? { [stateFilter]: json[stateFilter] } : {};
+        } else if (Array.isArray(json)) {
+          filteredData = json.filter((item: any) => item.state === stateFilter);
+        }
+      }
+
+      results.push({
+        date: "ALL", // Single consolidated file
+        data: filteredData,
+      });
+    } catch (err) {
+      console.warn(`Failed to load ${filePath}:`, err);
+    }
+
+    return results;
+  }
+
+  // ✅ Handle daily files for 'agency' and other types
   const current = new Date(start);
   while (current <= end) {
     const year = current.getFullYear();
@@ -63,7 +99,6 @@ export async function loadAllMonthlyDataReal({
       if (!res.ok) throw new Error("File not found");
 
       const json = await res.json();
-      
 
       let filteredData = json;
       if (stateFilter) {
@@ -74,20 +109,17 @@ export async function loadAllMonthlyDataReal({
           : null;
       }
 
-      if (
-        filteredData &&
-        (Array.isArray(filteredData) ? filteredData.length > 0 : true)
-      ) {
+      if (filteredData && (Array.isArray(filteredData) ? filteredData.length > 0 : true)) {
         results.push({
           date: dateStr,
           data: filteredData,
         });
       }
     } catch (err) {
-      // console.warn(`Failed to load ${filePath}:`, err);
+      // Ignore missing files silently
     }
 
-    current.setDate(current.getDate() + 1); // move to next day
+    current.setDate(current.getDate() + 1);
   }
 
   return results;

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { loadAllMonthlyData } from "@/utils/loadAllMonthlyData";
+
 import { DailyData } from "@/pages/agency/types";
 import { loadAllMonthlyDataReal } from "@/utils/loadAllMonthlyDataRealData";
 
@@ -11,7 +11,9 @@ type DataType =
   | "tp_cp"
   | "cp_cp"
   | "cp_tp"
-  | "pp_pp"|"agency";
+  | "pp_pp"
+  |"agency"
+  |"agency_consoldated";
 
 type UseMonthlyDataReturn = {
   data: DailyData[];

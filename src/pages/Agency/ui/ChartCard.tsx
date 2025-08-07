@@ -2,7 +2,6 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   ChartContainer,
   ChartTooltip,
-  ChartTooltipContent,
 } from "@/components/ui/chart";
 import {
   BarChart,
@@ -19,7 +18,28 @@ interface ChartCardProps {
 }
 
 function ChartCard({ title, data }: ChartCardProps) {
-  const rankedData = [...data].slice(0, 5).map((item, index) => ({
+  // ✅ Remove items where value is 0
+  const filteredData = data.filter((item) => item.value > 0);
+
+  // ✅ Show message if all data values are zero or empty
+  if (filteredData.length === 0) {
+    return (
+      <Card>
+        <CardHeader>
+          <CardTitle className="text-center text-sm font-semibold">
+            Top 5 states : {title}
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="text-center text-gray-500 text-sm py-10">
+            No data available
+          </div>
+        </CardContent>
+      </Card>
+    );
+  }
+
+  const rankedData = [...filteredData].slice(0, 5).map((item, index) => ({
     ...item,
     rank: index + 1,
   }));
@@ -59,14 +79,13 @@ function ChartCard({ title, data }: ChartCardProps) {
     );
   };
 
-  // Custom tooltip component
-  const CustomTooltip = ({ active, payload, label }: any) => {
+  const CustomTooltip = ({ active, payload }: any) => {
     if (active && payload && payload.length) {
       const data = payload[0].payload;
       return (
         <div className="bg-white border border-gray-200 rounded-lg shadow-lg p-3">
           <p className="font-semibold text-gray-800 capitalize">
-            {data.state}:{data.value}
+            {data.state}: {data.value}
           </p>
         </div>
       );
@@ -78,7 +97,7 @@ function ChartCard({ title, data }: ChartCardProps) {
     <Card>
       <CardHeader>
         <CardTitle className="text-center text-sm font-semibold">
-          Top 5 states : {title}
+          {title}
         </CardTitle>
       </CardHeader>
       <CardContent>
@@ -106,14 +125,11 @@ function ChartCard({ title, data }: ChartCardProps) {
               radius={[0, 8, 8, 0]}
               barSize={30}
             >
-              {/* Use custom ellipsis label */}
               <LabelList
                 dataKey="state"
                 position="insideLeft"
                 content={<EllipsisLabel />}
-                className="capitalize"
               />
-              {/* Value on right */}
               <LabelList
                 dataKey="value"
                 position="right"

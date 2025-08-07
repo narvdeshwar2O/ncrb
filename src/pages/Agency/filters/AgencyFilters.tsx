@@ -23,6 +23,8 @@ import { stateWithDistrict } from "@/utils/statesDistricts";
 
 interface ControlledAgencyFiltersProps extends DashboardFiltersProps {
   filters: FilterState;
+  onLoadAllData?: () => void;
+  onLoadDailyData?: () => void;
 }
 
 function getDistrictsForStates(states: string[]) {
@@ -33,6 +35,8 @@ function getDistrictsForStates(states: string[]) {
 export const AgencyFilters = ({
   filters,
   onFiltersChange,
+  onLoadAllData,
+  onLoadDailyData,
 }: ControlledAgencyFiltersProps) => {
   const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
 
@@ -65,6 +69,9 @@ export const AgencyFilters = ({
       categories: [...categoryOptions],
       districts: getDistrictsForStates(defaultState),
     });
+    if (typeof onLoadDailyData === "function") {
+      onLoadDailyData();
+    }
   };
 
   return (
@@ -114,32 +121,41 @@ export const AgencyFilters = ({
                 <div className="bg-card grid grid-cols-2 sm:grid-cols-2 mx-auto w-[90%] mb-3 gap-2">
                   <button
                     className="bg-card px-3 py-[5px] rounded-md border"
-                    onClick={() =>
-                      updateFilters({ dateRange: getLastNDaysRange(7) })
-                    }
+                    onClick={() => {
+                      updateFilters({ dateRange: getLastNDaysRange(7) });
+                      if (typeof onLoadDailyData === "function")
+                        onLoadDailyData();
+                    }}
                   >
                     Last 7 Days
                   </button>
                   <button
                     className="bg-card px-3 py-[5px] rounded-md border"
-                    onClick={() =>
-                      updateFilters({ dateRange: getLastNDaysRange(30) })
-                    }
+                    onClick={() => {
+                      updateFilters({ dateRange: getLastNDaysRange(30) });
+                      if (typeof onLoadDailyData === "function")
+                        onLoadDailyData();
+                    }}
                   >
                     Last 30 Days
                   </button>
                   <button
                     className="bg-card px-3 py-[5px] rounded-md border"
-                    onClick={() =>
-                      updateFilters({ dateRange: getLastNDaysRange(90) })
-                    }
+                    onClick={() => {
+                      updateFilters({ dateRange: getLastNDaysRange(90) });
+                      if (typeof onLoadDailyData === "function")
+                        onLoadDailyData();
+                    }}
                   >
                     Last 90 Days
                   </button>
+
                   <button
                     className="bg-card px-3 py-[5px] rounded-md border"
                     onClick={() => {
-                      alert("Logic for 'All Data' is not implemented yet!");
+                      if (typeof onLoadAllData === "function") {
+                        onLoadAllData();
+                      }
                     }}
                   >
                     All Data
@@ -167,9 +183,13 @@ export const AgencyFilters = ({
             label="Districts"
             options={districtOptions}
             selected={selectedDistricts}
-            onChange={(newDistricts) => updateFilters({ districts: newDistricts })}
+            onChange={(newDistricts) =>
+              updateFilters({ districts: newDistricts })
+            }
             disabled={noStatesSelected}
-            disabledText={noStatesSelected ? "Select states first" : "No district selected"}
+            disabledText={
+              noStatesSelected ? "Select states first" : "No district selected"
+            }
           />
 
           {/* Data Types */}
