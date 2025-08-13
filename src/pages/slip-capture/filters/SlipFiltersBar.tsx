@@ -39,6 +39,12 @@ export const SlipFiltersBar: React.FC<SlipFiltersBarProps> = ({
     const updated = { ...value, ...newFilters };
     onChange(updated);
   };
+  const handleDateSelect = (
+    range: { from: Date | undefined; to: Date | undefined } | undefined
+  ) => {
+    if (!range) return;
+    updateFilters({ dateRange: range });
+  };
 
   const handleStateChange = (newStates: string[]) => {
     setSelectedStates(newStates);
@@ -113,9 +119,7 @@ export const SlipFiltersBar: React.FC<SlipFiltersBarProps> = ({
                     from: value.dateRange.from || undefined,
                     to: value.dateRange.to || undefined,
                   }}
-                  onSelect={(range) => {
-                    updateFilters({ dateRange: range });
-                  }}
+                  onSelect={handleDateSelect}
                   numberOfMonths={1}
                   components={{
                     Caption: CustomCaption,

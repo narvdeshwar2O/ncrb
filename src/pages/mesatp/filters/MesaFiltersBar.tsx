@@ -13,7 +13,6 @@ import { cn } from "@/lib/utils";
 
 import MultiSelectCheckbox from "@/components/ui/MultiSelectCheckbox";
 import { SlipFilters, MesaStatusKey, MESA_STATUS_KEYS } from "../types";
-import { quickRanges } from "@/utils/quickRanges";
 import { CustomCaption } from "@/components/ui/CustomCaption";
 
 interface MesaFiltersBarProps {
@@ -63,6 +62,7 @@ export const MesaFiltersBar = ({
     range: { from: Date | undefined; to: Date | undefined } | undefined
   ) => {
     if (!range) return;
+    
     updateFilters({
       dateRange: { from: range.from || null, to: range.to || null },
     });

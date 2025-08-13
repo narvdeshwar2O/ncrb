@@ -29,7 +29,7 @@ interface ControlledAgencyFiltersProps extends DashboardFiltersProps {
 
 function getDistrictsForStates(states: string[]) {
   const districts = states.flatMap((state) => stateWithDistrict[state] || []);
-  return [...new Set(districts)].sort(); // Remove duplicates and sort
+  return [...new Set(districts)].sort();
 }
 
 export const AgencyFilters = ({
@@ -57,6 +57,9 @@ export const AgencyFilters = ({
     range: { from: Date | undefined; to: Date | undefined } | undefined
   ) => {
     if (!range) return;
+    if (range.from && !range.to) {
+      range.to = range.from;
+    }
     updateFilters({ dateRange: range });
   };
 
@@ -149,7 +152,6 @@ export const AgencyFilters = ({
                   >
                     Last 90 Days
                   </button>
-
                   <button
                     className="bg-card px-3 py-[5px] rounded-md border"
                     onClick={() => {
