@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import {
@@ -14,12 +14,19 @@ import MultiSelectCheckbox from "@/components/ui/MultiSelectCheckbox";
 import { SlipFilters, StatusKey, STATUS_KEYS } from "../types";
 import { CustomCaption } from "@/components/ui/CustomCaption";
 import { getLastNDaysRange } from "@/utils/getLastNdays";
-import { quickRanges } from "@/utils/quickRanges";
+import { stateWithDistrict } from "@/utils/statesDistricts";
+import { ActOption, fetchActOptions } from "@/services/getAllAct";
+import { SectionOption, fetchSectionOptions } from "@/services/getAllSection";
 
 interface SlipFiltersBarProps {
   allStates: string[];
   value: SlipFilters;
   onChange: (f: SlipFilters) => void;
+}
+
+function getDistrictsForStates(states: string[]) {
+  const districts = states.flatMap((state) => stateWithDistrict[state] || []);
+  return [...new Set(districts)].sort();
 }
 
 export const SlipFiltersBar: React.FC<SlipFiltersBarProps> = ({
@@ -28,17 +35,24 @@ export const SlipFiltersBar: React.FC<SlipFiltersBarProps> = ({
   onChange,
 }) => {
   const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
-  const [selectedStates, setSelectedStates] = useState<string[]>(value.states);
-  const [selectedStatuses, setSelectedStatuses] = useState<StatusKey[]>(
-    value.statuses
-  );
+  const [actOptions, setActOptions] = useState<ActOption[]>([]);
+  const [sectionOptions, setSectionOptions] = useState<SectionOption[]>([]);
+
+  const selectedStates = value.states ?? [];
+  const selectedDistricts = value.districts ?? [];
+  const selectedStatuses = value.statuses ?? [];
+  const selectedActs = value.acts ?? [];
+  const selectedSections = value.sections ?? [];
 
   const STATUS_OPTIONS = STATUS_KEYS.filter((key) => key !== "Total");
+  const districtOptions = getDistrictsForStates(selectedStates);
+  const noStatesSelected = selectedStates.length === 0;
 
   const updateFilters = (newFilters: Partial<SlipFilters>) => {
     const updated = { ...value, ...newFilters };
     onChange(updated);
   };
+
   const handleDateSelect = (
     range: { from: Date | undefined; to: Date | undefined } | undefined
   ) => {
@@ -47,31 +61,57 @@ export const SlipFiltersBar: React.FC<SlipFiltersBarProps> = ({
   };
 
   const handleStateChange = (newStates: string[]) => {
-    setSelectedStates(newStates);
-    if (newStates.length === 0) {
-      setSelectedStatuses([]);
-      updateFilters({ states: [], statuses: [] });
-    } else {
-      const updatedStatuses =
-        selectedStatuses.length > 0 ? selectedStatuses : [...STATUS_OPTIONS];
-      setSelectedStatuses(updatedStatuses);
-      updateFilters({ states: newStates, statuses: updatedStatuses });
-    }
+    const newDistricts = getDistrictsForStates(newStates);
+
+    updateFilters({
+      states: newStates,
+      districts: newDistricts,
+      statuses:
+        selectedStatuses.length > 0 ? selectedStatuses : [...STATUS_OPTIONS],
+    });
+  };
+
+  const handleDistrictChange = (newDistricts: string[]) => {
+    updateFilters({ districts: newDistricts });
   };
 
   const handleStatusChange = (newStatuses: string[]) => {
-    setSelectedStatuses(newStatuses as StatusKey[]);
     updateFilters({ statuses: newStatuses as StatusKey[] });
   };
+
+  const handleActChange = (newActs: string[]) => {
+    updateFilters({ acts: newActs });
+  };
+
+  const handleSectionChange = (newSections: string[]) => {
+    updateFilters({ sections: newSections });
+  };
+
+  useEffect(() => {
+    async function loadActs() {
+      const acts = await fetchActOptions();
+      setActOptions(acts);
+    }
+    loadActs();
+  }, []);
+
+  useEffect(() => {
+    async function loadSections() {
+      const sections = await fetchSectionOptions();
+      setSectionOptions(sections);
+    }
+    loadSections();
+  }, []);
 
   const resetFilters = () => {
     updateFilters({
       dateRange: getLastNDaysRange(7),
       states: [...allStates],
+      districts: getDistrictsForStates(allStates),
       statuses: [...STATUS_OPTIONS],
+      acts: [],
+      sections: [],
     });
-    setSelectedStates([...allStates]);
-    setSelectedStatuses([...STATUS_OPTIONS]);
   };
 
   return (
@@ -83,7 +123,7 @@ export const SlipFiltersBar: React.FC<SlipFiltersBarProps> = ({
         </CardTitle>
       </CardHeader>
       <CardContent>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-7 gap-3">
           {/* Date Range */}
           <div className="space-y-2">
             <label className="text-sm font-medium">Date Range</label>
@@ -121,48 +161,13 @@ export const SlipFiltersBar: React.FC<SlipFiltersBarProps> = ({
                   }}
                   onSelect={handleDateSelect}
                   numberOfMonths={1}
-                  components={{
-                    Caption: CustomCaption,
-                  }}
+                  components={{ Caption: CustomCaption }}
                 />
-                <div className="bg-card grid grid-cols-2 sm:grid-cols-2 mx-auto w-[90%] mb-3 gap-2">
-                  <button
-                    className="bg-card px-3 py-[5px] rounded-md border"
-                    onClick={() =>
-                      updateFilters({ dateRange: getLastNDaysRange(7) })
-                    }
-                  >
-                    Last 7 Days
-                  </button>
-                  <button
-                    className="bg-card px-3 py-[5px] rounded-md border"
-                    onClick={() =>
-                      updateFilters({ dateRange: getLastNDaysRange(30) })
-                    }
-                  >
-                    Last 30 Days
-                  </button>
-                  <button
-                    className="bg-card px-3 py-[5px] rounded-md border"
-                    onClick={() =>
-                      updateFilters({ dateRange: getLastNDaysRange(90) })
-                    }
-                  >
-                    Last 90 Days
-                  </button>
-                  <button
-                    className="bg-card px-3 py-[5px] rounded-md border"
-                    onClick={() => {
-                      alert("Logic for 'All Data' is not implemented yet!");
-                    }}
-                  >
-                    All Data
-                  </button>
-                </div>
               </PopoverContent>
             </Popover>
           </div>
-          {/* States MultiSelect */}
+
+          {/* States */}
           <MultiSelectCheckbox
             label="States"
             options={allStates}
@@ -170,7 +175,33 @@ export const SlipFiltersBar: React.FC<SlipFiltersBarProps> = ({
             onChange={handleStateChange}
           />
 
-          {/* Crime Types MultiSelect */}
+          {/* Districts */}
+          <MultiSelectCheckbox
+            label="Districts"
+            options={districtOptions}
+            selected={selectedDistricts}
+            onChange={handleDistrictChange}
+            disabled={noStatesSelected}
+            disabledText={
+              noStatesSelected ? "Select states first" : "No district selected"
+            }
+          />
+          {/* Acts */}
+          <MultiSelectCheckbox
+            label="Acts"
+            options={actOptions.map((a) => a.label)}
+            selected={selectedActs}
+            onChange={handleActChange}
+          />
+
+          {/* Sections */}
+          <MultiSelectCheckbox
+            label="Sections"
+            options={sectionOptions.map((s) => s.label)}
+            selected={selectedSections}
+            onChange={handleSectionChange}
+          />
+          {/* Crime Type */}
           <MultiSelectCheckbox
             label="Crime Type"
             options={STATUS_OPTIONS as unknown as string[]}

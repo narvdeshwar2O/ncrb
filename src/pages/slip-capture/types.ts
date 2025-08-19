@@ -37,6 +37,9 @@ export interface SlipFilters {
   };
   states: string[];
   statuses: StatusKey[];
+  districts:string[],
+  acts:string[],
+  sections:string[]
 }
 
 export interface SlipTableRow {
