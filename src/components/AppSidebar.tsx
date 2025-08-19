@@ -102,7 +102,7 @@ export function AppSidebar() {
   const isActive = (path: string) => currentPath === path;
   const getNavClass = (path: string) =>
     isActive(path)
-      ? "bg-sidebar-accent text-sidebar-accent-foreground font-medium"
+      ? "bg-sidebar-accent text-blue-500 font-medium border-2 border-blue-500"
       : "";
 
   return (
