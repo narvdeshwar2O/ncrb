@@ -68,9 +68,9 @@ export default function SlipTopFive({
     return narrowed.length ? narrowed : [];
   }, [statuses]);
 
-  console.log("SlipTopFive - Active statuses:", activeStatuses);
-  console.log("SlipTopFive - View mode:", viewMode);
-  console.log("SlipTopFive - Selected states:", selectedStates);
+  // console.log("SlipTopFive - Active statuses:", activeStatuses);
+  // console.log("SlipTopFive - View mode:", viewMode);
+  // console.log("SlipTopFive - Selected states:", selectedStates);
 
   // Check if district view is valid
   const isDistrictViewValid = useMemo(() => {
@@ -90,7 +90,7 @@ export default function SlipTopFive({
     const fromTime = from ? from.getTime() : Number.NEGATIVE_INFINITY;
     const toTime = to ? to.getTime() : Number.POSITIVE_INFINITY;
     
-    console.log("Processing date range:", { from, to, fromTime, toTime });
+    // console.log("Processing date range:", { from, to, fromTime, toTime });
 
     if (viewMode === "state") {
       // Aggregate by state
@@ -98,28 +98,28 @@ export default function SlipTopFive({
 
       for (const day of allData) {
         if (!day?.date) {
-          console.log("Skipping day with no date:", day);
+          // console.log("Skipping day with no date:", day);
           continue;
         }
 
         const dayTime = new Date(day.date).getTime();
         if (dayTime < fromTime || dayTime > toTime) continue;
 
-        console.log(`Processing day: ${day.date}`);
+        // console.log(`Processing day: ${day.date}`);
 
         if (!day.data?.state) {
-          console.log("No state data found for day:", day.date);
+          // console.log("No state data found for day:", day.date);
           continue;
         }
 
         // Iterate through states with safe entries
         safeObjectEntries(day.data.state).forEach(([stateName, stateData]) => {
           if (!stateName || stateName.trim() === '') {
-            console.log("Skipping state with empty name");
+            // console.log("Skipping state with empty name");
             return;
           }
 
-          console.log(`  Processing state: ${stateName}`);
+          // console.log(`  Processing state: ${stateName}`);
 
           if (!stateTotals[stateName]) {
             stateTotals[stateName] = {} as Record<StatusKey, number>;
@@ -130,7 +130,7 @@ export default function SlipTopFive({
           for (const status of activeStatuses) {
             const fieldName = STATUS_KEY_MAP[status.toLowerCase()];
             if (!fieldName) {
-              console.log(`No field mapping for status: ${status}`);
+              // console.log(`No field mapping for status: ${status}`);
               continue;
             }
 
@@ -153,7 +153,7 @@ export default function SlipTopFive({
             });
 
             stateTotals[stateName][status] += stateTotal;
-            console.log(`    ${status}: +${stateTotal} (total: ${stateTotals[stateName][status]})`);
+            // console.log(`    ${status}: +${stateTotal} (total: ${stateTotals[stateName][status]})`);
           }
         });
       }
@@ -170,7 +170,7 @@ export default function SlipTopFive({
         
         arr.sort((a, b) => b.value - a.value);
         result[status] = arr.slice(0, 5);
-        console.log(`Top 5 states for ${status}:`, result[status]);
+        // console.log(`Top 5 states for ${status}:`, result[status]);
       }
 
       return result;
@@ -181,17 +181,17 @@ export default function SlipTopFive({
 
       for (const day of allData) {
         if (!day?.date) {
-          console.log("Skipping day with no date:", day);
+          // console.log("Skipping day with no date:", day);
           continue;
         }
 
         const dayTime = new Date(day.date).getTime();
         if (dayTime < fromTime || dayTime > toTime) continue;
 
-        console.log(`Processing day: ${day.date}`);
+        // console.log(`Processing day: ${day.date}`);
 
         if (!day.data?.state) {
-          console.log("No state data found for day:", day.date);
+          // console.log("No state data found for day:", day.date);
           continue;
         }
 
@@ -208,7 +208,7 @@ export default function SlipTopFive({
             if (!districtName || districtName.trim() === '') return;
 
             const districtKey = `${stateName.trim()} - ${districtName.trim()}`;
-            console.log(`  Processing district: ${districtKey}`);
+            // console.log(`  Processing district: ${districtKey}`);
 
             if (!districtTotals[districtKey]) {
               districtTotals[districtKey] = {} as Record<StatusKey, number>;
@@ -219,7 +219,7 @@ export default function SlipTopFive({
             for (const status of activeStatuses) {
               const fieldName = STATUS_KEY_MAP[status.toLowerCase()];
               if (!fieldName) {
-                console.log(`No field mapping for status: ${status}`);
+                // console.log(`No field mapping for status: ${status}`);
                 continue;
               }
 
@@ -237,7 +237,7 @@ export default function SlipTopFive({
               });
 
               districtTotals[districtKey][status] += districtTotal;
-              console.log(`    ${status}: +${districtTotal} (total: ${districtTotals[districtKey][status]})`);
+              // console.log(`    ${status}: +${districtTotal} (total: ${districtTotals[districtKey][status]})`);
             }
           });
         });
@@ -255,7 +255,7 @@ export default function SlipTopFive({
         
         arr.sort((a, b) => b.value - a.value);
         result[status] = arr.slice(0, 5);
-        console.log(`Top 5 districts for ${status}:`, result[status]);
+        // console.log(`Top 5 districts for ${status}:`, result[status]);
       }
 
       return result;

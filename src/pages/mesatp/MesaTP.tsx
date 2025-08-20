@@ -249,10 +249,6 @@ const MesaTP: React.FC = () => {
             <Card className="border-l-4 border-blue-600 bg-card shadow-sm">
               <CardContent className="flex justify-between text-sm text-muted-foreground py-2 items-center">
                 <div className="space-y-1">
-                  <p>
-                    Showing <strong>{filteredRecords.length}</strong> records
-                    from <strong>{filteredData.length}</strong> days
-                  </p>
                   {filters.states.length > 0 && (
                     <div className="text-xs space-y-1">
                       <div>
@@ -286,6 +282,13 @@ const MesaTP: React.FC = () => {
                           {filters.statuses.length} selected
                         </div>
                       )}
+                      <div>
+                        <strong>Total Sum by Crime Type: </strong>
+                        {Object.values(totalsByStatus).reduce(
+                          (sum, val) => sum + (val || 0),
+                          0
+                        )}
+                      </div>
                     </div>
                   )}
                 </div>

@@ -45,6 +45,7 @@ const SlipCapture: React.FC = () => {
   );
 
   console.log("Visible statuses:", visibleStatuses);
+  console.log("All filters.statuses:", filters.statuses);
 
   // Memoized filter change handler with validation
   const handleFiltersChange = useCallback(
@@ -129,9 +130,7 @@ const SlipCapture: React.FC = () => {
 
       return result;
     } catch (error) {
-      // console.error("Error filtering data:", error);
-      // console.error("Current filters:", filters);
-      // console.error("All data sample:", allData.slice(0, 2));
+      console.error("Error filtering data:", error);
       setError("Error filtering data. Please check your filter selections.");
       return [];
     }
@@ -158,15 +157,19 @@ const SlipCapture: React.FC = () => {
     if (filteredData.length === 0) return [];
 
     try {
-      console.log("object", filteredData);
-      console.log("Table rows built:", visibleStatuses);
-      console.log("filters state", filters.states);
+      console.log("Building table data with:", {
+        filteredDataLength: filteredData.length,
+        visibleStatuses,
+        filterStates: filters.states,
+      });
+
       const rows = buildSlipTableDataByState(
         filteredData,
         visibleStatuses,
         filters.states
       );
 
+      console.log("Table rows built:", rows.length, "rows");
       return rows;
     } catch (error) {
       console.error("Error building table data:", error);
@@ -174,20 +177,32 @@ const SlipCapture: React.FC = () => {
     }
   }, [filteredData, visibleStatuses, filters.states]);
 
-  // Compute totals by status with error handling
+  // Compute totals by status with enhanced error handling and debugging
   const totalsByStatus = useMemo(() => {
-    if (filteredData.length === 0) return {} as Record<StatusKey, number>;
+    if (filteredData.length === 0) {
+      console.log("No filtered data available for totals calculation");
+      return {} as Record<StatusKey, number>;
+    }
+
+    if (visibleStatuses.length === 0) {
+      console.log("No visible statuses available for totals calculation");
+      return {} as Record<StatusKey, number>;
+    }
 
     try {
+      console.log("Computing totals with:", {
+        filteredDataLength: filteredData.length,
+        visibleStatuses,
+        filterStates: filters.states,
+      });
+
       const totals = computeTotalsByStatus(
         filteredData,
         visibleStatuses,
         filters.states
       );
-      console.log("Totals by status:", totals);
       return totals;
     } catch (error) {
-      console.error("Error computing totals:", error);
       return {} as Record<StatusKey, number>;
     }
   }, [filteredData, visibleStatuses, filters.states]);
@@ -249,10 +264,6 @@ const SlipCapture: React.FC = () => {
             <Card className="border-l-4 border-blue-600 bg-card shadow-sm">
               <CardContent className="flex justify-between text-sm text-muted-foreground py-2 items-center">
                 <div className="space-y-1">
-                  <p>
-                    Showing <strong>{filteredRecords.length}</strong> records
-                    from <strong>{filteredData.length}</strong> days
-                  </p>
                   {filters.states.length > 0 && (
                     <div className="text-xs space-y-1">
                       <div>
@@ -286,6 +297,13 @@ const SlipCapture: React.FC = () => {
                           {filters.statuses.length} selected
                         </div>
                       )}
+                      <div>
+                        <strong>Total Sum by Crime Type: </strong>
+                        {Object.values(totalsByStatus).reduce(
+                          (sum, val) => sum + (val || 0),
+                          0
+                        )}
+                      </div>
                     </div>
                   )}
                 </div>
@@ -311,13 +329,17 @@ const SlipCapture: React.FC = () => {
                 {/* Status Summary Cards */}
                 {visibleStatuses.length > 0 ? (
                   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
-                    {visibleStatuses.map((s) => (
-                      <StatusCard
-                        key={s}
-                        title={s}
-                        value={totalsByStatus[s] ?? 0}
-                      />
-                    ))}
+                    {visibleStatuses.map((status) => {
+                      const total = totalsByStatus[status] ?? 0;
+                      console.log(
+                        `Rendering StatusCard for ${status} with value:`,
+                        total
+                      );
+
+                      return (
+                        <StatusCard key={status} title={status} value={total} />
+                      );
+                    })}
                   </div>
                 ) : (
                   <div className="w-full p-6 text-center border rounded-md shadow-sm bg-muted/30">
