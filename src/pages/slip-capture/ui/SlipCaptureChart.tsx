@@ -42,6 +42,18 @@ const COLORS = [
   "#708090",
 ];
 
+// Fixed field mapping - use the actual field names from your data
+const FIELD_MAPPING = {
+  Arrested: "arresty_received_tp",
+  Convicted: "convicted_received_tp",
+  Externee: "externee_received_tp",
+  Deportee: "deportee_received_tp",
+  UIFP: "uifp_received_tp",
+  Suspect: "suspect_received_tp",
+  UDB: "deadbody_received_tp",
+  Absconder: "absconder_received_tp",
+};
+
 export default function SlipCaptureChart({
   filteredData,
   selectedCrimeTypes,
@@ -50,56 +62,149 @@ export default function SlipCaptureChart({
   const [chartType, setChartType] = useState<"stacked" | "grouped" | "pie">(
     "stacked"
   );
-
+  console.log("filtered data", filteredData);
   const crimeTypes = useMemo(
     () => selectedCrimeTypes.filter((type) => type !== "Total"),
     [selectedCrimeTypes]
   );
+
   const handleChartTypeChange = (value: string) => {
     if (value === "stacked" || value === "grouped" || value === "pie") {
       setChartType(value);
     }
   };
 
+  // Helper function to aggregate data for a specific crime type across all states
+  const aggregateCrimeTypeData = (
+    dayData: any,
+    crimeType: StatusKey
+  ): number => {
+    let total = 0;
+
+    // console.log(`\n=== Aggregating ${crimeType} data ===`);
+
+    if (!dayData?.state) {
+      // console.log("❌ No state data found");
+      return 0;
+    }
+
+    const fieldName = FIELD_MAPPING[crimeType as keyof typeof FIELD_MAPPING];
+    if (!fieldName) {
+      // console.log(`❌ No field mapping found for ${crimeType}`);
+      return 0;
+    }
+
+    // console.log(`Looking for field: ${fieldName}`);
+
+    // Iterate through all states
+    Object.entries(dayData.state).forEach(([stateName, stateData]) => {
+      // console.log(`  State: ${stateName}`);
+
+      if (!stateData || typeof stateData !== "object") {
+        // console.log(`    ⚠️ Invalid state data`);
+        return;
+      }
+
+      // Iterate through districts
+      Object.entries(stateData).forEach(([districtName, districtData]) => {
+        // console.log(`    District: ${districtName}`);
+
+        if (!districtData || typeof districtData !== "object") {
+          // console.log(`      ⚠️ Invalid district data`);
+          return;
+        }
+
+        // Iterate through acts
+        Object.entries(districtData).forEach(([actName, actData]) => {
+          // console.log(`      Act: ${actName}`);
+
+          if (!actData || typeof actData !== "object") {
+            // console.log(`        ⚠️ Invalid act data`);
+            return;
+          }
+
+          // Iterate through sections
+          Object.entries(actData).forEach(([sectionName, sectionData]) => {
+            // console.log(`        Section: ${sectionName}`);
+
+            if (
+              !sectionData ||
+              typeof sectionData !== "object" ||
+              sectionData === null
+            ) {
+              // console.log(`          ⚠️ Invalid section data`);
+              return;
+            }
+
+            const validSectionData = sectionData as Record<string, any>;
+            const value = Number(validSectionData[fieldName] || 0);
+
+            // console.log(`          ${fieldName}: ${value}`);
+            total += value;
+          });
+        });
+      });
+    });
+
+    // console.log(`📊 Total ${crimeType}: ${total}`);
+    return total;
+  };
+
   // Bar Chart Data
   const chartData = useMemo(() => {
-    return filteredData
+    // console.log("\n🔍 Processing chart data...");
+    // console.log("Filtered data length:", filteredData.length);
+    // console.log("Selected crime types:", crimeTypes);
+
+    const result = filteredData
       .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
-      .map((day) => {
+      .map((day, index) => {
+        // console.log(`\n--- Processing day ${index + 1}: ${day.date} ---`);
+
         const row: Record<string, any> = {
           label: new Date(day.date).toLocaleDateString("en-US", {
             month: "short",
             day: "numeric",
           }),
         };
+
         for (const crimeType of crimeTypes) {
-          let total = 0;
-          for (const stateData of Object.values(day.data)) {
-            total += stateData[crimeType] ?? 0;
-          }
+          const total = aggregateCrimeTypeData(day.data, crimeType);
           row[crimeType] = total;
+          // console.log(`${crimeType}: ${total}`);
         }
+
+        // console.log("Day result:", row);
         return row;
       });
+
+    // console.log("📈 Final chart data:", result);
+    return result;
   }, [filteredData, crimeTypes]);
 
   // Pie Chart Data
   const pieData = useMemo(() => {
+    // console.log("\n🥧 Processing pie chart data...");
+
     const totals: Record<string, number> = {};
+
     for (const day of filteredData) {
       for (const crimeType of crimeTypes) {
-        let total = 0;
-        for (const stateData of Object.values(day.data)) {
-          total += stateData[crimeType] ?? 0;
-        }
-        totals[crimeType] = (totals[crimeType] ?? 0) + total;
+        const dayTotal = aggregateCrimeTypeData(day.data, crimeType);
+        totals[crimeType] = (totals[crimeType] ?? 0) + dayTotal;
       }
     }
-    return crimeTypes.map((type, idx) => ({
-      name: type,
-      value: totals[type] ?? 0,
-      color: COLORS[idx % COLORS.length],
-    }));
+
+    const result = crimeTypes
+      .map((type, idx) => ({
+        name: type,
+        value: totals[type] ?? 0,
+        color: COLORS[idx % COLORS.length],
+      }))
+      .filter((item) => item.value > 0); // Filter out zero values
+
+    // console.log("🥧 Pie data (filtered):", result);
+    return result;
   }, [filteredData, crimeTypes]);
 
   // Chart Config
@@ -150,6 +255,25 @@ export default function SlipCaptureChart({
     }, 500);
   };
 
+  // Check if we have any data
+  const hasData = chartData.some((day) =>
+    crimeTypes.some((type) => (day[type] || 0) > 0)
+  );
+
+  // console.log("🎯 Chart summary:");
+  // console.log("- Chart data length:", chartData.length);
+  // console.log("- Crime types:", crimeTypes);
+  // console.log("- Has data:", hasData);
+  // console.log(
+  //   "- Total values:",
+  //   chartData.reduce((acc, day) => {
+  //     crimeTypes.forEach((type) => {
+  //       acc[type] = (acc[type] || 0) + (day[type] || 0);
+  //     });
+  //     return acc;
+  //   }, {} as Record<string, number>)
+  // );
+
   return (
     <Card className="w-full">
       <CardHeader>
@@ -184,11 +308,28 @@ export default function SlipCaptureChart({
             </Button>
           </div>
         </div>
+        {!hasData && (
+          <div className="text-sm text-red-600 mt-2">
+            ⚠️ No data found. Check console for detailed debug information.
+            <br />
+            Data points: {chartData.length}, Crime types:{" "}
+            {crimeTypes.join(", ")}
+          </div>
+        )}
       </CardHeader>
       <CardContent ref={chartRef} className="h-[400px]">
         {crimeTypes.length === 0 ? (
           <div className="h-full flex items-center justify-center text-red-600 font-medium">
             Please select at least one crime type to display the chart.
+          </div>
+        ) : !hasData ? (
+          <div className="h-full flex items-center justify-center text-gray-600 font-medium">
+            <div className="text-center">
+              <p>No data available for the selected criteria.</p>
+              <p className="text-sm mt-2">
+                Check browser console for detailed debug logs.
+              </p>
+            </div>
           </div>
         ) : chartType === "pie" ? (
           <ResponsiveContainer width="100%" height="100%">
@@ -200,9 +341,7 @@ export default function SlipCaptureChart({
                 cx="50%"
                 cy="50%"
                 outerRadius={120}
-                label={({ name, value }) =>
-                  value > 0 ? `${name}: ${value}` : ""
-                }
+                label={({ name, value }) => `${name}: ${value}`}
               >
                 {pieData.map((entry, idx) => (
                   <Cell key={`cell-${idx}`} fill={entry.color} />

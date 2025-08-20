@@ -392,37 +392,138 @@ export function computeTotalsByStatus(
 
   return totals;
 }
+// Add these updated functions to your utils.ts file - replace the existing ones
 
-// Build table data from SlipDailyData
-export function buildSlipTableData(
+/**
+ * Build slip table data aggregated by state (single row per state)
+ * This aggregates across all dates, districts, acts, and sections
+ */
+export function buildSlipTableDataByState(
   filteredData: SlipDailyData[],
   statuses: StatusKey[],
   selectedStates: string[]
 ) {
-  const rows: any[] = [];
+  const stateAggregates = new Map<string, any>();
+  const selectedStatesLower = selectedStates.map((s) => s.toLowerCase().trim());
 
+  console.log("Building state-level table data for states:", selectedStates);
+
+  // Initialize aggregates for each selected state
+  selectedStates.forEach((state) => {
+    const stateLower = state.toLowerCase().trim();
+    const stateData: any = { state };
+
+    // Initialize all status counts to 0
+    statuses.forEach((status) => {
+      stateData[status] = 0;
+    });
+
+    stateAggregates.set(stateLower, stateData);
+  });
+
+  // Aggregate data across all dates
   filteredData.forEach((entry) => {
-    selectedStates.forEach((state) => {
-      const districts = entry.data.state[state] || {};
+    Object.entries(entry.data.state).forEach(([state, districts]) => {
+      const stateLower = state.toLowerCase().trim();
+
+      if (!selectedStatesLower.includes(stateLower)) {
+        return;
+      }
+
+      const stateAggregate = stateAggregates.get(stateLower);
+      if (!stateAggregate) return;
+
+      // Aggregate across all districts, acts, and sections for this state
       Object.entries(districts).forEach(([district, acts]) => {
         Object.entries(acts).forEach(([act, sections]) => {
           Object.entries(sections).forEach(([section, metrics]) => {
-            const row: any = {
-              date: entry.date,
-              state,
-              district,
-              act,
-              section,
-            };
-            statuses.forEach((s) => {
-              row[s] = metrics[s] ?? 0;
+            statuses.forEach((status) => {
+              const metricKey = STATUS_KEY_MAP[status.toLowerCase()];
+              if (metricKey && metrics[metricKey] !== undefined) {
+                stateAggregate[status] += Number(metrics[metricKey]) || 0;
+              }
             });
-            rows.push(row);
           });
         });
       });
     });
   });
 
-  return rows;
+  const result = Array.from(stateAggregates.values()).sort((a, b) =>
+    a.state.localeCompare(b.state)
+  );
+
+  console.log("State table data result:", result);
+  return result;
+}
+
+/**
+ * Build slip table data aggregated by district (single row per district)
+ * This aggregates across all dates, acts, and sections
+ */
+export function buildSlipTableDataByDistrict(
+  filteredData: SlipDailyData[],
+  statuses: StatusKey[],
+  selectedStates: string[]
+) {
+  const districtAggregates = new Map<string, any>();
+  const selectedStatesLower = selectedStates.map((s) => s.toLowerCase().trim());
+
+  console.log("Building district-level table data for states:", selectedStates);
+
+  // Aggregate data across all dates
+  filteredData.forEach((entry) => {
+    Object.entries(entry.data.state).forEach(([state, districts]) => {
+      const stateLower = state.toLowerCase().trim();
+
+      if (!selectedStatesLower.includes(stateLower)) {
+        return;
+      }
+
+      Object.entries(districts).forEach(([district, acts]) => {
+        const districtKey = `${stateLower}__${district.toLowerCase().trim()}`;
+
+        // Initialize district aggregate if not exists
+        if (!districtAggregates.has(districtKey)) {
+          const districtData: any = {
+            state,
+            district,
+          };
+
+          // Initialize all status counts to 0
+          statuses.forEach((status) => {
+            districtData[status] = 0;
+          });
+
+          districtAggregates.set(districtKey, districtData);
+        }
+
+        const districtAggregate = districtAggregates.get(districtKey);
+        if (!districtAggregate) return;
+
+        // Aggregate across all acts and sections for this district
+        Object.entries(acts).forEach(([act, sections]) => {
+          Object.entries(sections).forEach(([section, metrics]) => {
+            statuses.forEach((status) => {
+              const metricKey = STATUS_KEY_MAP[status.toLowerCase()];
+              if (metricKey && metrics[metricKey] !== undefined) {
+                districtAggregate[status] += Number(metrics[metricKey]) || 0;
+              }
+            });
+          });
+        });
+      });
+    });
+  });
+
+  const result = Array.from(districtAggregates.values()).sort((a, b) => {
+    // Sort by state first, then by district
+    if (a.state !== b.state) {
+      return a.state.localeCompare(b.state);
+    }
+    return a.district.localeCompare(b.district);
+  });
+
+  console.log("District table data result:", result.length, "districts");
+  return result;
 }

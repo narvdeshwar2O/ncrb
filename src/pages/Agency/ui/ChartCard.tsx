@@ -20,6 +20,7 @@ interface ChartCardProps {
 function ChartCard({ title, data }: ChartCardProps) {
   // ✅ Remove items where value is 0
   const filteredData = data.filter((item) => item.value > 0);
+  
 
   // ✅ Show message if all data values are zero or empty
   if (filteredData.length === 0) {
@@ -43,6 +44,8 @@ function ChartCard({ title, data }: ChartCardProps) {
     ...item,
     rank: index + 1,
   }));
+
+  console.log("data",rankedData)
 
   const EllipsisLabel = (props: any) => {
     const { x, y, width, height, value } = props;

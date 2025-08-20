@@ -34,6 +34,13 @@ const chartConfig: ChartConfig = {
   Total: { label: "Total", color: "#F59E0B" },
 };
 
+// Fixed field mapping - use the actual field names from your data
+const FIELD_MAPPING = {
+  arrested: 'arresty_received_tp',
+  convicted: 'convicted_received_tp',
+  suspect: 'suspect_received_tp',
+};
+
 interface SlipCaptureTrendChartProps {
   filteredData: SlipDailyData[];
   selectedState: string;
@@ -56,21 +63,107 @@ export function SlipCaptureTrendChart({
     );
   };
 
+  // Fixed data processing logic
   const chartData = filteredData
-    .map((day) => {
-      const stateData = day.data[selectedState];
-      if (!stateData) return null;
+    .map((day, dayIndex) => {
+      console.log(`\n=== DAY ${dayIndex + 1} ===`);
+      console.log("Processing day:", day.date, "Looking for state:", selectedState);
+      
+      // Check if data exists
+      if (!day.data?.state) {
+        console.log("❌ No state data found");
+        return null;
+      }
+      
+      console.log("✅ Available states:", Object.keys(day.data.state));
+      
+      // Find state data (try exact match first, then case-insensitive)
+      let stateData = day.data.state[selectedState];
+      if (!stateData) {
+        const stateKeys = Object.keys(day.data.state);
+        const caseInsensitiveMatch = stateKeys.find(
+          key => key.toLowerCase() === selectedState.toLowerCase()
+        );
+        if (caseInsensitiveMatch) {
+          stateData = day.data.state[caseInsensitiveMatch];
+          console.log(`🔍 Found case-insensitive match: "${caseInsensitiveMatch}"`);
+        } else {
+          console.log(`❌ No data found for state: "${selectedState}"`);
+          return null;
+        }
+      }
 
-      const arrested = stateData.Arrested ?? 0;
-      const convicted = stateData.Convicted ?? 0;
-      const suspect = stateData.Suspect ?? 0;
+      console.log("✅ Found state data with districts:", Object.keys(stateData));
+
+      // Initialize counters
+      let arrested = 0;
+      let convicted = 0;
+      let suspect = 0;
+      let processedSections = 0;
+
+      // Aggregate data across all districts, acts, and sections for this state
+      Object.entries(stateData).forEach(([districtName, districts]) => {
+        console.log(`  District: ${districtName}`);
+        
+        if (!districts || typeof districts !== 'object') {
+          console.log(`    ⚠️ Invalid district data for ${districtName}`);
+          return;
+        }
+        
+        Object.entries(districts).forEach(([actName, acts]) => {
+          console.log(`    Act: ${actName}`);
+          
+          if (!acts || typeof acts !== 'object') {
+            console.log(`      ⚠️ Invalid act data for ${actName}`);
+            return;
+          }
+          
+          Object.entries(acts).forEach(([sectionName, sectionData]) => {
+            console.log(`      Section: ${sectionName}`);
+            console.log(`      Section data:`, sectionData);
+            
+            if (!sectionData || typeof sectionData !== 'object' || sectionData === null) {
+              console.log(`        ⚠️ Invalid section data for ${sectionName}`);
+              return;
+            }
+            
+            // Type assertion after null check
+            const validSectionData = sectionData as Record<string, any>;
+            
+            processedSections++;
+            
+            // Extract values using the correct field names
+            const arrestedValue = Number(validSectionData[FIELD_MAPPING.arrested] || 0);
+            const convictedValue = Number(validSectionData[FIELD_MAPPING.convicted] || 0);
+            const suspectValue = Number(validSectionData[FIELD_MAPPING.suspect] || 0);
+            
+            console.log(`        Values: arrested=${arrestedValue}, convicted=${convictedValue}, suspect=${suspectValue}`);
+            
+            arrested += arrestedValue;
+            convicted += convictedValue;
+            suspect += suspectValue;
+            
+            console.log(`        Running totals: arrested=${arrested}, convicted=${convicted}, suspect=${suspect}`);
+          });
+        });
+      });
+
       const total = arrested + convicted + suspect;
+
+      console.log(`📊 FINAL TOTALS for ${day.date}:`, { 
+        arrested, 
+        convicted, 
+        suspect, 
+        total, 
+        processedSections 
+      });
 
       return {
         date: new Date(day.date).toLocaleDateString("en-US", {
           month: "short",
           day: "numeric",
         }),
+        fullDate: day.date,
         Arrested: arrested,
         Convicted: convicted,
         Suspect: suspect,
@@ -78,6 +171,14 @@ export function SlipCaptureTrendChart({
       };
     })
     .filter(Boolean) as any[];
+
+  console.log("🎯 FINAL CHART DATA:", chartData);
+  console.log("📈 Chart data summary:", {
+    totalDataPoints: chartData.length,
+    totalArrested: chartData.reduce((sum, d) => sum + d.Arrested, 0),
+    totalConvicted: chartData.reduce((sum, d) => sum + d.Convicted, 0),
+    totalSuspect: chartData.reduce((sum, d) => sum + d.Suspect, 0),
+  });
 
   const handleExportCSV = () => {
     const headers = ["Date", "Arrested", "Convicted", "Suspect", "Total"];
@@ -113,18 +214,41 @@ export function SlipCaptureTrendChart({
     }, 500);
   };
 
+  // Enhanced debugging for no data case
   if (chartData.length === 0) {
+    console.log("❌ NO CHART DATA AVAILABLE");
+    console.log("Filtered data length:", filteredData.length);
+    console.log("Selected state:", selectedState);
+    
+    // Debug: Show available states
+    const availableStates = new Set<string>();
+    filteredData.forEach(day => {
+      if (day.data?.state) {
+        Object.keys(day.data.state).forEach(state => availableStates.add(state));
+      }
+    });
+    console.log("Available states in data:", Array.from(availableStates));
+
     return (
       <Card>
         <CardHeader className="py-2">
           <CardTitle className="text-base">No Data Available</CardTitle>
           <CardDescription className="text-xs">
-            Select a date range and a state with valid data.
+            Selected state: "{selectedState}" not found in data.
+            <br />
+            Available states: {Array.from(availableStates).join(", ") || "None"}
+            <br />
+            Total filtered entries: {filteredData.length}
+            <br />
+            <strong>Debug: Check browser console for detailed logs</strong>
           </CardDescription>
         </CardHeader>
       </Card>
     );
   }
+
+  // Show debug info in the UI when data is found but values are zero
+  const hasZeroData = chartData.every(d => d.Total === 0);
 
   return (
     <Card id="trend-chart-container" className="py-2">
@@ -135,7 +259,12 @@ export function SlipCaptureTrendChart({
               {selectedState} - Crime Trends
             </CardTitle>
             <CardDescription className="text-xs">
-              Arrested, Convicted, Suspect & Total
+              Arrested, Convicted, Suspect & Total ({chartData.length} data points)
+              {hasZeroData && (
+                <span className="text-red-500 block mt-1">
+                  ⚠️ All values are zero - check console for detailed debug info
+                </span>
+              )}
             </CardDescription>
           </div>
           <div className="flex gap-2 print-hide">
@@ -167,7 +296,6 @@ export function SlipCaptureTrendChart({
                 <YAxis width={48} />
                 <ChartTooltip content={<ChartTooltipContent />} />
 
-                {/* ✅ Fixed legend that doesn't hide lines */}
                 <Legend
                   verticalAlign="top"
                   wrapperStyle={{ top: 0, cursor: "pointer" }}
@@ -189,7 +317,6 @@ export function SlipCaptureTrendChart({
                   }}
                 />
 
-                {/* ✅ Conditionally render lines */}
                 {activeLines.includes("Arrested") && (
                   <Line
                     dataKey="Arrested"

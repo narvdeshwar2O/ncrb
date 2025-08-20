@@ -7,7 +7,7 @@ import {
   extractActs,
   filterSlipData,
   computeTotalsByStatus,
-  buildSlipTableData,
+  buildSlipTableDataByState,
   getFilteredRecords,
 } from "./utils";
 import { Card, CardContent } from "@/components/ui/card";
@@ -47,48 +47,52 @@ const SlipCapture: React.FC = () => {
   console.log("Visible statuses:", visibleStatuses);
 
   // Memoized filter change handler with validation
-  const handleFiltersChange = useCallback((newFilters: SlipFilters) => {
-    console.log("Filters changing from:", filters);
-    console.log("Filters changing to:", newFilters);
-    
-    // Validate the new filters before setting them
-    if (newFilters.states && newFilters.states.length === 0) {
-      console.log("No states selected, clearing dependent filters");
-    }
-    
-    setFilters(newFilters);
-  }, [filters]);
+  const handleFiltersChange = useCallback(
+    (newFilters: SlipFilters) => {
+      console.log("Filters changing from:", filters);
+      console.log("Filters changing to:", newFilters);
+
+      // Validate the new filters before setting them
+      if (newFilters.states && newFilters.states.length === 0) {
+        console.log("No states selected, clearing dependent filters");
+      }
+
+      setFilters(newFilters);
+    },
+    [filters]
+  );
 
   // Load initial data
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
       setError(null);
-      
+
       try {
         console.log("Loading slip data...");
         const loaded = await loadAllMonthlyDataReal({ type: "slip_cp" });
-        
+
         if (!loaded || !Array.isArray(loaded)) {
           throw new Error("Invalid data format received");
         }
-        
+
         setAllData(loaded as SlipDailyData[]);
         console.log("Slip data loaded:", loaded.length, "records");
         console.log("Sample record:", loaded[0]);
-        
+
         const states = extractStates(loaded as SlipDailyData[]);
         setAllStates(states);
         console.log("Available states:", states);
-
       } catch (error) {
         console.error("Error loading slip data:", error);
-        setError(error instanceof Error ? error.message : "Failed to load data");
+        setError(
+          error instanceof Error ? error.message : "Failed to load data"
+        );
       } finally {
         setLoading(false);
       }
     };
-    
+
     fetchData();
   }, []);
 
@@ -100,7 +104,7 @@ const SlipCapture: React.FC = () => {
       acts: filters.acts,
       sections: filters.sections,
       statuses: filters.statuses,
-      dateRange: filters.dateRange
+      dateRange: filters.dateRange,
     });
   }, [filters]);
 
@@ -114,20 +118,20 @@ const SlipCapture: React.FC = () => {
     try {
       console.log("Filtering data with filters:", filters);
       console.log("Total data records:", allData.length);
-      
+
       const result = filterSlipData(allData, filters);
-      
+
       console.log("Filtered data result:", {
         originalRecords: allData.length,
         filteredRecords: result.length,
-        filters: filters
+        filters: filters,
       });
-      
+
       return result;
     } catch (error) {
-      console.error("Error filtering data:", error);
-      console.error("Current filters:", filters);
-      console.error("All data sample:", allData.slice(0, 2));
+      // console.error("Error filtering data:", error);
+      // console.error("Current filters:", filters);
+      // console.error("All data sample:", allData.slice(0, 2));
       setError("Error filtering data. Please check your filter selections.");
       return [];
     }
@@ -152,10 +156,17 @@ const SlipCapture: React.FC = () => {
   // Build table data with error handling
   const tableRows = useMemo(() => {
     if (filteredData.length === 0) return [];
-    
+
     try {
-      const rows = buildSlipTableData(filteredData, visibleStatuses, filters.states);
-      console.log("Table rows built:", rows.length);
+      console.log("object", filteredData);
+      console.log("Table rows built:", visibleStatuses);
+      console.log("filters state", filters.states);
+      const rows = buildSlipTableDataByState(
+        filteredData,
+        visibleStatuses,
+        filters.states
+      );
+
       return rows;
     } catch (error) {
       console.error("Error building table data:", error);
@@ -166,9 +177,13 @@ const SlipCapture: React.FC = () => {
   // Compute totals by status with error handling
   const totalsByStatus = useMemo(() => {
     if (filteredData.length === 0) return {} as Record<StatusKey, number>;
-    
+
     try {
-      const totals = computeTotalsByStatus(filteredData, visibleStatuses, filters.states);
+      const totals = computeTotalsByStatus(
+        filteredData,
+        visibleStatuses,
+        filters.states
+      );
       console.log("Totals by status:", totals);
       return totals;
     } catch (error) {
@@ -188,7 +203,9 @@ const SlipCapture: React.FC = () => {
       <div className="p-6 flex justify-center items-center h-[calc(100vh-48px)]">
         <div className="text-center space-y-4">
           <Skeleton className="h-8 w-48 mx-auto" />
-          <p className="text-sm text-muted-foreground">Loading slip capture data...</p>
+          <p className="text-sm text-muted-foreground">
+            Loading slip capture data...
+          </p>
         </div>
       </div>
     );
@@ -201,9 +218,7 @@ const SlipCapture: React.FC = () => {
         <div className="text-center space-y-4">
           <div className="text-red-500 text-lg font-medium">Error</div>
           <p className="text-sm text-muted-foreground">{error}</p>
-          <Button onClick={() => window.location.reload()}>
-            Try Again
-          </Button>
+          <Button onClick={() => window.location.reload()}>Try Again</Button>
         </div>
       </div>
     );
@@ -239,18 +254,39 @@ const SlipCapture: React.FC = () => {
                     from <strong>{filteredData.length}</strong> days
                   </p>
                   {filters.states.length > 0 && (
-                    <p className="text-xs">
-                      States: <strong>{filters.states.join(", ")}</strong>
+                    <div className="text-xs space-y-1">
+                      <div>
+                        <strong>States ({filters.states.length}):</strong>{" "}
+                        {filters.states.length <= 3
+                          ? filters.states.join(", ")
+                          : `${filters.states.slice(0, 3).join(", ")} +${
+                              filters.states.length - 3
+                            } more`}
+                      </div>
                       {filters.districts.length > 0 && (
-                        <> | Districts: <strong>{filters.districts.length}</strong></>
+                        <div>
+                          <strong>Districts:</strong> {filters.districts.length}{" "}
+                          selected
+                        </div>
                       )}
                       {filters.acts.length > 0 && (
-                        <> | Acts: <strong>{filters.acts.length}</strong></>
+                        <div>
+                          <strong>Acts:</strong> {filters.acts.length} selected
+                        </div>
                       )}
                       {filters.sections.length > 0 && (
-                        <> | Sections: <strong>{filters.sections.length}</strong></>
+                        <div>
+                          <strong>Sections:</strong> {filters.sections.length}{" "}
+                          selected
+                        </div>
                       )}
-                    </p>
+                      {filters.statuses.length > 0 && (
+                        <div>
+                          <strong>Crime Types:</strong>{" "}
+                          {filters.statuses.length} selected
+                        </div>
+                      )}
+                    </div>
                   )}
                 </div>
                 <Button size="sm" onClick={() => setShowTable((p) => !p)}>
@@ -261,7 +297,15 @@ const SlipCapture: React.FC = () => {
 
             {/* Table or Dashboard View */}
             {showTable ? (
-              <SlipTable rows={tableRows} statuses={visibleStatuses} />
+              <SlipTable
+                rows={tableRows}
+                statuses={visibleStatuses}
+                filteredData={filteredData}
+                selectedStates={filters.states}
+                onViewChange={(viewType) => {
+                  console.log("View changed to:", viewType);
+                }}
+              />
             ) : (
               <>
                 {/* Status Summary Cards */}
@@ -278,7 +322,8 @@ const SlipCapture: React.FC = () => {
                 ) : (
                   <div className="w-full p-6 text-center border rounded-md shadow-sm bg-muted/30">
                     <p className="font-medium">
-                      No crime types selected. Complete your filter selection to view data.
+                      No crime types selected. Complete your filter selection to
+                      view data.
                     </p>
                   </div>
                 )}
@@ -292,7 +337,8 @@ const SlipCapture: React.FC = () => {
                 ) : filters.states.length > 1 ? (
                   <div className="w-full p-3 flex justify-center items-center">
                     <p className="border shadow-md p-3 rounded-md">
-                      Select only one state to visualize the trend data for Arrested, Suspect, and Convicted cases.
+                      Select only one state to visualize the trend data for
+                      Arrested, Suspect, and Convicted cases.
                     </p>
                   </div>
                 ) : null}
@@ -337,14 +383,17 @@ const SlipCapture: React.FC = () => {
                 )}
 
                 {/* Top 5 */}
-                {visibleStatuses.length > 0 && filters.dateRange.from && filters.dateRange.to && (
-                  <SlipTopFive
-                    allData={allData}
-                    from={filters.dateRange.from}
-                    to={filters.dateRange.to}
-                    statuses={visibleStatuses}
-                  />
-                )}
+                {visibleStatuses.length > 0 &&
+                  filters.dateRange.from &&
+                  filters.dateRange.to && (
+                    <SlipTopFive
+                      allData={allData}
+                      from={filters.dateRange.from}
+                      to={filters.dateRange.to}
+                      statuses={visibleStatuses}
+                      selectedStates={filters.states}
+                    />
+                  )}
               </>
             )}
           </>
