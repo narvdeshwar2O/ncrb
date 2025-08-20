@@ -310,10 +310,7 @@ export default function SlipCaptureChart({
         </div>
         {!hasData && (
           <div className="text-sm text-red-600 mt-2">
-            ⚠️ No data found. Check console for detailed debug information.
-            <br />
-            Data points: {chartData.length}, Crime types:{" "}
-            {crimeTypes.join(", ")}
+             No data found.
           </div>
         )}
       </CardHeader>

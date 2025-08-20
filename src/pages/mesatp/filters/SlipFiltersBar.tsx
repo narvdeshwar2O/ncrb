@@ -77,13 +77,6 @@ export const SlipFiltersBar: React.FC<SlipFiltersBarProps> = ({
     if (validatedFilters.acts.length === 0) {
       validatedFilters.sections = [];
     }
-    
-    // Modified: Keep crime types selected even when no sections are selected
-    // Only clear crime types if explicitly set to empty array
-    if (validatedFilters.sections.length === 0 && validatedFilters.statuses.length === 0) {
-      // If both sections and statuses are empty, set default crime types
-      validatedFilters.statuses = [...STATUS_OPTIONS] as StatusKey[];
-    }
 
     return validatedFilters;
   };
@@ -141,8 +134,8 @@ export const SlipFiltersBar: React.FC<SlipFiltersBarProps> = ({
       districts: [],
       acts: [],
       sections: [],
-      // Keep crime types selected
-      statuses: selectedStatuses.length > 0 ? selectedStatuses : [...STATUS_OPTIONS] as StatusKey[],
+      // Keep crime types selected as they are
+      statuses: selectedStatuses,
     });
   };
 
@@ -151,8 +144,8 @@ export const SlipFiltersBar: React.FC<SlipFiltersBarProps> = ({
       districts: newDistricts,
       acts: [],
       sections: [],
-      // Keep crime types selected
-      statuses: selectedStatuses.length > 0 ? selectedStatuses : [...STATUS_OPTIONS] as StatusKey[],
+      // Keep crime types selected as they are
+      statuses: selectedStatuses,
     });
   };
 
@@ -160,20 +153,21 @@ export const SlipFiltersBar: React.FC<SlipFiltersBarProps> = ({
     updateFilters({
       acts: newActs,
       sections: [],
-      // Keep crime types selected
-      statuses: selectedStatuses.length > 0 ? selectedStatuses : [...STATUS_OPTIONS] as StatusKey[],
+      // Keep crime types selected as they are
+      statuses: selectedStatuses,
     });
   };
 
   const handleSectionChange = (newSections: string[]) => {
     updateFilters({
       sections: newSections,
-      // Keep crime types selected
-      statuses: selectedStatuses.length > 0 ? selectedStatuses : [...STATUS_OPTIONS] as StatusKey[],
+      // Keep crime types selected as they are
+      statuses: selectedStatuses,
     });
   };
 
   const handleStatusChange = (newStatuses: string[]) => {
+    // Allow empty selection - don't force default to all options
     updateFilters({ statuses: newStatuses as StatusKey[] });
   };
 
@@ -195,8 +189,8 @@ export const SlipFiltersBar: React.FC<SlipFiltersBarProps> = ({
           districts: filteredDistricts,
           acts: [], 
           sections: [], 
-          // Keep crime types selected
-          statuses: selectedStatuses.length > 0 ? selectedStatuses : [...STATUS_OPTIONS] as StatusKey[]
+          // Keep crime types selected as they are
+          statuses: selectedStatuses
         });
       }
     } else {
@@ -206,8 +200,8 @@ export const SlipFiltersBar: React.FC<SlipFiltersBarProps> = ({
           districts: [],
           acts: [],
           sections: [],
-          // Keep crime types selected
-          statuses: selectedStatuses.length > 0 ? selectedStatuses : [...STATUS_OPTIONS] as StatusKey[]
+          // Keep crime types selected as they are
+          statuses: selectedStatuses
         });
       }
     }
@@ -253,7 +247,7 @@ export const SlipFiltersBar: React.FC<SlipFiltersBarProps> = ({
       districts: [],
       acts: [],
       sections: [],
-      statuses: [...STATUS_OPTIONS] as StatusKey[], // Always select all crime types
+      statuses: [...STATUS_OPTIONS] as StatusKey[], // Always select all crime types on reset
     };
     
     onChange(defaultFilters);
@@ -282,14 +276,6 @@ export const SlipFiltersBar: React.FC<SlipFiltersBarProps> = ({
     }, 100);
   };
 
-  // Initial load with crime types selected by default
-  useEffect(() => {
-    // Set default crime types immediately if not set
-    if (selectedStatuses.length === 0) {
-      updateFilters({ statuses: [...STATUS_OPTIONS] as StatusKey[] });
-    }
-  }, [selectedStatuses.length]);
-
   // Initial load with ALL filters selected
   useEffect(() => {
     if (!initialLoadDone && 
@@ -316,7 +302,7 @@ export const SlipFiltersBar: React.FC<SlipFiltersBarProps> = ({
         districts: allAvailableDistricts, // Select ALL districts
         acts: actOptions.map(act => act.label), // Select ALL acts
         sections: sectionOptions.map(section => section.value), // Select ALL sections
-        statuses: [...STATUS_OPTIONS] as StatusKey[], // Select ALL crime types
+        statuses: [...STATUS_OPTIONS] as StatusKey[], // Select ALL crime types by default
       };
 
       onChange(defaultFilters);
@@ -471,13 +457,13 @@ export const SlipFiltersBar: React.FC<SlipFiltersBarProps> = ({
             }
           />
 
-          {/* Crime Types - Modified to not be disabled */}
+          {/* Crime Types - Now allows clearing all */}
           <MultiSelectCheckbox
             label={`Crime Types (${STATUS_OPTIONS.length})`}
             options={STATUS_OPTIONS as unknown as string[]}
             selected={selectedStatuses}
             onChange={handleStatusChange}
-            disabled={false} // Changed: Always enabled
+            disabled={false}
             disabledText="Crime types are always available"
           />
 
