@@ -1,0 +1,182 @@
+{
+  "state": {
+    "haryana": {
+      "KURUKSHETRA": {
+        "THE PROTECTION OF CHILDREN FROM SEXUAL OFFENCE ACT, 2012": {
+          "10": {
+            "arrest_act": "364",
+            "arrest_section": "10,12",
+            "arresty_received_tp": 0,
+            "convicted_received_tp": 1,
+            "externee_received_tp": 0,
+            "absconder_received_tp": 0,
+            "deportee_received_tp": 0,
+            "deadbody_received_tp": 0,
+            "uifp_received_tp": 0,
+            "suspect_received_tp": 0
+          },
+          "12": {
+            "arrest_act": "364",
+            "arrest_section": "10,12",
+            "arresty_received_tp": 0,
+            "convicted_received_tp": 1,
+            "externee_received_tp": 0,
+            "absconder_received_tp": 0,
+            "deportee_received_tp": 0,
+            "deadbody_received_tp": 0,
+            "uifp_received_tp": 0,
+            "suspect_received_tp": 0
+          }
+        }
+      },
+      "REWARI": {
+        "IPC 1860": {
+          "506 IPC & 4": {
+            "arrest_act": "43",
+            "arrest_section": "506 IPC & 4,8 POCSO ACT",
+            "arresty_received_tp": 0,
+            "convicted_received_tp": 1,
+            "externee_received_tp": 0,
+            "absconder_received_tp": 0,
+            "deportee_received_tp": 0,
+            "deadbody_received_tp": 0,
+            "uifp_received_tp": 0,
+            "suspect_received_tp": 0
+          },
+          "8 POCSO ACT": {
+            "arrest_act": "43",
+            "arrest_section": "506 IPC & 4,8 POCSO ACT",
+            "arresty_received_tp": 0,
+            "convicted_received_tp": 1,
+            "externee_received_tp": 0,
+            "absconder_received_tp": 0,
+            "deportee_received_tp": 0,
+            "deadbody_received_tp": 0,
+            "uifp_received_tp": 0,
+            "suspect_received_tp": 0
+          }
+        }
+      }
+    },
+    "uttar pradesh": {
+      "ETAWAH": {
+        "THE U.P. EXCISE ACT": {
+          "60": {
+            "arrest_act": "976",
+            "arrest_section": "60",
+            "arresty_received_tp": 0,
+            "convicted_received_tp": 3,
+            "externee_received_tp": 0,
+            "absconder_received_tp": 0,
+            "deportee_received_tp": 0,
+            "deadbody_received_tp": 0,
+            "uifp_received_tp": 0,
+            "suspect_received_tp": 0
+          }
+        }
+      },
+      "LALITPUR": {
+        "BHARTIYA NYAYA SANHITA (BNS)": {
+          "363": {
+            "arrest_act": "4375",
+            "arrest_section": "363,366,376",
+            "arresty_received_tp": 0,
+            "convicted_received_tp": 1,
+            "externee_received_tp": 0,
+            "absconder_received_tp": 0,
+            "deportee_received_tp": 0,
+            "deadbody_received_tp": 0,
+            "uifp_received_tp": 0,
+            "suspect_received_tp": 0
+          },
+          "366": {
+            "arrest_act": "4375",
+            "arrest_section": "363,366,376",
+            "arresty_received_tp": 0,
+            "convicted_received_tp": 1,
+            "externee_received_tp": 0,
+            "absconder_received_tp": 0,
+            "deportee_received_tp": 0,
+            "deadbody_received_tp": 0,
+            "uifp_received_tp": 0,
+            "suspect_received_tp": 0
+          },
+          "376": {
+            "arrest_act": "4375",
+            "arrest_section": "363,366,376",
+            "arresty_received_tp": 0,
+            "convicted_received_tp": 1,
+            "externee_received_tp": 0,
+            "absconder_received_tp": 0,
+            "deportee_received_tp": 0,
+            "deadbody_received_tp": 0,
+            "uifp_received_tp": 0,
+            "suspect_received_tp": 0
+          }
+        },
+        "IPC 1860": {
+          "363": {
+            "arrest_act": "43",
+            "arrest_section": "363/366A/376/504/506(2)",
+            "arresty_received_tp": 0,
+            "convicted_received_tp": 1,
+            "externee_received_tp": 0,
+            "absconder_received_tp": 0,
+            "deportee_received_tp": 0,
+            "deadbody_received_tp": 0,
+            "uifp_received_tp": 0,
+            "suspect_received_tp": 0
+          },
+          "376": {
+            "arrest_act": "43",
+            "arrest_section": "363/366A/376/504/506(2)",
+            "arresty_received_tp": 0,
+            "convicted_received_tp": 1,
+            "externee_received_tp": 0,
+            "absconder_received_tp": 0,
+            "deportee_received_tp": 0,
+            "deadbody_received_tp": 0,
+            "uifp_received_tp": 0,
+            "suspect_received_tp": 0
+          },
+          "504": {
+            "arrest_act": "43",
+            "arrest_section": "363/366A/376/504/506(2)",
+            "arresty_received_tp": 0,
+            "convicted_received_tp": 1,
+            "externee_received_tp": 0,
+            "absconder_received_tp": 0,
+            "deportee_received_tp": 0,
+            "deadbody_received_tp": 0,
+            "uifp_received_tp": 0,
+            "suspect_received_tp": 0
+          },
+          "366A": {
+            "arrest_act": "43",
+            "arrest_section": "363/366A/376/504/506(2)",
+            "arresty_received_tp": 0,
+            "convicted_received_tp": 1,
+            "externee_received_tp": 0,
+            "absconder_received_tp": 0,
+            "deportee_received_tp": 0,
+            "deadbody_received_tp": 0,
+            "uifp_received_tp": 0,
+            "suspect_received_tp": 0
+          },
+          "506(2)": {
+            "arrest_act": "43",
+            "arrest_section": "363/366A/376/504/506(2)",
+            "arresty_received_tp": 0,
+            "convicted_received_tp": 1,
+            "externee_received_tp": 0,
+            "absconder_received_tp": 0,
+            "deportee_received_tp": 0,
+            "deadbody_received_tp": 0,
+            "uifp_received_tp": 0,
+            "suspect_received_tp": 0
+          }
+        }
+      }
+    }
+  }
+}

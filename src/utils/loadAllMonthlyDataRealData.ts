@@ -32,7 +32,7 @@ export async function loadAllMonthlyDataReal({
       basePath: "/assets/data/slip_capture/2025",
       filePrefix: "final_nested_state_district_acts",
     },
-    mesa: { basePath: "", filePrefix: "" },
+    mesa: { basePath: "/assets/data/mesa/2025", filePrefix: "final_nested_state_district_acts" },
     tp_tp: { basePath: "", filePrefix: "" },
     tp_cp: { basePath: "", filePrefix: "" },
     cp_cp: { basePath: "", filePrefix: "" },
