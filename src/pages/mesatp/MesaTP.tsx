@@ -53,8 +53,6 @@ function MesaTP() {
     () => filterSlipData(allData, filters),
     [allData, filters]
   );
-  console.log("fdgsd", filters.dateRange);
-  console.log("dsfsgds", filteredData);
 
   // --- Table Data
   const tableRows = useMemo(

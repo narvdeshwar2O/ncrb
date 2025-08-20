@@ -26,7 +26,6 @@ function Agency() {
   const [loadAllData, setLoadAllData] = useState<LoadParams["type"]>("agency");
   const { data: allData, loading } = useMonthlyData(loadAllData);
   const isConsolidated = loadAllData === "agency_consoldated";
-  console.log("dsadssa", allData);
 
   const [filters, setFilters] = useState<FilterState>({
     dateRange: getLastNDaysRange(7),
@@ -127,13 +126,10 @@ function Agency() {
     });
   }, [allData, filters, isConsolidated]);
 
-  console.log("filters", filteredData);
-
   const selectedStates = filters.state ?? [];
   const noStatesSelected = selectedStates.length === 0;
 
   const tableData = useMemo(() => {
-    console.log("Data for table", allData);
     if (filters.districts.length === 0) {
       return {
         stateResult: {},

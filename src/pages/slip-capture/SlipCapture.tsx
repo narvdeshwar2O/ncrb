@@ -1,11 +1,14 @@
-import React, { useEffect, useMemo, useState } from "react";
-import { loadAllMonthlyData } from "@/utils/loadAllMonthlyData";
+import React, { useEffect, useMemo, useState, useCallback } from "react";
+import { loadAllMonthlyDataReal } from "@/utils/loadAllMonthlyDataRealData";
 import { SlipDailyData, SlipFilters, STATUS_KEYS, StatusKey } from "./types";
 import {
   extractStates,
+  extractDistricts,
+  extractActs,
   filterSlipData,
   computeTotalsByStatus,
   buildSlipTableData,
+  getFilteredRecords,
 } from "./utils";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -23,10 +26,14 @@ const SlipCapture: React.FC = () => {
   const [{ from, to }] = useState(getLastNDaysRange(7));
   const [allData, setAllData] = useState<SlipDailyData[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [filters, setFilters] = useState<SlipFilters>({
     dateRange: { from, to },
     states: [],
-    statuses: [...STATUS_KEYS],
+    districts: [],
+    acts: [],
+    sections: [],
+    statuses: [],
   });
   const [allStates, setAllStates] = useState<string[]>([]);
   const [showTable, setShowTable] = useState(false);
@@ -37,46 +44,167 @@ const SlipCapture: React.FC = () => {
     [filters.statuses]
   );
 
+  console.log("Visible statuses:", visibleStatuses);
+
+  // Memoized filter change handler with validation
+  const handleFiltersChange = useCallback((newFilters: SlipFilters) => {
+    console.log("Filters changing from:", filters);
+    console.log("Filters changing to:", newFilters);
+    
+    // Validate the new filters before setting them
+    if (newFilters.states && newFilters.states.length === 0) {
+      console.log("No states selected, clearing dependent filters");
+    }
+    
+    setFilters(newFilters);
+  }, [filters]);
+
+  // Load initial data
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
-      const loaded = await loadAllMonthlyData({ type: "slip_cp" });
-      setAllData(loaded as SlipDailyData[]);
-      const states = extractStates(loaded as SlipDailyData[]);
-      setAllStates(states);
-      setFilters((prev) => ({
-        ...prev,
-        states: states,
-        statuses: [...STATUS_KEYS],
-      }));
-      setLoading(false);
+      setError(null);
+      
+      try {
+        console.log("Loading slip data...");
+        const loaded = await loadAllMonthlyDataReal({ type: "slip_cp" });
+        
+        if (!loaded || !Array.isArray(loaded)) {
+          throw new Error("Invalid data format received");
+        }
+        
+        setAllData(loaded as SlipDailyData[]);
+        console.log("Slip data loaded:", loaded.length, "records");
+        console.log("Sample record:", loaded[0]);
+        
+        const states = extractStates(loaded as SlipDailyData[]);
+        setAllStates(states);
+        console.log("Available states:", states);
+
+      } catch (error) {
+        console.error("Error loading slip data:", error);
+        setError(error instanceof Error ? error.message : "Failed to load data");
+      } finally {
+        setLoading(false);
+      }
     };
+    
     fetchData();
   }, []);
 
+  // Debug filters changes
+  useEffect(() => {
+    console.log("Filters updated:", {
+      states: filters.states,
+      districts: filters.districts,
+      acts: filters.acts,
+      sections: filters.sections,
+      statuses: filters.statuses,
+      dateRange: filters.dateRange
+    });
+  }, [filters]);
+
+  // Filter data with improved error handling
   const filteredData = useMemo(() => {
-    if (filters.states.length === 0) return [];
-    return filterSlipData(allData, filters);
+    if (filters.states.length === 0 || allData.length === 0) {
+      console.log("No states selected or no data available");
+      return [];
+    }
+
+    try {
+      console.log("Filtering data with filters:", filters);
+      console.log("Total data records:", allData.length);
+      
+      const result = filterSlipData(allData, filters);
+      
+      console.log("Filtered data result:", {
+        originalRecords: allData.length,
+        filteredRecords: result.length,
+        filters: filters
+      });
+      
+      return result;
+    } catch (error) {
+      console.error("Error filtering data:", error);
+      console.error("Current filters:", filters);
+      console.error("All data sample:", allData.slice(0, 2));
+      setError("Error filtering data. Please check your filter selections.");
+      return [];
+    }
   }, [allData, filters]);
-  console.log("dfs", filters.dateRange);
-  console.log("fie", filteredData);
 
-  const tableRows = useMemo(
-    () => buildSlipTableData(filteredData, visibleStatuses, filters.states),
-    [filteredData, visibleStatuses, filters.states]
-  );
+  console.log("Filtered data length:", filteredData.length);
 
-  const totalsByStatus = useMemo(
-    () => computeTotalsByStatus(filteredData, visibleStatuses, filters.states),
-    [filteredData, visibleStatuses, filters.states]
-  );
+  // Get filtered records with error handling
+  const filteredRecords = useMemo(() => {
+    if (filteredData.length === 0) return [];
 
+    try {
+      const records = getFilteredRecords(allData, filters);
+      console.log("Filtered records:", records.length);
+      return records;
+    } catch (error) {
+      console.error("Error getting filtered records:", error);
+      return [];
+    }
+  }, [allData, filters, filteredData.length]);
+
+  // Build table data with error handling
+  const tableRows = useMemo(() => {
+    if (filteredData.length === 0) return [];
+    
+    try {
+      const rows = buildSlipTableData(filteredData, visibleStatuses, filters.states);
+      console.log("Table rows built:", rows.length);
+      return rows;
+    } catch (error) {
+      console.error("Error building table data:", error);
+      return [];
+    }
+  }, [filteredData, visibleStatuses, filters.states]);
+
+  // Compute totals by status with error handling
+  const totalsByStatus = useMemo(() => {
+    if (filteredData.length === 0) return {} as Record<StatusKey, number>;
+    
+    try {
+      const totals = computeTotalsByStatus(filteredData, visibleStatuses, filters.states);
+      console.log("Totals by status:", totals);
+      return totals;
+    } catch (error) {
+      console.error("Error computing totals:", error);
+      return {} as Record<StatusKey, number>;
+    }
+  }, [filteredData, visibleStatuses, filters.states]);
+
+  // Handle initial load callback
+  const handleInitialLoad = useCallback(() => {
+    console.log("Initial load completed");
+  }, []);
+
+  // Loading state
   if (loading) {
     return (
       <div className="p-6 flex justify-center items-center h-[calc(100vh-48px)]">
-        <Skeleton className="h-8 w-48 mb-2 flex justify-center items-center">
-          Loading...
-        </Skeleton>
+        <div className="text-center space-y-4">
+          <Skeleton className="h-8 w-48 mx-auto" />
+          <p className="text-sm text-muted-foreground">Loading slip capture data...</p>
+        </div>
+      </div>
+    );
+  }
+
+  // Error state
+  if (error) {
+    return (
+      <div className="p-6 flex justify-center items-center h-[calc(100vh-48px)]">
+        <div className="text-center space-y-4">
+          <div className="text-red-500 text-lg font-medium">Error</div>
+          <p className="text-sm text-muted-foreground">{error}</p>
+          <Button onClick={() => window.location.reload()}>
+            Try Again
+          </Button>
+        </div>
       </div>
     );
   }
@@ -86,12 +214,13 @@ const SlipCapture: React.FC = () => {
       <div className="p-3 space-y-3 bg-background rounded-md shadow-lg border">
         {/* Filters */}
         <SlipFiltersBar
-          allStates={allStates}
           value={filters}
-          onChange={setFilters}
+          onChange={handleFiltersChange}
+          allData={allData}
+          onInitialLoad={handleInitialLoad}
         />
 
-        {/* If no states selected */}
+        {/* Content based on filter state */}
         {filters.states.length === 0 ? (
           <div className="w-full p-6 text-center border rounded-md shadow-sm bg-muted/30">
             <p className="font-medium">
@@ -101,91 +230,121 @@ const SlipCapture: React.FC = () => {
           </div>
         ) : (
           <>
+            {/* Summary Card */}
             <Card className="border-l-4 border-blue-600 bg-card shadow-sm">
               <CardContent className="flex justify-between text-sm text-muted-foreground py-2 items-center">
-                <p>
-                  Showing <strong>{filteredData.length}</strong> days, States:{" "}
-                  <strong>{filters.states.length}</strong>
-                </p>
+                <div className="space-y-1">
+                  <p>
+                    Showing <strong>{filteredRecords.length}</strong> records
+                    from <strong>{filteredData.length}</strong> days
+                  </p>
+                  {filters.states.length > 0 && (
+                    <p className="text-xs">
+                      States: <strong>{filters.states.join(", ")}</strong>
+                      {filters.districts.length > 0 && (
+                        <> | Districts: <strong>{filters.districts.length}</strong></>
+                      )}
+                      {filters.acts.length > 0 && (
+                        <> | Acts: <strong>{filters.acts.length}</strong></>
+                      )}
+                      {filters.sections.length > 0 && (
+                        <> | Sections: <strong>{filters.sections.length}</strong></>
+                      )}
+                    </p>
+                  )}
+                </div>
                 <Button size="sm" onClick={() => setShowTable((p) => !p)}>
                   {showTable ? "Hide Table" : "Show Table"}
                 </Button>
               </CardContent>
             </Card>
 
+            {/* Table or Dashboard View */}
             {showTable ? (
               <SlipTable rows={tableRows} statuses={visibleStatuses} />
             ) : (
               <>
                 {/* Status Summary Cards */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
-                  {visibleStatuses.map((s) => (
-                    <StatusCard
-                      key={s}
-                      title={s}
-                      value={totalsByStatus[s] ?? 0}
-                    />
-                  ))}
-                </div>
-
-                {filters.states.length === 1 ? (
-                  <SlipCaptureTrendChart
-                    filteredData={filteredData}
-                    selectedState={filters.states[0]}
-                  />
+                {visibleStatuses.length > 0 ? (
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+                    {visibleStatuses.map((s) => (
+                      <StatusCard
+                        key={s}
+                        title={s}
+                        value={totalsByStatus[s] ?? 0}
+                      />
+                    ))}
+                  </div>
                 ) : (
-                  <div className="w-full p-3 flex justify-center items-center">
-                    <p className="border shadow-md p-3 rounded-md">
-                      Select one state to visualize the Arrested, Suspect, and
-                      Convicted data.
+                  <div className="w-full p-6 text-center border rounded-md shadow-sm bg-muted/30">
+                    <p className="font-medium">
+                      No crime types selected. Complete your filter selection to view data.
                     </p>
                   </div>
                 )}
 
-                {/* Charts Section */}
-                <div className="border p-3 rounded-md flex flex-col items-end">
-                  <Button
-                    size="sm"
-                    onClick={() => setShowCompareChart((p) => !p)}
-                    className="mb-3 w-[15%]"
-                  >
-                    {showCompareChart
-                      ? "Hide Comparison Chart"
-                      : "Show Comparison Chart"}
-                  </Button>
+                {/* Trend Chart - only for single state */}
+                {filters.states.length === 1 && visibleStatuses.length > 0 ? (
+                  <SlipCaptureTrendChart
+                    filteredData={filteredData}
+                    selectedState={filters.states[0]}
+                  />
+                ) : filters.states.length > 1 ? (
+                  <div className="w-full p-3 flex justify-center items-center">
+                    <p className="border shadow-md p-3 rounded-md">
+                      Select only one state to visualize the trend data for Arrested, Suspect, and Convicted cases.
+                    </p>
+                  </div>
+                ) : null}
 
-                  {showCompareChart ? (
-                    filters.states.length >= 2 &&
-                    filters.states.length <= 15 ? (
-                      <SlipComparisonChart
-                        rows={tableRows}
-                        statuses={visibleStatuses} // From filters
-                        selectedStates={filters.states}
-                        categories={["Crime Status"]}
-                      />
+                {/* Charts Section */}
+                {visibleStatuses.length > 0 && (
+                  <div className="border p-3 rounded-md flex flex-col items-end">
+                    <Button
+                      size="sm"
+                      onClick={() => setShowCompareChart((p) => !p)}
+                      className="mb-3 w-[15%]"
+                    >
+                      {showCompareChart
+                        ? "Hide Comparison Chart"
+                        : "Show Comparison Chart"}
+                    </Button>
+
+                    {showCompareChart ? (
+                      filters.states.length >= 2 &&
+                      filters.states.length <= 15 ? (
+                        <SlipComparisonChart
+                          rows={tableRows}
+                          statuses={visibleStatuses}
+                          selectedStates={filters.states}
+                          categories={["Crime Status"]}
+                        />
+                      ) : (
+                        <div className="w-full p-3 flex justify-center items-center">
+                          <p className="border shadow-md p-3 rounded-md">
+                            Please select at least 2 and at most 15 states for
+                            chart comparison.
+                          </p>
+                        </div>
+                      )
                     ) : (
-                      <div className="w-full p-3 flex justify-center items-center">
-                        <p className="border shadow-md p-3 rounded-md">
-                          Please select at least 2 and at most 15 states for
-                          chart comparison.
-                        </p>
-                      </div>
-                    )
-                  ) : (
-                    <SlipCaptureChart
-                      filteredData={filteredData}
-                      selectedCrimeTypes={visibleStatuses}
-                    />
-                  )}
-                </div>
+                      <SlipCaptureChart
+                        filteredData={filteredData}
+                        selectedCrimeTypes={visibleStatuses}
+                      />
+                    )}
+                  </div>
+                )}
 
                 {/* Top 5 */}
-                <SlipTopFive
-                  allData={allData}
-                  from={filters.dateRange.from!}
-                  to={filters.dateRange.to!}
-                  statuses={visibleStatuses}
-                />
+                {visibleStatuses.length > 0 && filters.dateRange.from && filters.dateRange.to && (
+                  <SlipTopFive
+                    allData={allData}
+                    from={filters.dateRange.from}
+                    to={filters.dateRange.to}
+                    statuses={visibleStatuses}
+                  />
+                )}
               </>
             )}
           </>

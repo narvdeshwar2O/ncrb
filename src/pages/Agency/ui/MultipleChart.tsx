@@ -68,26 +68,32 @@ function computeDayCategoryTotals(
 
     // Check if this state should be included based on filters
     const stateKeyLower = stateKey.toLowerCase().trim();
-    const shouldIncludeState = selectedStates.length === 0 || 
-      selectedStates.some(state => state.toLowerCase().trim() === stateKeyLower);
-    
+    const shouldIncludeState =
+      selectedStates.length === 0 ||
+      selectedStates.some(
+        (state) => state.toLowerCase().trim() === stateKeyLower
+      );
+
     if (!shouldIncludeState) continue;
 
     // Iterate through districts in this state
     for (const districtKey of Object.keys(stateData)) {
       const districtData = stateData[districtKey];
-      if (!districtData || typeof districtData !== 'object') continue;
+      if (!districtData || typeof districtData !== "object") continue;
 
       // Check if this district should be included based on filters
       const districtKeyLower = districtKey.toLowerCase().trim();
-      const shouldIncludeDistrict = selectedDistricts.length === 0 ||
-        selectedDistricts.some(district => district.toLowerCase().trim() === districtKeyLower);
-      
+      const shouldIncludeDistrict =
+        selectedDistricts.length === 0 ||
+        selectedDistricts.some(
+          (district) => district.toLowerCase().trim() === districtKeyLower
+        );
+
       if (!shouldIncludeDistrict) continue;
 
       // Get the category data
       const catRec = districtData[category];
-      if (!catRec || typeof catRec !== 'object') continue;
+      if (!catRec || typeof catRec !== "object") continue;
 
       // Add the values
       enrol += Number(catRec.enrol) || 0;
@@ -143,24 +149,16 @@ export function MultipleChart(props: MultipleChartProps) {
   const selectedStates = filters.state || [];
   const selectedDistricts = filters.districts || [];
 
-  console.log("filtered data", filteredData);
-  console.log("selected states", selectedStates);
-  console.log("selected districts", selectedDistricts);
-
   const selectedDataTypes = filters.dataTypes?.length
     ? filters.dataTypes
     : ["hit", "nohit"];
 
   const chartData = useMemo(() => {
-    console.log("Computing chart data...");
-    console.log("showDailyData:", showDailyData);
-    console.log("activeCategories:", activeCategories);
-    
     if (showDailyData) {
       const sorted = [...filteredData].sort(
         (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
       );
-      
+
       const dailyData = sorted.map((day) => {
         const row: Record<string, any> = {
           label: new Date(day.date).toLocaleDateString("en-US", {
@@ -168,7 +166,7 @@ export function MultipleChart(props: MultipleChartProps) {
             day: "numeric",
           }),
         };
-        
+
         activeCategories.forEach((cat) => {
           const totals = computeDayCategoryTotals(
             day,
@@ -176,18 +174,16 @@ export function MultipleChart(props: MultipleChartProps) {
             selectedStates,
             selectedDistricts
           );
-          
+
           selectedDataTypes.forEach((type) => {
             const key = `${cat}_${type}`;
             row[key] = totals[type as keyof typeof totals];
-            console.log(`Day ${row.label}, ${key}:`, row[key]);
           });
         });
-        
+
         return row;
       });
-      
-      console.log("Daily chart data:", dailyData);
+
       return dailyData;
     }
 
@@ -200,11 +196,10 @@ export function MultipleChart(props: MultipleChartProps) {
         nohit: totalsByCategory[cat]?.nohit ?? 0,
         total: totalsByCategory[cat]?.total ?? 0,
       };
-      console.log(`Category ${cat}:`, data);
+
       return data;
     });
-    
-    console.log("Category chart data:", categoryData);
+
     return categoryData;
   }, [
     showDailyData,

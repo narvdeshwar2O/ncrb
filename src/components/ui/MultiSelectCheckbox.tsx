@@ -32,7 +32,6 @@ const MultiSelectCheckbox = ({
 }: MultiSelectCheckboxProps) => {
   const [open, setOpen] = useState(false);
   const [search, setSearch] = useState("");
-
   const containerRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 

@@ -24,7 +24,19 @@ async function fetchRawActs(): Promise<ActData[]> {
 
 export async function fetchActOptions(): Promise<ActOption[]> {
   const rawActs = await fetchRawActs();
-  return rawActs.map((act) => ({
+
+  // Use a Map to remove duplicates based on 'Code'
+  const uniqueActsMap = new Map<string, ActData>();
+
+  rawActs.forEach((act) => {
+    if (!uniqueActsMap.has(act.Code)) {
+      uniqueActsMap.set(act.Code, act);
+    }
+  });
+
+  // Extract unique acts from map and convert to ActOption format
+  const uniqueActs = Array.from(uniqueActsMap.values());
+  return uniqueActs.map((act) => ({
     value: act.Code,
     label: `${act.Description} (${act.Code})`,
   }));

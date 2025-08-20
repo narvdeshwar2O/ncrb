@@ -28,7 +28,10 @@ export async function loadAllMonthlyDataReal({
 
   const configMap: Record<string, { basePath: string; filePrefix: string }> = {
     cfpb: { basePath: "", filePrefix: "" },
-    slip_cp: { basePath: "", filePrefix: "" },
+    slip_cp: {
+      basePath: "/assets/data/slip_capture/2025",
+      filePrefix: "final_nested_state_district_acts",
+    },
     mesa: { basePath: "", filePrefix: "" },
     tp_tp: { basePath: "", filePrefix: "" },
     tp_cp: { basePath: "", filePrefix: "" },
@@ -66,14 +69,16 @@ export async function loadAllMonthlyDataReal({
       if (stateFilter) {
         // If JSON is an object with states as keys
         if (typeof json === "object" && !Array.isArray(json)) {
-          filteredData = json[stateFilter] ? { [stateFilter]: json[stateFilter] } : {};
+          filteredData = json[stateFilter]
+            ? { [stateFilter]: json[stateFilter] }
+            : {};
         } else if (Array.isArray(json)) {
           filteredData = json.filter((item: any) => item.state === stateFilter);
         }
       }
 
       results.push({
-        date: "ALL", // Single consolidated file
+        date: "ALL",
         data: filteredData,
       });
     } catch (err) {
@@ -83,7 +88,6 @@ export async function loadAllMonthlyDataReal({
     return results;
   }
 
-  // ✅ Handle daily files for 'agency' and other types
   const current = new Date(start);
   while (current <= end) {
     const year = current.getFullYear();
@@ -109,7 +113,10 @@ export async function loadAllMonthlyDataReal({
           : null;
       }
 
-      if (filteredData && (Array.isArray(filteredData) ? filteredData.length > 0 : true)) {
+      if (
+        filteredData &&
+        (Array.isArray(filteredData) ? filteredData.length > 0 : true)
+      ) {
         results.push({
           date: dateStr,
           data: filteredData,

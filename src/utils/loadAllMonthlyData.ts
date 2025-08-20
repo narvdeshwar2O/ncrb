@@ -72,10 +72,10 @@ export async function loadAllMonthlyData({
       basePath: "/assets/data/trace_report_pp_pp/2025",
       filePrefix: "pp_pp_output",
     },
-    agency:{
+    agency: {
       basePath: "/assets/data/trace_report_pp_pp/2025",
       filePrefix: "pp_pp_output",
-    }
+    },
   };
 
   const { basePath, filePrefix } = config[type];
@@ -102,7 +102,7 @@ export async function loadAllMonthlyData({
         if (!res.ok) throw new Error("File not found");
 
         const json = await res.json();
-        // Filter by state (if provided)
+
         let filteredData = json;
         if (stateFilter) {
           filteredData = Array.isArray(json)
@@ -126,6 +126,6 @@ export async function loadAllMonthlyData({
       }
     }
   }
-  // ;
+
   return results;
 }

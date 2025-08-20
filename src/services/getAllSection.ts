@@ -24,7 +24,6 @@ async function fetchSections(): Promise<ActData[]> {
 
 export async function fetchSectionOptions(): Promise<SectionOption[]> {
   const rawActs = await fetchSections();
-  console.log("row",rawActs)
   return rawActs.map((act) => ({
     value: act.code,
     label: `${act.code}`,

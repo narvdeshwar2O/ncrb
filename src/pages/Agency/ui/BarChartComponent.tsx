@@ -37,14 +37,13 @@ export function BarChartComponent(props: BarChartComponentProps) {
     showDailyBarChart,
   } = props;
 
-  console.log("chartData", chartData);
   const filteredDataTypes = selectedDataTypes.filter(
     (type) => type !== "total"
   );
 
   React.useEffect(() => {
     if (chartData.length > 0) {
-      // console.log("BarChart data keys:", Object.keys(chartData[0]));
+      //
     }
   }, [chartData]);
 

@@ -19,7 +19,7 @@ export default function aggregateByState(
   }
 
   data.forEach((entry, index) => {
-    // console.log(`Processing entry ${index + 1}`);
+    //
 
     selectedStates.forEach((state) => {
       const normalizedState = state.trim().toLowerCase();
@@ -55,13 +55,8 @@ export default function aggregateByState(
           const includeDistrict = selectedDistricts.some(
             (d) => d.trim().toLowerCase() === districtName.trim().toLowerCase()
           );
-
-          // console.log(
-          //   `Checking district: "${districtName}" => Include: ${includeDistrict}`
-          // );
-
           if (!includeDistrict) return;
-          // console.log("Matched district:", districtName);
+          //
 
           // Initialize district aggregation if not present
           if (!districtResult[districtName]) {
