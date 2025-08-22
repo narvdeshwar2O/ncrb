@@ -45,7 +45,7 @@ const SlipCapture: React.FC = () => {
   );
 
   console.log("Visible statuses:", visibleStatuses);
-  console.log("All filters.statuses:", filters.statuses);
+  console.log("All filters.statuses:", filters.dateRange);
 
   // Memoized filter change handler with validation
   const handleFiltersChange = useCallback(

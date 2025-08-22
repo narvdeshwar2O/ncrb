@@ -1,0 +1,9820 @@
+{
+  "state": {
+    "tamil nadu": {
+      "MYLAPORE": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 38,
+          "total": 38,
+          "enrol": 1
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "KARUR": {
+        "tp": {
+          "hit": 10,
+          "nohit": 28,
+          "total": 38,
+          "enrol": 5
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 98,
+          "total": 98,
+          "enrol": 2
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "COIMBATORE": {
+        "tp": {
+          "hit": 3,
+          "nohit": 9,
+          "total": 12,
+          "enrol": 13
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 74,
+          "total": 74,
+          "enrol": 1
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "THANJAVUR": {
+        "tp": {
+          "hit": 3,
+          "nohit": 1,
+          "total": 4,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 4,
+          "total": 4,
+          "enrol": 2
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "TENKASI": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 8,
+          "total": 8,
+          "enrol": 2
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "SIVAGANGAI": {
+        "tp": {
+          "hit": 0,
+          "nohit": 1,
+          "total": 1,
+          "enrol": 3
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 34,
+          "total": 34,
+          "enrol": 5
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "SALEM": {
+        "tp": {
+          "hit": 5,
+          "nohit": 11,
+          "total": 16,
+          "enrol": 6
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 1
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "DHARMAPURI": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 6,
+          "total": 6,
+          "enrol": 1
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "KRISHNAGIRI": {
+        "tp": {
+          "hit": 0,
+          "nohit": 20,
+          "total": 20,
+          "enrol": 4
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 20,
+          "total": 20,
+          "enrol": 2
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "TIRUCHIRAPALLI": {
+        "tp": {
+          "hit": 3,
+          "nohit": 10,
+          "total": 13,
+          "enrol": 10
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 1
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "THIRUVANNAMALAI": {
+        "tp": {
+          "hit": 1,
+          "nohit": 1,
+          "total": 2,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 102,
+          "total": 102,
+          "enrol": 10
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "THENI": {
+        "tp": {
+          "hit": 4,
+          "nohit": 16,
+          "total": 20,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 32,
+          "total": 32,
+          "enrol": 1
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "VILLUPURAM": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 172,
+          "total": 172,
+          "enrol": 4
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "MADURAI": {
+        "tp": {
+          "hit": 1,
+          "nohit": 3,
+          "total": 4,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 250,
+          "total": 250,
+          "enrol": 10
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "NAMAKKAL": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 14,
+          "total": 14,
+          "enrol": 4
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "ST. THOMAS MOUNT": {
+        "tp": {
+          "hit": 2,
+          "nohit": 1,
+          "total": 3,
+          "enrol": 1
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 1
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "REDHILLS": {
+        "tp": {
+          "hit": 1,
+          "nohit": 1,
+          "total": 2,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 1
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "TIRUVARUR": {
+        "tp": {
+          "hit": 0,
+          "nohit": 24,
+          "total": 24,
+          "enrol": 20
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 6,
+          "total": 6,
+          "enrol": 1
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "THOOTHUKUDI": {
+        "tp": {
+          "hit": 3,
+          "nohit": 21,
+          "total": 24,
+          "enrol": 5
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 72,
+          "total": 72,
+          "enrol": 4
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "AVADI": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 1,
+          "nohit": 12,
+          "total": 13,
+          "enrol": 7
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "Thirupathur": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 1
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "TIRUPPUR": {
+        "tp": {
+          "hit": 0,
+          "nohit": 32,
+          "total": 32,
+          "enrol": 7
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 23,
+          "total": 23,
+          "enrol": 2
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "RAMANATHAPURAM": {
+        "tp": {
+          "hit": 1,
+          "nohit": 2,
+          "total": 3,
+          "enrol": 3
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 23,
+          "total": 23,
+          "enrol": 11
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "NAGAPATTINAM": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 4
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 26,
+          "total": 26,
+          "enrol": 1
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "THIRUNELVELI": {
+        "tp": {
+          "hit": 1,
+          "nohit": 8,
+          "total": 9,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 114,
+          "total": 114,
+          "enrol": 10
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "CBCID - OCU": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 1
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "T NAGAR": {
+        "tp": {
+          "hit": 1,
+          "nohit": 0,
+          "total": 1,
+          "enrol": 1
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "THIRUVALLUR": {
+        "tp": {
+          "hit": 3,
+          "nohit": 5,
+          "total": 8,
+          "enrol": 4
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "KOYAMBEDU": {
+        "tp": {
+          "hit": 1,
+          "nohit": 0,
+          "total": 1,
+          "enrol": 1
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "GRP TRICHY": {
+        "tp": {
+          "hit": 0,
+          "nohit": 17,
+          "total": 17,
+          "enrol": 12
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "PULIANTHOPE": {
+        "tp": {
+          "hit": 0,
+          "nohit": 2,
+          "total": 2,
+          "enrol": 4
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "KILPAUK": {
+        "tp": {
+          "hit": 1,
+          "nohit": 13,
+          "total": 14,
+          "enrol": 8
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "DINDIGUL": {
+        "tp": {
+          "hit": 2,
+          "nohit": 0,
+          "total": 2,
+          "enrol": 1
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "MAYILADUTHURAI": {
+        "tp": {
+          "hit": 1,
+          "nohit": 5,
+          "total": 6,
+          "enrol": 4
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "COIMBATORE CITY": {
+        "tp": {
+          "hit": 6,
+          "nohit": 74,
+          "total": 80,
+          "enrol": 22
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "KANYAKUMARI": {
+        "tp": {
+          "hit": 1,
+          "nohit": 15,
+          "total": 16,
+          "enrol": 1
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "VIRUDHUNAGAR": {
+        "tp": {
+          "hit": 6,
+          "nohit": 43,
+          "total": 49,
+          "enrol": 13
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "MADURAI CITY": {
+        "tp": {
+          "hit": 6,
+          "nohit": 40,
+          "total": 46,
+          "enrol": 15
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "WASHERMENPET": {
+        "tp": {
+          "hit": 0,
+          "nohit": 6,
+          "total": 6,
+          "enrol": 4
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "TRICHIRAPALLI CITY": {
+        "tp": {
+          "hit": 8,
+          "nohit": 27,
+          "total": 35,
+          "enrol": 22
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "TAMBARAM": {
+        "tp": {
+          "hit": 0,
+          "nohit": 4,
+          "total": 4,
+          "enrol": 2
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "CHENGALPATTU": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 2,
+          "total": 2,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "PERAMBALUR": {
+        "tp": {
+          "hit": 2,
+          "nohit": 11,
+          "total": 13,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "CUDDALORE": {
+        "tp": {
+          "hit": 1,
+          "nohit": 0,
+          "total": 1,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "ARIYALUR": {
+        "tp": {
+          "hit": 0,
+          "nohit": 2,
+          "total": 2,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "CBCID - SOUTH": {
+        "tp": {
+          "hit": 1,
+          "nohit": 1,
+          "total": 2,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "SALEM CITY": {
+        "tp": {
+          "hit": 1,
+          "nohit": 1,
+          "total": 2,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "KANCHEEPURAM": {
+        "tp": {
+          "hit": 1,
+          "nohit": 9,
+          "total": 10,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "FLOWER BAZAAR": {
+        "tp": {
+          "hit": 0,
+          "nohit": 3,
+          "total": 3,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "NILGIRIS": {
+        "tp": {
+          "hit": 6,
+          "nohit": 62,
+          "total": 68,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "PALLIKARANAI": {
+        "tp": {
+          "hit": 5,
+          "nohit": 3,
+          "total": 8,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "TIRUPPUR CITY": {
+        "tp": {
+          "hit": 0,
+          "nohit": 14,
+          "total": 14,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "ERODE": {
+        "tp": {
+          "hit": 2,
+          "nohit": 14,
+          "total": 16,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "VELLORE": {
+        "tp": {
+          "hit": 2,
+          "nohit": 2,
+          "total": 4,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "PUDUKKOTTAI": {
+        "tp": {
+          "hit": 0,
+          "nohit": 17,
+          "total": 17,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "TRIPLICANE": {
+        "tp": {
+          "hit": 0,
+          "nohit": 2,
+          "total": 2,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      }
+    },
+    "telangana": {
+      "Warangal Commissionarate": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 6
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "Ramagundam": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 60,
+          "total": 60,
+          "enrol": 8
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "CYBERABAD": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 1
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      }
+    },
+    "karnataka": {
+      "BANGALORE RURAL": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 17,
+          "total": 17,
+          "enrol": 2
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "KALABURAGI CITY": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 13,
+          "total": 13,
+          "enrol": 1
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "Yadagir": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 4,
+          "total": 4,
+          "enrol": 2
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "Chikkamangaluru": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 26,
+          "total": 26,
+          "enrol": 3
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "MYSURU DISTRICT": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 7,
+          "total": 7,
+          "enrol": 1
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "GADAG": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 8,
+          "total": 8,
+          "enrol": 2
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "KARNATAKA RAILWAYS": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 1
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "HASSAN": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 4,
+          "total": 4,
+          "enrol": 2
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "BANGALORE CITY": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 36,
+          "total": 36,
+          "enrol": 4
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "Ballari": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 1,
+          "total": 1,
+          "enrol": 1
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "BIDAR": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 6,
+          "total": 6,
+          "enrol": 1
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "DAVANAGERE": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 14,
+          "total": 14,
+          "enrol": 1
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "RAICHUR": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 10,
+          "total": 10,
+          "enrol": 1
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "CHIKKABALAPURA": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 4,
+          "total": 4,
+          "enrol": 1
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "KALABURAGI": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 10,
+          "total": 10,
+          "enrol": 5
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "MYSURU CITY": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 13,
+          "total": 13,
+          "enrol": 1
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "VIJAYAPUR": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 14,
+          "total": 14,
+          "enrol": 3
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "UTTARA KANNADA": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 5,
+          "total": 5,
+          "enrol": 1
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "BELAGAVI": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 5,
+          "total": 5,
+          "enrol": 3
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "BAGALKOT": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 12,
+          "total": 12,
+          "enrol": 1
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "HUBLI-DHARWAD CITY": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 10,
+          "total": 10,
+          "enrol": 1
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "DAKSHINA KANNADA": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 54,
+          "total": 54,
+          "enrol": 6
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "CHAMARAJANAGAR": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 2,
+          "total": 2,
+          "enrol": 1
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "KOLAR": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 11,
+          "total": 11,
+          "enrol": 2
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "DHARWAD": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 1
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "HAVERI": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 13,
+          "total": 13,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "Mangaluru City": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 1,
+          "total": 1,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      }
+    },
+    "andhra pradesh": {
+      "VIZIANAGARAM": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 54,
+          "total": 54,
+          "enrol": 1
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "West Godavari": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 100,
+          "total": 100,
+          "enrol": 1
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "Visakhapatnam Commissionerate": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 180,
+          "total": 180,
+          "enrol": 2
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "NTR Commissionerate": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 18,
+          "total": 18,
+          "enrol": 1
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "Kakinada": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 2
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "GRP VIJAYAWADA": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "GRP GUNTAKAL": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      }
+    },
+    "madhya pradesh": {
+      "JABALPUR": {
+        "tp": {
+          "hit": 0,
+          "nohit": 1,
+          "total": 1,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 1,
+          "nohit": 16,
+          "total": 17,
+          "enrol": 2
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "VIDISHA": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 62,
+          "total": 62,
+          "enrol": 3
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "DEWAS": {
+        "tp": {
+          "hit": 101,
+          "nohit": 29,
+          "total": 130,
+          "enrol": 43
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 12,
+          "total": 12,
+          "enrol": 3
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "RAISEN": {
+        "tp": {
+          "hit": 0,
+          "nohit": 2,
+          "total": 2,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 6,
+          "total": 6,
+          "enrol": 1
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "GWALIOR": {
+        "tp": {
+          "hit": 5,
+          "nohit": 0,
+          "total": 5,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 9,
+          "total": 9,
+          "enrol": 1
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "RAJGARH": {
+        "tp": {
+          "hit": 0,
+          "nohit": 5,
+          "total": 5,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 63,
+          "total": 63,
+          "enrol": 2
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "SAGAR": {
+        "tp": {
+          "hit": 0,
+          "nohit": 67,
+          "total": 67,
+          "enrol": 1
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 2
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "KHANDWA": {
+        "tp": {
+          "hit": 10,
+          "nohit": 0,
+          "total": 10,
+          "enrol": 30
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 350,
+          "total": 350,
+          "enrol": 3
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "CHHINDWARA": {
+        "tp": {
+          "hit": 0,
+          "nohit": 44,
+          "total": 44,
+          "enrol": 31
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 194,
+          "total": 194,
+          "enrol": 1
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "ALIRAJPUR": {
+        "tp": {
+          "hit": 0,
+          "nohit": 9,
+          "total": 9,
+          "enrol": 25
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "SEHORE": {
+        "tp": {
+          "hit": 0,
+          "nohit": 16,
+          "total": 16,
+          "enrol": 32
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "SHEOPUR": {
+        "tp": {
+          "hit": 0,
+          "nohit": 1,
+          "total": 1,
+          "enrol": 15
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "SHIVPURI": {
+        "tp": {
+          "hit": 10,
+          "nohit": 10,
+          "total": 20,
+          "enrol": 47
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "SIDHI": {
+        "tp": {
+          "hit": 0,
+          "nohit": 4,
+          "total": 4,
+          "enrol": 20
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "INDORE RURAL": {
+        "tp": {
+          "hit": 7,
+          "nohit": 60,
+          "total": 67,
+          "enrol": 39
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 4,
+          "total": 4,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "NARMADAPURAM": {
+        "tp": {
+          "hit": 0,
+          "nohit": 94,
+          "total": 94,
+          "enrol": 114
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "BHOPAL RURAL": {
+        "tp": {
+          "hit": 0,
+          "nohit": 33,
+          "total": 33,
+          "enrol": 13
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "MANDSAUR": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 18
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "UMARIYA": {
+        "tp": {
+          "hit": 0,
+          "nohit": 32,
+          "total": 32,
+          "enrol": 16
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "MANDLA": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 9
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "BADWANI": {
+        "tp": {
+          "hit": 7,
+          "nohit": 38,
+          "total": 45,
+          "enrol": 29
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 16,
+          "total": 16,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "JHABUA": {
+        "tp": {
+          "hit": 4,
+          "nohit": 161,
+          "total": 165,
+          "enrol": 81
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "DINDORI": {
+        "tp": {
+          "hit": 1,
+          "nohit": 4,
+          "total": 5,
+          "enrol": 19
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "KATNI": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 2,
+          "total": 2,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "BAITUL": {
+        "tp": {
+          "hit": 0,
+          "nohit": 34,
+          "total": 34,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "SHAJAPUR": {
+        "tp": {
+          "hit": 57,
+          "nohit": 0,
+          "total": 57,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "SATNA": {
+        "tp": {
+          "hit": 27,
+          "nohit": 73,
+          "total": 100,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "SHAHDOL": {
+        "tp": {
+          "hit": 7,
+          "nohit": 0,
+          "total": 7,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "GUNA": {
+        "tp": {
+          "hit": 0,
+          "nohit": 17,
+          "total": 17,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "CHHATARPUR": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "BHIND": {
+        "tp": {
+          "hit": 0,
+          "nohit": 8,
+          "total": 8,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "HARDA": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      }
+    },
+    "gujarat": {
+      "NAVSARI": {
+        "tp": {
+          "hit": 0,
+          "nohit": 4,
+          "total": 4,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 2,
+          "total": 2,
+          "enrol": 1
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 1
+        }
+      },
+      "VALSAD": {
+        "tp": {
+          "hit": 0,
+          "nohit": 24,
+          "total": 24,
+          "enrol": 5
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 12,
+          "total": 12,
+          "enrol": 1
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "AMRELI": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 1
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 2,
+          "total": 2,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "PANCHMAHALS": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 2
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "KUTCHH/BHUJ": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 2
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "SURAT CITY": {
+        "tp": {
+          "hit": 0,
+          "nohit": 42,
+          "total": 42,
+          "enrol": 4
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 5
+        }
+      },
+      "JAMNAGAR": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 1
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 1,
+          "nohit": 0,
+          "total": 1,
+          "enrol": 1
+        }
+      },
+      "JUNAGADH": {
+        "tp": {
+          "hit": 0,
+          "nohit": 2,
+          "total": 2,
+          "enrol": 6
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "AHMEDABAD RURAL": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 1,
+          "total": 1,
+          "enrol": 3
+        }
+      },
+      "BHAVNAGAR": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 1
+        }
+      },
+      "GANDHINAGAR": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 6
+        }
+      },
+      "AHMEDABAD CITY": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 19
+        }
+      },
+      "SABAR KANTHA": {
+        "tp": {
+          "hit": 0,
+          "nohit": 2,
+          "total": 2,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "VADODARA RURAL": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "MEHSANA": {
+        "tp": {
+          "hit": 0,
+          "nohit": 1,
+          "total": 1,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "BHARUCH": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "PATAN": {
+        "tp": {
+          "hit": 4,
+          "nohit": 2,
+          "total": 6,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "KACHCHH EAST(GANDHIDHAM)": {
+        "tp": {
+          "hit": 0,
+          "nohit": 2,
+          "total": 2,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "MAHISAGAR": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "RAJKOT RURAL": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "GIR SOMNATH": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 1,
+          "nohit": 0,
+          "total": 1,
+          "enrol": 0
+        }
+      }
+    },
+    "maharashtra": {
+      "PUNE CITY": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 1
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "AMRAVATI CITY": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 8,
+          "total": 8,
+          "enrol": 2
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "YAVATMAL": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 2,
+          "total": 2,
+          "enrol": 1
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "NAGPUR CITY": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 10,
+          "total": 10,
+          "enrol": 1
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "LATUR": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 58,
+          "total": 58,
+          "enrol": 4
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "KOLHAPUR": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 3
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "NAVI MUMBAI": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 10,
+          "total": 10,
+          "enrol": 1
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "NANDURBAR": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 2,
+          "total": 2,
+          "enrol": 1
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "NASHIK CITY": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 82,
+          "total": 82,
+          "enrol": 1
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "GADCHIROLI": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 3
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "Pimpri-Chinchwad Police Commissionerate": {
+        "tp": {
+          "hit": 3,
+          "nohit": 82,
+          "total": 85,
+          "enrol": 19
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "PARBHANI": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 6,
+          "total": 6,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "BULDHANA": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "RATNAGIRI": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "SOLAPUR CITY": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      }
+    },
+    "puducherry": {
+      "PUDUCHERRY": {
+        "tp": {
+          "hit": 0,
+          "nohit": 1,
+          "total": 1,
+          "enrol": 17
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 6,
+          "total": 6,
+          "enrol": 2
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 19
+        }
+      },
+      "KARAIKAL": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 2,
+          "total": 2,
+          "enrol": 1
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 5
+        }
+      }
+    },
+    "jharkhand": {
+      "KODERMA": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 6,
+          "total": 6,
+          "enrol": 1
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "DUMKA": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 2
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 4
+        }
+      },
+      "GIRIDIH": {
+        "tp": {
+          "hit": 0,
+          "nohit": 1,
+          "total": 1,
+          "enrol": 4
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "CRIME INVESTIGATION DEPARTMENT (CID)": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 1
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 2
+        }
+      },
+      "SARAIKELA": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 2
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "PALAMAU": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 2
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "CHAIBASA": {
+        "tp": {
+          "hit": 0,
+          "nohit": 4,
+          "total": 4,
+          "enrol": 5
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "SIMDEGA": {
+        "tp": {
+          "hit": 0,
+          "nohit": 9,
+          "total": 9,
+          "enrol": 11
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "DEOGHAR": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 3
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "GARHWA": {
+        "tp": {
+          "hit": 0,
+          "nohit": 6,
+          "total": 6,
+          "enrol": 15
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "LATEHAR": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 3
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "CHATRA": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 1,
+          "total": 1,
+          "enrol": 1
+        }
+      }
+    },
+    "rajasthan": {
+      "JAIPUR RURAL": {
+        "tp": {
+          "hit": 1,
+          "nohit": 49,
+          "total": 50,
+          "enrol": 39
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 8,
+          "total": 8,
+          "enrol": 1
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "SIROHI": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 20,
+          "total": 20,
+          "enrol": 1
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "DHOLPUR": {
+        "tp": {
+          "hit": 0,
+          "nohit": 42,
+          "total": 42,
+          "enrol": 11
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 2,
+          "nohit": 2,
+          "total": 4,
+          "enrol": 3
+        }
+      },
+      "RAJSAMAND": {
+        "tp": {
+          "hit": 0,
+          "nohit": 44,
+          "total": 44,
+          "enrol": 12
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "JAIPUR (WEST)": {
+        "tp": {
+          "hit": 0,
+          "nohit": 3,
+          "total": 3,
+          "enrol": 1
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "GANGA NAGAR": {
+        "tp": {
+          "hit": 0,
+          "nohit": 33,
+          "total": 33,
+          "enrol": 1
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 1,
+          "total": 1,
+          "enrol": 0
+        }
+      },
+      "SAWAI MADHOPUR": {
+        "tp": {
+          "hit": 0,
+          "nohit": 23,
+          "total": 23,
+          "enrol": 11
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "GRP AJMER": {
+        "tp": {
+          "hit": 0,
+          "nohit": 6,
+          "total": 6,
+          "enrol": 3
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "UDAIPUR": {
+        "tp": {
+          "hit": 0,
+          "nohit": 38,
+          "total": 38,
+          "enrol": 37
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 1,
+          "nohit": 2,
+          "total": 3,
+          "enrol": 0
+        }
+      },
+      "KOTA RURAL": {
+        "tp": {
+          "hit": 2,
+          "nohit": 111,
+          "total": 113,
+          "enrol": 35
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 4
+        }
+      },
+      "AJMER": {
+        "tp": {
+          "hit": 0,
+          "nohit": 8,
+          "total": 8,
+          "enrol": 2
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "ALWAR": {
+        "tp": {
+          "hit": 4,
+          "nohit": 56,
+          "total": 60,
+          "enrol": 24
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 1,
+          "nohit": 0,
+          "total": 1,
+          "enrol": 5
+        }
+      },
+      "CHITTORGARH": {
+        "tp": {
+          "hit": 18,
+          "nohit": 1167,
+          "total": 1185,
+          "enrol": 33
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 1
+        }
+      },
+      "KOTA CITY": {
+        "tp": {
+          "hit": 3,
+          "nohit": 23,
+          "total": 26,
+          "enrol": 24
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 17,
+          "nohit": 2,
+          "total": 19,
+          "enrol": 24
+        }
+      },
+      "SIKAR": {
+        "tp": {
+          "hit": 1,
+          "nohit": 70,
+          "total": 71,
+          "enrol": 13
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 2,
+          "nohit": 2,
+          "total": 4,
+          "enrol": 5
+        }
+      },
+      "TONK": {
+        "tp": {
+          "hit": 1,
+          "nohit": 58,
+          "total": 59,
+          "enrol": 51
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "BUNDI": {
+        "tp": {
+          "hit": 0,
+          "nohit": 9,
+          "total": 9,
+          "enrol": 6
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 1,
+          "total": 1,
+          "enrol": 0
+        }
+      },
+      "JAIPUR CITY (EAST)": {
+        "tp": {
+          "hit": 0,
+          "nohit": 11,
+          "total": 11,
+          "enrol": 3
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "PALI": {
+        "tp": {
+          "hit": 3,
+          "nohit": 31,
+          "total": 34,
+          "enrol": 26
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 3
+        }
+      },
+      "DAUSA": {
+        "tp": {
+          "hit": 2,
+          "nohit": 111,
+          "total": 113,
+          "enrol": 27
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 3
+        }
+      },
+      "JALORE": {
+        "tp": {
+          "hit": 0,
+          "nohit": 13,
+          "total": 13,
+          "enrol": 17
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 1,
+          "total": 1,
+          "enrol": 3
+        }
+      },
+      "JAISALMER": {
+        "tp": {
+          "hit": 1,
+          "nohit": 11,
+          "total": 12,
+          "enrol": 11
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 1,
+          "total": 1,
+          "enrol": 5
+        }
+      },
+      "DUNGARPUR": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 1,
+          "total": 1,
+          "enrol": 4
+        }
+      },
+      "JHALAWAR": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 9,
+          "nohit": 2,
+          "total": 11,
+          "enrol": 16
+        }
+      },
+      "BIKANER": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 2,
+          "nohit": 0,
+          "total": 2,
+          "enrol": 14
+        }
+      },
+      "KARAULI": {
+        "tp": {
+          "hit": 0,
+          "nohit": 17,
+          "total": 17,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "PRATAPGARH": {
+        "tp": {
+          "hit": 0,
+          "nohit": 1,
+          "total": 1,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 1,
+          "nohit": 1,
+          "total": 2,
+          "enrol": 0
+        }
+      },
+      "JHUNJHUNU": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "JODHPUR CITY EAST": {
+        "tp": {
+          "hit": 0,
+          "nohit": 3,
+          "total": 3,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "BHARATPUR": {
+        "tp": {
+          "hit": 0,
+          "nohit": 9,
+          "total": 9,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 1,
+          "nohit": 0,
+          "total": 1,
+          "enrol": 0
+        }
+      },
+      "CHURU": {
+        "tp": {
+          "hit": 0,
+          "nohit": 7,
+          "total": 7,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 2,
+          "nohit": 0,
+          "total": 2,
+          "enrol": 0
+        }
+      },
+      "BHILWARA": {
+        "tp": {
+          "hit": 2,
+          "nohit": 2,
+          "total": 4,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "BARMER": {
+        "tp": {
+          "hit": 0,
+          "nohit": 19,
+          "total": 19,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "HANUMANGARGH": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 2,
+          "total": 2,
+          "enrol": 0
+        }
+      }
+    },
+    "kerala": {
+      "THRISSUR CITY": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 2
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "KOLLAM RURAL": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 5,
+          "total": 5,
+          "enrol": 1
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "THIRUVANANTHAPURAM RURAL": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 3
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "THIRUVANANTHAPURAM CITY": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 59,
+          "total": 59,
+          "enrol": 6
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 1,
+          "total": 1,
+          "enrol": 6
+        }
+      },
+      "PATHANAMTHITTA": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 3
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "ERNAKULAM CITY": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 3
+        }
+      },
+      "ALAPPUZHA": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 16
+        }
+      },
+      "KOZHIKODE CITY": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 5
+        }
+      },
+      "KOLLAM CITY": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 1
+        }
+      },
+      "PALAKKAD": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      }
+    },
+    "odisha": {
+      "BOLANGIR": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 1
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "ROURKELA": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      }
+    },
+    "uttar pradesh": {
+      "MAU": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 1
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "RAMPUR": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 1
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 8
+        }
+      },
+      "MAHRAJGANJ": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 1
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 3
+        }
+      },
+      "BAREILLY": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 3
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 10
+        }
+      },
+      "JHANSI": {
+        "tp": {
+          "hit": 0,
+          "nohit": 49,
+          "total": 49,
+          "enrol": 1
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 24,
+          "nohit": 3,
+          "total": 27,
+          "enrol": 0
+        }
+      },
+      "SONBHADRA": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 10
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "AYODHYA": {
+        "tp": {
+          "hit": 0,
+          "nohit": 2,
+          "total": 2,
+          "enrol": 5
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 6,
+          "total": 6,
+          "enrol": 5
+        }
+      },
+      "MATHURA": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 2
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 7
+        }
+      },
+      "GORAKHPUR": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 18
+        }
+      },
+      "MAINPURI": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 9
+        }
+      },
+      "FATEHGARH": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 3
+        }
+      },
+      "MUZAFFAR NAGAR": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 2,
+          "total": 2,
+          "enrol": 12
+        }
+      },
+      "LALITPUR": {
+        "tp": {
+          "hit": 0,
+          "nohit": 5,
+          "total": 5,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 1,
+          "total": 1,
+          "enrol": 4
+        }
+      },
+      "MORADABAD": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 1,
+          "total": 1,
+          "enrol": 14
+        }
+      },
+      "AURAIYA": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 5
+        }
+      },
+      "BIJNOR": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 13
+        }
+      },
+      "City (Commissionerate Prayagraj)": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 6
+        }
+      },
+      "KAUSHAMBI": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 2,
+          "nohit": 0,
+          "total": 2,
+          "enrol": 5
+        }
+      },
+      "GHAZIPUR": {
+        "tp": {
+          "hit": 0,
+          "nohit": 2,
+          "total": 2,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 2
+        }
+      },
+      "SAMBHAL": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 13
+        }
+      },
+      "HAMIRPUR": {
+        "tp": {
+          "hit": 0,
+          "nohit": 2,
+          "total": 2,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 2,
+          "total": 2,
+          "enrol": 13
+        }
+      },
+      "RAE BARELI": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 6,
+          "total": 6,
+          "enrol": 29
+        }
+      },
+      "HATHRAS": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 25
+        }
+      },
+      "SAHARANPUR": {
+        "tp": {
+          "hit": 0,
+          "nohit": 3,
+          "total": 3,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 1,
+          "total": 1,
+          "enrol": 20
+        }
+      },
+      "MEERUT": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 64,
+          "nohit": 5,
+          "total": 69,
+          "enrol": 10
+        }
+      },
+      "AMETHI": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 1,
+          "nohit": 0,
+          "total": 1,
+          "enrol": 9
+        }
+      },
+      "HAPUR": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 12
+        }
+      },
+      "DEORIA": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 16
+        }
+      },
+      "BADAUN": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 30
+        }
+      },
+      "SHAMLI": {
+        "tp": {
+          "hit": 0,
+          "nohit": 4,
+          "total": 4,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 1,
+          "total": 1,
+          "enrol": 7
+        }
+      },
+      "GONDA": {
+        "tp": {
+          "hit": 0,
+          "nohit": 11,
+          "total": 11,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 1,
+          "total": 1,
+          "enrol": 6
+        }
+      },
+      "FIROZABAD": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 19
+        }
+      },
+      "SHAHJAHANPUR": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 9
+        }
+      },
+      "KUSHI NAGAR": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 2
+        }
+      },
+      "KANNAUJ": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 1
+        }
+      },
+      "BALRAMPUR": {
+        "tp": {
+          "hit": 0,
+          "nohit": 26,
+          "total": 26,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 8
+        }
+      },
+      "BAGHPAT": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 8,
+          "nohit": 2,
+          "total": 10,
+          "enrol": 32
+        }
+      },
+      "BANDA": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 5
+        }
+      },
+      "ALIGARH": {
+        "tp": {
+          "hit": 2,
+          "nohit": 0,
+          "total": 2,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 39,
+          "nohit": 0,
+          "total": 39,
+          "enrol": 6
+        }
+      },
+      "SULTANPUR": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 5
+        }
+      },
+      "CHANDAULI": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 17
+        }
+      },
+      "BULANDSHAHAR": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 9
+        }
+      },
+      "BAHRAICH": {
+        "tp": {
+          "hit": 0,
+          "nohit": 1,
+          "total": 1,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 4
+        }
+      },
+      "LUCKNOW": {
+        "tp": {
+          "hit": 0,
+          "nohit": 2,
+          "total": 2,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 1,
+          "total": 1,
+          "enrol": 18
+        }
+      },
+      "AMROHA": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 1,
+          "total": 1,
+          "enrol": 6
+        }
+      },
+      "HARDOI": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 5
+        }
+      },
+      "BARABANKI": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 2
+        }
+      },
+      "MIRZAPUR": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 6
+        }
+      },
+      "GAUTAM BUDH NAGAR": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 27
+        }
+      },
+      "KHERI": {
+        "tp": {
+          "hit": 0,
+          "nohit": 5,
+          "total": 5,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 7,
+          "total": 7,
+          "enrol": 7
+        }
+      },
+      "ETAH": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 8
+        }
+      },
+      "FATEHPUR": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 1
+        }
+      },
+      "KANSHIRAM NAGAR": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "GRP SECTION JHANSI": {
+        "tp": {
+          "hit": 0,
+          "nohit": 1,
+          "total": 1,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "SIDDHARTH NAGAR": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 7,
+          "nohit": 0,
+          "total": 7,
+          "enrol": 0
+        }
+      },
+      "CHITRAKOOT": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "SANT KABEER NAGAR": {
+        "tp": {
+          "hit": 0,
+          "nohit": 4,
+          "total": 4,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 1,
+          "nohit": 0,
+          "total": 1,
+          "enrol": 0
+        }
+      },
+      "SHRAVASTI": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "JALAUN": {
+        "tp": {
+          "hit": 0,
+          "nohit": 6,
+          "total": 6,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 1,
+          "nohit": 0,
+          "total": 1,
+          "enrol": 0
+        }
+      },
+      "BASTI": {
+        "tp": {
+          "hit": 7,
+          "nohit": 44,
+          "total": 51,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "City (Commissionerate Agra)": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "PRATAPGARH": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 2,
+          "nohit": 0,
+          "total": 2,
+          "enrol": 0
+        }
+      }
+    },
+    "chhattisgarh": {
+      "RAIPUR": {
+        "tp": {
+          "hit": 0,
+          "nohit": 4,
+          "total": 4,
+          "enrol": 13
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 2
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "BALOD": {
+        "tp": {
+          "hit": 0,
+          "nohit": 47,
+          "total": 47,
+          "enrol": 35
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 1
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "MUNGELI": {
+        "tp": {
+          "hit": 1,
+          "nohit": 70,
+          "total": 71,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 1
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "BALODA BAZAR": {
+        "tp": {
+          "hit": 0,
+          "nohit": 123,
+          "total": 123,
+          "enrol": 60
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "DURG": {
+        "tp": {
+          "hit": 0,
+          "nohit": 29,
+          "total": 29,
+          "enrol": 40
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "KHAIRAGARH-CHHUI KHADAN-GANDAI": {
+        "tp": {
+          "hit": 0,
+          "nohit": 8,
+          "total": 8,
+          "enrol": 6
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "SARANGARH-BILAIGARH": {
+        "tp": {
+          "hit": 0,
+          "nohit": 13,
+          "total": 13,
+          "enrol": 3
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "KORBA": {
+        "tp": {
+          "hit": 0,
+          "nohit": 21,
+          "total": 21,
+          "enrol": 90
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "KABIRDHAM (KAWARDHA)": {
+        "tp": {
+          "hit": 0,
+          "nohit": 7,
+          "total": 7,
+          "enrol": 34
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "JANJGIR/CHAMPA": {
+        "tp": {
+          "hit": 0,
+          "nohit": 37,
+          "total": 37,
+          "enrol": 54
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "KANKER": {
+        "tp": {
+          "hit": 0,
+          "nohit": 5,
+          "total": 5,
+          "enrol": 20
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "SUKMA": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 5
+        }
+      },
+      "BEMETARA": {
+        "tp": {
+          "hit": 0,
+          "nohit": 6,
+          "total": 6,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "MOHLA-MANPUR-AMBAGARH CHOUKI": {
+        "tp": {
+          "hit": 0,
+          "nohit": 61,
+          "total": 61,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "BILASPUR": {
+        "tp": {
+          "hit": 0,
+          "nohit": 9,
+          "total": 9,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "RAIGARH": {
+        "tp": {
+          "hit": 0,
+          "nohit": 8,
+          "total": 8,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "MANENDRAGARH-CHIRMIRI-BHARATPUR": {
+        "tp": {
+          "hit": 0,
+          "nohit": 2,
+          "total": 2,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "RAJNANDGAON": {
+        "tp": {
+          "hit": 0,
+          "nohit": 30,
+          "total": 30,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 1,
+          "nohit": 0,
+          "total": 1,
+          "enrol": 0
+        }
+      },
+      "GAURELA-PENDRA-MARWAHI": {
+        "tp": {
+          "hit": 0,
+          "nohit": 4,
+          "total": 4,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "SURAJPUR": {
+        "tp": {
+          "hit": 0,
+          "nohit": 2,
+          "total": 2,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      }
+    },
+    "delhi": {
+      "NORTH": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 1
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 40,
+          "total": 40,
+          "enrol": 1
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 2
+        }
+      },
+      "CENTRAL": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 1
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "RAILWAYS": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 1
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "NORTH WEST": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 1
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 1,
+          "total": 1,
+          "enrol": 12
+        }
+      },
+      "ROHINI": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 5
+        }
+      },
+      "DWARKA": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 1
+        }
+      },
+      "EAST": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 3
+        }
+      },
+      "SOUTH": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 1
+        }
+      },
+      "SOUTH-EAST": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 1,
+          "nohit": 0,
+          "total": 1,
+          "enrol": 13
+        }
+      },
+      "SOUTH WEST": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 8
+        }
+      },
+      "NORTH EAST": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 1,
+          "total": 1,
+          "enrol": 3
+        }
+      },
+      "METRO": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 4
+        }
+      },
+      "OUTER DISTRICT": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 8,
+          "nohit": 2,
+          "total": 10,
+          "enrol": 8
+        }
+      },
+      "CRIME BRANCH": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 4
+        }
+      },
+      "WEST": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 13
+        }
+      },
+      "NEW DELHI": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 3
+        }
+      },
+      "Outer North": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "IGI AIRPORT": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "SHAHDARA": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 6,
+          "nohit": 0,
+          "total": 6,
+          "enrol": 0
+        }
+      }
+    },
+    "punjab": {
+      "PATIALA": {
+        "tp": {
+          "hit": 10,
+          "nohit": 48,
+          "total": 58,
+          "enrol": 23
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "GOVT.RLY POLICE": {
+        "tp": {
+          "hit": 0,
+          "nohit": 14,
+          "total": 14,
+          "enrol": 10
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "SHRI MUKTSAR SAHIB": {
+        "tp": {
+          "hit": 13,
+          "nohit": 150,
+          "total": 163,
+          "enrol": 119
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "SBS NAGAR": {
+        "tp": {
+          "hit": 0,
+          "nohit": 7,
+          "total": 7,
+          "enrol": 13
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 2
+        }
+      },
+      "FAZILKA": {
+        "tp": {
+          "hit": 9,
+          "nohit": 47,
+          "total": 56,
+          "enrol": 7
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 2,
+          "total": 2,
+          "enrol": 3
+        }
+      },
+      "GURDASPUR": {
+        "tp": {
+          "hit": 0,
+          "nohit": 24,
+          "total": 24,
+          "enrol": 28
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "SANGRUR": {
+        "tp": {
+          "hit": 0,
+          "nohit": 10,
+          "total": 10,
+          "enrol": 6
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "BATHINDA": {
+        "tp": {
+          "hit": 5,
+          "nohit": 154,
+          "total": 159,
+          "enrol": 76
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "POLICE COMMISSIONERATE JALANDHAR": {
+        "tp": {
+          "hit": 0,
+          "nohit": 1,
+          "total": 1,
+          "enrol": 28
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "TARN TARAN": {
+        "tp": {
+          "hit": 6,
+          "nohit": 48,
+          "total": 54,
+          "enrol": 45
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 2
+        }
+      },
+      "BATALA": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 2
+        }
+      },
+      "RUPNAGAR": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "LUDHIANA RURAL": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 3,
+          "nohit": 0,
+          "total": 3,
+          "enrol": 0
+        }
+      },
+      "JALANDHAR RURAL": {
+        "tp": {
+          "hit": 5,
+          "nohit": 9,
+          "total": 14,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "SAS NAGAR": {
+        "tp": {
+          "hit": 0,
+          "nohit": 2,
+          "total": 2,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "FEROZEPUR": {
+        "tp": {
+          "hit": 1,
+          "nohit": 1,
+          "total": 2,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "POLICE COMMISSIONERATE AMRITSAR": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "BARNALA": {
+        "tp": {
+          "hit": 0,
+          "nohit": 23,
+          "total": 23,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "KAPURTHALA": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "AMRITSAR RURAL": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "POLICE COMMISSIONERATE LUDHIANA": {
+        "tp": {
+          "hit": 0,
+          "nohit": 1,
+          "total": 1,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "HOSHIARPUR": {
+        "tp": {
+          "hit": 7,
+          "nohit": 45,
+          "total": 52,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "INTELLIGENCE WING (CID)": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "MANSA": {
+        "tp": {
+          "hit": 0,
+          "nohit": 3,
+          "total": 3,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "FARIDKOT": {
+        "tp": {
+          "hit": 8,
+          "nohit": 36,
+          "total": 44,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "KHANNA": {
+        "tp": {
+          "hit": 3,
+          "nohit": 12,
+          "total": 15,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "MOGA": {
+        "tp": {
+          "hit": 10,
+          "nohit": 44,
+          "total": 54,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      }
+    },
+    "haryana": {
+      "SIRSA": {
+        "tp": {
+          "hit": 0,
+          "nohit": 1,
+          "total": 1,
+          "enrol": 5
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 8,
+          "nohit": 11,
+          "total": 19,
+          "enrol": 8
+        }
+      },
+      "ROHTAK": {
+        "tp": {
+          "hit": 1,
+          "nohit": 0,
+          "total": 1,
+          "enrol": 1
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 8,
+          "nohit": 1,
+          "total": 9,
+          "enrol": 22
+        }
+      },
+      "CHARKI DADRI": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 1
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 4,
+          "nohit": 1,
+          "total": 5,
+          "enrol": 7
+        }
+      },
+      "FARIDABAD": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 10,
+          "nohit": 2,
+          "total": 12,
+          "enrol": 54
+        }
+      },
+      "JHAJJAR": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 10,
+          "nohit": 1,
+          "total": 11,
+          "enrol": 10
+        }
+      },
+      "PANIPAT": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 26,
+          "nohit": 0,
+          "total": 26,
+          "enrol": 13
+        }
+      },
+      "YAMUNA NAGAR": {
+        "tp": {
+          "hit": 8,
+          "nohit": 9,
+          "total": 17,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 2,
+          "nohit": 1,
+          "total": 3,
+          "enrol": 2
+        }
+      },
+      "HANSI": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 10,
+          "nohit": 1,
+          "total": 11,
+          "enrol": 9
+        }
+      },
+      "REWARI": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 1,
+          "nohit": 2,
+          "total": 3,
+          "enrol": 1
+        }
+      },
+      "Nuh": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 7,
+          "nohit": 3,
+          "total": 10,
+          "enrol": 7
+        }
+      },
+      "KARNAL": {
+        "tp": {
+          "hit": 2,
+          "nohit": 0,
+          "total": 2,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 13,
+          "nohit": 1,
+          "total": 14,
+          "enrol": 2
+        }
+      },
+      "GURUGRAM": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 8,
+          "nohit": 1,
+          "total": 9,
+          "enrol": 36
+        }
+      },
+      "SONIPAT": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 8,
+          "nohit": 0,
+          "total": 8,
+          "enrol": 12
+        }
+      },
+      "HISSAR": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 14,
+          "nohit": 0,
+          "total": 14,
+          "enrol": 16
+        }
+      },
+      "PALWAL": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 12,
+          "nohit": 3,
+          "total": 15,
+          "enrol": 13
+        }
+      },
+      "AMBALA": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 19,
+          "nohit": 2,
+          "total": 21,
+          "enrol": 23
+        }
+      },
+      "BHIWANI": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 14,
+          "total": 14,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 10,
+          "nohit": 0,
+          "total": 10,
+          "enrol": 20
+        }
+      },
+      "KURUKSHETRA": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 8,
+          "nohit": 2,
+          "total": 10,
+          "enrol": 10
+        }
+      },
+      "FATEHABAD": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 23,
+          "nohit": 5,
+          "total": 28,
+          "enrol": 18
+        }
+      },
+      "MAHENDERGARH": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 2,
+          "nohit": 2,
+          "total": 4,
+          "enrol": 6
+        }
+      },
+      "JIND": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 6,
+          "nohit": 3,
+          "total": 9,
+          "enrol": 1
+        }
+      },
+      "KAITHAL": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 7,
+          "nohit": 0,
+          "total": 7,
+          "enrol": 0
+        }
+      },
+      "GRP AMBALA CANTT": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 2,
+          "nohit": 0,
+          "total": 2,
+          "enrol": 0
+        }
+      },
+      "PANCHKULA": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 5,
+          "nohit": 0,
+          "total": 5,
+          "enrol": 0
+        }
+      }
+    },
+    "bihar": {
+      "BHOJPUR": {
+        "tp": {
+          "hit": 0,
+          "nohit": 27,
+          "total": 27,
+          "enrol": 13
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 1,
+          "total": 1,
+          "enrol": 17
+        }
+      },
+      "BHABHUA": {
+        "tp": {
+          "hit": 0,
+          "nohit": 4,
+          "total": 4,
+          "enrol": 4
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "JEHANABAD": {
+        "tp": {
+          "hit": 0,
+          "nohit": 6,
+          "total": 6,
+          "enrol": 3
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "PATNA": {
+        "tp": {
+          "hit": 0,
+          "nohit": 10,
+          "total": 10,
+          "enrol": 10
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 13
+        }
+      },
+      "PURNEA": {
+        "tp": {
+          "hit": 2,
+          "nohit": 24,
+          "total": 26,
+          "enrol": 14
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 1,
+          "nohit": 0,
+          "total": 1,
+          "enrol": 5
+        }
+      },
+      "BAGAHA": {
+        "tp": {
+          "hit": 0,
+          "nohit": 4,
+          "total": 4,
+          "enrol": 3
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 2,
+          "nohit": 0,
+          "total": 2,
+          "enrol": 4
+        }
+      },
+      "MADHEPURA": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 1,
+          "total": 1,
+          "enrol": 1
+        }
+      },
+      "MADHUBANI": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 1,
+          "nohit": 0,
+          "total": 1,
+          "enrol": 17
+        }
+      },
+      "AURANGABAD": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 5
+        }
+      },
+      "BETIAH": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 2
+        }
+      },
+      "SHEIKHPURA": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 19
+        }
+      },
+      "JAMUI": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 1,
+          "nohit": 4,
+          "total": 5,
+          "enrol": 22
+        }
+      },
+      "KATIHAR": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 2,
+          "nohit": 2,
+          "total": 4,
+          "enrol": 1
+        }
+      },
+      "MOTHIHARI": {
+        "tp": {
+          "hit": 0,
+          "nohit": 1,
+          "total": 1,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 2
+        }
+      },
+      "GAYA": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 1
+        }
+      },
+      "BANKA": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 1,
+          "nohit": 1,
+          "total": 2,
+          "enrol": 12
+        }
+      },
+      "BEGUSARAI": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 2,
+          "total": 2,
+          "enrol": 22
+        }
+      },
+      "ARWAL": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 1
+        }
+      },
+      "SARAN": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 11
+        }
+      },
+      "PHQ": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 1
+        }
+      },
+      "MUJAFFARPUR": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 49
+        }
+      },
+      "SAHARSA": {
+        "tp": {
+          "hit": 1,
+          "nohit": 4,
+          "total": 5,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 1,
+          "nohit": 0,
+          "total": 1,
+          "enrol": 17
+        }
+      },
+      "NAUGHACHHIA": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 2,
+          "nohit": 0,
+          "total": 2,
+          "enrol": 3
+        }
+      },
+      "MUNGER": {
+        "tp": {
+          "hit": 3,
+          "nohit": 8,
+          "total": 11,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 1
+        }
+      },
+      "NALANDA": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 3,
+          "total": 3,
+          "enrol": 3
+        }
+      },
+      "NAWADA": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 1,
+          "total": 1,
+          "enrol": 16
+        }
+      },
+      "SUPAUL": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "KHAGARIA": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 1,
+          "nohit": 5,
+          "total": 6,
+          "enrol": 0
+        }
+      },
+      "BHAGALPUR": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "SAMASTIPUR": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "DARBHANGA": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 2,
+          "nohit": 0,
+          "total": 2,
+          "enrol": 0
+        }
+      },
+      "ARARIA": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 2,
+          "nohit": 0,
+          "total": 2,
+          "enrol": 0
+        }
+      },
+      "SITAMARHI": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      }
+    },
+    "assam": {
+      "KARBIANGLONG": {
+        "tp": {
+          "hit": 1,
+          "nohit": 24,
+          "total": 25,
+          "enrol": 15
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "LAKHIMPUR": {
+        "tp": {
+          "hit": 0,
+          "nohit": 21,
+          "total": 21,
+          "enrol": 2
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "TINSUKIA": {
+        "tp": {
+          "hit": 1,
+          "nohit": 25,
+          "total": 26,
+          "enrol": 5
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "BONGAIGAON": {
+        "tp": {
+          "hit": 0,
+          "nohit": 77,
+          "total": 77,
+          "enrol": 34
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "DIMA HASAO": {
+        "tp": {
+          "hit": 0,
+          "nohit": 4,
+          "total": 4,
+          "enrol": 6
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "BISWANATH": {
+        "tp": {
+          "hit": 0,
+          "nohit": 8,
+          "total": 8,
+          "enrol": 6
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "HAILAKANDI": {
+        "tp": {
+          "hit": 1,
+          "nohit": 20,
+          "total": 21,
+          "enrol": 5
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "HOJAI": {
+        "tp": {
+          "hit": 0,
+          "nohit": 22,
+          "total": 22,
+          "enrol": 10
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "SOUTH SALMARA": {
+        "tp": {
+          "hit": 0,
+          "nohit": 15,
+          "total": 15,
+          "enrol": 2
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "GOLAGHAT": {
+        "tp": {
+          "hit": 1,
+          "nohit": 13,
+          "total": 14,
+          "enrol": 12
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "GUWAHATI CENTRAL": {
+        "tp": {
+          "hit": 0,
+          "nohit": 1,
+          "total": 1,
+          "enrol": 1
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 1
+        }
+      },
+      "DHUBRI": {
+        "tp": {
+          "hit": 0,
+          "nohit": 177,
+          "total": 177,
+          "enrol": 11
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "GUWAHATI EAST": {
+        "tp": {
+          "hit": 3,
+          "nohit": 1,
+          "total": 4,
+          "enrol": 2
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "CACHAR": {
+        "tp": {
+          "hit": 0,
+          "nohit": 31,
+          "total": 31,
+          "enrol": 13
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "DARRANG": {
+        "tp": {
+          "hit": 1,
+          "nohit": 4,
+          "total": 5,
+          "enrol": 4
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 1,
+          "total": 1,
+          "enrol": 0
+        }
+      },
+      "KAMRUP": {
+        "tp": {
+          "hit": 0,
+          "nohit": 10,
+          "total": 10,
+          "enrol": 23
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "GUWAHATI WEST": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 8
+        }
+      },
+      "NALBARI": {
+        "tp": {
+          "hit": 1,
+          "nohit": 0,
+          "total": 1,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "KOKRAJHAR": {
+        "tp": {
+          "hit": 0,
+          "nohit": 35,
+          "total": 35,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "CHIRANG": {
+        "tp": {
+          "hit": 0,
+          "nohit": 5,
+          "total": 5,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "DIBRUGARH": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "UDALGURI": {
+        "tp": {
+          "hit": 0,
+          "nohit": 5,
+          "total": 5,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "JORHAT": {
+        "tp": {
+          "hit": 0,
+          "nohit": 34,
+          "total": 34,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "Charaideo": {
+        "tp": {
+          "hit": 0,
+          "nohit": 3,
+          "total": 3,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      }
+    },
+    "meghalaya": {
+      "KHASI HILLS EAST": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 3
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "WEST JAINTIA HILLS": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 1
+        }
+      },
+      "KHASI HILLS WEST": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      }
+    },
+    "uttarakhand": {
+      "UDHAM SINGH NAGAR": {
+        "tp": {
+          "hit": 4,
+          "nohit": 3,
+          "total": 7,
+          "enrol": 3
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "TEHRI GARHWAL": {
+        "tp": {
+          "hit": 0,
+          "nohit": 2,
+          "total": 2,
+          "enrol": 1
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "NAINITAL": {
+        "tp": {
+          "hit": 0,
+          "nohit": 3,
+          "total": 3,
+          "enrol": 1
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "CHAMPAWAT": {
+        "tp": {
+          "hit": 0,
+          "nohit": 2,
+          "total": 2,
+          "enrol": 2
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "HARIDWAR": {
+        "tp": {
+          "hit": 6,
+          "nohit": 7,
+          "total": 13,
+          "enrol": 8
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 1
+        }
+      },
+      "DEHRADUN": {
+        "tp": {
+          "hit": 1,
+          "nohit": 3,
+          "total": 4,
+          "enrol": 5
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 12,
+          "total": 12,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "CHAMOLI": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "UTTARKASHI": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      }
+    },
+    "himachal pradesh": {
+      "SIRMAUR": {
+        "tp": {
+          "hit": 1,
+          "nohit": 1,
+          "total": 2,
+          "enrol": 11
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "CHAMBA": {
+        "tp": {
+          "hit": 0,
+          "nohit": 3,
+          "total": 3,
+          "enrol": 5
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "HAMIRPUR": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 1
+        }
+      },
+      "SOLAN": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "BADDI POLICE DISTT": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "BILASPUR": {
+        "tp": {
+          "hit": 1,
+          "nohit": 0,
+          "total": 1,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "KULLU": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "KINNAUR": {
+        "tp": {
+          "hit": 1,
+          "nohit": 0,
+          "total": 1,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "MANDI": {
+        "tp": {
+          "hit": 2,
+          "nohit": 0,
+          "total": 2,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      }
+    },
+    "mizoram": {
+      "SERCHHIP": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 1
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "AIZAWL": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 4
+        }
+      },
+      "MAMIT": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      }
+    },
+    "west bengal": {
+      "KOLKATA SOUTH EASTERN DIVISION": {
+        "tp": {
+          "hit": 0,
+          "nohit": 2,
+          "total": 2,
+          "enrol": 3
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "ALIPURDUAR": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 10
+        }
+      },
+      "KOLKATA PORT DIVISION": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 1
+        }
+      },
+      "KOLKATA SOUTH DIVISION": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 3
+        }
+      },
+      "BIRBHUM": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 1
+        }
+      },
+      "BANKURA": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 1,
+          "total": 1,
+          "enrol": 3
+        }
+      },
+      "KOLKATA CENTRAL DIVISION": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 1
+        }
+      },
+      "BARRACKPORE POLICE COMMISSIONERATE": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 10
+        }
+      },
+      "BIDHANNAGAR POLICE COMMISSIONERATE": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 1
+        }
+      },
+      "ISLAMPUR POLICE DISTRICT": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 3
+        }
+      },
+      "HOOGHLY RURAL": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 4
+        }
+      },
+      "KOLKATA NORTH AND NORTH SUBURBAN DIVISION": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 7
+        }
+      },
+      "COOCH BEHAR": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 1
+        }
+      },
+      "RAIGANJ POLICE DISTRICT": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 3
+        }
+      },
+      "PASCHIM MEDINIPUR": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 3
+        }
+      },
+      "PURULIA": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 1
+        }
+      },
+      "MURSHIDABAD POLICE DISTRICT": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 3,
+          "total": 3,
+          "enrol": 12
+        }
+      },
+      "DARJEELING": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "KOLKATA SOUTH WEST DIVISION": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "KOLKATA EASTERN SUB-DIVISION": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "Howrah Rural": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      }
+    },
+    "arunachal pradesh": {
+      "SIANG EAST": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 1
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "PAPUM PARE (CITY)": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 4
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "SHI-YOMI": {
+        "tp": {
+          "hit": 0,
+          "nohit": 2,
+          "total": 2,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "KAMENG WEST": {
+        "tp": {
+          "hit": 0,
+          "nohit": 1,
+          "total": 1,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "LEPARADA": {
+        "tp": {
+          "hit": 0,
+          "nohit": 1,
+          "total": 1,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "LOWER SIANG": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      }
+    },
+    "manipur": {
+      "IMPHAL EAST": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 5,
+          "nohit": 0,
+          "total": 5,
+          "enrol": 5
+        }
+      },
+      "THOUBAL": {
+        "tp": {
+          "hit": 0,
+          "nohit": 3,
+          "total": 3,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 6
+        }
+      },
+      "IMPHAL WEST": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 1,
+          "nohit": 0,
+          "total": 1,
+          "enrol": 7
+        }
+      },
+      "CHANDEL": {
+        "tp": {
+          "hit": 0,
+          "nohit": 33,
+          "total": 33,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      }
+    },
+    "goa": {
+      "NORTH GOA": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 10,
+          "total": 10,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 11
+        }
+      },
+      "SOUTH GOA": {
+        "tp": {
+          "hit": 0,
+          "nohit": 1,
+          "total": 1,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 6,
+          "total": 6,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "C I D": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      }
+    },
+    "chandigarh": {
+      "CHANDIGARH": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 1
+        }
+      }
+    }
+  }
+}

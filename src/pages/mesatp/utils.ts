@@ -157,8 +157,6 @@ export function flattenSlipData(data: SlipDailyData[]): SlipRecord[] {
 
 export function filterSlipData(allData: SlipDailyData[], filters: SlipFilters) {
   const { states, districts, acts, sections, statuses, dateRange } = filters;
-  const from = dateRange.from ? new Date(dateRange.from) : null;
-  const to = dateRange.to ? new Date(dateRange.to) : null;
 
   // Helper function to remove trailing "(digits)" from a string
   const stripTrailingCode = (str: string) => str.replace(/\(\d+\)$/, "").trim();
@@ -169,25 +167,149 @@ export function filterSlipData(allData: SlipDailyData[], filters: SlipFilters) {
   const sectionsLower = sections.map((sec) => sec.toLowerCase());
   const statusesLower = statuses.map((st) => st.toLowerCase());
 
-  // console.log("Starting filterSlipData with filters:", filters);
-  // console.log("Filter arrays:", { statesLower, districtsLower, actsLower, sectionsLower, statusesLower });
+  console.log("=== DATE RANGE DEBUG ===");
+  console.log("Raw filters:", filters);
+  console.log("dateRange.from:", dateRange.from);
+  console.log("dateRange.to:", dateRange.to);
+  console.log("typeof dateRange.from:", typeof dateRange.from);
+  console.log("typeof dateRange.to:", typeof dateRange.to);
+
+  // Multiple approaches to handle different date formats
+  let fromDate = null;
+  let toDate = null;
+
+  if (dateRange.from) {
+    const fromInput = dateRange.from as any; // Type assertion
+    if (typeof fromInput === "string") {
+      // If it's already YYYY-MM-DD, use as is
+      if (/^\d{4}-\d{2}-\d{2}$/.test(fromInput)) {
+        fromDate = fromInput;
+      } else {
+        // Parse and convert to YYYY-MM-DD
+        const d = new Date(fromInput);
+        fromDate =
+          d.getFullYear() +
+          "-" +
+          String(d.getMonth() + 1).padStart(2, "0") +
+          "-" +
+          String(d.getDate()).padStart(2, "0");
+      }
+    } else if (fromInput instanceof Date) {
+      fromDate =
+        fromInput.getFullYear() +
+        "-" +
+        String(fromInput.getMonth() + 1).padStart(2, "0") +
+        "-" +
+        String(fromInput.getDate()).padStart(2, "0");
+    } else {
+      // Fallback: try to convert to date
+      const d = new Date(fromInput);
+      if (!isNaN(d.getTime())) {
+        fromDate =
+          d.getFullYear() +
+          "-" +
+          String(d.getMonth() + 1).padStart(2, "0") +
+          "-" +
+          String(d.getDate()).padStart(2, "0");
+      }
+    }
+  }
+
+  if (dateRange.to) {
+    const toInput = dateRange.to as any; // Type assertion
+    if (typeof toInput === "string") {
+      // If it's already YYYY-MM-DD, use as is
+      if (/^\d{4}-\d{2}-\d{2}$/.test(toInput)) {
+        toDate = toInput;
+      } else {
+        // Parse and convert to YYYY-MM-DD
+        const d = new Date(toInput);
+        toDate =
+          d.getFullYear() +
+          "-" +
+          String(d.getMonth() + 1).padStart(2, "0") +
+          "-" +
+          String(d.getDate()).padStart(2, "0");
+      }
+    } else if (toInput instanceof Date) {
+      toDate =
+        toInput.getFullYear() +
+        "-" +
+        String(toInput.getMonth() + 1).padStart(2, "0") +
+        "-" +
+        String(toInput.getDate()).padStart(2, "0");
+    } else {
+      // Fallback: try to convert to date
+      const d = new Date(toInput);
+      if (!isNaN(d.getTime())) {
+        toDate =
+          d.getFullYear() +
+          "-" +
+          String(d.getMonth() + 1).padStart(2, "0") +
+          "-" +
+          String(d.getDate()).padStart(2, "0");
+      }
+    }
+  }
+
+  console.log("Processed fromDate:", fromDate);
+  console.log("Processed toDate:", toDate);
 
   const filteredData = [];
 
   for (const entry of allData) {
-    // console.log("Processing entry date:", entry.date);
-    const entryDate = new Date(entry.date);
+    // Handle entry date - normalize it too
+    let entryDateStr: string | null = null;
+    const entryDate = entry.date as any; // Type assertion to handle the typing issue
 
-    // Date range filtering
-    if (from && entryDate < from) {
-      // console.log(`Entry date ${entry.date} is before from date ${from}`);
+    if (typeof entryDate === "string") {
+      if (/^\d{4}-\d{2}-\d{2}$/.test(entryDate)) {
+        entryDateStr = entryDate;
+      } else {
+        const d = new Date(entryDate);
+        entryDateStr =
+          d.getFullYear() +
+          "-" +
+          String(d.getMonth() + 1).padStart(2, "0") +
+          "-" +
+          String(d.getDate()).padStart(2, "0");
+      }
+    } else if (entryDate instanceof Date) {
+      entryDateStr =
+        entryDate.getFullYear() +
+        "-" +
+        String(entryDate.getMonth() + 1).padStart(2, "0") +
+        "-" +
+        String(entryDate.getDate()).padStart(2, "0");
+    } else {
+      // Fallback: try to convert whatever it is to a date
+      const d = new Date(entryDate);
+      if (!isNaN(d.getTime())) {
+        entryDateStr =
+          d.getFullYear() +
+          "-" +
+          String(d.getMonth() + 1).padStart(2, "0") +
+          "-" +
+          String(d.getDate()).padStart(2, "0");
+      }
+    }
+
+    console.log(`Entry date: ${entry.date} -> normalized: ${entryDateStr}`);
+
+    // Date range filtering with INCLUSIVE boundaries
+    if (fromDate && entryDateStr && entryDateStr < fromDate) {
+      console.log(`❌ Entry ${entryDateStr} < fromDate ${fromDate}`);
       continue;
     }
 
-    if (to && entryDate > to) {
-      // console.log(`Entry date ${entry.date} is after to date ${to}`);
+    if (toDate && entryDateStr && entryDateStr > toDate) {
+      console.log(`❌ Entry ${entryDateStr} > toDate ${toDate}`);
       continue;
     }
+
+    console.log(
+      `✅ Entry ${entryDateStr} is within range [${fromDate} - ${toDate}]`
+    );
 
     // Build filtered entry
     const filteredEntry = {
@@ -205,11 +327,9 @@ export function filterSlipData(allData: SlipDailyData[], filters: SlipFilters) {
 
       // Apply state filter
       if (statesLower.length > 0 && !statesLower.includes(stateLower)) {
-        // console.log(`Skipping state "${stateName}" - not in filter`);
         continue;
       }
 
-      // console.log(`✓ Processing state: "${stateName}"`);
       const filteredDistricts = {};
       let stateHasData = false;
 
@@ -222,11 +342,9 @@ export function filterSlipData(allData: SlipDailyData[], filters: SlipFilters) {
           districtsLower.length > 0 &&
           !districtsLower.includes(districtLower)
         ) {
-          // console.log(`Skipping district "${districtName}" - not in filter`);
           continue;
         }
 
-        // console.log(`✓ Processing district: "${districtName}"`);
         const filteredActs = {};
         let districtHasData = false;
 
@@ -236,11 +354,9 @@ export function filterSlipData(allData: SlipDailyData[], filters: SlipFilters) {
 
           // Apply act filter
           if (actsLower.length > 0 && !actsLower.includes(actCleanLower)) {
-            // console.log(`Skipping act "${actName}" - not in filter`);
             continue;
           }
 
-          // console.log(`✓ Processing act: "${actName}"`);
           const filteredSections = {};
           let actHasData = false;
 
@@ -248,16 +364,13 @@ export function filterSlipData(allData: SlipDailyData[], filters: SlipFilters) {
           for (const [sectionName, metrics] of Object.entries(sectionsData)) {
             const sectionLower = sectionName.toLowerCase();
 
-            // Apply section filter - THIS IS THE KEY FIX
+            // Apply section filter
             if (
               sectionsLower.length > 0 &&
               !sectionsLower.includes(sectionLower)
             ) {
-              // console.log(`Skipping section "${sectionName}" - not in filter list [${sectionsLower.join(', ')}]`);
               continue;
             }
-
-            // console.log(`✓ Processing section: "${sectionName}"`);
 
             // Apply status filter
             let includeSection = true;
@@ -266,22 +379,15 @@ export function filterSlipData(allData: SlipDailyData[], filters: SlipFilters) {
                 const mappedDataKey = STATUS_KEY_MAP[statusKey];
 
                 if (!mappedDataKey) {
-                  // console.log(`No mapping found for status "${statusKey}"`);
                   return false;
                 }
 
                 const metricValue = metrics[mappedDataKey];
-                // console.log(
-                //   `Checking status "${statusKey}" (mapped to "${mappedDataKey}") with value ${metricValue} in section "${sectionName}"`
-                // );
-
                 return metricValue && metricValue > 0;
               });
             }
 
             if (includeSection) {
-              // console.log(`✓ Including section "${sectionName}" in filtered results`);
-
               // Filter metrics to only include selected statuses
               let filteredMetrics = {};
 
@@ -301,8 +407,6 @@ export function filterSlipData(allData: SlipDailyData[], filters: SlipFilters) {
                     filteredMetrics[field] = metrics[field];
                   }
                 });
-
-                // console.log(`Filtered metrics for section "${sectionName}":`, filteredMetrics);
               } else {
                 // No status filter, include all metrics
                 filteredMetrics = metrics;
@@ -313,8 +417,6 @@ export function filterSlipData(allData: SlipDailyData[], filters: SlipFilters) {
               districtHasData = true;
               stateHasData = true;
               entryHasMatchingData = true;
-            } else {
-              // console.log(`✗ Excluding section "${sectionName}" - no matching status data`);
             }
           }
 
@@ -339,8 +441,14 @@ export function filterSlipData(allData: SlipDailyData[], filters: SlipFilters) {
     }
   }
 
-  // console.log("All filtered data:", filteredData);
-  // console.log("Filtered data length:", filteredData.length);
+  console.log("=== FINAL RESULTS ===");
+  console.log("Total entries processed:", allData.length);
+  console.log("Entries within date range:", filteredData.length);
+  console.log("Date range used:", { fromDate, toDate });
+
+  // Show dates of filtered entries
+  const filteredDates = filteredData.map((entry) => entry.date);
+  console.log("Dates in filtered results:", filteredDates);
 
   return filteredData;
 }

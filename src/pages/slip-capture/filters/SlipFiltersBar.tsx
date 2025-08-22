@@ -57,13 +57,13 @@ export const SlipFiltersBar: React.FC<SlipFiltersBarProps> = ({
 
     // Validate districts against selected states
     if (validatedFilters.states.length > 0) {
-      const validDistricts = validatedFilters.states.flatMap(state => {
+      const validDistricts = validatedFilters.states.flatMap((state) => {
         const stateKey = state.toLowerCase(); // Ensure case consistency
         return stateWithDistrict[stateKey] || stateWithDistrict[state] || [];
       });
-      
-      validatedFilters.districts = validatedFilters.districts.filter(district => 
-        validDistricts.includes(district)
+
+      validatedFilters.districts = validatedFilters.districts.filter(
+        (district) => validDistricts.includes(district)
       );
     } else {
       validatedFilters.districts = [];
@@ -73,7 +73,7 @@ export const SlipFiltersBar: React.FC<SlipFiltersBarProps> = ({
     if (validatedFilters.districts.length === 0) {
       validatedFilters.acts = [];
     }
-    
+
     if (validatedFilters.acts.length === 0) {
       validatedFilters.sections = [];
     }
@@ -91,27 +91,30 @@ export const SlipFiltersBar: React.FC<SlipFiltersBarProps> = ({
   // Dynamic districts based on selected states
   const availableDistricts = useMemo(() => {
     if (selectedStates.length === 0) return [];
-    
-    const districts = selectedStates.flatMap(state => {
-      const stateKey = state.toLowerCase(); // Ensure case consistency
-      const stateDistricts = stateWithDistrict[stateKey] || stateWithDistrict[state] || [];
-      return stateDistricts;
-    }).filter((district, index, arr) => arr.indexOf(district) === index) // Remove duplicates
-    .sort();
-    
+
+    const districts = selectedStates
+      .flatMap((state) => {
+        const stateKey = state.toLowerCase(); // Ensure case consistency
+        const stateDistricts =
+          stateWithDistrict[stateKey] || stateWithDistrict[state] || [];
+        return stateDistricts;
+      })
+      .filter((district, index, arr) => arr.indexOf(district) === index) // Remove duplicates
+      .sort();
+
     return districts;
   }, [selectedStates]);
 
   // Dynamic acts based on selected districts
   const availableActs = useMemo(() => {
     // Return all acts if districts are selected, empty if no districts
-    return selectedDistricts.length > 0 ? actOptions.map(a => a.label) : [];
+    return selectedDistricts.length > 0 ? actOptions.map((a) => a.label) : [];
   }, [actOptions, selectedDistricts]);
 
   // Dynamic sections based on selected acts
   const availableSections = useMemo(() => {
     // Return all sections if acts are selected, empty if no acts
-    return selectedActs.length > 0 ? sectionOptions.map(s => s.value) : [];
+    return selectedActs.length > 0 ? sectionOptions.map((s) => s.value) : [];
   }, [sectionOptions, selectedActs]);
 
   // Hierarchy disabling flags
@@ -120,10 +123,15 @@ export const SlipFiltersBar: React.FC<SlipFiltersBarProps> = ({
   const noActsSelected = selectedActs.length === 0;
   const noSectionsSelected = selectedSections.length === 0;
 
+  // FIXED: Handle date selection properly
   const handleDateSelect = (
     range: { from: Date | undefined; to: Date | undefined } | undefined
   ) => {
     if (!range) return;
+    if (range.from && !range.to) {
+      range.to = range.from;
+    }
+    console.log("data range selected", range);
     updateFilters({ dateRange: range });
   };
 
@@ -174,34 +182,39 @@ export const SlipFiltersBar: React.FC<SlipFiltersBarProps> = ({
   // Auto-clean invalid selections when parent filters change
   useEffect(() => {
     if (selectedStates.length > 0) {
-      const validDistricts = selectedStates.flatMap(state => {
+      const validDistricts = selectedStates.flatMap((state) => {
         const stateKey = state.toLowerCase(); // Ensure case consistency
-        const districts = stateWithDistrict[stateKey] || stateWithDistrict[state] || [];
+        const districts =
+          stateWithDistrict[stateKey] || stateWithDistrict[state] || [];
         return districts;
       });
-      
-      const filteredDistricts = selectedDistricts.filter(district => 
+
+      const filteredDistricts = selectedDistricts.filter((district) =>
         validDistricts.includes(district)
       );
-      
+
       if (filteredDistricts.length !== selectedDistricts.length) {
-        updateFilters({ 
+        updateFilters({
           districts: filteredDistricts,
-          acts: [], 
-          sections: [], 
+          acts: [],
+          sections: [],
           // Keep crime types selected as they are
-          statuses: selectedStatuses
+          statuses: selectedStatuses,
         });
       }
     } else {
       // If no states selected, clear dependent filters but keep crime types
-      if (selectedDistricts.length > 0 || selectedActs.length > 0 || selectedSections.length > 0) {
+      if (
+        selectedDistricts.length > 0 ||
+        selectedActs.length > 0 ||
+        selectedSections.length > 0
+      ) {
         updateFilters({
           districts: [],
           acts: [],
           sections: [],
           // Keep crime types selected as they are
-          statuses: selectedStatuses
+          statuses: selectedStatuses,
         });
       }
     }
@@ -249,28 +262,36 @@ export const SlipFiltersBar: React.FC<SlipFiltersBarProps> = ({
       sections: [],
       statuses: [...STATUS_OPTIONS] as StatusKey[], // Always select all crime types on reset
     };
-    
+
     onChange(defaultFilters);
-    
+
     // After reset, select ALL filters automatically
     setTimeout(() => {
-      if (states.length > 0 && actOptions.length > 0 && sectionOptions.length > 0) {
+      if (
+        states.length > 0 &&
+        actOptions.length > 0 &&
+        sectionOptions.length > 0
+      ) {
         // Get all available districts for all states
-        const allAvailableDistricts = states.flatMap(state => {
-          const stateKey = state.toLowerCase();
-          return stateWithDistrict[stateKey] || stateWithDistrict[state] || [];
-        }).filter((district, index, arr) => arr.indexOf(district) === index)
-        .sort();
-        
+        const allAvailableDistricts = states
+          .flatMap((state) => {
+            const stateKey = state.toLowerCase();
+            return (
+              stateWithDistrict[stateKey] || stateWithDistrict[state] || []
+            );
+          })
+          .filter((district, index, arr) => arr.indexOf(district) === index)
+          .sort();
+
         const allSelectedFilters: SlipFilters = {
           dateRange: getLastNDaysRange(7),
           states: [...states], // All states
           districts: allAvailableDistricts, // All districts
-          acts: actOptions.map(act => act.label), // All acts
-          sections: sectionOptions.map(section => section.value), // All sections
+          acts: actOptions.map((act) => act.label), // All acts
+          sections: sectionOptions.map((section) => section.value), // All sections
           statuses: [...STATUS_OPTIONS] as StatusKey[], // All crime types
         };
-        
+
         onChange(allSelectedFilters);
       }
     }, 100);
@@ -278,30 +299,36 @@ export const SlipFiltersBar: React.FC<SlipFiltersBarProps> = ({
 
   // Initial load with ALL filters selected
   useEffect(() => {
-    if (!initialLoadDone && 
-        states.length > 0 && 
-        actOptions.length > 0 && 
-        sectionOptions.length > 0 &&
-        !isLoadingActs &&
-        !isLoadingSections) {
-      
+    if (
+      !initialLoadDone &&
+      states.length > 0 &&
+      actOptions.length > 0 &&
+      sectionOptions.length > 0 &&
+      !isLoadingActs &&
+      !isLoadingSections
+    ) {
       // Select ALL states initially
       const allSelectedStates = [...states];
-      
+
       // Get ALL districts for ALL selected states
-      const allAvailableDistricts = allSelectedStates.flatMap(state => {
-        const stateKey = state.toLowerCase();
-        const districts = stateWithDistrict[stateKey] || stateWithDistrict[state] || [];
-        return districts;
-      }).filter((district, index, arr) => arr.indexOf(district) === index) // Remove duplicates
-      .sort();
+      const allAvailableDistricts = allSelectedStates
+        .flatMap((state) => {
+          const stateKey = state.toLowerCase();
+          const districts =
+            stateWithDistrict[stateKey] || stateWithDistrict[state] || [];
+          return districts;
+        })
+        .filter((district, index, arr) => arr.indexOf(district) === index) // Remove duplicates
+        .sort();
 
       const defaultFilters: SlipFilters = {
-        dateRange: value.dateRange?.from ? value.dateRange : getLastNDaysRange(7),
+        dateRange: value.dateRange?.from
+          ? value.dateRange
+          : getLastNDaysRange(7),
         states: allSelectedStates, // Select ALL states
         districts: allAvailableDistricts, // Select ALL districts
-        acts: actOptions.map(act => act.label), // Select ALL acts
-        sections: sectionOptions.map(section => section.value), // Select ALL sections
+        acts: actOptions.map((act) => act.label), // Select ALL acts
+        sections: sectionOptions.map((section) => section.value), // Select ALL sections
         statuses: [...STATUS_OPTIONS] as StatusKey[], // Select ALL crime types by default
       };
 
@@ -310,15 +337,15 @@ export const SlipFiltersBar: React.FC<SlipFiltersBarProps> = ({
       if (onInitialLoad) onInitialLoad();
     }
   }, [
-    states.length, 
-    actOptions.length, 
-    sectionOptions.length, 
-    initialLoadDone, 
-    isLoadingActs, 
+    states.length,
+    actOptions.length,
+    sectionOptions.length,
+    initialLoadDone,
+    isLoadingActs,
     isLoadingSections,
     value.dateRange,
     onChange,
-    onInitialLoad
+    onInitialLoad,
   ]);
 
   return (
@@ -331,7 +358,7 @@ export const SlipFiltersBar: React.FC<SlipFiltersBarProps> = ({
       </CardHeader>
       <CardContent>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-7 gap-3">
-          {/* Date Range */}
+          {/* Date Range - FIXED */}
           <div className="space-y-2">
             <label className="text-sm font-medium">Date Range</label>
             <Popover open={isDatePickerOpen} onOpenChange={setIsDatePickerOpen}>
@@ -435,8 +462,8 @@ export const SlipFiltersBar: React.FC<SlipFiltersBarProps> = ({
             disabledText={
               isLoadingActs
                 ? "Loading acts..."
-                : noDistrictsSelected 
-                ? "Select districts first" 
+                : noDistrictsSelected
+                ? "Select districts first"
                 : "No acts available"
             }
           />
@@ -451,8 +478,8 @@ export const SlipFiltersBar: React.FC<SlipFiltersBarProps> = ({
             disabledText={
               isLoadingSections
                 ? "Loading sections..."
-                : noActsSelected 
-                ? "Select acts first" 
+                : noActsSelected
+                ? "Select acts first"
                 : "No sections available"
             }
           />
@@ -471,9 +498,9 @@ export const SlipFiltersBar: React.FC<SlipFiltersBarProps> = ({
           <div className="space-y-2">
             <label className="text-sm font-medium invisible">Actions</label>
             <div className="flex flex-col gap-1">
-              <Button 
-                variant="outline" 
-                onClick={resetFilters} 
+              <Button
+                variant="outline"
+                onClick={resetFilters}
                 className="w-full text-xs py-1 h-8"
               >
                 <RotateCcw className="mr-1 h-3 w-3" />
