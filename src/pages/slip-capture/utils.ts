@@ -4,7 +4,6 @@ import {
   SlipFilters,
   SlipRecord,
   StatusKey,
-  SlipNestedData,
   STATUS_KEY_MAP,
 } from "./types";
 
@@ -21,55 +20,6 @@ export function extractStates(data: SlipDailyData[]): string[] {
   });
 
   return Array.from(statesSet).sort();
-}
-
-// Extract districts for given states
-export function extractDistricts(
-  data: SlipDailyData[],
-  states: string[]
-): string[] {
-  const districtsSet = new Set<string>();
-
-  data.forEach((dayData) => {
-    if (dayData.data) {
-      states.forEach((state) => {
-        if (dayData.data[state]) {
-          Object.keys(dayData.data[state]).forEach((district) => {
-            districtsSet.add(district);
-          });
-        }
-      });
-    }
-  });
-
-  return Array.from(districtsSet).sort();
-}
-
-// Extract acts for given states and districts
-export function extractActs(
-  data: SlipDailyData[],
-  states: string[],
-  districts: string[]
-): string[] {
-  const actsSet = new Set<string>();
-
-  data.forEach((dayData) => {
-    if (dayData.data) {
-      states.forEach((state) => {
-        if (dayData.data[state]) {
-          districts.forEach((district) => {
-            if (dayData.data[state][district]) {
-              Object.keys(dayData.data[state][district]).forEach((act) => {
-                actsSet.add(act);
-              });
-            }
-          });
-        }
-      });
-    }
-  });
-
-  return Array.from(actsSet).sort();
 }
 
 // Extract sections for given states, districts, and acts

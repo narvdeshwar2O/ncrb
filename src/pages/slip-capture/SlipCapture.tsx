@@ -3,8 +3,6 @@ import { loadAllMonthlyDataReal } from "@/utils/loadAllMonthlyDataRealData";
 import { SlipDailyData, SlipFilters, STATUS_KEYS, StatusKey } from "./types";
 import {
   extractStates,
-  extractDistricts,
-  extractActs,
   filterSlipData,
   computeTotalsByStatus,
   buildSlipTableDataByState,
@@ -21,6 +19,12 @@ import { SlipFiltersBar } from "./filters/SlipFiltersBar";
 import SlipCaptureChart from "./ui/SlipCaptureChart";
 import { SlipCaptureTrendChart } from "./ui/SlipCaptureTrendChart";
 import { getLastNDaysRange } from "@/utils/getLastNdays";
+import { useLocation } from "react-router-dom";
+
+const dataPath = {
+  "/slipcapture": "slip_cp",
+  "/mesa": "mesa",
+};
 
 const SlipCapture: React.FC = () => {
   const [{ from, to }] = useState(getLastNDaysRange(7));
@@ -38,6 +42,8 @@ const SlipCapture: React.FC = () => {
   const [allStates, setAllStates] = useState<string[]>([]);
   const [showTable, setShowTable] = useState(false);
   const [showCompareChart, setShowCompareChart] = useState(false);
+  const location = useLocation();
+  const path = location.pathname;
 
   const visibleStatuses = useMemo(
     () => filters.statuses.filter((s) => s !== "Total"),
@@ -71,7 +77,7 @@ const SlipCapture: React.FC = () => {
 
       try {
         console.log("Loading slip data...");
-        const loaded = await loadAllMonthlyDataReal({ type: "slip_cp" });
+        const loaded = await loadAllMonthlyDataReal({ type: dataPath[path] });
 
         if (!loaded || !Array.isArray(loaded)) {
           throw new Error("Invalid data format received");
@@ -95,7 +101,7 @@ const SlipCapture: React.FC = () => {
     };
 
     fetchData();
-  }, []);
+  }, [path]);
 
   // Debug filters changes
   useEffect(() => {
@@ -218,9 +224,7 @@ const SlipCapture: React.FC = () => {
       <div className="p-6 flex justify-center items-center h-[calc(100vh-48px)]">
         <div className="text-center space-y-4">
           <Skeleton className="h-8 w-48 mx-auto" />
-          <p className="text-sm text-muted-foreground">
-            Loading slip capture data...
-          </p>
+          <p className="text-sm text-muted-foreground">Loading data...</p>
         </div>
       </div>
     );

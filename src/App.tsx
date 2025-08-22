@@ -11,7 +11,6 @@ import NotFound from "./pages/NotFound";
 // Lazy-loaded pages
 const Agency = lazy(() => import("./pages/agency/Agency"));
 const SlipCapture = lazy(() => import("./pages/slip-capture/SlipCapture"));
-const MesaTP = lazy(() => import("./pages/mesatp/MesaTP"));
 const TP_TP = lazy(() => import("./pages/trace-report/tp-tp/TP_TP"));
 const TP_CP = lazy(() => import("./pages/trace-report/tp-cp/TP_CP"));
 const CP_CP = lazy(() => import("./pages/trace-report/cp-cp/CP_CP"));
@@ -23,7 +22,7 @@ const queryClient = new QueryClient();
 const routes = [
   { path: "/dashboard", element: <Agency /> },
   { path: "/slipcapture", element: <SlipCapture /> },
-  { path: "/mesa", element: <MesaTP /> },
+  { path: "/mesa", element: <SlipCapture /> },
   { path: "/trace-report/tp-tp", element: <TP_TP /> },
   { path: "/trace-report/tp-cp", element: <TP_CP /> },
   { path: "/trace-report/cp-cp", element: <CP_CP /> },
