@@ -45,8 +45,6 @@ function ChartCard({ title, data }: ChartCardProps) {
     rank: index + 1,
   }));
 
-  console.log("data",rankedData)
-
   const EllipsisLabel = (props: any) => {
     const { x, y, width, height, value } = props;
     const padding = 4;

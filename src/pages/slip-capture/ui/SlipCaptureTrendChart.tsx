@@ -34,21 +34,16 @@ const chartConfig: ChartConfig = {
   Total: { label: "Total", color: "#F59E0B" },
 };
 
-// Fixed field mapping - use the actual field names from your data
-const FIELD_MAPPING = {
-  arrested: 'arresty_received_tp',
-  convicted: 'convicted_received_tp',
-  suspect: 'suspect_received_tp',
-};
-
 interface SlipCaptureTrendChartProps {
   filteredData: SlipDailyData[];
   selectedState: string;
+  dateRange?: { from?: Date; to?: Date }; // Make from and to optional
 }
 
 export function SlipCaptureTrendChart({
   filteredData,
   selectedState,
+  dateRange,
 }: SlipCaptureTrendChartProps) {
   const [activeLines, setActiveLines] = useState<StatusKey[]>([
     "Arrested",
@@ -57,128 +52,241 @@ export function SlipCaptureTrendChart({
     "Total",
   ]);
 
+  console.log("Filtered data from the slipcapture trendchart", filteredData);
+  console.log("Selected state:", selectedState);
+
   const toggleLine = (key: StatusKey) => {
     setActiveLines((prev) =>
       prev.includes(key) ? prev.filter((k) => k !== key) : [...prev, key]
     );
   };
 
-  // Fixed data processing logic
-  const chartData = filteredData
-    .map((day, dayIndex) => {
-      console.log(`\n=== DAY ${dayIndex + 1} ===`);
-      console.log("Processing day:", day.date, "Looking for state:", selectedState);
+  // Dynamic field detection - find the actual field names in your data
+  const detectFields = (sampleData: any) => {
+    const fields = {
+      arrested: null as string | null,
+      convicted: null as string | null,
+      suspect: null as string | null,
+    };
+
+    // Look for fields that contain these keywords (case insensitive)
+    const fieldKeys = Object.keys(sampleData || {});
+    
+    fields.arrested = fieldKeys.find(key => 
+      key.toLowerCase().includes('arrest') || 
+      key.toLowerCase().includes('arresty')
+    ) || null;
+    
+    fields.convicted = fieldKeys.find(key => 
+      key.toLowerCase().includes('convict')
+    ) || null;
+    
+    fields.suspect = fieldKeys.find(key => 
+      key.toLowerCase().includes('suspect')
+    ) || null;
+
+    return fields;
+  };
+
+  // Generate complete date range (fixed for timezone issues)
+  const generateDateRange = (from: Date, to: Date): string[] => {
+    const dates: string[] = [];
+    // Create new dates to avoid modifying originals
+    const current = new Date(from.getFullYear(), from.getMonth(), from.getDate());
+    const end = new Date(to.getFullYear(), to.getMonth(), to.getDate());
+    
+    while (current <= end) {
+      // Use local date parts to avoid timezone issues
+      const year = current.getFullYear();
+      const month = String(current.getMonth() + 1).padStart(2, '0');
+      const day = String(current.getDate()).padStart(2, '0');
+      dates.push(`${year}-${month}-${day}`); // YYYY-MM-DD format
+      current.setDate(current.getDate() + 1);
+    }
+    
+    return dates;
+  };
+
+  // Create a map of available data by date (fixed for timezone)
+  const dataByDate = new Map<string, SlipDailyData>();
+  filteredData.forEach((day) => {
+    // Parse the date properly to avoid timezone issues
+    const dayDate = new Date(day.date);
+    const year = dayDate.getFullYear();
+    const month = String(dayDate.getMonth() + 1).padStart(2, '0');
+    const dayNum = String(dayDate.getDate()).padStart(2, '0');
+    const dateKey = `${year}-${month}-${dayNum}`;
+    dataByDate.set(dateKey, day);
+  });
+
+  // Generate complete date range (with validation for optional dates)
+  const completeDateRange = (dateRange?.from && dateRange?.to) 
+    ? generateDateRange(dateRange.from, dateRange.to)
+    : filteredData.map(day => {
+        const dayDate = new Date(day.date);
+        const year = dayDate.getFullYear();
+        const month = String(dayDate.getMonth() + 1).padStart(2, '0');
+        const dayNum = String(dayDate.getDate()).padStart(2, '0');
+        return `${year}-${month}-${dayNum}`;
+      }).sort();
+
+  console.log("Complete date range:", completeDateRange);
+  console.log("Available data dates:", Array.from(dataByDate.keys()));
+
+  // Enhanced data processing with complete date range
+  const chartData = completeDateRange
+    .map((dateString, dayIndex) => {
+      console.log(`Processing date ${dateString} (day ${dayIndex + 1})`);
       
-      // Check if data exists
-      if (!day.data?.state) {
-        console.log("❌ No state data found");
-        return null;
+      const day = dataByDate.get(dateString);
+      
+      // If no data for this date, return zero values
+      if (!day) {
+        console.log(`No data available for ${dateString}`);
+        const [year, month, dayNum] = dateString.split('-');
+        return {
+          date: new Date(parseInt(year), parseInt(month) - 1, parseInt(dayNum)).toLocaleDateString("en-US", {
+            month: "short",
+            day: "numeric",
+          }),
+          fullDate: dateString,
+          Arrested: 0,
+          Convicted: 0,
+          Suspect: 0,
+          Total: 0,
+        };
       }
+
+      // Process actual data (existing logic)
+      if (!day.data || !day.data.state) {
+        console.log(`No state data for date ${dateString}`);
+        const [year, month, dayNum] = dateString.split('-');
+        return {
+          date: new Date(parseInt(year), parseInt(month) - 1, parseInt(dayNum)).toLocaleDateString("en-US", {
+            month: "short",
+            day: "numeric",
+          }),
+          fullDate: dateString,
+          Arrested: 0,
+          Convicted: 0,
+          Suspect: 0,
+          Total: 0,
+        };
+      }
+
+      // Find state data (case-insensitive search)
+      let stateData = null;
+      const stateKeys = Object.keys(day.data.state);
       
-      console.log("✅ Available states:", Object.keys(day.data.state));
-      
-      // Find state data (try exact match first, then case-insensitive)
-      let stateData = day.data.state[selectedState];
-      if (!stateData) {
-        const stateKeys = Object.keys(day.data.state);
-        const caseInsensitiveMatch = stateKeys.find(
+      // Try exact match first
+      if (day.data.state[selectedState]) {
+        stateData = day.data.state[selectedState];
+      } else {
+        // Try case-insensitive match
+        const matchedKey = stateKeys.find(
           key => key.toLowerCase() === selectedState.toLowerCase()
         );
-        if (caseInsensitiveMatch) {
-          stateData = day.data.state[caseInsensitiveMatch];
-          console.log(`🔍 Found case-insensitive match: "${caseInsensitiveMatch}"`);
-        } else {
-          console.log(`❌ No data found for state: "${selectedState}"`);
-          return null;
+        if (matchedKey) {
+          stateData = day.data.state[matchedKey];
         }
       }
 
-      console.log("✅ Found state data with districts:", Object.keys(stateData));
+      if (!stateData) {
+        console.log(`State "${selectedState}" not found for ${dateString}. Available states:`, stateKeys);
+        const [year, month, dayNum] = dateString.split('-');
+        return {
+          date: new Date(parseInt(year), parseInt(month) - 1, parseInt(dayNum)).toLocaleDateString("en-US", {
+            month: "short",
+            day: "numeric",
+          }),
+          fullDate: dateString,
+          Arrested: 0,
+          Convicted: 0,
+          Suspect: 0,
+          Total: 0,
+        };
+      }
+
+      console.log(`Found state data for ${selectedState} on ${dateString}:`, Object.keys(stateData));
 
       // Initialize counters
       let arrested = 0;
       let convicted = 0;
       let suspect = 0;
-      let processedSections = 0;
+      let detectedFields = null;
 
-      // Aggregate data across all districts, acts, and sections for this state
+      // Process all districts, acts, and sections
       Object.entries(stateData).forEach(([districtName, districts]) => {
-        console.log(`  District: ${districtName}`);
-        
-        if (!districts || typeof districts !== 'object') {
-          console.log(`    ⚠️ Invalid district data for ${districtName}`);
+        if (!districts || typeof districts !== "object") {
           return;
         }
-        
+
         Object.entries(districts).forEach(([actName, acts]) => {
-          console.log(`    Act: ${actName}`);
-          
-          if (!acts || typeof acts !== 'object') {
-            console.log(`      ⚠️ Invalid act data for ${actName}`);
+          if (!acts || typeof acts !== "object") {
             return;
           }
-          
+
           Object.entries(acts).forEach(([sectionName, sectionData]) => {
-            console.log(`      Section: ${sectionName}`);
-            console.log(`      Section data:`, sectionData);
-            
-            if (!sectionData || typeof sectionData !== 'object' || sectionData === null) {
-              console.log(`        ⚠️ Invalid section data for ${sectionName}`);
+            if (!sectionData || !Array.isArray(sectionData)) {
+              console.log(`Section ${sectionName} is not an array:`, typeof sectionData);
               return;
             }
-            
-            // Type assertion after null check
-            const validSectionData = sectionData as Record<string, any>;
-            
-            processedSections++;
-            
-            // Extract values using the correct field names
-            const arrestedValue = Number(validSectionData[FIELD_MAPPING.arrested] || 0);
-            const convictedValue = Number(validSectionData[FIELD_MAPPING.convicted] || 0);
-            const suspectValue = Number(validSectionData[FIELD_MAPPING.suspect] || 0);
-            
-            console.log(`        Values: arrested=${arrestedValue}, convicted=${convictedValue}, suspect=${suspectValue}`);
-            
-            arrested += arrestedValue;
-            convicted += convictedValue;
-            suspect += suspectValue;
-            
-            console.log(`        Running totals: arrested=${arrested}, convicted=${convicted}, suspect=${suspect}`);
+
+            // Process each item in the section array
+            sectionData.forEach((item, itemIndex) => {
+              if (!item || typeof item !== "object") {
+                return;
+              }
+
+              // Detect field names from the first valid item if not done yet
+              if (!detectedFields) {
+                detectedFields = detectFields(item);
+                console.log('Detected fields:', detectedFields);
+              }
+
+              // Extract values using the correct field names from your data structure
+              const arrestedValue = Number(item.arresty_received_tp || 0);
+              const convictedValue = Number(item.convicted_received_tp || 0);
+              const suspectValue = Number(item.suspect_received_tp || 0);
+
+              arrested += arrestedValue;
+              convicted += convictedValue;
+              suspect += suspectValue;
+
+              // Debug logging for non-zero values
+              if (arrestedValue > 0 || convictedValue > 0 || suspectValue > 0) {
+                console.log(`Found data in ${districtName}/${actName}/${sectionName}[${itemIndex}] on ${dateString}:`, {
+                  arrested: arrestedValue,
+                  convicted: convictedValue,
+                  suspect: suspectValue,
+                  item: item
+                });
+              }
+            });
           });
         });
       });
 
       const total = arrested + convicted + suspect;
 
-      console.log(`📊 FINAL TOTALS for ${day.date}:`, { 
-        arrested, 
-        convicted, 
-        suspect, 
-        total, 
-        processedSections 
-      });
-
-      return {
-        date: new Date(day.date).toLocaleDateString("en-US", {
+      const [year, month, dayNum] = dateString.split('-');
+      const result = {
+        date: new Date(parseInt(year), parseInt(month) - 1, parseInt(dayNum)).toLocaleDateString("en-US", {
           month: "short",
           day: "numeric",
         }),
-        fullDate: day.date,
+        fullDate: dateString,
         Arrested: arrested,
         Convicted: convicted,
         Suspect: suspect,
         Total: total,
       };
-    })
-    .filter(Boolean) as any[];
 
-  console.log("🎯 FINAL CHART DATA:", chartData);
-  console.log("📈 Chart data summary:", {
-    totalDataPoints: chartData.length,
-    totalArrested: chartData.reduce((sum, d) => sum + d.Arrested, 0),
-    totalConvicted: chartData.reduce((sum, d) => sum + d.Convicted, 0),
-    totalSuspect: chartData.reduce((sum, d) => sum + d.Suspect, 0),
-  });
+      console.log(`Date ${dateString} result:`, result);
+      return result;
+    })
+
+  console.log("Final chart data:", chartData);
 
   const handleExportCSV = () => {
     const headers = ["Date", "Arrested", "Convicted", "Suspect", "Total"];
@@ -216,39 +324,54 @@ export function SlipCaptureTrendChart({
 
   // Enhanced debugging for no data case
   if (chartData.length === 0) {
-    console.log("❌ NO CHART DATA AVAILABLE");
-    console.log("Filtered data length:", filteredData.length);
-    console.log("Selected state:", selectedState);
-    
-    // Debug: Show available states
+    // Debug: Show available states and sample data structure
     const availableStates = new Set<string>();
-    filteredData.forEach(day => {
+    let sampleDataStructure = null;
+    
+    filteredData.forEach((day) => {
       if (day.data?.state) {
-        Object.keys(day.data.state).forEach(state => availableStates.add(state));
+        Object.keys(day.data.state).forEach((state) => {
+          availableStates.add(state);
+          
+          // Get sample data structure from first state
+          if (!sampleDataStructure && day.data.state[state]) {
+            const firstDistrict = Object.values(day.data.state[state])[0];
+            if (firstDistrict && typeof firstDistrict === 'object') {
+              const firstAct = Object.values(firstDistrict)[0];
+              if (firstAct && typeof firstAct === 'object') {
+                const firstSection = Object.values(firstAct)[0];
+                if (firstSection) {
+                  sampleDataStructure = Object.keys(firstSection);
+                }
+              }
+            }
+          }
+        });
       }
     });
-    console.log("Available states in data:", Array.from(availableStates));
 
     return (
       <Card>
         <CardHeader className="py-2">
-          <CardTitle className="text-base">No Data Available</CardTitle>
+          <CardTitle className="text-base">No Data Available for Trend Chart</CardTitle>
           <CardDescription className="text-xs">
-            Selected state: "{selectedState}" not found in data.
-            <br />
-            Available states: {Array.from(availableStates).join(", ") || "None"}
-            <br />
-            Total filtered entries: {filteredData.length}
-            <br />
-            <strong>Debug: Check browser console for detailed logs</strong>
+            <div className="space-y-1">
+              <div>Selected state: "{selectedState}"</div>
+              <div>Available states ({availableStates.size}): {Array.from(availableStates).slice(0, 5).join(", ")}{availableStates.size > 5 ? "..." : ""}</div>
+              <div>Total filtered entries: {filteredData.length}</div>
+              {sampleDataStructure && (
+                <div>Sample fields available: {sampleDataStructure.join(", ")}</div>
+              )}
+            </div>
           </CardDescription>
         </CardHeader>
       </Card>
     );
   }
 
-  // Show debug info in the UI when data is found but values are zero
-  const hasZeroData = chartData.every(d => d.Total === 0);
+  // Show debug info when data is found but values are zero
+  const hasZeroData = chartData.every((d) => d.Total === 0);
+  const totalDataPoints = chartData.reduce((sum, d) => sum + d.Total, 0);
 
   return (
     <Card id="trend-chart-container" className="py-2">
@@ -259,10 +382,15 @@ export function SlipCaptureTrendChart({
               {selectedState} - Crime Trends
             </CardTitle>
             <CardDescription className="text-xs">
-              Arrested, Convicted, Suspect & Total ({chartData.length} data points)
+              Arrested, Convicted, Suspect & Total ({chartData.length} data points, {totalDataPoints} total cases)
+              {(dateRange?.from && dateRange?.to) && (
+                <span className="block mt-1 text-blue-600">
+                  📅 Range: {dateRange.from.toLocaleDateString()} - {dateRange.to.toLocaleDateString()}
+                </span>
+              )}
               {hasZeroData && (
                 <span className="text-red-500 block mt-1">
-                  ⚠️ All values are zero - check console for detailed debug info
+                  ⚠️ All values are zero - check field mapping
                 </span>
               )}
             </CardDescription>
@@ -308,7 +436,9 @@ export function SlipCaptureTrendChart({
                   }))}
                   onClick={(e) => toggleLine(e.id as StatusKey)}
                   formatter={(value, entry) => {
-                    const isActive = activeLines.includes(entry?.id as StatusKey);
+                    const isActive = activeLines.includes(
+                      entry?.id as StatusKey
+                    );
                     return (
                       <span style={{ opacity: isActive ? 1 : 0.4 }}>
                         {value}

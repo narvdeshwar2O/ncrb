@@ -50,18 +50,12 @@ const SlipCapture: React.FC = () => {
     [filters.statuses]
   );
 
-  console.log("Visible statuses:", visibleStatuses);
-  console.log("All filters.statuses:", filters.dateRange);
-
   // Memoized filter change handler with validation
   const handleFiltersChange = useCallback(
     (newFilters: SlipFilters) => {
-      console.log("Filters changing from:", filters);
-      console.log("Filters changing to:", newFilters);
-
       // Validate the new filters before setting them
       if (newFilters.states && newFilters.states.length === 0) {
-        console.log("No states selected, clearing dependent filters");
+        // console.log("No states selected, clearing dependent filters");
       }
 
       setFilters(newFilters);
@@ -76,7 +70,6 @@ const SlipCapture: React.FC = () => {
       setError(null);
 
       try {
-        console.log("Loading slip data...");
         const loaded = await loadAllMonthlyDataReal({ type: dataPath[path] });
 
         if (!loaded || !Array.isArray(loaded)) {
@@ -84,14 +77,10 @@ const SlipCapture: React.FC = () => {
         }
 
         setAllData(loaded as SlipDailyData[]);
-        console.log("Slip data loaded:", loaded.length, "records");
-        console.log("Sample record:", loaded[0]);
 
         const states = extractStates(loaded as SlipDailyData[]);
         setAllStates(states);
-        console.log("Available states:", states);
       } catch (error) {
-        console.error("Error loading slip data:", error);
         setError(
           error instanceof Error ? error.message : "Failed to load data"
         );
@@ -103,46 +92,21 @@ const SlipCapture: React.FC = () => {
     fetchData();
   }, [path]);
 
-  // Debug filters changes
-  useEffect(() => {
-    console.log("Filters updated:", {
-      states: filters.states,
-      districts: filters.districts,
-      acts: filters.acts,
-      sections: filters.sections,
-      statuses: filters.statuses,
-      dateRange: filters.dateRange,
-    });
-  }, [filters]);
-
   // Filter data with improved error handling
   const filteredData = useMemo(() => {
     if (filters.states.length === 0 || allData.length === 0) {
-      console.log("No states selected or no data available");
       return [];
     }
 
     try {
-      console.log("Filtering data with filters:", filters);
-      console.log("Total data records:", allData.length);
-
       const result = filterSlipData(allData, filters);
-
-      console.log("Filtered data result:", {
-        originalRecords: allData.length,
-        filteredRecords: result.length,
-        filters: filters,
-      });
-
+      console.log("data slip cptur", result);
       return result;
     } catch (error) {
-      console.error("Error filtering data:", error);
       setError("Error filtering data. Please check your filter selections.");
       return [];
     }
   }, [allData, filters]);
-
-  console.log("Filtered data length:", filteredData.length);
 
   // Get filtered records with error handling
   const filteredRecords = useMemo(() => {
@@ -150,7 +114,6 @@ const SlipCapture: React.FC = () => {
 
     try {
       const records = getFilteredRecords(allData, filters);
-      console.log("Filtered records:", records.length);
       return records;
     } catch (error) {
       console.error("Error getting filtered records:", error);
@@ -163,19 +126,12 @@ const SlipCapture: React.FC = () => {
     if (filteredData.length === 0) return [];
 
     try {
-      console.log("Building table data with:", {
-        filteredDataLength: filteredData.length,
-        visibleStatuses,
-        filterStates: filters.states,
-      });
-
       const rows = buildSlipTableDataByState(
         filteredData,
         visibleStatuses,
         filters.states
       );
 
-      console.log("Table rows built:", rows.length, "rows");
       return rows;
     } catch (error) {
       console.error("Error building table data:", error);
@@ -186,22 +142,14 @@ const SlipCapture: React.FC = () => {
   // Compute totals by status with enhanced error handling and debugging
   const totalsByStatus = useMemo(() => {
     if (filteredData.length === 0) {
-      console.log("No filtered data available for totals calculation");
       return {} as Record<StatusKey, number>;
     }
 
     if (visibleStatuses.length === 0) {
-      console.log("No visible statuses available for totals calculation");
       return {} as Record<StatusKey, number>;
     }
 
     try {
-      console.log("Computing totals with:", {
-        filteredDataLength: filteredData.length,
-        visibleStatuses,
-        filterStates: filters.states,
-      });
-
       const totals = computeTotalsByStatus(
         filteredData,
         visibleStatuses,
@@ -214,9 +162,7 @@ const SlipCapture: React.FC = () => {
   }, [filteredData, visibleStatuses, filters.states]);
 
   // Handle initial load callback
-  const handleInitialLoad = useCallback(() => {
-    console.log("Initial load completed");
-  }, []);
+  const handleInitialLoad = useCallback(() => {}, []);
 
   // Loading state
   if (loading) {
@@ -324,9 +270,6 @@ const SlipCapture: React.FC = () => {
                 statuses={visibleStatuses}
                 filteredData={filteredData}
                 selectedStates={filters.states}
-                onViewChange={(viewType) => {
-                  console.log("View changed to:", viewType);
-                }}
               />
             ) : (
               <>
@@ -335,10 +278,6 @@ const SlipCapture: React.FC = () => {
                   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
                     {visibleStatuses.map((status) => {
                       const total = totalsByStatus[status] ?? 0;
-                      console.log(
-                        `Rendering StatusCard for ${status} with value:`,
-                        total
-                      );
 
                       return (
                         <StatusCard key={status} title={status} value={total} />
@@ -359,6 +298,7 @@ const SlipCapture: React.FC = () => {
                   <SlipCaptureTrendChart
                     filteredData={filteredData}
                     selectedState={filters.states[0]}
+                    dateRange={filters.dateRange}
                   />
                 ) : filters.states.length > 1 ? (
                   <div className="w-full p-3 flex justify-center items-center">
