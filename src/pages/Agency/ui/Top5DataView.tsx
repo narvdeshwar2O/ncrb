@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import getTopStatesByDateRange from "@/utils/getTopStatesByDateRange";
 import ChartCard from "./ChartCard";
 import { Button } from "@/components/ui/button";
@@ -112,6 +112,7 @@ const CategorySection = ({
 }) => {
   const [viewMode, setViewMode] = useState<"state" | "district">("state");
   const { toast } = useToast();
+  const sectionRef = useRef<HTMLDivElement>(null);
 
   const topStatesData = useMemo(
     () => getTopStatesByDateRange(allData, from, to, category),
@@ -120,7 +121,13 @@ const CategorySection = ({
 
   const topDistrictsData = useMemo(() => {
     if (selectedStates.length === 1) {
-      return getTopDistrictsByState(allData, from, to, selectedStates[0], category);
+      return getTopDistrictsByState(
+        allData,
+        from,
+        to,
+        selectedStates[0],
+        category
+      );
     }
     return null;
   }, [allData, from, to, selectedStates, category]);
@@ -141,12 +148,24 @@ const CategorySection = ({
           return {
             metric,
             chartData: metricTop5
-              .filter((item) => item.state?.toLowerCase() !== "total" && item[metric] !== undefined)
+              .filter(
+                (item) =>
+                  item.state?.toLowerCase() !== "total" &&
+                  item[metric] !== undefined
+              )
               .map((item) => ({ state: item.state, value: item[metric] })),
           };
         }),
     [currentData, dataTypes]
   );
+
+  /** Hide buttons before printing - Same as reference code */
+  const hideButtons = (hide: boolean) => {
+    const buttons = document.querySelectorAll(".print-hide");
+    buttons.forEach((btn) => {
+      (btn as HTMLElement).style.display = hide ? "none" : "";
+    });
+  };
 
   const handleToggleDistrictView = () => {
     if (!canShowDistricts && viewMode === "state") {
@@ -161,13 +180,55 @@ const CategorySection = ({
     setViewMode(viewMode === "state" ? "district" : "state");
   };
 
+  // --- Export CSV ---
+  const handleExportCSV = () => {
+    hideButtons(true);
+
+    const headers: string[] = [viewMode === "district" ? "District" : "State"];
+    const dataRows: (string | number)[][] = [];
+
+    allMetricData.forEach(({ metric, chartData }, i) => {
+      if (i === 0) {
+        headers.push(metric.toUpperCase());
+      } else {
+        headers.push(metric.toUpperCase());
+      }
+
+      chartData.forEach((item, rowIndex) => {
+        if (!dataRows[rowIndex]) dataRows[rowIndex] = [item.state];
+        dataRows[rowIndex].push(item.value);
+      });
+    });
+
+    const filename = `${category}-${viewMode}-top5.csv`;
+    exportService.exportToCSV(filename, headers, dataRows);
+
+    setTimeout(() => hideButtons(false), 500);
+  };
+
+  // --- Print Section ---
+  const handlePrint = () => {
+    hideButtons(true);
+    exportService.printComponent(
+      sectionRef.current,
+      viewMode === "district"
+        ? `Top 5 Districts - ${category}`
+        : `Top 5 States - ${category}`
+    );
+    setTimeout(() => hideButtons(false), 500);
+  };
+
   return (
-    <div id={`category-${category}`}>
+    <div id={`category-${category}`} ref={sectionRef}>
       <div className="mb-4 flex items-center justify-between">
         <h2 className="text-xl font-bold text-foreground tracking-tight">
           {viewMode === "district"
-            ? `Top 5 Districts - ${categoryLabelMap[category] || category.toUpperCase()} (${selectedStates[0]})`
-            : `Top 5 States - ${categoryLabelMap[category] || category.toUpperCase()}`}
+            ? `Top 5 Districts - ${
+                categoryLabelMap[category] || category.toUpperCase()
+              } (${selectedStates[0]})`
+            : `Top 5 States - ${
+                categoryLabelMap[category] || category.toUpperCase()
+              }`}
         </h2>
         <div className="flex gap-2">
           <Button
@@ -182,14 +243,25 @@ const CategorySection = ({
               </>
             ) : (
               <>
-                <Globe className="h-4 w-4 mr-1" /> {canShowDistricts ? "District wise" : "Select 1 state only"}
+                <Globe className="h-4 w-4 mr-1" />{" "}
+                {canShowDistricts ? "District wise" : "Select 1 state only"}
               </>
             )}
           </Button>
-          <Button variant="outline" className="print-hide" size="sm">
+          <Button
+            variant="outline"
+            className="print-hide"
+            size="sm"
+            onClick={handleExportCSV}
+          >
             <Download className="h-4 w-4 mr-1" /> CSV
           </Button>
-          <Button variant="outline" className="print-hide" size="sm">
+          <Button
+            variant="outline"
+            className="print-hide"
+            size="sm"
+            onClick={handlePrint}
+          >
             <Printer className="h-4 w-4 mr-1" /> Print
           </Button>
         </div>
@@ -199,7 +271,9 @@ const CategorySection = ({
         {allMetricData.map(({ metric, chartData }) => (
           <ChartCard
             key={metric}
-            title={`${metric.toUpperCase()} (${categoryLabelMap[category] || category.toUpperCase()})`}
+            title={`${metric.toUpperCase()} (${
+              categoryLabelMap[category] || category.toUpperCase()
+            })`}
             data={chartData}
           />
         ))}
@@ -208,8 +282,18 @@ const CategorySection = ({
   );
 };
 
-export const Top5DataView = ({ allData, from, to, categories, dataTypes, selectedStates = [] }: Props) => {
-  const validCategories = useMemo(() => categories.filter(isValidCategoryKey), [categories]);
+export const Top5DataView = ({
+  allData,
+  from,
+  to,
+  categories,
+  dataTypes,
+  selectedStates = [],
+}: Props) => {
+  const validCategories = useMemo(
+    () => categories.filter(isValidCategoryKey),
+    [categories]
+  );
 
   return (
     <>
@@ -226,7 +310,7 @@ export const Top5DataView = ({ allData, from, to, categories, dataTypes, selecte
           />
         ))}
       </div>
-      
+
       <Toaster />
     </>
   );

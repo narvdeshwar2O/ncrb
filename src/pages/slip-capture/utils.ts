@@ -12,8 +12,8 @@ export function extractStates(data: SlipDailyData[]): string[] {
   const statesSet = new Set<string>();
 
   data.forEach((dayData) => {
-    if (dayData.data) {
-      Object.keys(dayData.data).forEach((state) => {
+    if (dayData.data && dayData.data.state) {
+      Object.keys(dayData.data.state).forEach((state) => {
         statesSet.add(state);
       });
     }
@@ -32,14 +32,14 @@ export function extractSections(
   const sectionsSet = new Set<string>();
 
   data.forEach((dayData) => {
-    if (dayData.data) {
+    if (dayData.data && dayData.data.state) {
       states.forEach((state) => {
-        if (dayData.data[state]) {
+        if (dayData.data.state[state]) {
           districts.forEach((district) => {
-            if (dayData.data[state][district]) {
+            if (dayData.data.state[state][district]) {
               acts.forEach((act) => {
-                if (dayData.data[state][district][act]) {
-                  Object.keys(dayData.data[state][district][act]).forEach(
+                if (dayData.data.state[state][district][act]) {
+                  Object.keys(dayData.data.state[state][district][act]).forEach(
                     (section) => {
                       sectionsSet.add(section);
                     }
@@ -61,25 +61,28 @@ export function flattenSlipData(data: SlipDailyData[]): SlipRecord[] {
   const records: SlipRecord[] = [];
 
   data.forEach((dayData) => {
-    if (dayData.data) {
-      Object.entries(dayData.data).forEach(([state, stateData]) => {
+    if (dayData.data && dayData.data.state) {
+      Object.entries(dayData.data.state).forEach(([state, stateData]) => {
         Object.entries(stateData).forEach(([district, districtData]) => {
           Object.entries(districtData).forEach(([act, actData]) => {
             Object.entries(actData).forEach(([section, sectionData]) => {
+              // Aggregate the data (handles both array and object formats)
+              const aggregatedMetrics = aggregateArrayMetrics(sectionData);
+              
               const record: SlipRecord = {
                 date: dayData.date,
                 state,
                 district,
                 act,
                 section,
-                Arrested: sectionData.arresty_received_tp || 0,
-                Convicted: sectionData.convicted_received_tp || 0,
-                Externee: sectionData.externee_received_tp || 0,
-                Deportee: sectionData.deportee_received_tp || 0,
-                UIFP: sectionData.uifp_received_tp || 0,
-                Suspect: sectionData.suspect_received_tp || 0,
-                UDB: sectionData.udb_received_tp || 0,
-                Absconder: sectionData.absconder_received_tp || 0,
+                Arrested: aggregatedMetrics.arresty_received_tp || 0,
+                Convicted: aggregatedMetrics.convicted_received_tp || 0,
+                Externee: aggregatedMetrics.externee_received_tp || 0,
+                Deportee: aggregatedMetrics.deportee_received_tp || 0,
+                UIFP: aggregatedMetrics.uifp_received_tp || 0,
+                Suspect: aggregatedMetrics.suspect_received_tp || 0,
+                UDB: aggregatedMetrics.udb_received_tp || 0,
+                Absconder: aggregatedMetrics.absconder_received_tp || 0,
                 total: 0, // Will be calculated
               };
 
@@ -107,7 +110,7 @@ export function flattenSlipData(data: SlipDailyData[]): SlipRecord[] {
 
 export function filterSlipData(allData: SlipDailyData[], filters: SlipFilters) {
   const { states, districts, acts, sections, statuses, dateRange } = filters;
-  
+
   // Helper function to remove trailing "(digits)" from a string
   const stripTrailingCode = (str: string) => str.replace(/\(\d+\)$/, "").trim();
 
@@ -117,120 +120,124 @@ export function filterSlipData(allData: SlipDailyData[], filters: SlipFilters) {
   const sectionsLower = sections.map((sec) => sec.toLowerCase());
   const statusesLower = statuses.map((st) => st.toLowerCase());
 
-  console.log("=== DATE RANGE DEBUG ===");
-  console.log("Raw filters:", filters);
-  console.log("dateRange.from:", dateRange.from);
-  console.log("dateRange.to:", dateRange.to);
-  console.log("typeof dateRange.from:", typeof dateRange.from);
-  console.log("typeof dateRange.to:", typeof dateRange.to);
-
   // Multiple approaches to handle different date formats
   let fromDate = null;
   let toDate = null;
 
   if (dateRange.from) {
-    const fromInput = dateRange.from as any; // Type assertion
-    if (typeof fromInput === 'string') {
-      // If it's already YYYY-MM-DD, use as is
+    const fromInput = dateRange.from as any;
+    if (typeof fromInput === "string") {
       if (/^\d{4}-\d{2}-\d{2}$/.test(fromInput)) {
         fromDate = fromInput;
       } else {
-        // Parse and convert to YYYY-MM-DD
         const d = new Date(fromInput);
-        fromDate = d.getFullYear() + '-' + 
-                  String(d.getMonth() + 1).padStart(2, '0') + '-' + 
-                  String(d.getDate()).padStart(2, '0');
+        fromDate =
+          d.getFullYear() +
+          "-" +
+          String(d.getMonth() + 1).padStart(2, "0") +
+          "-" +
+          String(d.getDate()).padStart(2, "0");
       }
     } else if (fromInput instanceof Date) {
-      fromDate = fromInput.getFullYear() + '-' + 
-                String(fromInput.getMonth() + 1).padStart(2, '0') + '-' + 
-                String(fromInput.getDate()).padStart(2, '0');
+      fromDate =
+        fromInput.getFullYear() +
+        "-" +
+        String(fromInput.getMonth() + 1).padStart(2, "0") +
+        "-" +
+        String(fromInput.getDate()).padStart(2, "0");
     } else {
-      // Fallback: try to convert to date
       const d = new Date(fromInput);
       if (!isNaN(d.getTime())) {
-        fromDate = d.getFullYear() + '-' + 
-                  String(d.getMonth() + 1).padStart(2, '0') + '-' + 
-                  String(d.getDate()).padStart(2, '0');
+        fromDate =
+          d.getFullYear() +
+          "-" +
+          String(d.getMonth() + 1).padStart(2, "0") +
+          "-" +
+          String(d.getDate()).padStart(2, "0");
       }
     }
   }
 
   if (dateRange.to) {
-    const toInput = dateRange.to as any; // Type assertion
-    if (typeof toInput === 'string') {
-      // If it's already YYYY-MM-DD, use as is
+    const toInput = dateRange.to as any;
+    if (typeof toInput === "string") {
       if (/^\d{4}-\d{2}-\d{2}$/.test(toInput)) {
         toDate = toInput;
       } else {
-        // Parse and convert to YYYY-MM-DD
         const d = new Date(toInput);
-        toDate = d.getFullYear() + '-' + 
-                String(d.getMonth() + 1).padStart(2, '0') + '-' + 
-                String(d.getDate()).padStart(2, '0');
+        toDate =
+          d.getFullYear() +
+          "-" +
+          String(d.getMonth() + 1).padStart(2, "0") +
+          "-" +
+          String(d.getDate()).padStart(2, "0");
       }
     } else if (toInput instanceof Date) {
-      toDate = toInput.getFullYear() + '-' + 
-              String(toInput.getMonth() + 1).padStart(2, '0') + '-' + 
-              String(toInput.getDate()).padStart(2, '0');
+      toDate =
+        toInput.getFullYear() +
+        "-" +
+        String(toInput.getMonth() + 1).padStart(2, "0") +
+        "-" +
+        String(toInput.getDate()).padStart(2, "0");
     } else {
-      // Fallback: try to convert to date
       const d = new Date(toInput);
       if (!isNaN(d.getTime())) {
-        toDate = d.getFullYear() + '-' + 
-                String(d.getMonth() + 1).padStart(2, '0') + '-' + 
-                String(d.getDate()).padStart(2, '0');
+        toDate =
+          d.getFullYear() +
+          "-" +
+          String(d.getMonth() + 1).padStart(2, "0") +
+          "-" +
+          String(d.getDate()).padStart(2, "0");
       }
     }
   }
-
-  console.log("Processed fromDate:", fromDate);
-  console.log("Processed toDate:", toDate);
 
   const filteredData = [];
 
   for (const entry of allData) {
     // Handle entry date - normalize it too
     let entryDateStr: string | null = null;
-    const entryDate = entry.date as any; // Type assertion to handle the typing issue
-    
-    if (typeof entryDate === 'string') {
+    const entryDate = entry.date as any;
+
+    if (typeof entryDate === "string") {
       if (/^\d{4}-\d{2}-\d{2}$/.test(entryDate)) {
         entryDateStr = entryDate;
       } else {
         const d = new Date(entryDate);
-        entryDateStr = d.getFullYear() + '-' + 
-                      String(d.getMonth() + 1).padStart(2, '0') + '-' + 
-                      String(d.getDate()).padStart(2, '0');
+        entryDateStr =
+          d.getFullYear() +
+          "-" +
+          String(d.getMonth() + 1).padStart(2, "0") +
+          "-" +
+          String(d.getDate()).padStart(2, "0");
       }
     } else if (entryDate instanceof Date) {
-      entryDateStr = entryDate.getFullYear() + '-' + 
-                    String(entryDate.getMonth() + 1).padStart(2, '0') + '-' + 
-                    String(entryDate.getDate()).padStart(2, '0');
+      entryDateStr =
+        entryDate.getFullYear() +
+        "-" +
+        String(entryDate.getMonth() + 1).padStart(2, "0") +
+        "-" +
+        String(entryDate.getDate()).padStart(2, "0");
     } else {
-      // Fallback: try to convert whatever it is to a date
       const d = new Date(entryDate);
       if (!isNaN(d.getTime())) {
-        entryDateStr = d.getFullYear() + '-' + 
-                      String(d.getMonth() + 1).padStart(2, '0') + '-' + 
-                      String(d.getDate()).padStart(2, '0');
+        entryDateStr =
+          d.getFullYear() +
+          "-" +
+          String(d.getMonth() + 1).padStart(2, "0") +
+          "-" +
+          String(d.getDate()).padStart(2, "0");
       }
     }
 
-    console.log(`Entry date: ${entry.date} -> normalized: ${entryDateStr}`);
-
     // Date range filtering with INCLUSIVE boundaries
     if (fromDate && entryDateStr && entryDateStr < fromDate) {
-      console.log(`❌ Entry ${entryDateStr} < fromDate ${fromDate}`);
       continue;
     }
 
     if (toDate && entryDateStr && entryDateStr > toDate) {
-      console.log(`❌ Entry ${entryDateStr} > toDate ${toDate}`);
       continue;
     }
-
-    console.log(`✅ Entry ${entryDateStr} is within range [${fromDate} - ${toDate}]`);
 
     // Build filtered entry
     const filteredEntry = {
@@ -281,64 +288,165 @@ export function filterSlipData(allData: SlipDailyData[], filters: SlipFilters) {
           const filteredSections = {};
           let actHasData = false;
 
-          // Process each section
-          for (const [sectionName, metrics] of Object.entries(sectionsData)) {
-            const sectionLower = sectionName.toLowerCase();
+          // If no section filter, include all sections as-is
+          if (sectionsLower.length === 0) {
+            for (const [sectionName, sectionData] of Object.entries(sectionsData)) {
+              // Apply status filter - aggregate the data first
+              const aggregatedMetrics = aggregateArrayMetrics(sectionData);
+              
+              let includeSection = true;
+              if (statusesLower.length > 0) {
+                includeSection = statusesLower.some((statusKey) => {
+                  const mappedDataKey = STATUS_KEY_MAP[statusKey];
+                  if (!mappedDataKey) return false;
+                  const metricValue = aggregatedMetrics[mappedDataKey];
+                  return metricValue && metricValue > 0;
+                });
+              }
 
-            // Apply section filter
-            if (
-              sectionsLower.length > 0 &&
-              !sectionsLower.includes(sectionLower)
-            ) {
-              continue;
-            }
-
-            // Apply status filter
-            let includeSection = true;
-            if (statusesLower.length > 0) {
-              includeSection = statusesLower.some((statusKey) => {
-                const mappedDataKey = STATUS_KEY_MAP[statusKey];
-
-                if (!mappedDataKey) {
-                  return false;
+              if (includeSection) {
+                let filteredMetrics = {};
+                if (statusesLower.length > 0) {
+                  statusesLower.forEach((statusKey) => {
+                    const mappedDataKey = STATUS_KEY_MAP[statusKey];
+                    if (mappedDataKey && aggregatedMetrics[mappedDataKey] !== undefined) {
+                      filteredMetrics[mappedDataKey] = aggregatedMetrics[mappedDataKey];
+                    }
+                  });
+                  const nonStatusFields = ["arrest_act", "arrest_section"];
+                  nonStatusFields.forEach((field) => {
+                    if (aggregatedMetrics[field] !== undefined) {
+                      filteredMetrics[field] = aggregatedMetrics[field];
+                    }
+                  });
+                } else {
+                  filteredMetrics = aggregatedMetrics;
                 }
 
-                const metricValue = metrics[mappedDataKey];
-                return metricValue && metricValue > 0;
+                // Convert back to array format to maintain consistency with new format
+                filteredSections[sectionName] = Array.isArray(sectionData) ? [filteredMetrics] : filteredMetrics;
+                actHasData = true;
+                districtHasData = true;
+                stateHasData = true;
+                entryHasMatchingData = true;
+              }
+            }
+          } else {
+            // WITH section filter - aggregate matching sections by filter value
+            const sectionAggregates = new Map();
+
+            // Initialize aggregates for each filter section
+            sectionsLower.forEach(filterSection => {
+              sectionAggregates.set(filterSection, {
+                matchingSections: [],
+                aggregatedMetrics: {}
               });
+            });
+
+            // Find all sections that match any filter
+            for (const [sectionName, sectionData] of Object.entries(sectionsData)) {
+              const sectionParts = sectionName
+                .toLowerCase()
+                .split(/[\/,]/)
+                .map(part => part.trim())
+                .filter(part => part.length > 0);
+
+              // Check which filters this section matches
+              const matchingFilters = sectionsLower.filter(filterSection => {
+                // Direct match with full section name
+                if (sectionName.toLowerCase().includes(filterSection)) {
+                  return true;
+                }
+                // Match with any part of delimited section
+                return sectionParts.some(part => 
+                  part === filterSection || part.includes(filterSection)
+                );
+              });
+
+              if (matchingFilters.length > 0) {
+                // Aggregate the data first (handles both array and object)
+                const aggregatedMetrics = aggregateArrayMetrics(sectionData);
+
+                // If this section matches any filter, add it to those aggregates
+                matchingFilters.forEach(filterSection => {
+                  const aggregate = sectionAggregates.get(filterSection);
+                  if (!aggregate) return;
+
+                  // Apply status filter
+                  let includeSection = true;
+                  if (statusesLower.length > 0) {
+                    includeSection = statusesLower.some((statusKey) => {
+                      const mappedDataKey = STATUS_KEY_MAP[statusKey];
+                      if (!mappedDataKey) return false;
+                      const metricValue = aggregatedMetrics[mappedDataKey];
+                      return metricValue && metricValue > 0;
+                    });
+                  }
+
+                  if (!includeSection) return;
+
+                  aggregate.matchingSections.push(sectionName);
+
+                  // Initialize aggregated metrics if first section
+                  if (Object.keys(aggregate.aggregatedMetrics).length === 0) {
+                    Object.entries(aggregatedMetrics).forEach(([key, value]) => {
+                      if (typeof value === "number") {
+                        aggregate.aggregatedMetrics[key] = 0;
+                      } else {
+                        aggregate.aggregatedMetrics[key] = value;
+                      }
+                    });
+                  }
+
+                  // Add numeric values to aggregate
+                  Object.entries(aggregatedMetrics).forEach(([key, value]) => {
+                    if (typeof value === "number") {
+                      aggregate.aggregatedMetrics[key] = (aggregate.aggregatedMetrics[key] || 0) + value;
+                    }
+                  });
+                });
+              }
             }
 
-            if (includeSection) {
-              // Filter metrics to only include selected statuses
-              let filteredMetrics = {};
+            // Create filtered sections from aggregates
+            sectionAggregates.forEach((aggregate, filterSection) => {
+              if (aggregate.matchingSections.length === 0) return;
 
+              // Filter metrics based on status selection
+              let filteredMetrics = {};
               if (statusesLower.length > 0) {
-                // Only include the specific status fields that were selected
                 statusesLower.forEach((statusKey) => {
                   const mappedDataKey = STATUS_KEY_MAP[statusKey];
-                  if (mappedDataKey && metrics[mappedDataKey] !== undefined) {
-                    filteredMetrics[mappedDataKey] = metrics[mappedDataKey];
+                  if (mappedDataKey && aggregate.aggregatedMetrics[mappedDataKey] !== undefined) {
+                    filteredMetrics[mappedDataKey] = aggregate.aggregatedMetrics[mappedDataKey];
                   }
                 });
-
-                // Also include non-status fields like arrest_act and arrest_section
                 const nonStatusFields = ["arrest_act", "arrest_section"];
                 nonStatusFields.forEach((field) => {
-                  if (metrics[field] !== undefined) {
-                    filteredMetrics[field] = metrics[field];
+                  if (aggregate.aggregatedMetrics[field] !== undefined) {
+                    filteredMetrics[field] = aggregate.aggregatedMetrics[field];
                   }
                 });
               } else {
-                // No status filter, include all metrics
-                filteredMetrics = metrics;
+                filteredMetrics = aggregate.aggregatedMetrics;
               }
 
-              filteredSections[sectionName] = filteredMetrics;
+              // Use the filter section as the key, but add a note about aggregation
+              const displayKey = aggregate.matchingSections.length === 1 
+                ? aggregate.matchingSections[0] 
+                : filterSection;
+              
+              // Preserve original format - if any original data was array, keep as array
+              const shouldBeArray = aggregate.matchingSections.some(sectionName => 
+                Array.isArray(sectionsData[sectionName])
+              );
+              
+              filteredSections[displayKey] = shouldBeArray ? [filteredMetrics] : filteredMetrics;
               actHasData = true;
               districtHasData = true;
               stateHasData = true;
               entryHasMatchingData = true;
-            }
+            });
           }
 
           if (actHasData) {
@@ -362,16 +470,54 @@ export function filterSlipData(allData: SlipDailyData[], filters: SlipFilters) {
     }
   }
 
-  console.log("=== FINAL RESULTS ===");
-  console.log("Total entries processed:", allData.length);
-  console.log("Entries within date range:", filteredData.length);
-  console.log("Date range used:", { fromDate, toDate });
-  
-  // Show dates of filtered entries
-  const filteredDates = filteredData.map(entry => entry.date);
-  console.log("Dates in filtered results:", filteredDates);
-
+  console.log("Filtered data with properly aggregated sections:", filteredData);
   return filteredData;
+}
+
+// Helper function to aggregate metrics from array format or handle single object
+function aggregateArrayMetrics(sectionData: any): any {
+  const aggregated = {
+    arrest_act: "",
+    arrest_section: "",
+    arresty_received_tp: 0,
+    convicted_received_tp: 0,
+    externee_received_tp: 0,
+    absconder_received_tp: 0,
+    deportee_received_tp: 0,
+    deadbody_received_tp: 0,
+    uifp_received_tp: 0,
+    suspect_received_tp: 0,
+    udb_received_tp: 0,
+  };
+
+  // Handle both array and single object formats
+  const dataArray = Array.isArray(sectionData) ? sectionData : [sectionData];
+
+  dataArray.forEach((item: any) => {
+    // Skip if item is not an object
+    if (!item || typeof item !== 'object') return;
+
+    // Take the first non-empty arrest_act and arrest_section
+    if (!aggregated.arrest_act && item.arrest_act) {
+      aggregated.arrest_act = item.arrest_act;
+    }
+    if (!aggregated.arrest_section && item.arrest_section) {
+      aggregated.arrest_section = item.arrest_section;
+    }
+
+    // Sum all numeric fields
+    aggregated.arresty_received_tp += item.arresty_received_tp || 0;
+    aggregated.convicted_received_tp += item.convicted_received_tp || 0;
+    aggregated.externee_received_tp += item.externee_received_tp || 0;
+    aggregated.absconder_received_tp += item.absconder_received_tp || 0;
+    aggregated.deportee_received_tp += item.deportee_received_tp || 0;
+    aggregated.deadbody_received_tp += item.deadbody_received_tp || 0;
+    aggregated.uifp_received_tp += item.uifp_received_tp || 0;
+    aggregated.suspect_received_tp += item.suspect_received_tp || 0;
+    aggregated.udb_received_tp += item.udb_received_tp || 0;
+  });
+
+  return aggregated;
 }
 
 // Get flattened records for computations
@@ -380,7 +526,6 @@ export function getFilteredRecords(
   filters: SlipFilters
 ): SlipRecord[] {
   const filteredData = filterSlipData(data, filters);
-  console.log("dfsadsafsa", filteredData);
   return flattenSlipData(filteredData);
 }
 
@@ -402,15 +547,18 @@ export function computeTotalsByStatus(
 
       Object.values(districts).forEach((acts) => {
         Object.values(acts).forEach((sections) => {
-          Object.values(sections).forEach((metrics: any) => {
+          Object.values(sections).forEach((sectionData: any) => {
+            // Aggregate the data (handles both array and object formats)
+            const aggregatedMetrics = aggregateArrayMetrics(sectionData);
+            
             statuses.forEach((status) => {
               // Map UI status → API field
               const fieldKey = STATUS_KEY_MAP[
                 status.toLowerCase()
-              ] as keyof typeof metrics;
+              ] as keyof typeof aggregatedMetrics;
 
-              if (fieldKey && metrics[fieldKey] !== undefined) {
-                totals[status] += Number(metrics[fieldKey]) || 0;
+              if (fieldKey && aggregatedMetrics[fieldKey] !== undefined) {
+                totals[status] += Number(aggregatedMetrics[fieldKey]) || 0;
               }
             });
           });
@@ -421,7 +569,6 @@ export function computeTotalsByStatus(
 
   return totals;
 }
-// Add these updated functions to your utils.ts file - replace the existing ones
 
 /**
  * Build slip table data aggregated by state (single row per state)
@@ -434,8 +581,6 @@ export function buildSlipTableDataByState(
 ) {
   const stateAggregates = new Map<string, any>();
   const selectedStatesLower = selectedStates.map((s) => s.toLowerCase().trim());
-
-  console.log("Building state-level table data for states:", selectedStates);
 
   // Initialize aggregates for each selected state
   selectedStates.forEach((state) => {
@@ -465,11 +610,14 @@ export function buildSlipTableDataByState(
       // Aggregate across all districts, acts, and sections for this state
       Object.entries(districts).forEach(([district, acts]) => {
         Object.entries(acts).forEach(([act, sections]) => {
-          Object.entries(sections).forEach(([section, metrics]) => {
+          Object.entries(sections).forEach(([section, sectionData]) => {
+            // Aggregate the data (handles both array and object formats)
+            const aggregatedMetrics = aggregateArrayMetrics(sectionData);
+            
             statuses.forEach((status) => {
               const metricKey = STATUS_KEY_MAP[status.toLowerCase()];
-              if (metricKey && metrics[metricKey] !== undefined) {
-                stateAggregate[status] += Number(metrics[metricKey]) || 0;
+              if (metricKey && aggregatedMetrics[metricKey] !== undefined) {
+                stateAggregate[status] += Number(aggregatedMetrics[metricKey]) || 0;
               }
             });
           });
@@ -482,7 +630,6 @@ export function buildSlipTableDataByState(
     a.state.localeCompare(b.state)
   );
 
-  console.log("State table data result:", result);
   return result;
 }
 
@@ -497,8 +644,6 @@ export function buildSlipTableDataByDistrict(
 ) {
   const districtAggregates = new Map<string, any>();
   const selectedStatesLower = selectedStates.map((s) => s.toLowerCase().trim());
-
-  console.log("Building district-level table data for states:", selectedStates);
 
   // Aggregate data across all dates
   filteredData.forEach((entry) => {
@@ -532,11 +677,14 @@ export function buildSlipTableDataByDistrict(
 
         // Aggregate across all acts and sections for this district
         Object.entries(acts).forEach(([act, sections]) => {
-          Object.entries(sections).forEach(([section, metrics]) => {
+          Object.entries(sections).forEach(([section, sectionData]) => {
+            // Aggregate the data (handles both array and object formats)
+            const aggregatedMetrics = aggregateArrayMetrics(sectionData);
+            
             statuses.forEach((status) => {
               const metricKey = STATUS_KEY_MAP[status.toLowerCase()];
-              if (metricKey && metrics[metricKey] !== undefined) {
-                districtAggregate[status] += Number(metrics[metricKey]) || 0;
+              if (metricKey && aggregatedMetrics[metricKey] !== undefined) {
+                districtAggregate[status] += Number(aggregatedMetrics[metricKey]) || 0;
               }
             });
           });
@@ -553,6 +701,5 @@ export function buildSlipTableDataByDistrict(
     return a.district.localeCompare(b.district);
   });
 
-  console.log("District table data result:", result.length, "districts");
   return result;
 }

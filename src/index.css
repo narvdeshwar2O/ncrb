@@ -104,8 +104,8 @@
   -ms-overflow-style: none;  /* IE and Edge */
   scrollbar-width: none;     /* Firefox */
 }
-
-
-
-/* act wise 
-section wise  */
+@media print {
+  .print-hide {
+    display: none !important;
+  }
+}

@@ -23,8 +23,8 @@ export async function loadAllMonthlyDataReal({
 }: LoadParams): Promise<{ date: string; data: any }[]> {
   const results: { date: string; data: any }[] = [];
 
-  const start = startDate ? new Date(startDate) : new Date("2025-08-01");
-  const end = endDate ? new Date(endDate) : new Date("2025-08-31");
+  const start = startDate ? new Date(startDate) : new Date("2025-01-01");
+  const end = endDate ? new Date(endDate) : new Date("2025-12-31");
 
   const configMap: Record<string, { basePath: string; filePrefix: string }> = {
     cfpb: { basePath: "", filePrefix: "" },

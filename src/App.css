@@ -7,6 +7,6 @@
     print-color-adjust: exact;
   }
   .line-through {
-    text-decoration: none !important; /* Avoid strikethrough in print */
+    text-decoration: none !important; 
   }
 }
