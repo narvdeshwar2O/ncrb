@@ -29,6 +29,7 @@ import {
 interface SlipChartProps {
   filteredData: SlipDailyData[];
   selectedCrimeTypes: StatusKey[];
+  dateRange?: { from?: Date; to?: Date }; // Add date range prop
 }
 
 const COLORS = [
@@ -57,12 +58,13 @@ const FIELD_MAPPING = {
 export default function SlipCaptureChart({
   filteredData,
   selectedCrimeTypes,
+  dateRange,
 }: SlipChartProps) {
   const chartRef = useRef<HTMLDivElement>(null);
   const [chartType, setChartType] = useState<"stacked" | "grouped" | "pie">(
     "stacked"
   );
-  console.log("filtered data", filteredData);
+
   const crimeTypes = useMemo(
     () => selectedCrimeTypes.filter((type) => type !== "Total"),
     [selectedCrimeTypes]
@@ -81,111 +83,148 @@ export default function SlipCaptureChart({
   ): number => {
     let total = 0;
 
-    // console.log(`\n=== Aggregating ${crimeType} data ===`);
-
     if (!dayData?.state) {
-      // console.log("❌ No state data found");
       return 0;
     }
 
     const fieldName = FIELD_MAPPING[crimeType as keyof typeof FIELD_MAPPING];
     if (!fieldName) {
-      // console.log(`❌ No field mapping found for ${crimeType}`);
       return 0;
     }
 
-    // console.log(`Looking for field: ${fieldName}`);
-
     // Iterate through all states
     Object.entries(dayData.state).forEach(([stateName, stateData]) => {
-      // console.log(`  State: ${stateName}`);
-
       if (!stateData || typeof stateData !== "object") {
-        // console.log(`    ⚠️ Invalid state data`);
         return;
       }
 
       // Iterate through districts
       Object.entries(stateData).forEach(([districtName, districtData]) => {
-        // console.log(`    District: ${districtName}`);
-
         if (!districtData || typeof districtData !== "object") {
-          // console.log(`      ⚠️ Invalid district data`);
           return;
         }
 
         // Iterate through acts
         Object.entries(districtData).forEach(([actName, actData]) => {
-          // console.log(`      Act: ${actName}`);
-
           if (!actData || typeof actData !== "object") {
-            // console.log(`        ⚠️ Invalid act data`);
             return;
           }
 
           // Iterate through sections
           Object.entries(actData).forEach(([sectionName, sectionData]) => {
-            // console.log(`        Section: ${sectionName}`);
-
-            if (
-              !sectionData ||
-              typeof sectionData !== "object" ||
-              sectionData === null
-            ) {
-              // console.log(`          ⚠️ Invalid section data`);
+            // FIXED: Handle array structure
+            if (!sectionData || !Array.isArray(sectionData)) {
               return;
             }
 
-            const validSectionData = sectionData as Record<string, any>;
-            const value = Number(validSectionData[fieldName] || 0);
+            // Process each item in the section array
+            sectionData.forEach((item, itemIndex) => {
+              if (!item || typeof item !== "object") {
+                return;
+              }
 
-            // console.log(`          ${fieldName}: ${value}`);
-            total += value;
+              const value = Number(item[fieldName] || 0);
+
+              total += value;
+            });
           });
         });
       });
     });
 
-    // console.log(`📊 Total ${crimeType}: ${total}`);
     return total;
   };
 
+  // Generate complete date range (same as trend chart)
+  const generateDateRange = (from: Date, to: Date): string[] => {
+    const dates: string[] = [];
+    const current = new Date(
+      from.getFullYear(),
+      from.getMonth(),
+      from.getDate()
+    );
+    const end = new Date(to.getFullYear(), to.getMonth(), to.getDate());
+
+    while (current <= end) {
+      const year = current.getFullYear();
+      const month = String(current.getMonth() + 1).padStart(2, "0");
+      const day = String(current.getDate()).padStart(2, "0");
+      dates.push(`${year}-${month}-${day}`);
+      current.setDate(current.getDate() + 1);
+    }
+
+    return dates;
+  };
+
+  // Create a map of available data by date
+  const dataByDate = new Map<string, SlipDailyData>();
+  filteredData.forEach((day) => {
+    const dayDate = new Date(day.date);
+    const year = dayDate.getFullYear();
+    const month = String(dayDate.getMonth() + 1).padStart(2, "0");
+    const dayNum = String(dayDate.getDate()).padStart(2, "0");
+    const dateKey = `${year}-${month}-${dayNum}`;
+    dataByDate.set(dateKey, day);
+  });
+
+  // Generate complete date range
+  const completeDateRange =
+    dateRange?.from && dateRange?.to
+      ? generateDateRange(dateRange.from, dateRange.to)
+      : filteredData
+          .map((day) => {
+            const dayDate = new Date(day.date);
+            const year = dayDate.getFullYear();
+            const month = String(dayDate.getMonth() + 1).padStart(2, "0");
+            const dayNum = String(dayDate.getDate()).padStart(2, "0");
+            return `${year}-${month}-${dayNum}`;
+          })
+          .sort();
+
+  console.log("Available data dates:", Array.from(dataByDate.keys()));
+
   // Bar Chart Data
   const chartData = useMemo(() => {
-    // console.log("\n🔍 Processing chart data...");
-    // console.log("Filtered data length:", filteredData.length);
-    // console.log("Selected crime types:", crimeTypes);
+    const result = completeDateRange.map((dateString, index) => {
+      console.log(`\n--- Processing date ${dateString} (day ${index + 1}) ---`);
 
-    const result = filteredData
-      .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
-      .map((day, index) => {
-        // console.log(`\n--- Processing day ${index + 1}: ${day.date} ---`);
+      const [year, month, dayNum] = dateString.split("-");
+      const displayDate = new Date(
+        parseInt(year),
+        parseInt(month) - 1,
+        parseInt(dayNum)
+      ).toLocaleDateString("en-US", {
+        month: "short",
+        day: "numeric",
+      });
 
-        const row: Record<string, any> = {
-          label: new Date(day.date).toLocaleDateString("en-US", {
-            month: "short",
-            day: "numeric",
-          }),
-        };
+      const row: Record<string, any> = {
+        label: displayDate,
+      };
 
+      const day = dataByDate.get(dateString);
+
+      if (!day) {
+        // Set all crime types to 0 for missing days
+        for (const crimeType of crimeTypes) {
+          row[crimeType] = 0;
+        }
+      } else {
+        // Process actual data
         for (const crimeType of crimeTypes) {
           const total = aggregateCrimeTypeData(day.data, crimeType);
           row[crimeType] = total;
-          // console.log(`${crimeType}: ${total}`);
         }
+      }
 
-        // console.log("Day result:", row);
-        return row;
-      });
+      return row;
+    });
 
-    // console.log("📈 Final chart data:", result);
     return result;
-  }, [filteredData, crimeTypes]);
+  }, [completeDateRange, crimeTypes, dataByDate]);
 
   // Pie Chart Data
   const pieData = useMemo(() => {
-    // console.log("\n🥧 Processing pie chart data...");
-
     const totals: Record<string, number> = {};
 
     for (const day of filteredData) {
@@ -203,7 +242,7 @@ export default function SlipCaptureChart({
       }))
       .filter((item) => item.value > 0); // Filter out zero values
 
-    // console.log("🥧 Pie data (filtered):", result);
+    console.log("🥧 Pie data (filtered):", result);
     return result;
   }, [filteredData, crimeTypes]);
 
@@ -260,19 +299,15 @@ export default function SlipCaptureChart({
     crimeTypes.some((type) => (day[type] || 0) > 0)
   );
 
-  // console.log("🎯 Chart summary:");
-  // console.log("- Chart data length:", chartData.length);
-  // console.log("- Crime types:", crimeTypes);
-  // console.log("- Has data:", hasData);
-  // console.log(
-  //   "- Total values:",
-  //   chartData.reduce((acc, day) => {
-  //     crimeTypes.forEach((type) => {
-  //       acc[type] = (acc[type] || 0) + (day[type] || 0);
-  //     });
-  //     return acc;
-  //   }, {} as Record<string, number>)
-  // );
+  console.log(
+    "- Total values:",
+    chartData.reduce((acc, day) => {
+      crimeTypes.forEach((type) => {
+        acc[type] = (acc[type] || 0) + (day[type] || 0);
+      });
+      return acc;
+    }, {} as Record<string, number>)
+  );
 
   return (
     <Card className="w-full">
@@ -310,7 +345,7 @@ export default function SlipCaptureChart({
         </div>
         {!hasData && (
           <div className="text-sm text-red-600 mt-2">
-             No data found.
+            No data found. Check console logs for details.
           </div>
         )}
       </CardHeader>
@@ -361,7 +396,7 @@ export default function SlipCaptureChart({
               data={chartData}
               margin={{ top: 40, right: 20, left: 20, bottom: 10 }}
             >
-              <CartesianGrid strokeDasharray="3 3" />
+              <CartesianGrid vertical={false} strokeOpacity={0.1} />
               <XAxis
                 dataKey="label"
                 tickMargin={10}

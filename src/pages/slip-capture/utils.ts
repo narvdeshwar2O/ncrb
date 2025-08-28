@@ -68,7 +68,7 @@ export function flattenSlipData(data: SlipDailyData[]): SlipRecord[] {
             Object.entries(actData).forEach(([section, sectionData]) => {
               // Aggregate the data (handles both array and object formats)
               const aggregatedMetrics = aggregateArrayMetrics(sectionData);
-              
+
               const record: SlipRecord = {
                 date: dayData.date,
                 state,
@@ -290,10 +290,12 @@ export function filterSlipData(allData: SlipDailyData[], filters: SlipFilters) {
 
           // If no section filter, include all sections as-is
           if (sectionsLower.length === 0) {
-            for (const [sectionName, sectionData] of Object.entries(sectionsData)) {
+            for (const [sectionName, sectionData] of Object.entries(
+              sectionsData
+            )) {
               // Apply status filter - aggregate the data first
               const aggregatedMetrics = aggregateArrayMetrics(sectionData);
-              
+
               let includeSection = true;
               if (statusesLower.length > 0) {
                 includeSection = statusesLower.some((statusKey) => {
@@ -309,8 +311,12 @@ export function filterSlipData(allData: SlipDailyData[], filters: SlipFilters) {
                 if (statusesLower.length > 0) {
                   statusesLower.forEach((statusKey) => {
                     const mappedDataKey = STATUS_KEY_MAP[statusKey];
-                    if (mappedDataKey && aggregatedMetrics[mappedDataKey] !== undefined) {
-                      filteredMetrics[mappedDataKey] = aggregatedMetrics[mappedDataKey];
+                    if (
+                      mappedDataKey &&
+                      aggregatedMetrics[mappedDataKey] !== undefined
+                    ) {
+                      filteredMetrics[mappedDataKey] =
+                        aggregatedMetrics[mappedDataKey];
                     }
                   });
                   const nonStatusFields = ["arrest_act", "arrest_section"];
@@ -324,7 +330,9 @@ export function filterSlipData(allData: SlipDailyData[], filters: SlipFilters) {
                 }
 
                 // Convert back to array format to maintain consistency with new format
-                filteredSections[sectionName] = Array.isArray(sectionData) ? [filteredMetrics] : filteredMetrics;
+                filteredSections[sectionName] = Array.isArray(sectionData)
+                  ? [filteredMetrics]
+                  : filteredMetrics;
                 actHasData = true;
                 districtHasData = true;
                 stateHasData = true;
@@ -336,30 +344,33 @@ export function filterSlipData(allData: SlipDailyData[], filters: SlipFilters) {
             const sectionAggregates = new Map();
 
             // Initialize aggregates for each filter section
-            sectionsLower.forEach(filterSection => {
+            sectionsLower.forEach((filterSection) => {
               sectionAggregates.set(filterSection, {
                 matchingSections: [],
-                aggregatedMetrics: {}
+                aggregatedMetrics: {},
               });
             });
 
             // Find all sections that match any filter
-            for (const [sectionName, sectionData] of Object.entries(sectionsData)) {
+            for (const [sectionName, sectionData] of Object.entries(
+              sectionsData
+            )) {
               const sectionParts = sectionName
                 .toLowerCase()
                 .split(/[\/,]/)
-                .map(part => part.trim())
-                .filter(part => part.length > 0);
+                .map((part) => part.trim())
+                .filter((part) => part.length > 0);
 
               // Check which filters this section matches
-              const matchingFilters = sectionsLower.filter(filterSection => {
+              const matchingFilters = sectionsLower.filter((filterSection) => {
                 // Direct match with full section name
                 if (sectionName.toLowerCase().includes(filterSection)) {
                   return true;
                 }
                 // Match with any part of delimited section
-                return sectionParts.some(part => 
-                  part === filterSection || part.includes(filterSection)
+                return sectionParts.some(
+                  (part) =>
+                    part === filterSection || part.includes(filterSection)
                 );
               });
 
@@ -368,7 +379,7 @@ export function filterSlipData(allData: SlipDailyData[], filters: SlipFilters) {
                 const aggregatedMetrics = aggregateArrayMetrics(sectionData);
 
                 // If this section matches any filter, add it to those aggregates
-                matchingFilters.forEach(filterSection => {
+                matchingFilters.forEach((filterSection) => {
                   const aggregate = sectionAggregates.get(filterSection);
                   if (!aggregate) return;
 
@@ -389,19 +400,22 @@ export function filterSlipData(allData: SlipDailyData[], filters: SlipFilters) {
 
                   // Initialize aggregated metrics if first section
                   if (Object.keys(aggregate.aggregatedMetrics).length === 0) {
-                    Object.entries(aggregatedMetrics).forEach(([key, value]) => {
-                      if (typeof value === "number") {
-                        aggregate.aggregatedMetrics[key] = 0;
-                      } else {
-                        aggregate.aggregatedMetrics[key] = value;
+                    Object.entries(aggregatedMetrics).forEach(
+                      ([key, value]) => {
+                        if (typeof value === "number") {
+                          aggregate.aggregatedMetrics[key] = 0;
+                        } else {
+                          aggregate.aggregatedMetrics[key] = value;
+                        }
                       }
-                    });
+                    );
                   }
 
                   // Add numeric values to aggregate
                   Object.entries(aggregatedMetrics).forEach(([key, value]) => {
                     if (typeof value === "number") {
-                      aggregate.aggregatedMetrics[key] = (aggregate.aggregatedMetrics[key] || 0) + value;
+                      aggregate.aggregatedMetrics[key] =
+                        (aggregate.aggregatedMetrics[key] || 0) + value;
                     }
                   });
                 });
@@ -417,8 +431,12 @@ export function filterSlipData(allData: SlipDailyData[], filters: SlipFilters) {
               if (statusesLower.length > 0) {
                 statusesLower.forEach((statusKey) => {
                   const mappedDataKey = STATUS_KEY_MAP[statusKey];
-                  if (mappedDataKey && aggregate.aggregatedMetrics[mappedDataKey] !== undefined) {
-                    filteredMetrics[mappedDataKey] = aggregate.aggregatedMetrics[mappedDataKey];
+                  if (
+                    mappedDataKey &&
+                    aggregate.aggregatedMetrics[mappedDataKey] !== undefined
+                  ) {
+                    filteredMetrics[mappedDataKey] =
+                      aggregate.aggregatedMetrics[mappedDataKey];
                   }
                 });
                 const nonStatusFields = ["arrest_act", "arrest_section"];
@@ -432,16 +450,19 @@ export function filterSlipData(allData: SlipDailyData[], filters: SlipFilters) {
               }
 
               // Use the filter section as the key, but add a note about aggregation
-              const displayKey = aggregate.matchingSections.length === 1 
-                ? aggregate.matchingSections[0] 
-                : filterSection;
-              
+              const displayKey =
+                aggregate.matchingSections.length === 1
+                  ? aggregate.matchingSections[0]
+                  : filterSection;
+
               // Preserve original format - if any original data was array, keep as array
-              const shouldBeArray = aggregate.matchingSections.some(sectionName => 
-                Array.isArray(sectionsData[sectionName])
+              const shouldBeArray = aggregate.matchingSections.some(
+                (sectionName) => Array.isArray(sectionsData[sectionName])
               );
-              
-              filteredSections[displayKey] = shouldBeArray ? [filteredMetrics] : filteredMetrics;
+
+              filteredSections[displayKey] = shouldBeArray
+                ? [filteredMetrics]
+                : filteredMetrics;
               actHasData = true;
               districtHasData = true;
               stateHasData = true;
@@ -470,7 +491,6 @@ export function filterSlipData(allData: SlipDailyData[], filters: SlipFilters) {
     }
   }
 
-  console.log("Filtered data with properly aggregated sections:", filteredData);
   return filteredData;
 }
 
@@ -495,7 +515,7 @@ function aggregateArrayMetrics(sectionData: any): any {
 
   dataArray.forEach((item: any) => {
     // Skip if item is not an object
-    if (!item || typeof item !== 'object') return;
+    if (!item || typeof item !== "object") return;
 
     // Take the first non-empty arrest_act and arrest_section
     if (!aggregated.arrest_act && item.arrest_act) {
@@ -550,7 +570,7 @@ export function computeTotalsByStatus(
           Object.values(sections).forEach((sectionData: any) => {
             // Aggregate the data (handles both array and object formats)
             const aggregatedMetrics = aggregateArrayMetrics(sectionData);
-            
+
             statuses.forEach((status) => {
               // Map UI status → API field
               const fieldKey = STATUS_KEY_MAP[
@@ -613,11 +633,12 @@ export function buildSlipTableDataByState(
           Object.entries(sections).forEach(([section, sectionData]) => {
             // Aggregate the data (handles both array and object formats)
             const aggregatedMetrics = aggregateArrayMetrics(sectionData);
-            
+
             statuses.forEach((status) => {
               const metricKey = STATUS_KEY_MAP[status.toLowerCase()];
               if (metricKey && aggregatedMetrics[metricKey] !== undefined) {
-                stateAggregate[status] += Number(aggregatedMetrics[metricKey]) || 0;
+                stateAggregate[status] +=
+                  Number(aggregatedMetrics[metricKey]) || 0;
               }
             });
           });
@@ -680,11 +701,12 @@ export function buildSlipTableDataByDistrict(
           Object.entries(sections).forEach(([section, sectionData]) => {
             // Aggregate the data (handles both array and object formats)
             const aggregatedMetrics = aggregateArrayMetrics(sectionData);
-            
+
             statuses.forEach((status) => {
               const metricKey = STATUS_KEY_MAP[status.toLowerCase()];
               if (metricKey && aggregatedMetrics[metricKey] !== undefined) {
-                districtAggregate[status] += Number(aggregatedMetrics[metricKey]) || 0;
+                districtAggregate[status] +=
+                  Number(aggregatedMetrics[metricKey]) || 0;
               }
             });
           });

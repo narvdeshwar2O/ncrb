@@ -55,7 +55,7 @@ const SlipCapture: React.FC = () => {
     (newFilters: SlipFilters) => {
       // Validate the new filters before setting them
       if (newFilters.states && newFilters.states.length === 0) {
-        // console.log("No states selected, clearing dependent filters");
+        //
       }
 
       setFilters(newFilters);
@@ -100,7 +100,7 @@ const SlipCapture: React.FC = () => {
 
     try {
       const result = filterSlipData(allData, filters);
-      console.log("data slip cptur", result);
+
       return result;
     } catch (error) {
       setError("Error filtering data. Please check your filter selections.");
@@ -343,6 +343,7 @@ const SlipCapture: React.FC = () => {
                       <SlipCaptureChart
                         filteredData={filteredData}
                         selectedCrimeTypes={visibleStatuses}
+                        dateRange={filters.dateRange}
                       />
                     )}
                   </div>

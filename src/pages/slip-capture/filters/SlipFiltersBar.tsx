@@ -131,7 +131,7 @@ export const SlipFiltersBar: React.FC<SlipFiltersBarProps> = ({
     if (range.from && !range.to) {
       range.to = range.from;
     }
-    console.log("data range selected", range);
+
     updateFilters({ dateRange: range });
   };
 

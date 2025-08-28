@@ -25,7 +25,7 @@ export function SlipComparisonChart({
     statuses,
     selectedStates,
     categories,
-    sampleRow: rows[0]
+    sampleRow: rows[0],
   });
 
   // Handle "no statuses selected"
@@ -71,9 +71,9 @@ export function SlipComparisonChart({
     const aggregates = new Map<string, Record<StatusKey, number>>();
 
     // Initialize aggregates for selected states
-    selectedStates.forEach(state => {
+    selectedStates.forEach((state) => {
       const statusTotals = {} as Record<StatusKey, number>;
-      statuses.forEach(status => {
+      statuses.forEach((status) => {
         statusTotals[status] = 0;
       });
       aggregates.set(state, statusTotals);
@@ -94,7 +94,10 @@ export function SlipComparisonChart({
       });
     });
 
-    console.log("State aggregates from table rows:", Object.fromEntries(aggregates.entries()));
+    console.log(
+      "State aggregates from table rows:",
+      Object.fromEntries(aggregates.entries())
+    );
     return aggregates;
   }, [rows, selectedStates, statuses]);
 
@@ -102,7 +105,7 @@ export function SlipComparisonChart({
   const chartData = useMemo(() => {
     return statuses.map((status) => {
       const dataPoint = { category: status };
-      
+
       selectedStates.forEach((state) => {
         const stateData = stateAggregates.get(state);
         dataPoint[state] = stateData?.[status] ?? 0;
@@ -111,8 +114,6 @@ export function SlipComparisonChart({
       return dataPoint;
     });
   }, [stateAggregates, selectedStates, statuses]);
-
-  console.log("Chart data for comparison:", chartData);
 
   // Export Handlers
   const handleExportCSV = () => {
@@ -132,8 +133,8 @@ export function SlipComparisonChart({
   };
 
   // Check if there's any data to show
-  const hasData = chartData.some(item => 
-    selectedStates.some(state => (item[state] as number) > 0)
+  const hasData = chartData.some((item) =>
+    selectedStates.some((state) => (item[state] as number) > 0)
   );
 
   if (!hasData) {

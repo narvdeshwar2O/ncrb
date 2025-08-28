@@ -41,13 +41,13 @@ const STATUS_KEY_MAP: Record<string, string> = {
 
 // Helper function to safely get object entries with string keys
 const safeObjectEntries = (obj: any): [string, any][] => {
-  if (!obj || typeof obj !== 'object') return [];
-  return Object.entries(obj).filter(([key]) => key && typeof key === 'string');
+  if (!obj || typeof obj !== "object") return [];
+  return Object.entries(obj).filter(([key]) => key && typeof key === "string");
 };
 
 // Helper function to safely extract numeric value
 const safeNumericValue = (data: any, fieldName: string): number => {
-  if (!data || typeof data !== 'object') return 0;
+  if (!data || typeof data !== "object") return 0;
   const value = data[fieldName];
   const numValue = Number(value);
   return isNaN(numValue) ? 0 : numValue;
@@ -64,13 +64,15 @@ export default function SlipTopFive({
   const [viewMode, setViewMode] = useState<ViewMode>("state");
 
   const activeStatuses: StatusKey[] = useMemo(() => {
-    const narrowed = statuses.filter(isValidStatus).filter(s => s !== "Total");
+    const narrowed = statuses
+      .filter(isValidStatus)
+      .filter((s) => s !== "Total");
     return narrowed.length ? narrowed : [];
   }, [statuses]);
 
-  // console.log("SlipTopFive - Active statuses:", activeStatuses);
-  // console.log("SlipTopFive - View mode:", viewMode);
-  // console.log("SlipTopFive - Selected states:", selectedStates);
+  //
+  //
+  //
 
   // Check if district view is valid
   const isDistrictViewValid = useMemo(() => {
@@ -89,8 +91,8 @@ export default function SlipTopFive({
 
     const fromTime = from ? from.getTime() : Number.NEGATIVE_INFINITY;
     const toTime = to ? to.getTime() : Number.POSITIVE_INFINITY;
-    
-    // console.log("Processing date range:", { from, to, fromTime, toTime });
+
+    //
 
     if (viewMode === "state") {
       // Aggregate by state
@@ -98,28 +100,28 @@ export default function SlipTopFive({
 
       for (const day of allData) {
         if (!day?.date) {
-          // console.log("Skipping day with no date:", day);
+          //
           continue;
         }
 
         const dayTime = new Date(day.date).getTime();
         if (dayTime < fromTime || dayTime > toTime) continue;
 
-        // console.log(`Processing day: ${day.date}`);
+        //
 
         if (!day.data?.state) {
-          // console.log("No state data found for day:", day.date);
+          //
           continue;
         }
 
         // Iterate through states with safe entries
         safeObjectEntries(day.data.state).forEach(([stateName, stateData]) => {
-          if (!stateName || stateName.trim() === '') {
-            // console.log("Skipping state with empty name");
+          if (!stateName || stateName.trim() === "") {
+            //
             return;
           }
 
-          // console.log(`  Processing state: ${stateName}`);
+          //
 
           if (!stateTotals[stateName]) {
             stateTotals[stateName] = {} as Record<StatusKey, number>;
@@ -130,27 +132,33 @@ export default function SlipTopFive({
           for (const status of activeStatuses) {
             const fieldName = STATUS_KEY_MAP[status.toLowerCase()];
             if (!fieldName) {
-              // console.log(`No field mapping for status: ${status}`);
+              //
               continue;
             }
 
             let stateTotal = 0;
 
             // Traverse nested structure: state > district > act > section
-            safeObjectEntries(stateData).forEach(([districtName, districtData]) => {
-              if (!districtName) return;
-              
-              safeObjectEntries(districtData).forEach(([actName, actData]) => {
-                if (!actName) return;
-                
-                safeObjectEntries(actData).forEach(([sectionName, sectionData]) => {
-                  if (!sectionName) return;
-                  
-                  const value = safeNumericValue(sectionData, fieldName);
-                  stateTotal += value;
-                });
-              });
-            });
+            safeObjectEntries(stateData).forEach(
+              ([districtName, districtData]) => {
+                if (!districtName) return;
+
+                safeObjectEntries(districtData).forEach(
+                  ([actName, actData]) => {
+                    if (!actName) return;
+
+                    safeObjectEntries(actData).forEach(
+                      ([sectionName, sectionData]) => {
+                        if (!sectionName) return;
+
+                        const value = safeNumericValue(sectionData, fieldName);
+                        stateTotal += value;
+                      }
+                    );
+                  }
+                );
+              }
+            );
 
             stateTotals[stateName][status] += stateTotal;
             // console.log(`    ${status}: +${stateTotal} (total: ${stateTotals[stateName][status]})`);
@@ -162,84 +170,93 @@ export default function SlipTopFive({
       const result: Record<StatusKey, any[]> = {} as any;
       for (const status of activeStatuses) {
         const arr: any[] = safeObjectEntries(stateTotals)
-          .filter(([stateName]) => stateName && stateName.trim() !== '')
+          .filter(([stateName]) => stateName && stateName.trim() !== "")
           .map(([stateName, vals]) => ({
             state: stateName.trim(), // Changed from 'name' to 'state' to match ChartCard interface
             value: (vals as Record<StatusKey, number>)[status] ?? 0,
           }));
-        
+
         arr.sort((a, b) => b.value - a.value);
         result[status] = arr.slice(0, 5);
-        // console.log(`Top 5 states for ${status}:`, result[status]);
+        //
       }
 
       return result;
-
     } else {
       // Aggregate by district
       const districtTotals: Record<string, Record<StatusKey, number>> = {};
 
       for (const day of allData) {
         if (!day?.date) {
-          // console.log("Skipping day with no date:", day);
+          //
           continue;
         }
 
         const dayTime = new Date(day.date).getTime();
         if (dayTime < fromTime || dayTime > toTime) continue;
 
-        // console.log(`Processing day: ${day.date}`);
+        //
 
         if (!day.data?.state) {
-          // console.log("No state data found for day:", day.date);
+          //
           continue;
         }
 
         // Iterate through states and districts with safe entries
         safeObjectEntries(day.data.state).forEach(([stateName, stateData]) => {
-          if (!stateName || stateName.trim() === '') return;
-          
+          if (!stateName || stateName.trim() === "") return;
+
           // Filter by selected state if specified
-          if (selectedStateName && stateName.trim().toLowerCase() !== selectedStateName.toLowerCase()) {
+          if (
+            selectedStateName &&
+            stateName.trim().toLowerCase() !== selectedStateName.toLowerCase()
+          ) {
             return; // Skip this state if it's not the selected one
           }
 
-          safeObjectEntries(stateData).forEach(([districtName, districtData]) => {
-            if (!districtName || districtName.trim() === '') return;
+          safeObjectEntries(stateData).forEach(
+            ([districtName, districtData]) => {
+              if (!districtName || districtName.trim() === "") return;
 
-            const districtKey = `${stateName.trim()} - ${districtName.trim()}`;
-            // console.log(`  Processing district: ${districtKey}`);
+              const districtKey = `${stateName.trim()} - ${districtName.trim()}`;
+              //
 
-            if (!districtTotals[districtKey]) {
-              districtTotals[districtKey] = {} as Record<StatusKey, number>;
-              for (const s of VALID_STATUSES) districtTotals[districtKey][s] = 0;
-            }
-
-            // Aggregate data for this district across all acts/sections
-            for (const status of activeStatuses) {
-              const fieldName = STATUS_KEY_MAP[status.toLowerCase()];
-              if (!fieldName) {
-                // console.log(`No field mapping for status: ${status}`);
-                continue;
+              if (!districtTotals[districtKey]) {
+                districtTotals[districtKey] = {} as Record<StatusKey, number>;
+                for (const s of VALID_STATUSES)
+                  districtTotals[districtKey][s] = 0;
               }
 
-              let districtTotal = 0;
+              // Aggregate data for this district across all acts/sections
+              for (const status of activeStatuses) {
+                const fieldName = STATUS_KEY_MAP[status.toLowerCase()];
+                if (!fieldName) {
+                  //
+                  continue;
+                }
 
-              safeObjectEntries(districtData).forEach(([actName, actData]) => {
-                if (!actName) return;
-                
-                safeObjectEntries(actData).forEach(([sectionName, sectionData]) => {
-                  if (!sectionName) return;
-                  
-                  const value = safeNumericValue(sectionData, fieldName);
-                  districtTotal += value;
-                });
-              });
+                let districtTotal = 0;
 
-              districtTotals[districtKey][status] += districtTotal;
-              // console.log(`    ${status}: +${districtTotal} (total: ${districtTotals[districtKey][status]})`);
+                safeObjectEntries(districtData).forEach(
+                  ([actName, actData]) => {
+                    if (!actName) return;
+
+                    safeObjectEntries(actData).forEach(
+                      ([sectionName, sectionData]) => {
+                        if (!sectionName) return;
+
+                        const value = safeNumericValue(sectionData, fieldName);
+                        districtTotal += value;
+                      }
+                    );
+                  }
+                );
+
+                districtTotals[districtKey][status] += districtTotal;
+                // console.log(`    ${status}: +${districtTotal} (total: ${districtTotals[districtKey][status]})`);
+              }
             }
-          });
+          );
         });
       }
 
@@ -247,20 +264,28 @@ export default function SlipTopFive({
       const result: Record<StatusKey, any[]> = {} as any;
       for (const status of activeStatuses) {
         const arr: any[] = safeObjectEntries(districtTotals)
-          .filter(([districtKey]) => districtKey && districtKey.trim() !== '')
+          .filter(([districtKey]) => districtKey && districtKey.trim() !== "")
           .map(([districtKey, vals]) => ({
             state: districtKey.trim(), // Changed from 'name' to 'state' to match ChartCard interface
             value: (vals as Record<StatusKey, number>)[status] ?? 0,
           }));
-        
+
         arr.sort((a, b) => b.value - a.value);
         result[status] = arr.slice(0, 5);
-        // console.log(`Top 5 districts for ${status}:`, result[status]);
+        //
       }
 
       return result;
     }
-  }, [allData, from, to, activeStatuses, viewMode, isDistrictViewValid, selectedStateName]);
+  }, [
+    allData,
+    from,
+    to,
+    activeStatuses,
+    viewMode,
+    isDistrictViewValid,
+    selectedStateName,
+  ]);
 
   /** Hide buttons before printing */
   const hideButtons = (hide: boolean) => {
@@ -273,8 +298,10 @@ export default function SlipTopFive({
   const handlePrintAll = () => {
     hideButtons(true);
     exportService.printComponent(
-      viewRef.current, 
-      `Top 5 ${viewMode === "state" ? "States" : "Districts"} by Crime Status Report`
+      viewRef.current,
+      `Top 5 ${
+        viewMode === "state" ? "States" : "Districts"
+      } by Crime Status Report`
     );
     setTimeout(() => hideButtons(false), 500);
   };
@@ -289,23 +316,24 @@ export default function SlipTopFive({
       const topList = topDataByStatus[status] || [];
 
       // Add a subheading for each status section
-      csvRows.push([`Top 5 ${viewMode === "state" ? "States" : "Districts"} - ${status}`]);
+      csvRows.push([
+        `Top 5 ${viewMode === "state" ? "States" : "Districts"} - ${status}`,
+      ]);
       csvRows.push(headers);
 
       topList.forEach((item) => {
         // Additional safety check for item.state (changed from item.name)
-        const name = item.state && typeof item.state === 'string' ? item.state.trim() : 'Unknown';
-        const value = typeof item.value === 'number' ? item.value : 0;
+        const name =
+          item.state && typeof item.state === "string"
+            ? item.state.trim()
+            : "Unknown";
+        const value = typeof item.value === "number" ? item.value : 0;
         csvRows.push([name, value]);
       });
       csvRows.push([]); // Blank line for spacing between sections
     });
 
-    exportService.exportToCSV(
-      `top-5-${viewMode}-slip-report.csv`, 
-      [], 
-      csvRows
-    );
+    exportService.exportToCSV(`top-5-${viewMode}-slip-report.csv`, [], csvRows);
     hideButtons(false);
   };
 
@@ -331,9 +359,7 @@ export default function SlipTopFive({
   return (
     <Card ref={viewRef} className="mt-4">
       <CardHeader className="flex-row items-center justify-between">
-        <CardTitle>
-          {getTitle()}
-        </CardTitle>
+        <CardTitle>{getTitle()}</CardTitle>
         <div className="flex items-center gap-2">
           <Select value={viewMode} onValueChange={handleViewModeChange}>
             <SelectTrigger className="w-[120px] print-hide">
@@ -374,14 +400,20 @@ export default function SlipTopFive({
           </div>
         ) : !isDistrictViewValid ? (
           <div className="text-center p-4 text-muted-foreground">
-            <div className="text-lg font-semibold mb-2">Select Single State Required</div>
+            <div className="text-lg font-semibold mb-2">
+              Select Single State Required
+            </div>
             <div>
-              To view top districts, please select exactly one state from the filters. 
-              Currently {selectedStates.length === 0 ? 'no states are' : `${selectedStates.length} states are`} selected.
+              To view top districts, please select exactly one state from the
+              filters. Currently{" "}
+              {selectedStates.length === 0
+                ? "no states are"
+                : `${selectedStates.length} states are`}{" "}
+              selected.
             </div>
             {selectedStates.length > 1 && (
               <div className="mt-2 text-sm">
-                Selected states: {selectedStates.join(', ')}
+                Selected states: {selectedStates.join(", ")}
               </div>
             )}
           </div>
@@ -390,7 +422,9 @@ export default function SlipTopFive({
             {activeStatuses.map((status) => (
               <ChartCard
                 key={status}
-                title={`${status} (Top 5 ${viewMode === "state" ? "States" : "Districts"})`}
+                title={`${status} (Top 5 ${
+                  viewMode === "state" ? "States" : "Districts"
+                })`}
                 data={topDataByStatus[status] || []}
               />
             ))}
