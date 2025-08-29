@@ -134,11 +134,9 @@ export function SlipCaptureTrendChart({
           })
           .sort();
 
-  console.log("Available data dates:", Array.from(dataByDate.keys()));
 
   // Enhanced data processing with complete date range
   const chartData = completeDateRange.map((dateString, dayIndex) => {
-    console.log(`Processing date ${dateString} (day ${dayIndex + 1})`);
 
     const day = dataByDate.get(dateString);
 
@@ -218,11 +216,6 @@ export function SlipCaptureTrendChart({
       };
     }
 
-    console.log(
-      `Found state data for ${selectedState} on ${dateString}:`,
-      Object.keys(stateData)
-    );
-
     // Initialize counters
     let arrested = 0;
     let convicted = 0;
@@ -265,17 +258,7 @@ export function SlipCaptureTrendChart({
             convicted += convictedValue;
             suspect += suspectValue;
 
-            // Debug logging for non-zero values
             if (arrestedValue > 0 || convictedValue > 0 || suspectValue > 0) {
-              console.log(
-                `Found data in ${districtName}/${actName}/${sectionName}[${itemIndex}] on ${dateString}:`,
-                {
-                  arrested: arrestedValue,
-                  convicted: convictedValue,
-                  suspect: suspectValue,
-                  item: item,
-                }
-              );
             }
           });
         });

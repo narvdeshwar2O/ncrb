@@ -175,7 +175,7 @@
       },
       "Suspect-2": {
         "lt_enroll": 0,
-        "tp_enroll": 34,
+        "tp_enroll": 27,
         "live_enroll": 0
       },
       "2-007": {
@@ -225,11 +225,6 @@
         "tp_enroll": 1,
         "live_enroll": 0
       },
-      "11-186": {
-        "lt_enroll": 0,
-        "tp_enroll": 2,
-        "live_enroll": 0
-      },
       "11-203": {
         "lt_enroll": 0,
         "tp_enroll": 2,
@@ -270,6 +265,11 @@
       "29-578": {
         "lt_enroll": 2,
         "tp_enroll": 11,
+        "live_enroll": 0
+      },
+      "29-939": {
+        "lt_enroll": 2,
+        "tp_enroll": 0,
         "live_enroll": 0
       },
       "29-914": {
@@ -412,14 +412,14 @@
         "tp_enroll": 15,
         "live_enroll": 0
       },
-      "Suspect-29": {
-        "lt_enroll": 0,
-        "tp_enroll": 40,
-        "live_enroll": 0
-      },
       "29-586": {
         "lt_enroll": 0,
         "tp_enroll": 14,
+        "live_enroll": 0
+      },
+      "Suspect-29": {
+        "lt_enroll": 0,
+        "tp_enroll": 1,
         "live_enroll": 0
       },
       "29-619": {
@@ -437,14 +437,14 @@
         "tp_enroll": 1,
         "live_enroll": 0
       },
-      "Civil-29": {
-        "lt_enroll": 0,
-        "tp_enroll": 46,
-        "live_enroll": 0
-      },
       "29-597": {
         "lt_enroll": 0,
         "tp_enroll": 23,
+        "live_enroll": 0
+      },
+      "Civil-29": {
+        "lt_enroll": 0,
+        "tp_enroll": 8,
         "live_enroll": 0
       },
       "29-620": {
@@ -527,7 +527,7 @@
         "live_enroll": 0
       },
       "21-330": {
-        "lt_enroll": 6,
+        "lt_enroll": 8,
         "tp_enroll": 19,
         "live_enroll": 0
       },
@@ -556,6 +556,11 @@
         "tp_enroll": 17,
         "live_enroll": 0
       },
+      "21-369": {
+        "lt_enroll": 1,
+        "tp_enroll": 30,
+        "live_enroll": 0
+      },
       "21-356": {
         "lt_enroll": 2,
         "tp_enroll": 21,
@@ -578,7 +583,7 @@
       },
       "21-347": {
         "lt_enroll": 0,
-        "tp_enroll": 6,
+        "tp_enroll": 3,
         "live_enroll": 0
       },
       "21-323": {
@@ -598,7 +603,7 @@
       },
       "21-329": {
         "lt_enroll": 0,
-        "tp_enroll": 143,
+        "tp_enroll": 142,
         "live_enroll": 0
       },
       "21-350": {
@@ -623,17 +628,12 @@
       },
       "Suspect-21": {
         "lt_enroll": 0,
-        "tp_enroll": 11,
+        "tp_enroll": 6,
         "live_enroll": 0
       },
       "21-337": {
         "lt_enroll": 0,
         "tp_enroll": 39,
-        "live_enroll": 0
-      },
-      "21-369": {
-        "lt_enroll": 0,
-        "tp_enroll": 30,
         "live_enroll": 0
       },
       "21-335": {
@@ -943,12 +943,12 @@
       },
       "27-570": {
         "lt_enroll": 0,
-        "tp_enroll": 20,
+        "tp_enroll": 19,
         "live_enroll": 19
       },
       "27-554": {
         "lt_enroll": 0,
-        "tp_enroll": 21,
+        "tp_enroll": 16,
         "live_enroll": 6
       },
       "27-880": {
@@ -958,12 +958,12 @@
       },
       "27-571": {
         "lt_enroll": 0,
-        "tp_enroll": 30,
+        "tp_enroll": 29,
         "live_enroll": 0
       },
       "27-567": {
         "lt_enroll": 0,
-        "tp_enroll": 21,
+        "tp_enroll": 20,
         "live_enroll": 0
       },
       "27-830": {
@@ -973,53 +973,53 @@
       },
       "27-569": {
         "lt_enroll": 0,
-        "tp_enroll": 62,
-        "live_enroll": 0
-      },
-      "27-577": {
-        "lt_enroll": 0,
-        "tp_enroll": 17,
+        "tp_enroll": 61,
         "live_enroll": 0
       },
       "27-572": {
         "lt_enroll": 0,
-        "tp_enroll": 37,
+        "tp_enroll": 32,
+        "live_enroll": 0
+      },
+      "27-577": {
+        "lt_enroll": 0,
+        "tp_enroll": 16,
         "live_enroll": 0
       },
       "27-542": {
         "lt_enroll": 0,
-        "tp_enroll": 12,
+        "tp_enroll": 11,
         "live_enroll": 8
       },
       "27-548": {
         "lt_enroll": 0,
-        "tp_enroll": 18,
+        "tp_enroll": 17,
         "live_enroll": 7
       },
       "27-551": {
         "lt_enroll": 0,
-        "tp_enroll": 24,
+        "tp_enroll": 20,
         "live_enroll": 5
+      },
+      "27-550": {
+        "lt_enroll": 0,
+        "tp_enroll": 53,
+        "live_enroll": 0
       },
       "27-876": {
         "lt_enroll": 0,
         "tp_enroll": 16,
         "live_enroll": 5
       },
-      "27-550": {
+      "27-568": {
         "lt_enroll": 0,
-        "tp_enroll": 60,
+        "tp_enroll": 35,
         "live_enroll": 0
       },
       "27-549": {
         "lt_enroll": 0,
         "tp_enroll": 34,
         "live_enroll": 5
-      },
-      "27-568": {
-        "lt_enroll": 0,
-        "tp_enroll": 35,
-        "live_enroll": 0
       },
       "27-564": {
         "lt_enroll": 0,
@@ -1119,7 +1119,7 @@
         "live_enroll": 6
       },
       "15-290": {
-        "lt_enroll": 2,
+        "lt_enroll": 3,
         "tp_enroll": 0,
         "live_enroll": 0
       },
@@ -1331,14 +1331,14 @@
         "tp_enroll": 48,
         "live_enroll": 0
       },
-      "25-535": {
-        "lt_enroll": 0,
-        "tp_enroll": 6,
-        "live_enroll": 0
-      },
       "25-921": {
         "lt_enroll": 0,
         "tp_enroll": 16,
+        "live_enroll": 0
+      },
+      "25-535": {
+        "lt_enroll": 0,
+        "tp_enroll": 6,
         "live_enroll": 0
       },
       "25-534": {
@@ -1487,7 +1487,7 @@
       },
       "12-252": {
         "lt_enroll": 0,
-        "tp_enroll": 10,
+        "tp_enroll": 8,
         "live_enroll": 0
       },
       "12-243": {
@@ -1528,11 +1528,6 @@
         "lt_enroll": 0,
         "tp_enroll": 3,
         "live_enroll": 47
-      },
-      "5-109": {
-        "lt_enroll": 0,
-        "tp_enroll": 1,
-        "live_enroll": 1
       },
       "5-138": {
         "lt_enroll": 0,
@@ -1598,6 +1593,11 @@
         "lt_enroll": 0,
         "tp_enroll": 0,
         "live_enroll": 3
+      },
+      "5-109": {
+        "lt_enroll": 0,
+        "tp_enroll": 0,
+        "live_enroll": 1
       },
       "5-102": {
         "lt_enroll": 0,
@@ -1746,7 +1746,7 @@
       },
       "31-628": {
         "lt_enroll": 0,
-        "tp_enroll": 9,
+        "tp_enroll": 3,
         "live_enroll": 2
       },
       "31-641": {
@@ -1914,17 +1914,17 @@
         "tp_enroll": 0,
         "live_enroll": 3
       },
+      "31-653": {
+        "lt_enroll": 0,
+        "tp_enroll": 0,
+        "live_enroll": 4
+      },
       "31-901": {
         "lt_enroll": 0,
         "tp_enroll": 0,
         "live_enroll": 9
       },
       "31-892": {
-        "lt_enroll": 0,
-        "tp_enroll": 0,
-        "live_enroll": 4
-      },
-      "31-653": {
         "lt_enroll": 0,
         "tp_enroll": 0,
         "live_enroll": 4
@@ -2073,15 +2073,15 @@
         "tp_enroll": 0,
         "live_enroll": 3
       },
-      "32-704": {
-        "lt_enroll": 0,
-        "tp_enroll": 0,
-        "live_enroll": 6
-      },
       "32-806": {
         "lt_enroll": 0,
         "tp_enroll": 0,
         "live_enroll": 1
+      },
+      "32-704": {
+        "lt_enroll": 0,
+        "tp_enroll": 0,
+        "live_enroll": 6
       },
       "32-707": {
         "lt_enroll": 0,

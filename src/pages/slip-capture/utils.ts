@@ -654,19 +654,67 @@ export function buildSlipTableDataByState(
   return result;
 }
 
-/**
- * Build slip table data aggregated by district (single row per district)
- * This aggregates across all dates, acts, and sections
- */
+
 export function buildSlipTableDataByDistrict(
   filteredData: SlipDailyData[],
   statuses: StatusKey[],
-  selectedStates: string[]
+  selectedStates: string[],
+  selectedDistricts: string[] = []
 ) {
   const districtAggregates = new Map<string, any>();
   const selectedStatesLower = selectedStates.map((s) => s.toLowerCase().trim());
 
-  // Aggregate data across all dates
+  // First, initialize ALL selected districts with zero values
+  if (selectedDistricts.length > 0 && selectedStates.length === 1) {
+    selectedDistricts.forEach((district) => {
+      const districtKey = `${selectedStates[0].toLowerCase().trim()}__${district
+        .toLowerCase()
+        .trim()}`;
+
+      const districtData: any = {
+        state: selectedStates[0],
+        district: district,
+      };
+
+      // Initialize all status counts to 0
+      statuses.forEach((status) => {
+        districtData[status] = 0;
+      });
+
+      districtAggregates.set(districtKey, districtData);
+    });
+  } else {
+    // Fallback: initialize from filteredData if no selectedDistricts provided
+    filteredData.forEach((entry) => {
+      Object.entries(entry.data.state).forEach(([state, districts]) => {
+        const stateLower = state.toLowerCase().trim();
+
+        if (!selectedStatesLower.includes(stateLower)) {
+          return;
+        }
+
+        Object.entries(districts).forEach(([district, acts]) => {
+          const districtKey = `${stateLower}__${district.toLowerCase().trim()}`;
+
+          if (!districtAggregates.has(districtKey)) {
+            const districtData: any = {
+              state,
+              district,
+            };
+
+            // Initialize all status counts to 0
+            statuses.forEach((status) => {
+              districtData[status] = 0;
+            });
+
+            districtAggregates.set(districtKey, districtData);
+          }
+        });
+      });
+    });
+  }
+
+  // Then aggregate actual data from filteredData
   filteredData.forEach((entry) => {
     Object.entries(entry.data.state).forEach(([state, districts]) => {
       const stateLower = state.toLowerCase().trim();
@@ -677,23 +725,8 @@ export function buildSlipTableDataByDistrict(
 
       Object.entries(districts).forEach(([district, acts]) => {
         const districtKey = `${stateLower}__${district.toLowerCase().trim()}`;
-
-        // Initialize district aggregate if not exists
-        if (!districtAggregates.has(districtKey)) {
-          const districtData: any = {
-            state,
-            district,
-          };
-
-          // Initialize all status counts to 0
-          statuses.forEach((status) => {
-            districtData[status] = 0;
-          });
-
-          districtAggregates.set(districtKey, districtData);
-        }
-
         const districtAggregate = districtAggregates.get(districtKey);
+
         if (!districtAggregate) return;
 
         // Aggregate across all acts and sections for this district
@@ -723,5 +756,6 @@ export function buildSlipTableDataByDistrict(
     return a.district.localeCompare(b.district);
   });
 
+  console.log("District aggregation result:", result); // Debug log
   return result;
 }

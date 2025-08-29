@@ -10,8 +10,8 @@
         },
         "cp": {
           "hit": 0,
-          "nohit": 0,
-          "total": 0,
+          "nohit": 1,
+          "total": 1,
           "enrol": 2
         },
         "mesa": {
@@ -30,8 +30,8 @@
         },
         "cp": {
           "hit": 0,
-          "nohit": 3,
-          "total": 3,
+          "nohit": 11,
+          "total": 11,
           "enrol": 1
         },
         "mesa": {
@@ -70,8 +70,8 @@
         },
         "cp": {
           "hit": 0,
-          "nohit": 0,
-          "total": 0,
+          "nohit": 53,
+          "total": 53,
           "enrol": 5
         },
         "mesa": {
@@ -90,8 +90,8 @@
         },
         "cp": {
           "hit": 0,
-          "nohit": 1,
-          "total": 1,
+          "nohit": 6,
+          "total": 6,
           "enrol": 3
         },
         "mesa": {
@@ -150,8 +150,8 @@
         },
         "cp": {
           "hit": 0,
-          "nohit": 0,
-          "total": 0,
+          "nohit": 2,
+          "total": 2,
           "enrol": 1
         },
         "mesa": {
@@ -163,15 +163,15 @@
       },
       "BANGALORE CITY": {
         "tp": {
-          "hit": 4,
+          "hit": 3,
           "nohit": 2,
-          "total": 6,
+          "total": 5,
           "enrol": 2
         },
         "cp": {
           "hit": 0,
-          "nohit": 78,
-          "total": 78,
+          "nohit": 79,
+          "total": 79,
           "enrol": 12
         },
         "mesa": {
@@ -190,8 +190,8 @@
         },
         "cp": {
           "hit": 0,
-          "nohit": 3,
-          "total": 3,
+          "nohit": 5,
+          "total": 5,
           "enrol": 3
         },
         "mesa": {
@@ -210,8 +210,8 @@
         },
         "cp": {
           "hit": 0,
-          "nohit": 0,
-          "total": 0,
+          "nohit": 7,
+          "total": 7,
           "enrol": 3
         },
         "mesa": {
@@ -230,8 +230,8 @@
         },
         "cp": {
           "hit": 0,
-          "nohit": 9,
-          "total": 9,
+          "nohit": 10,
+          "total": 10,
           "enrol": 5
         },
         "mesa": {
@@ -250,8 +250,8 @@
         },
         "cp": {
           "hit": 0,
-          "nohit": 0,
-          "total": 0,
+          "nohit": 23,
+          "total": 23,
           "enrol": 1
         },
         "mesa": {
@@ -310,8 +310,8 @@
         },
         "cp": {
           "hit": 0,
-          "nohit": 0,
-          "total": 0,
+          "nohit": 12,
+          "total": 12,
           "enrol": 3
         },
         "mesa": {
@@ -330,8 +330,8 @@
         },
         "cp": {
           "hit": 0,
-          "nohit": 0,
-          "total": 0,
+          "nohit": 2,
+          "total": 2,
           "enrol": 2
         },
         "mesa": {
@@ -343,9 +343,9 @@
       },
       "BAGALKOT": {
         "tp": {
-          "hit": 1,
+          "hit": 0,
           "nohit": 0,
-          "total": 1,
+          "total": 0,
           "enrol": 0
         },
         "cp": {
@@ -390,8 +390,8 @@
         },
         "cp": {
           "hit": 0,
-          "nohit": 8,
-          "total": 8,
+          "nohit": 26,
+          "total": 26,
           "enrol": 3
         },
         "mesa": {
@@ -410,8 +410,8 @@
         },
         "cp": {
           "hit": 0,
-          "nohit": 2,
-          "total": 2,
+          "nohit": 9,
+          "total": 9,
           "enrol": 2
         },
         "mesa": {
@@ -461,26 +461,6 @@
           "enrol": 0
         }
       },
-      "CHITRADURGA": {
-        "tp": {
-          "hit": 1,
-          "nohit": 0,
-          "total": 1,
-          "enrol": 0
-        },
-        "cp": {
-          "hit": 0,
-          "nohit": 0,
-          "total": 0,
-          "enrol": 0
-        },
-        "mesa": {
-          "hit": 0,
-          "nohit": 0,
-          "total": 0,
-          "enrol": 0
-        }
-      },
       "GADAG": {
         "tp": {
           "hit": 0,
@@ -492,6 +472,46 @@
           "hit": 0,
           "nohit": 4,
           "total": 4,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "KODAGU": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 1,
+          "total": 1,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "CHITRADURGA": {
+        "tp": {
+          "hit": 1,
+          "nohit": 0,
+          "total": 1,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
           "enrol": 0
         },
         "mesa": {
@@ -512,8 +532,8 @@
         },
         "cp": {
           "hit": 0,
-          "nohit": 34,
-          "total": 34,
+          "nohit": 54,
+          "total": 54,
           "enrol": 2
         },
         "mesa": {
@@ -532,8 +552,8 @@
         },
         "cp": {
           "hit": 0,
-          "nohit": 138,
-          "total": 138,
+          "nohit": 178,
+          "total": 178,
           "enrol": 3
         },
         "mesa": {
@@ -612,8 +632,8 @@
         },
         "cp": {
           "hit": 0,
-          "nohit": 40,
-          "total": 40,
+          "nohit": 120,
+          "total": 120,
           "enrol": 3
         },
         "mesa": {
@@ -683,6 +703,26 @@
           "enrol": 0
         }
       },
+      "Kakinada": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 12,
+          "total": 12,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
       "GRP VIJAYAWADA": {
         "tp": {
           "hit": 0,
@@ -734,8 +774,8 @@
         },
         "cp": {
           "hit": 0,
-          "nohit": 0,
-          "total": 0,
+          "nohit": 26,
+          "total": 26,
           "enrol": 1
         },
         "mesa": {
@@ -828,8 +868,8 @@
       "WSTN RLY VADODARA": {
         "tp": {
           "hit": 0,
-          "nohit": 2,
-          "total": 2,
+          "nohit": 4,
+          "total": 4,
           "enrol": 8
         },
         "cp": {
@@ -871,26 +911,6 @@
           "nohit": 0,
           "total": 0,
           "enrol": 1
-        },
-        "cp": {
-          "hit": 0,
-          "nohit": 0,
-          "total": 0,
-          "enrol": 0
-        },
-        "mesa": {
-          "hit": 0,
-          "nohit": 0,
-          "total": 0,
-          "enrol": 0
-        }
-      },
-      "GIR SOMNATH": {
-        "tp": {
-          "hit": 0,
-          "nohit": 0,
-          "total": 0,
-          "enrol": 2
         },
         "cp": {
           "hit": 0,
@@ -1045,7 +1065,7 @@
           "enrol": 9
         }
       },
-      "KHEDA": {
+      "RAJKOT CITY": {
         "tp": {
           "hit": 0,
           "nohit": 0,
@@ -1065,7 +1085,7 @@
           "enrol": 0
         }
       },
-      "RAJKOT CITY": {
+      "VADODARA RURAL": {
         "tp": {
           "hit": 0,
           "nohit": 0,
@@ -1105,26 +1125,6 @@
           "enrol": 0
         }
       },
-      "VADODARA RURAL": {
-        "tp": {
-          "hit": 0,
-          "nohit": 0,
-          "total": 0,
-          "enrol": 0
-        },
-        "cp": {
-          "hit": 0,
-          "nohit": 0,
-          "total": 0,
-          "enrol": 0
-        },
-        "mesa": {
-          "hit": 0,
-          "nohit": 0,
-          "total": 0,
-          "enrol": 0
-        }
-      },
       "BHAVNAGAR": {
         "tp": {
           "hit": 0,
@@ -1146,6 +1146,26 @@
         }
       },
       "PATAN": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "KHEDA": {
         "tp": {
           "hit": 0,
           "nohit": 0,
@@ -1190,14 +1210,34 @@
       "KARUR": {
         "tp": {
           "hit": 0,
-          "nohit": 2,
-          "total": 2,
+          "nohit": 11,
+          "total": 11,
           "enrol": 11
         },
         "cp": {
           "hit": 0,
-          "nohit": 4,
-          "total": 4,
+          "nohit": 30,
+          "total": 30,
+          "enrol": 2
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "Ranipet": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
           "enrol": 2
         },
         "mesa": {
@@ -1230,8 +1270,8 @@
       "COIMBATORE": {
         "tp": {
           "hit": 2,
-          "nohit": 49,
-          "total": 51,
+          "nohit": 50,
+          "total": 52,
           "enrol": 32
         },
         "cp": {
@@ -1250,8 +1290,8 @@
       "SALEM": {
         "tp": {
           "hit": 0,
-          "nohit": 0,
-          "total": 0,
+          "nohit": 1,
+          "total": 1,
           "enrol": 2
         },
         "cp": {
@@ -1276,8 +1316,8 @@
         },
         "cp": {
           "hit": 0,
-          "nohit": 0,
-          "total": 0,
+          "nohit": 2,
+          "total": 2,
           "enrol": 1
         },
         "mesa": {
@@ -1290,14 +1330,14 @@
       "DINDIGUL": {
         "tp": {
           "hit": 3,
-          "nohit": 72,
-          "total": 75,
+          "nohit": 77,
+          "total": 80,
           "enrol": 29
         },
         "cp": {
           "hit": 0,
-          "nohit": 120,
-          "total": 120,
+          "nohit": 394,
+          "total": 394,
           "enrol": 3
         },
         "mesa": {
@@ -1310,14 +1350,14 @@
       "PUDUKKOTTAI": {
         "tp": {
           "hit": 0,
-          "nohit": 12,
-          "total": 12,
+          "nohit": 24,
+          "total": 24,
           "enrol": 32
         },
         "cp": {
           "hit": 0,
-          "nohit": 6,
-          "total": 6,
+          "nohit": 8,
+          "total": 8,
           "enrol": 5
         },
         "mesa": {
@@ -1376,8 +1416,8 @@
         },
         "cp": {
           "hit": 0,
-          "nohit": 12,
-          "total": 12,
+          "nohit": 40,
+          "total": 40,
           "enrol": 1
         },
         "mesa": {
@@ -1396,8 +1436,8 @@
         },
         "cp": {
           "hit": 0,
-          "nohit": 30,
-          "total": 30,
+          "nohit": 52,
+          "total": 52,
           "enrol": 13
         },
         "mesa": {
@@ -1436,8 +1476,8 @@
         },
         "cp": {
           "hit": 0,
-          "nohit": 70,
-          "total": 70,
+          "nohit": 100,
+          "total": 100,
           "enrol": 10
         },
         "mesa": {
@@ -1476,8 +1516,8 @@
         },
         "cp": {
           "hit": 0,
-          "nohit": 130,
-          "total": 130,
+          "nohit": 190,
+          "total": 190,
           "enrol": 5
         },
         "mesa": {
@@ -1496,8 +1536,8 @@
         },
         "cp": {
           "hit": 0,
-          "nohit": 20,
-          "total": 20,
+          "nohit": 21,
+          "total": 21,
           "enrol": 7
         },
         "mesa": {
@@ -1510,8 +1550,8 @@
       "TIRUPPUR": {
         "tp": {
           "hit": 0,
-          "nohit": 61,
-          "total": 61,
+          "nohit": 72,
+          "total": 72,
           "enrol": 16
         },
         "cp": {
@@ -1536,8 +1576,8 @@
         },
         "cp": {
           "hit": 0,
-          "nohit": 52,
-          "total": 52,
+          "nohit": 54,
+          "total": 54,
           "enrol": 2
         },
         "mesa": {
@@ -1570,8 +1610,8 @@
       "THIRUNELVELI": {
         "tp": {
           "hit": 0,
-          "nohit": 7,
-          "total": 7,
+          "nohit": 14,
+          "total": 14,
           "enrol": 15
         },
         "cp": {
@@ -1596,8 +1636,8 @@
         },
         "cp": {
           "hit": 0,
-          "nohit": 0,
-          "total": 0,
+          "nohit": 10,
+          "total": 10,
           "enrol": 1
         },
         "mesa": {
@@ -1750,8 +1790,8 @@
       "THENI": {
         "tp": {
           "hit": 1,
-          "nohit": 16,
-          "total": 17,
+          "nohit": 18,
+          "total": 19,
           "enrol": 15
         },
         "cp": {
@@ -1850,8 +1890,8 @@
       "NILGIRIS": {
         "tp": {
           "hit": 0,
-          "nohit": 20,
-          "total": 20,
+          "nohit": 27,
+          "total": 27,
           "enrol": 23
         },
         "cp": {
@@ -1887,17 +1927,77 @@
           "enrol": 0
         }
       },
-      "CBCID - SOUTH": {
+      "KOLATHUR": {
         "tp": {
           "hit": 0,
-          "nohit": 1,
-          "total": 1,
+          "nohit": 0,
+          "total": 0,
           "enrol": 0
         },
         "cp": {
           "hit": 0,
+          "nohit": 10,
+          "total": 10,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
           "nohit": 0,
           "total": 0,
+          "enrol": 0
+        }
+      },
+      "PULIANTHOPE": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 78,
+          "total": 78,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "TIRUNELVELI CITY": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 32,
+          "total": 32,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "KANYAKUMARI": {
+        "tp": {
+          "hit": 0,
+          "nohit": 17,
+          "total": 17,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 2,
+          "nohit": 14,
+          "total": 16,
           "enrol": 0
         },
         "mesa": {
@@ -1947,171 +2047,11 @@
           "enrol": 0
         }
       },
-      "SALEM CITY": {
-        "tp": {
-          "hit": 0,
-          "nohit": 4,
-          "total": 4,
-          "enrol": 0
-        },
-        "cp": {
-          "hit": 0,
-          "nohit": 0,
-          "total": 0,
-          "enrol": 0
-        },
-        "mesa": {
-          "hit": 0,
-          "nohit": 0,
-          "total": 0,
-          "enrol": 0
-        }
-      },
-      "KANCHEEPURAM": {
-        "tp": {
-          "hit": 0,
-          "nohit": 1,
-          "total": 1,
-          "enrol": 0
-        },
-        "cp": {
-          "hit": 0,
-          "nohit": 0,
-          "total": 0,
-          "enrol": 0
-        },
-        "mesa": {
-          "hit": 0,
-          "nohit": 0,
-          "total": 0,
-          "enrol": 0
-        }
-      },
-      "KANYAKUMARI": {
-        "tp": {
-          "hit": 0,
-          "nohit": 17,
-          "total": 17,
-          "enrol": 0
-        },
-        "cp": {
-          "hit": 0,
-          "nohit": 0,
-          "total": 0,
-          "enrol": 0
-        },
-        "mesa": {
-          "hit": 0,
-          "nohit": 0,
-          "total": 0,
-          "enrol": 0
-        }
-      },
-      "FLOWER BAZAAR": {
-        "tp": {
-          "hit": 0,
-          "nohit": 0,
-          "total": 0,
-          "enrol": 0
-        },
-        "cp": {
-          "hit": 0,
-          "nohit": 0,
-          "total": 0,
-          "enrol": 0
-        },
-        "mesa": {
-          "hit": 0,
-          "nohit": 0,
-          "total": 0,
-          "enrol": 0
-        }
-      },
       "SIVAGANGAI": {
         "tp": {
           "hit": 0,
           "nohit": 3,
           "total": 3,
-          "enrol": 0
-        },
-        "cp": {
-          "hit": 0,
-          "nohit": 0,
-          "total": 0,
-          "enrol": 0
-        },
-        "mesa": {
-          "hit": 0,
-          "nohit": 0,
-          "total": 0,
-          "enrol": 0
-        }
-      },
-      "Thirupathur": {
-        "tp": {
-          "hit": 0,
-          "nohit": 0,
-          "total": 0,
-          "enrol": 0
-        },
-        "cp": {
-          "hit": 0,
-          "nohit": 0,
-          "total": 0,
-          "enrol": 0
-        },
-        "mesa": {
-          "hit": 0,
-          "nohit": 0,
-          "total": 0,
-          "enrol": 0
-        }
-      },
-      "ST. THOMAS MOUNT": {
-        "tp": {
-          "hit": 0,
-          "nohit": 1,
-          "total": 1,
-          "enrol": 0
-        },
-        "cp": {
-          "hit": 0,
-          "nohit": 0,
-          "total": 0,
-          "enrol": 0
-        },
-        "mesa": {
-          "hit": 0,
-          "nohit": 0,
-          "total": 0,
-          "enrol": 0
-        }
-      },
-      "VELLORE": {
-        "tp": {
-          "hit": 0,
-          "nohit": 0,
-          "total": 0,
-          "enrol": 0
-        },
-        "cp": {
-          "hit": 0,
-          "nohit": 0,
-          "total": 0,
-          "enrol": 0
-        },
-        "mesa": {
-          "hit": 0,
-          "nohit": 0,
-          "total": 0,
-          "enrol": 0
-        }
-      },
-      "GRP TRICHY": {
-        "tp": {
-          "hit": 0,
-          "nohit": 0,
-          "total": 0,
           "enrol": 0
         },
         "cp": {
@@ -2207,17 +2147,17 @@
           "enrol": 0
         }
       },
-      "PULIANTHOPE": {
+      "CBCID - SOUTH": {
         "tp": {
           "hit": 0,
-          "nohit": 0,
-          "total": 0,
+          "nohit": 1,
+          "total": 1,
           "enrol": 0
         },
         "cp": {
           "hit": 0,
-          "nohit": 78,
-          "total": 78,
+          "nohit": 0,
+          "total": 0,
           "enrol": 0
         },
         "mesa": {
@@ -2227,17 +2167,17 @@
           "enrol": 0
         }
       },
-      "TIRUNELVELI CITY": {
+      "SALEM CITY": {
         "tp": {
           "hit": 0,
-          "nohit": 0,
-          "total": 0,
+          "nohit": 4,
+          "total": 4,
           "enrol": 0
         },
         "cp": {
           "hit": 0,
-          "nohit": 32,
-          "total": 32,
+          "nohit": 0,
+          "total": 0,
           "enrol": 0
         },
         "mesa": {
@@ -2247,7 +2187,27 @@
           "enrol": 0
         }
       },
-      "KOLATHUR": {
+      "KANCHEEPURAM": {
+        "tp": {
+          "hit": 0,
+          "nohit": 1,
+          "total": 1,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "FLOWER BAZAAR": {
         "tp": {
           "hit": 0,
           "nohit": 0,
@@ -2256,8 +2216,88 @@
         },
         "cp": {
           "hit": 0,
-          "nohit": 10,
-          "total": 10,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "Thirupathur": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "ST. THOMAS MOUNT": {
+        "tp": {
+          "hit": 0,
+          "nohit": 1,
+          "total": 1,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "VELLORE": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "GRP TRICHY": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
           "enrol": 0
         },
         "mesa": {
@@ -2358,8 +2398,8 @@
         },
         "cp": {
           "hit": 0,
-          "nohit": 0,
-          "total": 0,
+          "nohit": 60,
+          "total": 60,
           "enrol": 3
         },
         "mesa": {
@@ -2432,14 +2472,34 @@
       "Pimpri-Chinchwad Police Commissionerate": {
         "tp": {
           "hit": 0,
-          "nohit": 1,
-          "total": 1,
+          "nohit": 2,
+          "total": 2,
           "enrol": 9
         },
         "cp": {
           "hit": 0,
           "nohit": 0,
           "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "RAIGAD": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 2,
+          "total": 2,
           "enrol": 0
         },
         "mesa": {
@@ -2534,8 +2594,8 @@
       "AGAR MALWA": {
         "tp": {
           "hit": 0,
-          "nohit": 14,
-          "total": 14,
+          "nohit": 17,
+          "total": 17,
           "enrol": 16
         },
         "cp": {
@@ -2622,7 +2682,7 @@
           "hit": 0,
           "nohit": 16,
           "total": 16,
-          "enrol": 6
+          "enrol": 8
         },
         "mesa": {
           "hit": 0,
@@ -2654,14 +2714,14 @@
       "GWALIOR": {
         "tp": {
           "hit": 0,
-          "nohit": 30,
-          "total": 30,
+          "nohit": 46,
+          "total": 46,
           "enrol": 42
         },
         "cp": {
           "hit": 0,
-          "nohit": 0,
-          "total": 0,
+          "nohit": 2,
+          "total": 2,
           "enrol": 1
         },
         "mesa": {
@@ -2680,8 +2740,8 @@
         },
         "cp": {
           "hit": 0,
-          "nohit": 78,
-          "total": 78,
+          "nohit": 98,
+          "total": 98,
           "enrol": 3
         },
         "mesa": {
@@ -2714,9 +2774,29 @@
       "RATLAM": {
         "tp": {
           "hit": 0,
-          "nohit": 2,
-          "total": 2,
+          "nohit": 11,
+          "total": 11,
           "enrol": 17
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 1
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "NEEMUCH": {
+        "tp": {
+          "hit": 0,
+          "nohit": 7,
+          "total": 7,
+          "enrol": 30
         },
         "cp": {
           "hit": 0,
@@ -2734,8 +2814,8 @@
       "UJJAIN": {
         "tp": {
           "hit": 0,
-          "nohit": 0,
-          "total": 0,
+          "nohit": 6,
+          "total": 6,
           "enrol": 21
         },
         "cp": {
@@ -2754,8 +2834,8 @@
       "SEHORE": {
         "tp": {
           "hit": 0,
-          "nohit": 5,
-          "total": 5,
+          "nohit": 10,
+          "total": 10,
           "enrol": 17
         },
         "cp": {
@@ -2816,7 +2896,7 @@
           "hit": 1,
           "nohit": 0,
           "total": 1,
-          "enrol": 6
+          "enrol": 3
         },
         "cp": {
           "hit": 0,
@@ -2834,8 +2914,8 @@
       "DEWAS": {
         "tp": {
           "hit": 0,
-          "nohit": 84,
-          "total": 84,
+          "nohit": 86,
+          "total": 86,
           "enrol": 60
         },
         "cp": {
@@ -2854,8 +2934,8 @@
       "VIDISHA": {
         "tp": {
           "hit": 0,
-          "nohit": 11,
-          "total": 11,
+          "nohit": 16,
+          "total": 16,
           "enrol": 28
         },
         "cp": {
@@ -2896,7 +2976,7 @@
           "hit": 4,
           "nohit": 383,
           "total": 387,
-          "enrol": 143
+          "enrol": 142
         },
         "cp": {
           "hit": 0,
@@ -2954,8 +3034,8 @@
       "BHOPAL RURAL": {
         "tp": {
           "hit": 0,
-          "nohit": 10,
-          "total": 10,
+          "nohit": 12,
+          "total": 12,
           "enrol": 17
         },
         "cp": {
@@ -3011,26 +3091,6 @@
           "enrol": 0
         }
       },
-      "NEEMUCH": {
-        "tp": {
-          "hit": 0,
-          "nohit": 7,
-          "total": 7,
-          "enrol": 30
-        },
-        "cp": {
-          "hit": 0,
-          "nohit": 0,
-          "total": 0,
-          "enrol": 0
-        },
-        "mesa": {
-          "hit": 0,
-          "nohit": 0,
-          "total": 0,
-          "enrol": 0
-        }
-      },
       "MANDLA": {
         "tp": {
           "hit": 0,
@@ -3054,8 +3114,8 @@
       "BAITUL": {
         "tp": {
           "hit": 0,
-          "nohit": 0,
-          "total": 0,
+          "nohit": 2,
+          "total": 2,
           "enrol": 15
         },
         "cp": {
@@ -3074,8 +3134,8 @@
       "RAIL INDORE": {
         "tp": {
           "hit": 0,
-          "nohit": 44,
-          "total": 44,
+          "nohit": 48,
+          "total": 48,
           "enrol": 23
         },
         "cp": {
@@ -3134,8 +3194,8 @@
       "SHAJAPUR": {
         "tp": {
           "hit": 0,
-          "nohit": 5,
-          "total": 5,
+          "nohit": 8,
+          "total": 8,
           "enrol": 15
         },
         "cp": {
@@ -3211,46 +3271,6 @@
           "enrol": 0
         }
       },
-      "BHIND": {
-        "tp": {
-          "hit": 0,
-          "nohit": 0,
-          "total": 0,
-          "enrol": 0
-        },
-        "cp": {
-          "hit": 0,
-          "nohit": 0,
-          "total": 0,
-          "enrol": 0
-        },
-        "mesa": {
-          "hit": 0,
-          "nohit": 0,
-          "total": 0,
-          "enrol": 0
-        }
-      },
-      "HARDA": {
-        "tp": {
-          "hit": 0,
-          "nohit": 12,
-          "total": 12,
-          "enrol": 0
-        },
-        "cp": {
-          "hit": 0,
-          "nohit": 0,
-          "total": 0,
-          "enrol": 0
-        },
-        "mesa": {
-          "hit": 0,
-          "nohit": 0,
-          "total": 0,
-          "enrol": 0
-        }
-      },
       "BADWANI": {
         "tp": {
           "hit": 3,
@@ -3291,11 +3311,11 @@
           "enrol": 0
         }
       },
-      "KHANDWA": {
+      "RAIL BHOPAL": {
         "tp": {
           "hit": 0,
-          "nohit": 1,
-          "total": 1,
+          "nohit": 14,
+          "total": 14,
           "enrol": 0
         },
         "cp": {
@@ -3311,11 +3331,51 @@
           "enrol": 0
         }
       },
-      "RAIL BHOPAL": {
+      "BHIND": {
         "tp": {
           "hit": 0,
-          "nohit": 14,
-          "total": 14,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "HARDA": {
+        "tp": {
+          "hit": 0,
+          "nohit": 12,
+          "total": 12,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "KHANDWA": {
+        "tp": {
+          "hit": 0,
+          "nohit": 1,
+          "total": 1,
           "enrol": 0
         },
         "cp": {
@@ -3342,8 +3402,8 @@
         },
         "cp": {
           "hit": 0,
-          "nohit": 0,
-          "total": 0,
+          "nohit": 18,
+          "total": 18,
           "enrol": 1
         },
         "mesa": {
@@ -3361,9 +3421,9 @@
           "enrol": 0
         },
         "cp": {
-          "hit": 0,
-          "nohit": 20,
-          "total": 20,
+          "hit": 1,
+          "nohit": 80,
+          "total": 81,
           "enrol": 2
         },
         "mesa": {
@@ -3382,8 +3442,8 @@
         },
         "cp": {
           "hit": 0,
-          "nohit": 58,
-          "total": 58,
+          "nohit": 78,
+          "total": 78,
           "enrol": 2
         },
         "mesa": {
@@ -3422,8 +3482,8 @@
         },
         "cp": {
           "hit": 0,
-          "nohit": 0,
-          "total": 0,
+          "nohit": 40,
+          "total": 40,
           "enrol": 1
         },
         "mesa": {
@@ -3653,26 +3713,6 @@
           "enrol": 1
         }
       },
-      "ROHINI": {
-        "tp": {
-          "hit": 0,
-          "nohit": 0,
-          "total": 0,
-          "enrol": 0
-        },
-        "cp": {
-          "hit": 0,
-          "nohit": 0,
-          "total": 0,
-          "enrol": 0
-        },
-        "mesa": {
-          "hit": 0,
-          "nohit": 1,
-          "total": 1,
-          "enrol": 0
-        }
-      },
       "SOUTH WEST": {
         "tp": {
           "hit": 0,
@@ -3690,6 +3730,26 @@
           "hit": 0,
           "nohit": 0,
           "total": 0,
+          "enrol": 0
+        }
+      },
+      "ROHINI": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 1,
+          "total": 1,
           "enrol": 0
         }
       }
@@ -4197,26 +4257,6 @@
           "enrol": 5
         }
       },
-      "PANCHKULA": {
-        "tp": {
-          "hit": 0,
-          "nohit": 0,
-          "total": 0,
-          "enrol": 0
-        },
-        "cp": {
-          "hit": 0,
-          "nohit": 0,
-          "total": 0,
-          "enrol": 0
-        },
-        "mesa": {
-          "hit": 5,
-          "nohit": 0,
-          "total": 5,
-          "enrol": 0
-        }
-      },
       "KAITHAL": {
         "tp": {
           "hit": 0,
@@ -4234,6 +4274,26 @@
           "hit": 1,
           "nohit": 0,
           "total": 1,
+          "enrol": 0
+        }
+      },
+      "PANCHKULA": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 5,
+          "nohit": 0,
+          "total": 5,
           "enrol": 0
         }
       }
@@ -4307,9 +4367,9 @@
           "enrol": 0
         },
         "cp": {
-          "hit": 0,
-          "nohit": 20,
-          "total": 20,
+          "hit": 2,
+          "nohit": 78,
+          "total": 80,
           "enrol": 1
         },
         "mesa": {
@@ -4328,8 +4388,8 @@
         },
         "cp": {
           "hit": 0,
-          "nohit": 130,
-          "total": 130,
+          "nohit": 150,
+          "total": 150,
           "enrol": 0
         },
         "mesa": {
@@ -4344,8 +4404,8 @@
       "JAIPUR (WEST)": {
         "tp": {
           "hit": 0,
-          "nohit": 3,
-          "total": 3,
+          "nohit": 4,
+          "total": 4,
           "enrol": 4
         },
         "cp": {
@@ -4444,9 +4504,9 @@
       "DHOLPUR": {
         "tp": {
           "hit": 0,
-          "nohit": 11,
-          "total": 11,
-          "enrol": 20
+          "nohit": 12,
+          "total": 12,
+          "enrol": 19
         },
         "cp": {
           "hit": 0,
@@ -4464,9 +4524,9 @@
       "GANGA NAGAR": {
         "tp": {
           "hit": 0,
-          "nohit": 70,
-          "total": 70,
-          "enrol": 21
+          "nohit": 72,
+          "total": 72,
+          "enrol": 16
         },
         "cp": {
           "hit": 0,
@@ -4504,9 +4564,9 @@
       "JAIPUR RURAL": {
         "tp": {
           "hit": 0,
-          "nohit": 146,
-          "total": 146,
-          "enrol": 30
+          "nohit": 147,
+          "total": 147,
+          "enrol": 29
         },
         "cp": {
           "hit": 0,
@@ -4524,9 +4584,9 @@
       "SAWAI MADHOPUR": {
         "tp": {
           "hit": 0,
-          "nohit": 59,
-          "total": 59,
-          "enrol": 21
+          "nohit": 62,
+          "total": 62,
+          "enrol": 20
         },
         "cp": {
           "hit": 0,
@@ -4544,8 +4604,8 @@
       "GRP AJMER": {
         "tp": {
           "hit": 0,
-          "nohit": 9,
-          "total": 9,
+          "nohit": 10,
+          "total": 10,
           "enrol": 9
         },
         "cp": {
@@ -4564,9 +4624,29 @@
       "UDAIPUR": {
         "tp": {
           "hit": 0,
-          "nohit": 23,
-          "total": 23,
-          "enrol": 62
+          "nohit": 38,
+          "total": 38,
+          "enrol": 61
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "KOTA RURAL": {
+        "tp": {
+          "hit": 0,
+          "nohit": 48,
+          "total": 48,
+          "enrol": 32
         },
         "cp": {
           "hit": 0,
@@ -4586,27 +4666,7 @@
           "hit": 0,
           "nohit": 40,
           "total": 40,
-          "enrol": 17
-        },
-        "cp": {
-          "hit": 0,
-          "nohit": 0,
-          "total": 0,
-          "enrol": 0
-        },
-        "mesa": {
-          "hit": 0,
-          "nohit": 0,
-          "total": 0,
-          "enrol": 0
-        }
-      },
-      "KOTA RURAL": {
-        "tp": {
-          "hit": 0,
-          "nohit": 44,
-          "total": 44,
-          "enrol": 37
+          "enrol": 16
         },
         "cp": {
           "hit": 0,
@@ -4624,9 +4684,9 @@
       "ALWAR": {
         "tp": {
           "hit": 0,
-          "nohit": 44,
-          "total": 44,
-          "enrol": 12
+          "nohit": 46,
+          "total": 46,
+          "enrol": 11
         },
         "cp": {
           "hit": 0,
@@ -4646,7 +4706,7 @@
           "hit": 0,
           "nohit": 22,
           "total": 22,
-          "enrol": 18
+          "enrol": 17
         },
         "cp": {
           "hit": 0,
@@ -4666,27 +4726,7 @@
           "hit": 0,
           "nohit": 45,
           "total": 45,
-          "enrol": 24
-        },
-        "cp": {
-          "hit": 0,
-          "nohit": 0,
-          "total": 0,
-          "enrol": 0
-        },
-        "mesa": {
-          "hit": 0,
-          "nohit": 0,
-          "total": 0,
-          "enrol": 5
-        }
-      },
-      "PRATAPGARH": {
-        "tp": {
-          "hit": 0,
-          "nohit": 310,
-          "total": 310,
-          "enrol": 16
+          "enrol": 20
         },
         "cp": {
           "hit": 0,
@@ -4704,9 +4744,49 @@
       "CHITTORGARH": {
         "tp": {
           "hit": 0,
-          "nohit": 58,
-          "total": 58,
-          "enrol": 60
+          "nohit": 63,
+          "total": 63,
+          "enrol": 53
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "PRATAPGARH": {
+        "tp": {
+          "hit": 0,
+          "nohit": 318,
+          "total": 318,
+          "enrol": 16
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 5
+        }
+      },
+      "TONK": {
+        "tp": {
+          "hit": 0,
+          "nohit": 32,
+          "total": 32,
+          "enrol": 35
         },
         "cp": {
           "hit": 0,
@@ -4724,8 +4804,8 @@
       "BUNDI": {
         "tp": {
           "hit": 0,
-          "nohit": 19,
-          "total": 19,
+          "nohit": 28,
+          "total": 28,
           "enrol": 34
         },
         "cp": {
@@ -4741,31 +4821,11 @@
           "enrol": 5
         }
       },
-      "TONK": {
-        "tp": {
-          "hit": 0,
-          "nohit": 24,
-          "total": 24,
-          "enrol": 35
-        },
-        "cp": {
-          "hit": 0,
-          "nohit": 0,
-          "total": 0,
-          "enrol": 0
-        },
-        "mesa": {
-          "hit": 0,
-          "nohit": 0,
-          "total": 0,
-          "enrol": 0
-        }
-      },
       "PALI": {
         "tp": {
           "hit": 0,
-          "nohit": 72,
-          "total": 72,
+          "nohit": 88,
+          "total": 88,
           "enrol": 61
         },
         "cp": {
@@ -4784,8 +4844,8 @@
       "JODHPUR CITY EAST": {
         "tp": {
           "hit": 0,
-          "nohit": 3,
-          "total": 3,
+          "nohit": 12,
+          "total": 12,
           "enrol": 13
         },
         "cp": {
@@ -4804,8 +4864,8 @@
       "DAUSA": {
         "tp": {
           "hit": 0,
-          "nohit": 26,
-          "total": 26,
+          "nohit": 30,
+          "total": 30,
           "enrol": 20
         },
         "cp": {
@@ -5021,6 +5081,26 @@
           "enrol": 3
         }
       },
+      "JALORE": {
+        "tp": {
+          "hit": 0,
+          "nohit": 3,
+          "total": 3,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
       "JODHPUR RURAL": {
         "tp": {
           "hit": 0,
@@ -5060,26 +5140,6 @@
           "total": 0,
           "enrol": 0
         }
-      },
-      "JALORE": {
-        "tp": {
-          "hit": 0,
-          "nohit": 3,
-          "total": 3,
-          "enrol": 0
-        },
-        "cp": {
-          "hit": 0,
-          "nohit": 0,
-          "total": 0,
-          "enrol": 0
-        },
-        "mesa": {
-          "hit": 0,
-          "nohit": 0,
-          "total": 0,
-          "enrol": 0
-        }
       }
     },
     "kerala": {
@@ -5092,8 +5152,8 @@
         },
         "cp": {
           "hit": 0,
-          "nohit": 1,
-          "total": 1,
+          "nohit": 3,
+          "total": 3,
           "enrol": 1
         },
         "mesa": {
@@ -5172,8 +5232,8 @@
         },
         "cp": {
           "hit": 0,
-          "nohit": 22,
-          "total": 22,
+          "nohit": 28,
+          "total": 28,
           "enrol": 4
         },
         "mesa": {
@@ -5194,7 +5254,7 @@
           "hit": 0,
           "nohit": 2,
           "total": 2,
-          "enrol": 2
+          "enrol": 3
         },
         "mesa": {
           "hit": 0,
@@ -5645,51 +5705,11 @@
           "enrol": 0
         }
       },
-      "C I D": {
-        "tp": {
-          "hit": 1,
-          "nohit": 0,
-          "total": 1,
-          "enrol": 0
-        },
-        "cp": {
-          "hit": 0,
-          "nohit": 0,
-          "total": 0,
-          "enrol": 0
-        },
-        "mesa": {
-          "hit": 0,
-          "nohit": 0,
-          "total": 0,
-          "enrol": 0
-        }
-      },
       "SOUTH SALMARA": {
         "tp": {
           "hit": 0,
           "nohit": 1,
           "total": 1,
-          "enrol": 0
-        },
-        "cp": {
-          "hit": 0,
-          "nohit": 0,
-          "total": 0,
-          "enrol": 0
-        },
-        "mesa": {
-          "hit": 0,
-          "nohit": 0,
-          "total": 0,
-          "enrol": 0
-        }
-      },
-      "BONGAIGAON": {
-        "tp": {
-          "hit": 0,
-          "nohit": 21,
-          "total": 21,
           "enrol": 0
         },
         "cp": {
@@ -5725,27 +5745,7 @@
           "enrol": 0
         }
       },
-      "NAGAON": {
-        "tp": {
-          "hit": 0,
-          "nohit": 1367,
-          "total": 1367,
-          "enrol": 0
-        },
-        "cp": {
-          "hit": 0,
-          "nohit": 0,
-          "total": 0,
-          "enrol": 0
-        },
-        "mesa": {
-          "hit": 0,
-          "nohit": 0,
-          "total": 0,
-          "enrol": 0
-        }
-      },
-      "CACHAR": {
+      "C I D": {
         "tp": {
           "hit": 1,
           "nohit": 0,
@@ -5810,6 +5810,66 @@
           "hit": 0,
           "nohit": 6,
           "total": 6,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "BONGAIGAON": {
+        "tp": {
+          "hit": 0,
+          "nohit": 21,
+          "total": 21,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "NAGAON": {
+        "tp": {
+          "hit": 0,
+          "nohit": 1367,
+          "total": 1367,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "CACHAR": {
+        "tp": {
+          "hit": 1,
+          "nohit": 0,
+          "total": 1,
           "enrol": 0
         },
         "cp": {
@@ -6271,12 +6331,12 @@
           "enrol": 0
         }
       },
-      "GOVT.RLY POLICE": {
+      "MOGA": {
         "tp": {
-          "hit": 1,
-          "nohit": 8,
-          "total": 9,
-          "enrol": 6
+          "hit": 9,
+          "nohit": 41,
+          "total": 50,
+          "enrol": 16
         },
         "cp": {
           "hit": 0,
@@ -6291,12 +6351,12 @@
           "enrol": 0
         }
       },
-      "MOGA": {
+      "GOVT.RLY POLICE": {
         "tp": {
-          "hit": 9,
-          "nohit": 41,
-          "total": 50,
-          "enrol": 16
+          "hit": 1,
+          "nohit": 8,
+          "total": 9,
+          "enrol": 6
         },
         "cp": {
           "hit": 0,
@@ -6511,46 +6571,6 @@
           "enrol": 0
         }
       },
-      "KHANNA": {
-        "tp": {
-          "hit": 0,
-          "nohit": 0,
-          "total": 0,
-          "enrol": 0
-        },
-        "cp": {
-          "hit": 0,
-          "nohit": 0,
-          "total": 0,
-          "enrol": 0
-        },
-        "mesa": {
-          "hit": 0,
-          "nohit": 0,
-          "total": 0,
-          "enrol": 0
-        }
-      },
-      "GURDASPUR": {
-        "tp": {
-          "hit": 3,
-          "nohit": 6,
-          "total": 9,
-          "enrol": 0
-        },
-        "cp": {
-          "hit": 0,
-          "nohit": 0,
-          "total": 0,
-          "enrol": 0
-        },
-        "mesa": {
-          "hit": 0,
-          "nohit": 0,
-          "total": 0,
-          "enrol": 0
-        }
-      },
       "SHRI MUKTSAR SAHIB": {
         "tp": {
           "hit": 0,
@@ -6650,6 +6670,46 @@
           "total": 0,
           "enrol": 0
         }
+      },
+      "KHANNA": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "GURDASPUR": {
+        "tp": {
+          "hit": 3,
+          "nohit": 6,
+          "total": 9,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
       }
     },
     "chhattisgarh": {
@@ -6716,8 +6776,8 @@
       "BALODA BAZAR": {
         "tp": {
           "hit": 0,
-          "nohit": 0,
-          "total": 0,
+          "nohit": 8,
+          "total": 8,
           "enrol": 32
         },
         "cp": {
@@ -7040,7 +7100,7 @@
           "hit": 0,
           "nohit": 4,
           "total": 4,
-          "enrol": 10
+          "enrol": 8
         },
         "cp": {
           "hit": 0,
@@ -7115,11 +7175,11 @@
           "enrol": 0
         }
       },
-      "HAMIRPUR": {
+      "KANGRA": {
         "tp": {
           "hit": 0,
-          "nohit": 0,
-          "total": 0,
+          "nohit": 13,
+          "total": 13,
           "enrol": 0
         },
         "cp": {
@@ -7135,11 +7195,11 @@
           "enrol": 0
         }
       },
-      "KANGRA": {
+      "HAMIRPUR": {
         "tp": {
           "hit": 0,
-          "nohit": 13,
-          "total": 13,
+          "nohit": 0,
+          "total": 0,
           "enrol": 0
         },
         "cp": {
@@ -7255,26 +7315,6 @@
           "nohit": 0,
           "total": 0,
           "enrol": 47
-        }
-      },
-      "GAYA": {
-        "tp": {
-          "hit": 0,
-          "nohit": 0,
-          "total": 0,
-          "enrol": 1
-        },
-        "cp": {
-          "hit": 0,
-          "nohit": 0,
-          "total": 0,
-          "enrol": 0
-        },
-        "mesa": {
-          "hit": 0,
-          "nohit": 1,
-          "total": 1,
-          "enrol": 1
         }
       },
       "SITAMARHI": {
@@ -7535,6 +7575,26 @@
           "nohit": 0,
           "total": 0,
           "enrol": 3
+        }
+      },
+      "GAYA": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 1,
+          "total": 1,
+          "enrol": 1
         }
       },
       "BEGUSARAI": {
@@ -7879,6 +7939,26 @@
           "enrol": 0
         }
       },
+      "NAINITAL": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
       "PAURI GARHWAL": {
         "tp": {
           "hit": 0,
@@ -7900,26 +7980,6 @@
         }
       },
       "BAGESHWAR": {
-        "tp": {
-          "hit": 0,
-          "nohit": 0,
-          "total": 0,
-          "enrol": 0
-        },
-        "cp": {
-          "hit": 0,
-          "nohit": 0,
-          "total": 0,
-          "enrol": 0
-        },
-        "mesa": {
-          "hit": 0,
-          "nohit": 0,
-          "total": 0,
-          "enrol": 0
-        }
-      },
-      "NAINITAL": {
         "tp": {
           "hit": 0,
           "nohit": 0,
@@ -8090,7 +8150,7 @@
           "hit": 0,
           "nohit": 0,
           "total": 0,
-          "enrol": 9
+          "enrol": 3
         },
         "cp": {
           "hit": 0,
@@ -8108,8 +8168,8 @@
       "AYODHYA": {
         "tp": {
           "hit": 0,
-          "nohit": 0,
-          "total": 0,
+          "nohit": 1,
+          "total": 1,
           "enrol": 4
         },
         "cp": {
@@ -8148,8 +8208,8 @@
       "City (Commissionerate Agra)": {
         "tp": {
           "hit": 0,
-          "nohit": 8,
-          "total": 8,
+          "nohit": 9,
+          "total": 9,
           "enrol": 22
         },
         "cp": {
@@ -8168,8 +8228,8 @@
       "SANT KABEER NAGAR": {
         "tp": {
           "hit": 0,
-          "nohit": 0,
-          "total": 0,
+          "nohit": 2,
+          "total": 2,
           "enrol": 7
         },
         "cp": {
@@ -8745,6 +8805,26 @@
           "enrol": 3
         }
       },
+      "KANPUR CITY": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 4
+        }
+      },
       "BAGHPAT": {
         "tp": {
           "hit": 0,
@@ -8985,23 +9065,23 @@
           "enrol": 1
         }
       },
-      "GHAZIPUR": {
+      "KHERI": {
         "tp": {
           "hit": 0,
-          "nohit": 0,
-          "total": 0,
+          "nohit": 1,
+          "total": 1,
           "enrol": 0
         },
         "cp": {
           "hit": 0,
-          "nohit": 0,
-          "total": 0,
+          "nohit": 26,
+          "total": 26,
           "enrol": 0
         },
         "mesa": {
           "hit": 0,
-          "nohit": 1,
-          "total": 1,
+          "nohit": 2,
+          "total": 2,
           "enrol": 0
         }
       },
@@ -9025,127 +9105,7 @@
           "enrol": 0
         }
       },
-      "JAUNPUR": {
-        "tp": {
-          "hit": 0,
-          "nohit": 0,
-          "total": 0,
-          "enrol": 0
-        },
-        "cp": {
-          "hit": 0,
-          "nohit": 0,
-          "total": 0,
-          "enrol": 0
-        },
-        "mesa": {
-          "hit": 0,
-          "nohit": 0,
-          "total": 0,
-          "enrol": 0
-        }
-      },
-      "RAE BARELI": {
-        "tp": {
-          "hit": 0,
-          "nohit": 0,
-          "total": 0,
-          "enrol": 0
-        },
-        "cp": {
-          "hit": 0,
-          "nohit": 0,
-          "total": 0,
-          "enrol": 0
-        },
-        "mesa": {
-          "hit": 0,
-          "nohit": 0,
-          "total": 0,
-          "enrol": 0
-        }
-      },
       "GONDA": {
-        "tp": {
-          "hit": 0,
-          "nohit": 0,
-          "total": 0,
-          "enrol": 0
-        },
-        "cp": {
-          "hit": 0,
-          "nohit": 0,
-          "total": 0,
-          "enrol": 0
-        },
-        "mesa": {
-          "hit": 0,
-          "nohit": 0,
-          "total": 0,
-          "enrol": 0
-        }
-      },
-      "RAMPUR": {
-        "tp": {
-          "hit": 0,
-          "nohit": 1,
-          "total": 1,
-          "enrol": 0
-        },
-        "cp": {
-          "hit": 0,
-          "nohit": 0,
-          "total": 0,
-          "enrol": 0
-        },
-        "mesa": {
-          "hit": 0,
-          "nohit": 1,
-          "total": 1,
-          "enrol": 0
-        }
-      },
-      "SITAPUR": {
-        "tp": {
-          "hit": 0,
-          "nohit": 0,
-          "total": 0,
-          "enrol": 0
-        },
-        "cp": {
-          "hit": 0,
-          "nohit": 0,
-          "total": 0,
-          "enrol": 0
-        },
-        "mesa": {
-          "hit": 1,
-          "nohit": 3,
-          "total": 4,
-          "enrol": 0
-        }
-      },
-      "JHANSI": {
-        "tp": {
-          "hit": 0,
-          "nohit": 0,
-          "total": 0,
-          "enrol": 0
-        },
-        "cp": {
-          "hit": 0,
-          "nohit": 0,
-          "total": 0,
-          "enrol": 0
-        },
-        "mesa": {
-          "hit": 0,
-          "nohit": 0,
-          "total": 0,
-          "enrol": 0
-        }
-      },
-      "JALAUN": {
         "tp": {
           "hit": 0,
           "nohit": 0,
@@ -9185,7 +9145,7 @@
           "enrol": 0
         }
       },
-      "ETAWAH": {
+      "RAE BARELI": {
         "tp": {
           "hit": 0,
           "nohit": 0,
@@ -9205,7 +9165,7 @@
           "enrol": 0
         }
       },
-      "KHERI": {
+      "RAMPUR": {
         "tp": {
           "hit": 0,
           "nohit": 1,
@@ -9220,8 +9180,128 @@
         },
         "mesa": {
           "hit": 0,
-          "nohit": 2,
-          "total": 2,
+          "nohit": 1,
+          "total": 1,
+          "enrol": 0
+        }
+      },
+      "GHAZIPUR": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 1,
+          "total": 1,
+          "enrol": 0
+        }
+      },
+      "CHITRAKOOT": {
+        "tp": {
+          "hit": 0,
+          "nohit": 6,
+          "total": 6,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "JAUNPUR": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "JHANSI": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "SITAPUR": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 1,
+          "nohit": 3,
+          "total": 4,
+          "enrol": 0
+        }
+      },
+      "JALAUN": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
           "enrol": 0
         }
       },
@@ -9245,11 +9325,11 @@
           "enrol": 0
         }
       },
-      "CHITRAKOOT": {
+      "ETAWAH": {
         "tp": {
           "hit": 0,
-          "nohit": 6,
-          "total": 6,
+          "nohit": 0,
+          "total": 0,
           "enrol": 0
         },
         "cp": {
@@ -9387,26 +9467,6 @@
           "enrol": 3
         }
       },
-      "PASCHIM MEDINIPUR": {
-        "tp": {
-          "hit": 0,
-          "nohit": 0,
-          "total": 0,
-          "enrol": 0
-        },
-        "cp": {
-          "hit": 0,
-          "nohit": 0,
-          "total": 0,
-          "enrol": 0
-        },
-        "mesa": {
-          "hit": 0,
-          "nohit": 1,
-          "total": 1,
-          "enrol": 6
-        }
-      },
       "KOLKATA SOUTH SUBURBAN DIVISION": {
         "tp": {
           "hit": 0,
@@ -9425,6 +9485,26 @@
           "nohit": 0,
           "total": 1,
           "enrol": 1
+        }
+      },
+      "PASCHIM MEDINIPUR": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 1,
+          "total": 1,
+          "enrol": 6
         }
       },
       "PURULIA": {
@@ -9487,26 +9567,6 @@
           "enrol": 41
         }
       },
-      "KOLKATA EASTERN SUB-DIVISION": {
-        "tp": {
-          "hit": 0,
-          "nohit": 0,
-          "total": 0,
-          "enrol": 0
-        },
-        "cp": {
-          "hit": 0,
-          "nohit": 0,
-          "total": 0,
-          "enrol": 0
-        },
-        "mesa": {
-          "hit": 4,
-          "nohit": 0,
-          "total": 4,
-          "enrol": 0
-        }
-      },
       "KOLKATA PORT DIVISION": {
         "tp": {
           "hit": 0,
@@ -9524,6 +9584,106 @@
           "hit": 3,
           "nohit": 0,
           "total": 3,
+          "enrol": 0
+        }
+      },
+      "JHARGRAM": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 1,
+          "nohit": 1,
+          "total": 2,
+          "enrol": 0
+        }
+      },
+      "KOLKATA NORTH AND NORTH SUBURBAN DIVISION": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 6,
+          "nohit": 1,
+          "total": 7,
+          "enrol": 0
+        }
+      },
+      "KOLKATA POLICE CYBER HQ": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 1,
+          "nohit": 0,
+          "total": 1,
+          "enrol": 0
+        }
+      },
+      "DARJEELING": {
+        "tp": {
+          "hit": 0,
+          "nohit": 1,
+          "total": 1,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "KOLKATA SOUTH EASTERN DIVISION": {
+        "tp": {
+          "hit": 1,
+          "nohit": 1,
+          "total": 2,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
           "enrol": 0
         }
       },
@@ -9567,7 +9727,7 @@
           "enrol": 0
         }
       },
-      "KOLKATA POLICE CYBER HQ": {
+      "KOLKATA EASTERN SUB-DIVISION": {
         "tp": {
           "hit": 0,
           "nohit": 0,
@@ -9581,9 +9741,9 @@
           "enrol": 0
         },
         "mesa": {
-          "hit": 1,
+          "hit": 4,
           "nohit": 0,
-          "total": 1,
+          "total": 4,
           "enrol": 0
         }
       },
@@ -9604,86 +9764,6 @@
           "hit": 0,
           "nohit": 1,
           "total": 1,
-          "enrol": 0
-        }
-      },
-      "KOLKATA NORTH AND NORTH SUBURBAN DIVISION": {
-        "tp": {
-          "hit": 0,
-          "nohit": 0,
-          "total": 0,
-          "enrol": 0
-        },
-        "cp": {
-          "hit": 0,
-          "nohit": 0,
-          "total": 0,
-          "enrol": 0
-        },
-        "mesa": {
-          "hit": 6,
-          "nohit": 1,
-          "total": 7,
-          "enrol": 0
-        }
-      },
-      "JHARGRAM": {
-        "tp": {
-          "hit": 0,
-          "nohit": 0,
-          "total": 0,
-          "enrol": 0
-        },
-        "cp": {
-          "hit": 0,
-          "nohit": 0,
-          "total": 0,
-          "enrol": 0
-        },
-        "mesa": {
-          "hit": 1,
-          "nohit": 1,
-          "total": 2,
-          "enrol": 0
-        }
-      },
-      "DARJEELING": {
-        "tp": {
-          "hit": 0,
-          "nohit": 1,
-          "total": 1,
-          "enrol": 0
-        },
-        "cp": {
-          "hit": 0,
-          "nohit": 0,
-          "total": 0,
-          "enrol": 0
-        },
-        "mesa": {
-          "hit": 0,
-          "nohit": 0,
-          "total": 0,
-          "enrol": 0
-        }
-      },
-      "KOLKATA SOUTH EASTERN DIVISION": {
-        "tp": {
-          "hit": 1,
-          "nohit": 1,
-          "total": 2,
-          "enrol": 0
-        },
-        "cp": {
-          "hit": 0,
-          "nohit": 0,
-          "total": 0,
-          "enrol": 0
-        },
-        "mesa": {
-          "hit": 0,
-          "nohit": 0,
-          "total": 0,
           "enrol": 0
         }
       }

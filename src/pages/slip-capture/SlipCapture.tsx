@@ -6,11 +6,19 @@ import {
   filterSlipData,
   computeTotalsByStatus,
   buildSlipTableDataByState,
+  buildSlipTableDataByDistrict,
   getFilteredRecords,
 } from "./utils";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { StatusCard } from "./ui/StatusCard";
 import { SlipTable } from "./ui/SlipTable";
 import { SlipComparisonChart } from "./ui/SlipComparisonChart";
@@ -25,6 +33,14 @@ const dataPath = {
   "/slipcapture": "slip_cp",
   "/mesa": "mesa",
 };
+
+// Comparison type enum
+const COMPARISON_TYPES = {
+  STATE: "state",
+  DISTRICT: "district",
+} as const;
+
+type ComparisonType = (typeof COMPARISON_TYPES)[keyof typeof COMPARISON_TYPES];
 
 const SlipCapture: React.FC = () => {
   const [{ from, to }] = useState(getLastNDaysRange(7));
@@ -42,6 +58,9 @@ const SlipCapture: React.FC = () => {
   const [allStates, setAllStates] = useState<string[]>([]);
   const [showTable, setShowTable] = useState(false);
   const [showCompareChart, setShowCompareChart] = useState(false);
+  const [comparisonType, setComparisonType] = useState<ComparisonType>(
+    COMPARISON_TYPES.STATE
+  );
   const location = useLocation();
   const path = location.pathname;
 
@@ -53,11 +72,6 @@ const SlipCapture: React.FC = () => {
   // Memoized filter change handler with validation
   const handleFiltersChange = useCallback(
     (newFilters: SlipFilters) => {
-      // Validate the new filters before setting them
-      if (newFilters.states && newFilters.states.length === 0) {
-        //
-      }
-
       setFilters(newFilters);
     },
     [filters]
@@ -100,7 +114,6 @@ const SlipCapture: React.FC = () => {
 
     try {
       const result = filterSlipData(allData, filters);
-
       return result;
     } catch (error) {
       setError("Error filtering data. Please check your filter selections.");
@@ -121,25 +134,33 @@ const SlipCapture: React.FC = () => {
     }
   }, [allData, filters, filteredData.length]);
 
-  // Build table data with error handling
+  // Build table data with error handling - support both state and district views
   const tableRows = useMemo(() => {
     if (filteredData.length === 0) return [];
 
     try {
-      const rows = buildSlipTableDataByState(
-        filteredData,
-        visibleStatuses,
-        filters.states
-      );
-
-      return rows;
+      if (comparisonType === COMPARISON_TYPES.DISTRICT) {
+        const rows = buildSlipTableDataByDistrict(
+          filteredData,
+          visibleStatuses,
+          filters.states
+        );
+        return rows;
+      } else {
+        const rows = buildSlipTableDataByState(
+          filteredData,
+          visibleStatuses,
+          filters.states
+        );
+        return rows;
+      }
     } catch (error) {
       console.error("Error building table data:", error);
       return [];
     }
-  }, [filteredData, visibleStatuses, filters.states]);
+  }, [filteredData, visibleStatuses, filters.states, comparisonType]);
 
-  // Compute totals by status with enhanced error handling and debugging
+  // Compute totals by status with enhanced error handling
   const totalsByStatus = useMemo(() => {
     if (filteredData.length === 0) {
       return {} as Record<StatusKey, number>;
@@ -161,8 +182,41 @@ const SlipCapture: React.FC = () => {
     }
   }, [filteredData, visibleStatuses, filters.states]);
 
+  // Validation logic for comparison charts
+  const getComparisonValidation = useCallback(() => {
+    if (comparisonType === COMPARISON_TYPES.STATE) {
+      return {
+        isValid: filters.states.length >= 2 && filters.states.length <= 15,
+        message: `Please select at least 2 and at most 15 states for chart comparison. Currently selected: ${filters.states.length}`,
+      };
+    } else {
+      // District comparison
+      if (filters.states.length !== 1) {
+        return {
+          isValid: false,
+          message: `For district comparison, please select exactly one state. Currently selected: ${filters.states.length} states`,
+        };
+      }
+
+      const districtCount = filters.districts.length;
+      if (districtCount < 2 || districtCount > 15) {
+        return {
+          isValid: false,
+          message: `For district comparison, please select at least 2 and at most 15 districts. Currently selected: ${districtCount} districts`,
+        };
+      }
+
+      return { isValid: true, message: "" };
+    }
+  }, [comparisonType, filters.states, filters.districts]);
+
   // Handle initial load callback
   const handleInitialLoad = useCallback(() => {}, []);
+
+  // Handle comparison type change
+  const handleComparisonTypeChange = useCallback((value: ComparisonType) => {
+    setComparisonType(value);
+  }, []);
 
   // Loading state
   if (loading) {
@@ -188,6 +242,8 @@ const SlipCapture: React.FC = () => {
       </div>
     );
   }
+
+  const comparisonValidation = getComparisonValidation();
 
   return (
     <div className="p-3">
@@ -311,40 +367,81 @@ const SlipCapture: React.FC = () => {
 
                 {/* Charts Section */}
                 {visibleStatuses.length > 0 && (
-                  <div className="border p-3 rounded-md flex flex-col items-end">
-                    <Button
-                      size="sm"
-                      onClick={() => setShowCompareChart((p) => !p)}
-                      className="mb-3 w-[15%]"
-                    >
-                      {showCompareChart
-                        ? "Hide Comparison Chart"
-                        : "Show Comparison Chart"}
-                    </Button>
+                  <div className="border p-3 rounded-md">
+                    <div className="flex justify-between items-center mb-3">
+                      {/* Comparison Type Selector */}
+
+                      <div className="flex justify-end w-full gap-3">
+                        <div className="flex items-center gap-2">
+                          {showCompareChart && (
+                            <>
+                              <span className="text-sm font-medium">
+                                Comparison View:
+                              </span>
+                              <Select
+                                value={comparisonType}
+                                onValueChange={handleComparisonTypeChange}
+                              >
+                                <SelectTrigger className="w-40">
+                                  <SelectValue />
+                                </SelectTrigger>
+                                <SelectContent>
+                                  <SelectItem value={COMPARISON_TYPES.STATE}>
+                                    State Comparison
+                                  </SelectItem>
+                                  <SelectItem value={COMPARISON_TYPES.DISTRICT}>
+                                    District Comparison
+                                  </SelectItem>
+                                </SelectContent>
+                              </Select>
+                            </>
+                          )}
+                        </div>
+                        <Button
+                          size="sm"
+                          onClick={() => setShowCompareChart((p) => !p)}
+                          className="w-[15%]"
+                        >
+                          {showCompareChart
+                            ? "Hide Comparison Chart"
+                            : "Show Comparison Chart"}
+                        </Button>
+                      </div>
+                    </div>
 
                     {showCompareChart ? (
-                      filters.states.length >= 2 &&
-                      filters.states.length <= 15 ? (
-                        <SlipComparisonChart
-                          rows={tableRows}
-                          statuses={visibleStatuses}
-                          selectedStates={filters.states}
-                          categories={["Crime Status"]}
-                        />
+                      comparisonValidation.isValid ? (
+                        <div className="w-full">
+                          <h3 className="text-lg font-medium mb-2">
+                            {comparisonType === COMPARISON_TYPES.STATE
+                              ? "State"
+                              : "District"}{" "}
+                            Comparison
+                          </h3>
+                          <SlipComparisonChart
+                            rows={tableRows}
+                            statuses={visibleStatuses}
+                            selectedStates={filters.states}
+                            selectedDistricts={filters.districts}
+                            categories={["Crime Status"]}
+                            comparisonType={comparisonType}
+                          />
+                        </div>
                       ) : (
                         <div className="w-full p-3 flex justify-center items-center">
-                          <p className="border shadow-md p-3 rounded-md">
-                            Please select at least 2 and at most 15 states for
-                            chart comparison.
+                          <p className="border shadow-md p-3 rounded-md bg-card">
+                            {comparisonValidation.message}
                           </p>
                         </div>
                       )
                     ) : (
-                      <SlipCaptureChart
-                        filteredData={filteredData}
-                        selectedCrimeTypes={visibleStatuses}
-                        dateRange={filters.dateRange}
-                      />
+                      <div className="w-full">
+                        <SlipCaptureChart
+                          filteredData={filteredData}
+                          selectedCrimeTypes={visibleStatuses}
+                          dateRange={filters.dateRange}
+                        />
+                      </div>
                     )}
                   </div>
                 )}

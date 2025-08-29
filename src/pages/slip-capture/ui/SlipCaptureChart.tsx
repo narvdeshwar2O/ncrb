@@ -181,13 +181,9 @@ export default function SlipCaptureChart({
           })
           .sort();
 
-  console.log("Available data dates:", Array.from(dataByDate.keys()));
-
   // Bar Chart Data
   const chartData = useMemo(() => {
     const result = completeDateRange.map((dateString, index) => {
-      console.log(`\n--- Processing date ${dateString} (day ${index + 1}) ---`);
-
       const [year, month, dayNum] = dateString.split("-");
       const displayDate = new Date(
         parseInt(year),
@@ -242,7 +238,6 @@ export default function SlipCaptureChart({
       }))
       .filter((item) => item.value > 0); // Filter out zero values
 
-    console.log("🥧 Pie data (filtered):", result);
     return result;
   }, [filteredData, crimeTypes]);
 
@@ -299,16 +294,6 @@ export default function SlipCaptureChart({
     crimeTypes.some((type) => (day[type] || 0) > 0)
   );
 
-  console.log(
-    "- Total values:",
-    chartData.reduce((acc, day) => {
-      crimeTypes.forEach((type) => {
-        acc[type] = (acc[type] || 0) + (day[type] || 0);
-      });
-      return acc;
-    }, {} as Record<string, number>)
-  );
-
   return (
     <Card className="w-full">
       <CardHeader>
@@ -344,9 +329,7 @@ export default function SlipCaptureChart({
           </div>
         </div>
         {!hasData && (
-          <div className="text-sm text-red-600 mt-2">
-            No data found. Check console logs for details.
-          </div>
+          <div className="text-sm text-red-600 mt-2">No data found.</div>
         )}
       </CardHeader>
       <CardContent ref={chartRef} className="h-[400px]">
