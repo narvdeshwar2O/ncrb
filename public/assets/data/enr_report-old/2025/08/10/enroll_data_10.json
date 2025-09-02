@@ -1,0 +1,840 @@
+{
+  "state": {
+    "andhra pradesh": {
+      "2-018": {
+        "lt_enroll": 2,
+        "tp_enroll": 0,
+        "live_enroll": 0
+      },
+      "2-026": {
+        "lt_enroll": 1,
+        "tp_enroll": 0,
+        "live_enroll": 0
+      },
+      "2-019": {
+        "lt_enroll": 1,
+        "tp_enroll": 1,
+        "live_enroll": 0
+      },
+      "2-009": {
+        "lt_enroll": 1,
+        "tp_enroll": 0,
+        "live_enroll": 0
+      },
+      "Suspect-2": {
+        "lt_enroll": 0,
+        "tp_enroll": 4,
+        "live_enroll": 0
+      }
+    },
+    "kerala": {
+      "15-287": {
+        "lt_enroll": 2,
+        "tp_enroll": 0,
+        "live_enroll": 0
+      },
+      "15-281": {
+        "lt_enroll": 0,
+        "tp_enroll": 0,
+        "live_enroll": 2
+      },
+      "15-995": {
+        "lt_enroll": 0,
+        "tp_enroll": 0,
+        "live_enroll": 2
+      }
+    },
+    "karnataka": {
+      "16-968": {
+        "lt_enroll": 1,
+        "tp_enroll": 0,
+        "live_enroll": 0
+      },
+      "16-442": {
+        "lt_enroll": 1,
+        "tp_enroll": 0,
+        "live_enroll": 0
+      },
+      "16-942": {
+        "lt_enroll": 3,
+        "tp_enroll": 0,
+        "live_enroll": 0
+      },
+      "16-448": {
+        "lt_enroll": 2,
+        "tp_enroll": 0,
+        "live_enroll": 0
+      },
+      "16-947": {
+        "lt_enroll": 2,
+        "tp_enroll": 0,
+        "live_enroll": 0
+      },
+      "16-462": {
+        "lt_enroll": 1,
+        "tp_enroll": 0,
+        "live_enroll": 0
+      },
+      "16-440": {
+        "lt_enroll": 6,
+        "tp_enroll": 0,
+        "live_enroll": 0
+      },
+      "16-443": {
+        "lt_enroll": 6,
+        "tp_enroll": 0,
+        "live_enroll": 0
+      },
+      "16-445": {
+        "lt_enroll": 1,
+        "tp_enroll": 0,
+        "live_enroll": 0
+      },
+      "16-466": {
+        "lt_enroll": 1,
+        "tp_enroll": 0,
+        "live_enroll": 0
+      },
+      "16-470": {
+        "lt_enroll": 2,
+        "tp_enroll": 0,
+        "live_enroll": 0
+      },
+      "16-437": {
+        "lt_enroll": 1,
+        "tp_enroll": 0,
+        "live_enroll": 0
+      }
+    },
+    "tamil nadu": {
+      "29-606": {
+        "lt_enroll": 1,
+        "tp_enroll": 0,
+        "live_enroll": 0
+      },
+      "29-610": {
+        "lt_enroll": 4,
+        "tp_enroll": 0,
+        "live_enroll": 0
+      },
+      "29-584": {
+        "lt_enroll": 2,
+        "tp_enroll": 0,
+        "live_enroll": 0
+      },
+      "29-592": {
+        "lt_enroll": 2,
+        "tp_enroll": 0,
+        "live_enroll": 0
+      },
+      "29-579": {
+        "lt_enroll": 4,
+        "tp_enroll": 0,
+        "live_enroll": 0
+      },
+      "29-916": {
+        "lt_enroll": 1,
+        "tp_enroll": 0,
+        "live_enroll": 0
+      },
+      "29-607": {
+        "lt_enroll": 1,
+        "tp_enroll": 0,
+        "live_enroll": 0
+      },
+      "29-608": {
+        "lt_enroll": 2,
+        "tp_enroll": 0,
+        "live_enroll": 0
+      },
+      "Suspect-29": {
+        "lt_enroll": 0,
+        "tp_enroll": 3,
+        "live_enroll": 0
+      },
+      "29-603": {
+        "lt_enroll": 0,
+        "tp_enroll": 2,
+        "live_enroll": 0
+      },
+      "29-937": {
+        "lt_enroll": 0,
+        "tp_enroll": 29,
+        "live_enroll": 0
+      },
+      "29-620": {
+        "lt_enroll": 0,
+        "tp_enroll": 10,
+        "live_enroll": 0
+      }
+    },
+    "maharashtra": {
+      "19-841": {
+        "lt_enroll": 1,
+        "tp_enroll": 0,
+        "live_enroll": 0
+      }
+    },
+    "odisha": {
+      "24-861": {
+        "lt_enroll": 4,
+        "tp_enroll": 0,
+        "live_enroll": 0
+      }
+    },
+    "madhya pradesh": {
+      "21-333": {
+        "lt_enroll": 1,
+        "tp_enroll": 16,
+        "live_enroll": 0
+      },
+      "21-336": {
+        "lt_enroll": 0,
+        "tp_enroll": 10,
+        "live_enroll": 0
+      },
+      "21-314": {
+        "lt_enroll": 0,
+        "tp_enroll": 9,
+        "live_enroll": 0
+      }
+    },
+    "rajasthan": {
+      "27-546": {
+        "lt_enroll": 0,
+        "tp_enroll": 41,
+        "live_enroll": 0
+      },
+      "27-880": {
+        "lt_enroll": 0,
+        "tp_enroll": 1,
+        "live_enroll": 1
+      },
+      "27-571": {
+        "lt_enroll": 0,
+        "tp_enroll": 1,
+        "live_enroll": 0
+      },
+      "27-569": {
+        "lt_enroll": 0,
+        "tp_enroll": 61,
+        "live_enroll": 0
+      },
+      "27-557": {
+        "lt_enroll": 0,
+        "tp_enroll": 21,
+        "live_enroll": 0
+      },
+      "27-576": {
+        "lt_enroll": 0,
+        "tp_enroll": 0,
+        "live_enroll": 8
+      },
+      "27-554": {
+        "lt_enroll": 0,
+        "tp_enroll": 0,
+        "live_enroll": 1
+      },
+      "27-559": {
+        "lt_enroll": 0,
+        "tp_enroll": 0,
+        "live_enroll": 2
+      },
+      "27-548": {
+        "lt_enroll": 0,
+        "tp_enroll": 0,
+        "live_enroll": 5
+      },
+      "27-562": {
+        "lt_enroll": 0,
+        "tp_enroll": 0,
+        "live_enroll": 29
+      }
+    },
+    "punjab": {
+      "25-921": {
+        "lt_enroll": 0,
+        "tp_enroll": 16,
+        "live_enroll": 0
+      },
+      "25-885": {
+        "lt_enroll": 0,
+        "tp_enroll": 2,
+        "live_enroll": 0
+      }
+    },
+    "bihar": {
+      "5-124": {
+        "lt_enroll": 0,
+        "tp_enroll": 4,
+        "live_enroll": 3
+      },
+      "5-128": {
+        "lt_enroll": 0,
+        "tp_enroll": 1,
+        "live_enroll": 19
+      },
+      "5-137": {
+        "lt_enroll": 0,
+        "tp_enroll": 0,
+        "live_enroll": 11
+      },
+      "5-129": {
+        "lt_enroll": 0,
+        "tp_enroll": 0,
+        "live_enroll": 2
+      },
+      "5-130": {
+        "lt_enroll": 0,
+        "tp_enroll": 0,
+        "live_enroll": 20
+      },
+      "5-804": {
+        "lt_enroll": 0,
+        "tp_enroll": 0,
+        "live_enroll": 2
+      },
+      "5-799": {
+        "lt_enroll": 0,
+        "tp_enroll": 0,
+        "live_enroll": 1
+      },
+      "5-106": {
+        "lt_enroll": 0,
+        "tp_enroll": 0,
+        "live_enroll": 5
+      },
+      "5-102": {
+        "lt_enroll": 0,
+        "tp_enroll": 0,
+        "live_enroll": 17
+      },
+      "5-797": {
+        "lt_enroll": 0,
+        "tp_enroll": 0,
+        "live_enroll": 4
+      },
+      "5-123": {
+        "lt_enroll": 0,
+        "tp_enroll": 0,
+        "live_enroll": 12
+      },
+      "5-118": {
+        "lt_enroll": 0,
+        "tp_enroll": 0,
+        "live_enroll": 10
+      },
+      "5-140": {
+        "lt_enroll": 0,
+        "tp_enroll": 0,
+        "live_enroll": 14
+      },
+      "5-803": {
+        "lt_enroll": 0,
+        "tp_enroll": 0,
+        "live_enroll": 10
+      },
+      "5-114": {
+        "lt_enroll": 0,
+        "tp_enroll": 0,
+        "live_enroll": 42
+      },
+      "5-120": {
+        "lt_enroll": 0,
+        "tp_enroll": 0,
+        "live_enroll": 6
+      },
+      "5-108": {
+        "lt_enroll": 0,
+        "tp_enroll": 0,
+        "live_enroll": 11
+      },
+      "5-113": {
+        "lt_enroll": 0,
+        "tp_enroll": 0,
+        "live_enroll": 7
+      },
+      "5-798": {
+        "lt_enroll": 0,
+        "tp_enroll": 0,
+        "live_enroll": 3
+      },
+      "5-136": {
+        "lt_enroll": 0,
+        "tp_enroll": 0,
+        "live_enroll": 15
+      },
+      "5-134": {
+        "lt_enroll": 0,
+        "tp_enroll": 0,
+        "live_enroll": 8
+      }
+    },
+    "gujarat": {
+      "11-822": {
+        "lt_enroll": 0,
+        "tp_enroll": 1,
+        "live_enroll": 0
+      },
+      "11-210": {
+        "lt_enroll": 0,
+        "tp_enroll": 4,
+        "live_enroll": 2
+      },
+      "11-200": {
+        "lt_enroll": 0,
+        "tp_enroll": 2,
+        "live_enroll": 0
+      },
+      "11-192": {
+        "lt_enroll": 0,
+        "tp_enroll": 0,
+        "live_enroll": 5
+      },
+      "11-216": {
+        "lt_enroll": 0,
+        "tp_enroll": 0,
+        "live_enroll": 5
+      }
+    },
+    "uttar pradesh": {
+      "31-625": {
+        "lt_enroll": 0,
+        "tp_enroll": 1,
+        "live_enroll": 9
+      },
+      "31-676": {
+        "lt_enroll": 0,
+        "tp_enroll": 9,
+        "live_enroll": 3
+      },
+      "31-905": {
+        "lt_enroll": 0,
+        "tp_enroll": 2,
+        "live_enroll": 3
+      },
+      "31-641": {
+        "lt_enroll": 0,
+        "tp_enroll": 1,
+        "live_enroll": 4
+      },
+      "31-627": {
+        "lt_enroll": 0,
+        "tp_enroll": 0,
+        "live_enroll": 3
+      },
+      "31-665": {
+        "lt_enroll": 0,
+        "tp_enroll": 0,
+        "live_enroll": 5
+      },
+      "31-656": {
+        "lt_enroll": 0,
+        "tp_enroll": 0,
+        "live_enroll": 7
+      },
+      "31-632": {
+        "lt_enroll": 0,
+        "tp_enroll": 0,
+        "live_enroll": 2
+      },
+      "31-681": {
+        "lt_enroll": 0,
+        "tp_enroll": 0,
+        "live_enroll": 24
+      },
+      "31-661": {
+        "lt_enroll": 0,
+        "tp_enroll": 0,
+        "live_enroll": 17
+      },
+      "31-680": {
+        "lt_enroll": 0,
+        "tp_enroll": 0,
+        "live_enroll": 2
+      },
+      "31-623": {
+        "lt_enroll": 0,
+        "tp_enroll": 0,
+        "live_enroll": 2
+      },
+      "31-644": {
+        "lt_enroll": 0,
+        "tp_enroll": 0,
+        "live_enroll": 2
+      },
+      "31-895": {
+        "lt_enroll": 0,
+        "tp_enroll": 0,
+        "live_enroll": 1
+      },
+      "31-682": {
+        "lt_enroll": 0,
+        "tp_enroll": 0,
+        "live_enroll": 2
+      },
+      "31-825": {
+        "lt_enroll": 0,
+        "tp_enroll": 0,
+        "live_enroll": 5
+      },
+      "31-899": {
+        "lt_enroll": 0,
+        "tp_enroll": 0,
+        "live_enroll": 6
+      },
+      "31-658": {
+        "lt_enroll": 0,
+        "tp_enroll": 0,
+        "live_enroll": 24
+      },
+      "31-669": {
+        "lt_enroll": 0,
+        "tp_enroll": 0,
+        "live_enroll": 12
+      },
+      "31-688": {
+        "lt_enroll": 0,
+        "tp_enroll": 0,
+        "live_enroll": 1
+      },
+      "31-831": {
+        "lt_enroll": 0,
+        "tp_enroll": 0,
+        "live_enroll": 2
+      },
+      "31-630": {
+        "lt_enroll": 0,
+        "tp_enroll": 0,
+        "live_enroll": 7
+      },
+      "31-832": {
+        "lt_enroll": 0,
+        "tp_enroll": 0,
+        "live_enroll": 12
+      },
+      "31-670": {
+        "lt_enroll": 0,
+        "tp_enroll": 0,
+        "live_enroll": 10
+      },
+      "31-679": {
+        "lt_enroll": 0,
+        "tp_enroll": 0,
+        "live_enroll": 4
+      },
+      "31-687": {
+        "lt_enroll": 0,
+        "tp_enroll": 0,
+        "live_enroll": 1
+      },
+      "31-653": {
+        "lt_enroll": 0,
+        "tp_enroll": 0,
+        "live_enroll": 19
+      },
+      "31-622": {
+        "lt_enroll": 0,
+        "tp_enroll": 0,
+        "live_enroll": 10
+      },
+      "31-634": {
+        "lt_enroll": 0,
+        "tp_enroll": 0,
+        "live_enroll": 28
+      },
+      "31-901": {
+        "lt_enroll": 0,
+        "tp_enroll": 0,
+        "live_enroll": 1
+      },
+      "31-672": {
+        "lt_enroll": 0,
+        "tp_enroll": 0,
+        "live_enroll": 9
+      },
+      "31-628": {
+        "lt_enroll": 0,
+        "tp_enroll": 0,
+        "live_enroll": 5
+      },
+      "31-896": {
+        "lt_enroll": 0,
+        "tp_enroll": 0,
+        "live_enroll": 1
+      },
+      "31-626": {
+        "lt_enroll": 0,
+        "tp_enroll": 0,
+        "live_enroll": 1
+      },
+      "31-655": {
+        "lt_enroll": 0,
+        "tp_enroll": 0,
+        "live_enroll": 18
+      },
+      "31-621": {
+        "lt_enroll": 0,
+        "tp_enroll": 0,
+        "live_enroll": 25
+      },
+      "31-659": {
+        "lt_enroll": 0,
+        "tp_enroll": 0,
+        "live_enroll": 2
+      },
+      "31-894": {
+        "lt_enroll": 0,
+        "tp_enroll": 0,
+        "live_enroll": 2
+      },
+      "31-649": {
+        "lt_enroll": 0,
+        "tp_enroll": 0,
+        "live_enroll": 4
+      },
+      "31-629": {
+        "lt_enroll": 0,
+        "tp_enroll": 0,
+        "live_enroll": 4
+      },
+      "31-654": {
+        "lt_enroll": 0,
+        "tp_enroll": 0,
+        "live_enroll": 20
+      },
+      "31-897": {
+        "lt_enroll": 0,
+        "tp_enroll": 0,
+        "live_enroll": 22
+      },
+      "31-909": {
+        "lt_enroll": 0,
+        "tp_enroll": 0,
+        "live_enroll": 5
+      },
+      "31-643": {
+        "lt_enroll": 0,
+        "tp_enroll": 0,
+        "live_enroll": 2
+      }
+    },
+    "assam": {
+      "4-064": {
+        "lt_enroll": 0,
+        "tp_enroll": 6,
+        "live_enroll": 0
+      },
+      "4-091": {
+        "lt_enroll": 0,
+        "tp_enroll": 3,
+        "live_enroll": 0
+      }
+    },
+    "andaman and nicobar": {
+      "1-001": {
+        "lt_enroll": 0,
+        "tp_enroll": 1,
+        "live_enroll": 0
+      }
+    },
+    "haryana": {
+      "13-240": {
+        "lt_enroll": 0,
+        "tp_enroll": 13,
+        "live_enroll": 14
+      },
+      "13-257": {
+        "lt_enroll": 0,
+        "tp_enroll": 0,
+        "live_enroll": 12
+      },
+      "13-238": {
+        "lt_enroll": 0,
+        "tp_enroll": 0,
+        "live_enroll": 4
+      },
+      "13-225": {
+        "lt_enroll": 0,
+        "tp_enroll": 0,
+        "live_enroll": 2
+      },
+      "13-234": {
+        "lt_enroll": 0,
+        "tp_enroll": 0,
+        "live_enroll": 21
+      },
+      "13-236": {
+        "lt_enroll": 0,
+        "tp_enroll": 0,
+        "live_enroll": 12
+      },
+      "13-229": {
+        "lt_enroll": 0,
+        "tp_enroll": 0,
+        "live_enroll": 5
+      },
+      "13-227": {
+        "lt_enroll": 0,
+        "tp_enroll": 0,
+        "live_enroll": 4
+      },
+      "13-260": {
+        "lt_enroll": 0,
+        "tp_enroll": 0,
+        "live_enroll": 1
+      },
+      "13-221": {
+        "lt_enroll": 0,
+        "tp_enroll": 0,
+        "live_enroll": 5
+      },
+      "13-237": {
+        "lt_enroll": 0,
+        "tp_enroll": 0,
+        "live_enroll": 8
+      },
+      "13-226": {
+        "lt_enroll": 0,
+        "tp_enroll": 0,
+        "live_enroll": 4
+      },
+      "13-232": {
+        "lt_enroll": 0,
+        "tp_enroll": 0,
+        "live_enroll": 2
+      },
+      "13-233": {
+        "lt_enroll": 0,
+        "tp_enroll": 0,
+        "live_enroll": 2
+      },
+      "13-256": {
+        "lt_enroll": 0,
+        "tp_enroll": 0,
+        "live_enroll": 6
+      },
+      "13-228": {
+        "lt_enroll": 0,
+        "tp_enroll": 0,
+        "live_enroll": 1
+      }
+    },
+    "tripura": {
+      "30-614": {
+        "lt_enroll": 0,
+        "tp_enroll": 10,
+        "live_enroll": 0
+      }
+    },
+    "chhattisgarh": {
+      "33-308": {
+        "lt_enroll": 0,
+        "tp_enroll": 12,
+        "live_enroll": 0
+      }
+    },
+    "delhi": {
+      "8-959": {
+        "lt_enroll": 0,
+        "tp_enroll": 0,
+        "live_enroll": 16
+      },
+      "8-176": {
+        "lt_enroll": 0,
+        "tp_enroll": 0,
+        "live_enroll": 5
+      },
+      "8-168": {
+        "lt_enroll": 0,
+        "tp_enroll": 0,
+        "live_enroll": 3
+      },
+      "8-167": {
+        "lt_enroll": 0,
+        "tp_enroll": 0,
+        "live_enroll": 1
+      },
+      "8-171": {
+        "lt_enroll": 0,
+        "tp_enroll": 0,
+        "live_enroll": 2
+      },
+      "8-173": {
+        "lt_enroll": 0,
+        "tp_enroll": 0,
+        "live_enroll": 7
+      },
+      "8-166": {
+        "lt_enroll": 0,
+        "tp_enroll": 0,
+        "live_enroll": 3
+      },
+      "8-174": {
+        "lt_enroll": 0,
+        "tp_enroll": 0,
+        "live_enroll": 14
+      },
+      "8-170": {
+        "lt_enroll": 0,
+        "tp_enroll": 0,
+        "live_enroll": 6
+      }
+    },
+    "puducherry": {
+      "26-002": {
+        "lt_enroll": 0,
+        "tp_enroll": 0,
+        "live_enroll": 5
+      }
+    },
+    "uttarakhand": {
+      "35-678": {
+        "lt_enroll": 0,
+        "tp_enroll": 0,
+        "live_enroll": 1
+      }
+    },
+    "nagaland": {
+      "23-473": {
+        "lt_enroll": 0,
+        "tp_enroll": 0,
+        "live_enroll": 1
+      }
+    },
+    "west bengal": {
+      "32-985": {
+        "lt_enroll": 0,
+        "tp_enroll": 0,
+        "live_enroll": 2
+      },
+      "32-704": {
+        "lt_enroll": 0,
+        "tp_enroll": 0,
+        "live_enroll": 4
+      },
+      "32-806": {
+        "lt_enroll": 0,
+        "tp_enroll": 0,
+        "live_enroll": 3
+      },
+      "32-707": {
+        "lt_enroll": 0,
+        "tp_enroll": 0,
+        "live_enroll": 2
+      },
+      "32-807": {
+        "lt_enroll": 0,
+        "tp_enroll": 0,
+        "live_enroll": 2
+      }
+    },
+    "mizoram": {
+      "22-434": {
+        "lt_enroll": 0,
+        "tp_enroll": 0,
+        "live_enroll": 2
+      }
+    }
+  }
+}

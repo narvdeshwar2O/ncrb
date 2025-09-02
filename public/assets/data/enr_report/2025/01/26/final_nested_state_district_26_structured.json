@@ -201,6 +201,26 @@
           "enrol": 0
         }
       },
+      "UNKNOWN_DIST_UIFP-16": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 6
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
       "Mangaluru City": {
         "tp": {
           "hit": 0,
@@ -1143,6 +1163,26 @@
           "nohit": 0,
           "total": 0,
           "enrol": 1
+        }
+      },
+      "UNKNOWN_DIST_15-283": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 2
         }
       },
       "THRISSUR RURAL": {
@@ -2668,6 +2708,28 @@
         }
       }
     },
+    "dadra and nagar haveli": {
+      "UNKNOWN_DIST_9-153": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 3
+        }
+      }
+    },
     "mizoram": {
       "SERCHHIP": {
         "tp": {
@@ -2735,6 +2797,26 @@
       }
     },
     "andhra pradesh": {
+      "UNKNOWN_DIST_2-006": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 40,
+          "total": 40,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
       "SRIKAKULAM": {
         "tp": {
           "hit": 0,

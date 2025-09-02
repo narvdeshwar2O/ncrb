@@ -915,6 +915,8 @@ export const stateWithDistrict =
     "gonda",
     "gorakhpur",
     "grp section agra",
+    "agra",
+    
     "grp section gorakhpur",
     "grp section jhansi",
     "grp section lucknow",
@@ -961,6 +963,9 @@ export const stateWithDistrict =
     "sant kabeer nagar",
     "shahjahanpur",
     "shamli",
+
+  "ghaziabad",
+  "varanasi",
     "shravasti",
     "siddharth nagar",
     "sitapur",

@@ -1,0 +1,1349 @@
+{
+  "state": {
+    "odisha": {
+      "24-491": {
+        "tp_hit": 0,
+        "tp_nohit": 0,
+        "tp_total": 0,
+        "live_hit": 0,
+        "live_nohit": 0,
+        "live_total": 0,
+        "lt_hit": 0,
+        "lt_nohit": 10,
+        "lt_total": 10
+      },
+      "24-875": {
+        "tp_hit": 0,
+        "tp_nohit": 0,
+        "tp_total": 0,
+        "live_hit": 0,
+        "live_nohit": 0,
+        "live_total": 0,
+        "lt_hit": 0,
+        "lt_nohit": 8,
+        "lt_total": 8
+      },
+      "UIFP-24": {
+        "tp_hit": 0,
+        "tp_nohit": 1,
+        "tp_total": 1,
+        "live_hit": 0,
+        "live_nohit": 0,
+        "live_total": 0,
+        "lt_hit": 0,
+        "lt_nohit": 0,
+        "lt_total": 0
+      },
+      "Suspect-24": {
+        "tp_hit": 0,
+        "tp_nohit": 0,
+        "tp_total": 0,
+        "live_hit": 0,
+        "live_nohit": 0,
+        "live_total": 0,
+        "lt_hit": 0,
+        "lt_nohit": 0,
+        "lt_total": 0
+      }
+    },
+    "karnataka": {
+      "16-442": {
+        "tp_hit": 0,
+        "tp_nohit": 0,
+        "tp_total": 0,
+        "live_hit": 0,
+        "live_nohit": 0,
+        "live_total": 0,
+        "lt_hit": 0,
+        "lt_nohit": 11,
+        "lt_total": 11
+      },
+      "16-439": {
+        "tp_hit": 0,
+        "tp_nohit": 0,
+        "tp_total": 0,
+        "live_hit": 0,
+        "live_nohit": 0,
+        "live_total": 0,
+        "lt_hit": 0,
+        "lt_nohit": 7,
+        "lt_total": 7
+      },
+      "16-444": {
+        "tp_hit": 0,
+        "tp_nohit": 0,
+        "tp_total": 0,
+        "live_hit": 0,
+        "live_nohit": 0,
+        "live_total": 0,
+        "lt_hit": 0,
+        "lt_nohit": 3,
+        "lt_total": 3
+      },
+      "16-942": {
+        "tp_hit": 0,
+        "tp_nohit": 0,
+        "tp_total": 0,
+        "live_hit": 0,
+        "live_nohit": 0,
+        "live_total": 0,
+        "lt_hit": 0,
+        "lt_nohit": 7,
+        "lt_total": 7
+      },
+      "16-459": {
+        "tp_hit": 0,
+        "tp_nohit": 0,
+        "tp_total": 0,
+        "live_hit": 0,
+        "live_nohit": 0,
+        "live_total": 0,
+        "lt_hit": 0,
+        "lt_nohit": 32,
+        "lt_total": 32
+      },
+      "16-448": {
+        "tp_hit": 0,
+        "tp_nohit": 0,
+        "tp_total": 0,
+        "live_hit": 0,
+        "live_nohit": 0,
+        "live_total": 0,
+        "lt_hit": 0,
+        "lt_nohit": 18,
+        "lt_total": 18
+      },
+      "16-440": {
+        "tp_hit": 0,
+        "tp_nohit": 0,
+        "tp_total": 0,
+        "live_hit": 0,
+        "live_nohit": 0,
+        "live_total": 0,
+        "lt_hit": 0,
+        "lt_nohit": 16,
+        "lt_total": 16
+      },
+      "16-455": {
+        "tp_hit": 0,
+        "tp_nohit": 0,
+        "tp_total": 0,
+        "live_hit": 0,
+        "live_nohit": 0,
+        "live_total": 0,
+        "lt_hit": 0,
+        "lt_nohit": 5,
+        "lt_total": 5
+      },
+      "16-453": {
+        "tp_hit": 0,
+        "tp_nohit": 0,
+        "tp_total": 0,
+        "live_hit": 0,
+        "live_nohit": 0,
+        "live_total": 0,
+        "lt_hit": 0,
+        "lt_nohit": 9,
+        "lt_total": 9
+      },
+      "16-443": {
+        "tp_hit": 0,
+        "tp_nohit": 0,
+        "tp_total": 0,
+        "live_hit": 0,
+        "live_nohit": 0,
+        "live_total": 0,
+        "lt_hit": 0,
+        "lt_nohit": 13,
+        "lt_total": 13
+      },
+      "16-445": {
+        "tp_hit": 0,
+        "tp_nohit": 0,
+        "tp_total": 0,
+        "live_hit": 0,
+        "live_nohit": 0,
+        "live_total": 0,
+        "lt_hit": 0,
+        "lt_nohit": 3,
+        "lt_total": 3
+      },
+      "16-446": {
+        "tp_hit": 0,
+        "tp_nohit": 0,
+        "tp_total": 0,
+        "live_hit": 0,
+        "live_nohit": 0,
+        "live_total": 0,
+        "lt_hit": 0,
+        "lt_nohit": 15,
+        "lt_total": 15
+      },
+      "16-438": {
+        "tp_hit": 0,
+        "tp_nohit": 0,
+        "tp_total": 0,
+        "live_hit": 0,
+        "live_nohit": 0,
+        "live_total": 0,
+        "lt_hit": 0,
+        "lt_nohit": 9,
+        "lt_total": 9
+      },
+      "16-461": {
+        "tp_hit": 0,
+        "tp_nohit": 0,
+        "tp_total": 0,
+        "live_hit": 0,
+        "live_nohit": 0,
+        "live_total": 0,
+        "lt_hit": 0,
+        "lt_nohit": 2,
+        "lt_total": 2
+      },
+      "16-447": {
+        "tp_hit": 0,
+        "tp_nohit": 0,
+        "tp_total": 0,
+        "live_hit": 0,
+        "live_nohit": 0,
+        "live_total": 0,
+        "lt_hit": 0,
+        "lt_nohit": 6,
+        "lt_total": 6
+      },
+      "16-454": {
+        "tp_hit": 0,
+        "tp_nohit": 0,
+        "tp_total": 0,
+        "live_hit": 0,
+        "live_nohit": 0,
+        "live_total": 0,
+        "lt_hit": 0,
+        "lt_nohit": 6,
+        "lt_total": 6
+      },
+      "16-437": {
+        "tp_hit": 0,
+        "tp_nohit": 0,
+        "tp_total": 0,
+        "live_hit": 0,
+        "live_nohit": 0,
+        "live_total": 0,
+        "lt_hit": 0,
+        "lt_nohit": 14,
+        "lt_total": 14
+      },
+      "16-470": {
+        "tp_hit": 0,
+        "tp_nohit": 0,
+        "tp_total": 0,
+        "live_hit": 0,
+        "live_nohit": 0,
+        "live_total": 0,
+        "lt_hit": 0,
+        "lt_nohit": 8,
+        "lt_total": 8
+      },
+      "16-466": {
+        "tp_hit": 0,
+        "tp_nohit": 0,
+        "tp_total": 0,
+        "live_hit": 0,
+        "live_nohit": 0,
+        "live_total": 0,
+        "lt_hit": 0,
+        "lt_nohit": 3,
+        "lt_total": 3
+      },
+      "16-463": {
+        "tp_hit": 0,
+        "tp_nohit": 0,
+        "tp_total": 0,
+        "live_hit": 0,
+        "live_nohit": 0,
+        "live_total": 0,
+        "lt_hit": 0,
+        "lt_nohit": 34,
+        "lt_total": 34
+      },
+      "16-452": {
+        "tp_hit": 0,
+        "tp_nohit": 0,
+        "tp_total": 0,
+        "live_hit": 0,
+        "live_nohit": 0,
+        "live_total": 0,
+        "lt_hit": 0,
+        "lt_nohit": 1,
+        "lt_total": 1
+      }
+    },
+    "andhra pradesh": {
+      "2-037": {
+        "tp_hit": 0,
+        "tp_nohit": 1,
+        "tp_total": 1,
+        "live_hit": 0,
+        "live_nohit": 0,
+        "live_total": 0,
+        "lt_hit": 0,
+        "lt_nohit": 82,
+        "lt_total": 82
+      },
+      "2-038": {
+        "tp_hit": 0,
+        "tp_nohit": 0,
+        "tp_total": 0,
+        "live_hit": 0,
+        "live_nohit": 0,
+        "live_total": 0,
+        "lt_hit": 0,
+        "lt_nohit": 80,
+        "lt_total": 80
+      },
+      "2-017": {
+        "tp_hit": 0,
+        "tp_nohit": 0,
+        "tp_total": 0,
+        "live_hit": 0,
+        "live_nohit": 0,
+        "live_total": 0,
+        "lt_hit": 0,
+        "lt_nohit": 60,
+        "lt_total": 60
+      },
+      "2-009": {
+        "tp_hit": 0,
+        "tp_nohit": 0,
+        "tp_total": 0,
+        "live_hit": 0,
+        "live_nohit": 0,
+        "live_total": 0,
+        "lt_hit": 0,
+        "lt_nohit": 0,
+        "lt_total": 0
+      },
+      "Suspect-2": {
+        "tp_hit": 0,
+        "tp_nohit": 0,
+        "tp_total": 0,
+        "live_hit": 0,
+        "live_nohit": 0,
+        "live_total": 0,
+        "lt_hit": 0,
+        "lt_nohit": 0,
+        "lt_total": 0
+      }
+    },
+    "madhya pradesh": {
+      "21-303": {
+        "tp_hit": 0,
+        "tp_nohit": 0,
+        "tp_total": 0,
+        "live_hit": 0,
+        "live_nohit": 0,
+        "live_total": 0,
+        "lt_hit": 0,
+        "lt_nohit": 1,
+        "lt_total": 1
+      },
+      "21-324": {
+        "tp_hit": 0,
+        "tp_nohit": 0,
+        "tp_total": 0,
+        "live_hit": 0,
+        "live_nohit": 0,
+        "live_total": 0,
+        "lt_hit": 0,
+        "lt_nohit": 46,
+        "lt_total": 46
+      },
+      "21-346": {
+        "tp_hit": 0,
+        "tp_nohit": 0,
+        "tp_total": 0,
+        "live_hit": 0,
+        "live_nohit": 0,
+        "live_total": 0,
+        "lt_hit": 0,
+        "lt_nohit": 46,
+        "lt_total": 46
+      },
+      "21-319": {
+        "tp_hit": 0,
+        "tp_nohit": 52,
+        "tp_total": 52,
+        "live_hit": 0,
+        "live_nohit": 0,
+        "live_total": 0,
+        "lt_hit": 0,
+        "lt_nohit": 37,
+        "lt_total": 37
+      },
+      "21-351": {
+        "tp_hit": 0,
+        "tp_nohit": 5,
+        "tp_total": 5,
+        "live_hit": 0,
+        "live_nohit": 0,
+        "live_total": 0,
+        "lt_hit": 0,
+        "lt_nohit": 4,
+        "lt_total": 4
+      },
+      "21-350": {
+        "tp_hit": 0,
+        "tp_nohit": 1,
+        "tp_total": 1,
+        "live_hit": 0,
+        "live_nohit": 0,
+        "live_total": 0,
+        "lt_hit": 0,
+        "lt_nohit": 0,
+        "lt_total": 0
+      },
+      "21-344": {
+        "tp_hit": 0,
+        "tp_nohit": 3,
+        "tp_total": 3,
+        "live_hit": 0,
+        "live_nohit": 0,
+        "live_total": 0,
+        "lt_hit": 0,
+        "lt_nohit": 0,
+        "lt_total": 0
+      },
+      "21-732": {
+        "tp_hit": 0,
+        "tp_nohit": 0,
+        "tp_total": 0,
+        "live_hit": 0,
+        "live_nohit": 0,
+        "live_total": 0,
+        "lt_hit": 0,
+        "lt_nohit": 0,
+        "lt_total": 0
+      },
+      "21-343": {
+        "tp_hit": 0,
+        "tp_nohit": 45,
+        "tp_total": 45,
+        "live_hit": 0,
+        "live_nohit": 0,
+        "live_total": 0,
+        "lt_hit": 0,
+        "lt_nohit": 0,
+        "lt_total": 0
+      },
+      "Civil-21": {
+        "tp_hit": 0,
+        "tp_nohit": 0,
+        "tp_total": 0,
+        "live_hit": 0,
+        "live_nohit": 0,
+        "live_total": 0,
+        "lt_hit": 0,
+        "lt_nohit": 0,
+        "lt_total": 0
+      },
+      "Suspect-21": {
+        "tp_hit": 0,
+        "tp_nohit": 0,
+        "tp_total": 0,
+        "live_hit": 0,
+        "live_nohit": 0,
+        "live_total": 0,
+        "lt_hit": 0,
+        "lt_nohit": 0,
+        "lt_total": 0
+      },
+      "21-323": {
+        "tp_hit": 0,
+        "tp_nohit": 101,
+        "tp_total": 101,
+        "live_hit": 0,
+        "live_nohit": 0,
+        "live_total": 0,
+        "lt_hit": 0,
+        "lt_nohit": 0,
+        "lt_total": 0
+      },
+      "21-334": {
+        "tp_hit": 0,
+        "tp_nohit": 14,
+        "tp_total": 14,
+        "live_hit": 0,
+        "live_nohit": 0,
+        "live_total": 0,
+        "lt_hit": 0,
+        "lt_nohit": 0,
+        "lt_total": 0
+      },
+      "21-347": {
+        "tp_hit": 0,
+        "tp_nohit": 1,
+        "tp_total": 1,
+        "live_hit": 0,
+        "live_nohit": 0,
+        "live_total": 0,
+        "lt_hit": 0,
+        "lt_nohit": 0,
+        "lt_total": 0
+      }
+    },
+    "maharashtra": {
+      "19-388": {
+        "tp_hit": 0,
+        "tp_nohit": 0,
+        "tp_total": 0,
+        "live_hit": 0,
+        "live_nohit": 0,
+        "live_total": 0,
+        "lt_hit": 0,
+        "lt_nohit": 7,
+        "lt_total": 7
+      },
+      "19-393": {
+        "tp_hit": 0,
+        "tp_nohit": 0,
+        "tp_total": 0,
+        "live_hit": 0,
+        "live_nohit": 0,
+        "live_total": 0,
+        "lt_hit": 0,
+        "lt_nohit": 40,
+        "lt_total": 40
+      },
+      "19-375": {
+        "tp_hit": 0,
+        "tp_nohit": 0,
+        "tp_total": 0,
+        "live_hit": 0,
+        "live_nohit": 0,
+        "live_total": 0,
+        "lt_hit": 0,
+        "lt_nohit": 4,
+        "lt_total": 4
+      },
+      "19-841": {
+        "tp_hit": 0,
+        "tp_nohit": 0,
+        "tp_total": 0,
+        "live_hit": 0,
+        "live_nohit": 0,
+        "live_total": 0,
+        "lt_hit": 0,
+        "lt_nohit": 10,
+        "lt_total": 10
+      }
+    },
+    "tamil nadu": {
+      "29-947": {
+        "tp_hit": 0,
+        "tp_nohit": 0,
+        "tp_total": 0,
+        "live_hit": 0,
+        "live_nohit": 0,
+        "live_total": 0,
+        "lt_hit": 0,
+        "lt_nohit": 20,
+        "lt_total": 20
+      },
+      "29-606": {
+        "tp_hit": 0,
+        "tp_nohit": 0,
+        "tp_total": 0,
+        "live_hit": 0,
+        "live_nohit": 0,
+        "live_total": 0,
+        "lt_hit": 0,
+        "lt_nohit": 22,
+        "lt_total": 22
+      },
+      "29-610": {
+        "tp_hit": 0,
+        "tp_nohit": 0,
+        "tp_total": 0,
+        "live_hit": 0,
+        "live_nohit": 0,
+        "live_total": 0,
+        "lt_hit": 0,
+        "lt_nohit": 96,
+        "lt_total": 96
+      },
+      "29-602": {
+        "tp_hit": 0,
+        "tp_nohit": 0,
+        "tp_total": 0,
+        "live_hit": 0,
+        "live_nohit": 0,
+        "live_total": 0,
+        "lt_hit": 0,
+        "lt_nohit": 10,
+        "lt_total": 10
+      },
+      "29-587": {
+        "tp_hit": 0,
+        "tp_nohit": 0,
+        "tp_total": 0,
+        "live_hit": 0,
+        "live_nohit": 0,
+        "live_total": 0,
+        "lt_hit": 0,
+        "lt_nohit": 10,
+        "lt_total": 10
+      },
+      "29-609": {
+        "tp_hit": 0,
+        "tp_nohit": 0,
+        "tp_total": 0,
+        "live_hit": 0,
+        "live_nohit": 0,
+        "live_total": 0,
+        "lt_hit": 0,
+        "lt_nohit": 14,
+        "lt_total": 14
+      },
+      "29-604": {
+        "tp_hit": 0,
+        "tp_nohit": 8,
+        "tp_total": 8,
+        "live_hit": 0,
+        "live_nohit": 0,
+        "live_total": 0,
+        "lt_hit": 0,
+        "lt_nohit": 40,
+        "lt_total": 40
+      },
+      "29-594": {
+        "tp_hit": 0,
+        "tp_nohit": 0,
+        "tp_total": 0,
+        "live_hit": 0,
+        "live_nohit": 0,
+        "live_total": 0,
+        "lt_hit": 0,
+        "lt_nohit": 70,
+        "lt_total": 70
+      },
+      "29-584": {
+        "tp_hit": 0,
+        "tp_nohit": 0,
+        "tp_total": 0,
+        "live_hit": 0,
+        "live_nohit": 0,
+        "live_total": 0,
+        "lt_hit": 0,
+        "lt_nohit": 2,
+        "lt_total": 2
+      },
+      "29-589": {
+        "tp_hit": 0,
+        "tp_nohit": 0,
+        "tp_total": 0,
+        "live_hit": 0,
+        "live_nohit": 0,
+        "live_total": 0,
+        "lt_hit": 0,
+        "lt_nohit": 20,
+        "lt_total": 20
+      },
+      "29-596": {
+        "tp_hit": 0,
+        "tp_nohit": 0,
+        "tp_total": 0,
+        "live_hit": 0,
+        "live_nohit": 0,
+        "live_total": 0,
+        "lt_hit": 0,
+        "lt_nohit": 98,
+        "lt_total": 98
+      },
+      "29-607": {
+        "tp_hit": 1,
+        "tp_nohit": 6,
+        "tp_total": 7,
+        "live_hit": 0,
+        "live_nohit": 0,
+        "live_total": 0,
+        "lt_hit": 0,
+        "lt_nohit": 120,
+        "lt_total": 120
+      },
+      "29-599": {
+        "tp_hit": 0,
+        "tp_nohit": 0,
+        "tp_total": 0,
+        "live_hit": 0,
+        "live_nohit": 0,
+        "live_total": 0,
+        "lt_hit": 0,
+        "lt_nohit": 2,
+        "lt_total": 2
+      },
+      "29-608": {
+        "tp_hit": 0,
+        "tp_nohit": 0,
+        "tp_total": 0,
+        "live_hit": 0,
+        "live_nohit": 0,
+        "live_total": 0,
+        "lt_hit": 0,
+        "lt_nohit": 132,
+        "lt_total": 132
+      },
+      "Suspect-29": {
+        "tp_hit": 0,
+        "tp_nohit": 3,
+        "tp_total": 3,
+        "live_hit": 0,
+        "live_nohit": 0,
+        "live_total": 0,
+        "lt_hit": 0,
+        "lt_nohit": 0,
+        "lt_total": 0
+      },
+      "29-601": {
+        "tp_hit": 0,
+        "tp_nohit": 0,
+        "tp_total": 0,
+        "live_hit": 0,
+        "live_nohit": 0,
+        "live_total": 0,
+        "lt_hit": 0,
+        "lt_nohit": 0,
+        "lt_total": 0
+      },
+      "29-580": {
+        "tp_hit": 0,
+        "tp_nohit": 1,
+        "tp_total": 1,
+        "live_hit": 0,
+        "live_nohit": 0,
+        "live_total": 0,
+        "lt_hit": 0,
+        "lt_nohit": 0,
+        "lt_total": 0
+      },
+      "29-937": {
+        "tp_hit": 0,
+        "tp_nohit": 85,
+        "tp_total": 85,
+        "live_hit": 0,
+        "live_nohit": 0,
+        "live_total": 0,
+        "lt_hit": 0,
+        "lt_nohit": 0,
+        "lt_total": 0
+      },
+      "29-581": {
+        "tp_hit": 0,
+        "tp_nohit": 6,
+        "tp_total": 6,
+        "live_hit": 0,
+        "live_nohit": 0,
+        "live_total": 0,
+        "lt_hit": 0,
+        "lt_nohit": 0,
+        "lt_total": 0
+      },
+      "29-586": {
+        "tp_hit": 0,
+        "tp_nohit": 9,
+        "tp_total": 9,
+        "live_hit": 0,
+        "live_nohit": 0,
+        "live_total": 0,
+        "lt_hit": 0,
+        "lt_nohit": 0,
+        "lt_total": 0
+      },
+      "29-767": {
+        "tp_hit": 1,
+        "tp_nohit": 0,
+        "tp_total": 1,
+        "live_hit": 0,
+        "live_nohit": 0,
+        "live_total": 0,
+        "lt_hit": 0,
+        "lt_nohit": 0,
+        "lt_total": 0
+      },
+      "29-946": {
+        "tp_hit": 0,
+        "tp_nohit": 19,
+        "tp_total": 19,
+        "live_hit": 0,
+        "live_nohit": 0,
+        "live_total": 0,
+        "lt_hit": 0,
+        "lt_nohit": 0,
+        "lt_total": 0
+      },
+      "29-578": {
+        "tp_hit": 1,
+        "tp_nohit": 13,
+        "tp_total": 14,
+        "live_hit": 0,
+        "live_nohit": 0,
+        "live_total": 0,
+        "lt_hit": 0,
+        "lt_nohit": 0,
+        "lt_total": 0
+      },
+      "29-936": {
+        "tp_hit": 0,
+        "tp_nohit": 1,
+        "tp_total": 1,
+        "live_hit": 0,
+        "live_nohit": 0,
+        "live_total": 0,
+        "lt_hit": 0,
+        "lt_nohit": 0,
+        "lt_total": 0
+      },
+      "Civil-29": {
+        "tp_hit": 0,
+        "tp_nohit": 0,
+        "tp_total": 0,
+        "live_hit": 0,
+        "live_nohit": 0,
+        "live_total": 0,
+        "lt_hit": 0,
+        "lt_nohit": 0,
+        "lt_total": 0
+      }
+    },
+    "kerala": {
+      "15-292": {
+        "tp_hit": 0,
+        "tp_nohit": 0,
+        "tp_total": 0,
+        "live_hit": 0,
+        "live_nohit": 0,
+        "live_total": 0,
+        "lt_hit": 0,
+        "lt_nohit": 109,
+        "lt_total": 109
+      },
+      "15-291": {
+        "tp_hit": 0,
+        "tp_nohit": 0,
+        "tp_total": 0,
+        "live_hit": 0,
+        "live_nohit": 0,
+        "live_total": 0,
+        "lt_hit": 0,
+        "lt_nohit": 11,
+        "lt_total": 11
+      },
+      "15-281": {
+        "tp_hit": 0,
+        "tp_nohit": 0,
+        "tp_total": 0,
+        "live_hit": 0,
+        "live_nohit": 0,
+        "live_total": 0,
+        "lt_hit": 0,
+        "lt_nohit": 0,
+        "lt_total": 0
+      }
+    },
+    "assam": {
+      "4-075": {
+        "tp_hit": 0,
+        "tp_nohit": 14,
+        "tp_total": 14,
+        "live_hit": 0,
+        "live_nohit": 0,
+        "live_total": 0,
+        "lt_hit": 0,
+        "lt_nohit": 0,
+        "lt_total": 0
+      },
+      "4-094": {
+        "tp_hit": 0,
+        "tp_nohit": 5,
+        "tp_total": 5,
+        "live_hit": 0,
+        "live_nohit": 0,
+        "live_total": 0,
+        "lt_hit": 0,
+        "lt_nohit": 0,
+        "lt_total": 0
+      },
+      "4-064": {
+        "tp_hit": 0,
+        "tp_nohit": 1,
+        "tp_total": 1,
+        "live_hit": 0,
+        "live_nohit": 0,
+        "live_total": 0,
+        "lt_hit": 0,
+        "lt_nohit": 0,
+        "lt_total": 0
+      },
+      "4-066": {
+        "tp_hit": 0,
+        "tp_nohit": 5,
+        "tp_total": 5,
+        "live_hit": 0,
+        "live_nohit": 0,
+        "live_total": 0,
+        "lt_hit": 0,
+        "lt_nohit": 0,
+        "lt_total": 0
+      },
+      "4-086": {
+        "tp_hit": 0,
+        "tp_nohit": 4,
+        "tp_total": 4,
+        "live_hit": 0,
+        "live_nohit": 0,
+        "live_total": 0,
+        "lt_hit": 0,
+        "lt_nohit": 0,
+        "lt_total": 0
+      },
+      "4-146": {
+        "tp_hit": 0,
+        "tp_nohit": 8,
+        "tp_total": 8,
+        "live_hit": 0,
+        "live_nohit": 0,
+        "live_total": 0,
+        "lt_hit": 0,
+        "lt_nohit": 0,
+        "lt_total": 0
+      },
+      "4-063": {
+        "tp_hit": 0,
+        "tp_nohit": 1,
+        "tp_total": 1,
+        "live_hit": 0,
+        "live_nohit": 0,
+        "live_total": 0,
+        "lt_hit": 0,
+        "lt_nohit": 0,
+        "lt_total": 0
+      },
+      "4-092": {
+        "tp_hit": 0,
+        "tp_nohit": 4,
+        "tp_total": 4,
+        "live_hit": 0,
+        "live_nohit": 0,
+        "live_total": 0,
+        "lt_hit": 0,
+        "lt_nohit": 0,
+        "lt_total": 0
+      },
+      "4-097": {
+        "tp_hit": 0,
+        "tp_nohit": 2147,
+        "tp_total": 2147,
+        "live_hit": 0,
+        "live_nohit": 0,
+        "live_total": 0,
+        "lt_hit": 0,
+        "lt_nohit": 0,
+        "lt_total": 0
+      },
+      "4-091": {
+        "tp_hit": 0,
+        "tp_nohit": 2,
+        "tp_total": 2,
+        "live_hit": 0,
+        "live_nohit": 0,
+        "live_total": 0,
+        "lt_hit": 0,
+        "lt_nohit": 0,
+        "lt_total": 0
+      },
+      "4-072": {
+        "tp_hit": 0,
+        "tp_nohit": 0,
+        "tp_total": 0,
+        "live_hit": 0,
+        "live_nohit": 0,
+        "live_total": 0,
+        "lt_hit": 0,
+        "lt_nohit": 0,
+        "lt_total": 0
+      },
+      "4-088": {
+        "tp_hit": 0,
+        "tp_nohit": 42,
+        "tp_total": 42,
+        "live_hit": 0,
+        "live_nohit": 1,
+        "live_total": 1,
+        "lt_hit": 0,
+        "lt_nohit": 0,
+        "lt_total": 0
+      },
+      "4-077": {
+        "tp_hit": 0,
+        "tp_nohit": 2,
+        "tp_total": 2,
+        "live_hit": 0,
+        "live_nohit": 0,
+        "live_total": 0,
+        "lt_hit": 0,
+        "lt_nohit": 0,
+        "lt_total": 0
+      },
+      "4-145": {
+        "tp_hit": 0,
+        "tp_nohit": 4,
+        "tp_total": 4,
+        "live_hit": 0,
+        "live_nohit": 0,
+        "live_total": 0,
+        "lt_hit": 0,
+        "lt_nohit": 0,
+        "lt_total": 0
+      },
+      "4-085": {
+        "tp_hit": 0,
+        "tp_nohit": 5,
+        "tp_total": 5,
+        "live_hit": 0,
+        "live_nohit": 0,
+        "live_total": 0,
+        "lt_hit": 0,
+        "lt_nohit": 0,
+        "lt_total": 0
+      }
+    },
+    "gujarat": {
+      "11-217": {
+        "tp_hit": 0,
+        "tp_nohit": 0,
+        "tp_total": 0,
+        "live_hit": 0,
+        "live_nohit": 0,
+        "live_total": 0,
+        "lt_hit": 0,
+        "lt_nohit": 0,
+        "lt_total": 0
+      },
+      "11-210": {
+        "tp_hit": 0,
+        "tp_nohit": 0,
+        "tp_total": 0,
+        "live_hit": 0,
+        "live_nohit": 0,
+        "live_total": 0,
+        "lt_hit": 0,
+        "lt_nohit": 0,
+        "lt_total": 0
+      },
+      "11-205": {
+        "tp_hit": 0,
+        "tp_nohit": 1,
+        "tp_total": 1,
+        "live_hit": 0,
+        "live_nohit": 0,
+        "live_total": 0,
+        "lt_hit": 0,
+        "lt_nohit": 0,
+        "lt_total": 0
+      },
+      "11-200": {
+        "tp_hit": 0,
+        "tp_nohit": 0,
+        "tp_total": 0,
+        "live_hit": 0,
+        "live_nohit": 0,
+        "live_total": 0,
+        "lt_hit": 0,
+        "lt_nohit": 0,
+        "lt_total": 0
+      }
+    },
+    "chhattisgarh": {
+      "33-302": {
+        "tp_hit": 0,
+        "tp_nohit": 0,
+        "tp_total": 0,
+        "live_hit": 0,
+        "live_nohit": 0,
+        "live_total": 0,
+        "lt_hit": 0,
+        "lt_nohit": 0,
+        "lt_total": 0
+      },
+      "33-325": {
+        "tp_hit": 0,
+        "tp_nohit": 0,
+        "tp_total": 0,
+        "live_hit": 0,
+        "live_nohit": 0,
+        "live_total": 0,
+        "lt_hit": 0,
+        "lt_nohit": 0,
+        "lt_total": 0
+      }
+    },
+    "uttar pradesh": {
+      "31-646": {
+        "tp_hit": 0,
+        "tp_nohit": 0,
+        "tp_total": 0,
+        "live_hit": 0,
+        "live_nohit": 0,
+        "live_total": 0,
+        "lt_hit": 0,
+        "lt_nohit": 0,
+        "lt_total": 0
+      },
+      "31-652": {
+        "tp_hit": 0,
+        "tp_nohit": 0,
+        "tp_total": 0,
+        "live_hit": 0,
+        "live_nohit": 0,
+        "live_total": 0,
+        "lt_hit": 0,
+        "lt_nohit": 0,
+        "lt_total": 0
+      },
+      "31-658": {
+        "tp_hit": 0,
+        "tp_nohit": 0,
+        "tp_total": 0,
+        "live_hit": 0,
+        "live_nohit": 0,
+        "live_total": 0,
+        "lt_hit": 0,
+        "lt_nohit": 0,
+        "lt_total": 0
+      },
+      "31-897": {
+        "tp_hit": 0,
+        "tp_nohit": 0,
+        "tp_total": 0,
+        "live_hit": 0,
+        "live_nohit": 2,
+        "live_total": 2,
+        "lt_hit": 0,
+        "lt_nohit": 0,
+        "lt_total": 0
+      }
+    },
+    "andaman and nicobar": {
+      "1-003": {
+        "tp_hit": 0,
+        "tp_nohit": 2,
+        "tp_total": 2,
+        "live_hit": 0,
+        "live_nohit": 0,
+        "live_total": 0,
+        "lt_hit": 0,
+        "lt_nohit": 0,
+        "lt_total": 0
+      }
+    },
+    "Haryana": {
+      "13-227": {
+        "tp_hit": 0,
+        "tp_nohit": 0,
+        "tp_total": 0,
+        "live_hit": 0,
+        "live_nohit": 0,
+        "live_total": 0,
+        "lt_hit": 0,
+        "lt_nohit": 0,
+        "lt_total": 0
+      }
+    },
+    "puducherry": {
+      "26-002": {
+        "tp_hit": 0,
+        "tp_nohit": 1,
+        "tp_total": 1,
+        "live_hit": 0,
+        "live_nohit": 0,
+        "live_total": 0,
+        "lt_hit": 0,
+        "lt_nohit": 0,
+        "lt_total": 0
+      }
+    },
+    "rajasthan": {
+      "27-572": {
+        "tp_hit": 0,
+        "tp_nohit": 0,
+        "tp_total": 0,
+        "live_hit": 0,
+        "live_nohit": 0,
+        "live_total": 0,
+        "lt_hit": 0,
+        "lt_nohit": 0,
+        "lt_total": 0
+      },
+      "27-567": {
+        "tp_hit": 0,
+        "tp_nohit": 0,
+        "tp_total": 0,
+        "live_hit": 0,
+        "live_nohit": 0,
+        "live_total": 0,
+        "lt_hit": 0,
+        "lt_nohit": 0,
+        "lt_total": 0
+      },
+      "27-545": {
+        "tp_hit": 0,
+        "tp_nohit": 0,
+        "tp_total": 0,
+        "live_hit": 0,
+        "live_nohit": 0,
+        "live_total": 0,
+        "lt_hit": 0,
+        "lt_nohit": 0,
+        "lt_total": 0
+      },
+      "27-564": {
+        "tp_hit": 0,
+        "tp_nohit": 0,
+        "tp_total": 0,
+        "live_hit": 0,
+        "live_nohit": 0,
+        "live_total": 0,
+        "lt_hit": 0,
+        "lt_nohit": 0,
+        "lt_total": 0
+      },
+      "27-546": {
+        "tp_hit": 0,
+        "tp_nohit": 0,
+        "tp_total": 0,
+        "live_hit": 0,
+        "live_nohit": 0,
+        "live_total": 0,
+        "lt_hit": 0,
+        "lt_nohit": 0,
+        "lt_total": 0
+      }
+    },
+    "bihar": {
+      "5-124": {
+        "tp_hit": 0,
+        "tp_nohit": 0,
+        "tp_total": 0,
+        "live_hit": 0,
+        "live_nohit": 0,
+        "live_total": 0,
+        "lt_hit": 0,
+        "lt_nohit": 0,
+        "lt_total": 0
+      }
+    },
+    "punjab": {
+      "25-884": {
+        "tp_hit": 0,
+        "tp_nohit": 0,
+        "tp_total": 0,
+        "live_hit": 0,
+        "live_nohit": 0,
+        "live_total": 0,
+        "lt_hit": 0,
+        "lt_nohit": 0,
+        "lt_total": 0
+      },
+      "25-538": {
+        "tp_hit": 0,
+        "tp_nohit": 27,
+        "tp_total": 27,
+        "live_hit": 0,
+        "live_nohit": 0,
+        "live_total": 0,
+        "lt_hit": 0,
+        "lt_nohit": 0,
+        "lt_total": 0
+      }
+    },
+    "haryana": {
+      "13-236": {
+        "tp_hit": 0,
+        "tp_nohit": 0,
+        "tp_total": 0,
+        "live_hit": 0,
+        "live_nohit": 0,
+        "live_total": 0,
+        "lt_hit": 0,
+        "lt_nohit": 0,
+        "lt_total": 0
+      },
+      "13-225": {
+        "tp_hit": 0,
+        "tp_nohit": 0,
+        "tp_total": 0,
+        "live_hit": 2,
+        "live_nohit": 0,
+        "live_total": 2,
+        "lt_hit": 0,
+        "lt_nohit": 0,
+        "lt_total": 0
+      },
+      "13-257": {
+        "tp_hit": 1,
+        "tp_nohit": 0,
+        "tp_total": 1,
+        "live_hit": 0,
+        "live_nohit": 0,
+        "live_total": 0,
+        "lt_hit": 0,
+        "lt_nohit": 0,
+        "lt_total": 0
+      },
+      "13-239": {
+        "tp_hit": 0,
+        "tp_nohit": 0,
+        "tp_total": 0,
+        "live_hit": 1,
+        "live_nohit": 0,
+        "live_total": 1,
+        "lt_hit": 0,
+        "lt_nohit": 0,
+        "lt_total": 0
+      },
+      "13-238": {
+        "tp_hit": 0,
+        "tp_nohit": 0,
+        "tp_total": 0,
+        "live_hit": 1,
+        "live_nohit": 0,
+        "live_total": 1,
+        "lt_hit": 0,
+        "lt_nohit": 0,
+        "lt_total": 0
+      },
+      "13-230": {
+        "tp_hit": 0,
+        "tp_nohit": 0,
+        "tp_total": 0,
+        "live_hit": 1,
+        "live_nohit": 0,
+        "live_total": 1,
+        "lt_hit": 0,
+        "lt_nohit": 0,
+        "lt_total": 0
+      },
+      "13-227": {
+        "tp_hit": 0,
+        "tp_nohit": 5,
+        "tp_total": 5,
+        "live_hit": 8,
+        "live_nohit": 1,
+        "live_total": 9,
+        "lt_hit": 0,
+        "lt_nohit": 0,
+        "lt_total": 0
+      }
+    }
+  }
+}

@@ -585,6 +585,46 @@
           "enrol": 0
         }
       },
+      "UNKNOWN_DIST_2-006": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 20,
+          "total": 20,
+          "enrol": 1
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
+      "UNKNOWN_DIST_2-009": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 330,
+          "total": 330,
+          "enrol": 3
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
       "Bapatla": {
         "tp": {
           "hit": 0,
@@ -1419,6 +1459,26 @@
       }
     },
     "chhattisgarh": {
+      "UNKNOWN_DIST_Civil-33": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 1
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        }
+      },
       "BALOD": {
         "tp": {
           "hit": 0,
@@ -2133,6 +2193,26 @@
           "enrol": 21
         }
       },
+      "GHAZIABAD": {
+        "tp": {
+          "hit": 1,
+          "nohit": 0,
+          "total": 1,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 2,
+          "total": 2,
+          "enrol": 7
+        }
+      },
       "AURAIYA": {
         "tp": {
           "hit": 0,
@@ -2789,6 +2869,26 @@
         "mesa": {
           "hit": 1,
           "nohit": 0,
+          "total": 1,
+          "enrol": 0
+        }
+      },
+      "VARANASI": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 1,
           "total": 1,
           "enrol": 0
         }

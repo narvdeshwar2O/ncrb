@@ -222,7 +222,7 @@ export const SlipComparisonChart: React.FC<SlipComparisonChartProps> = ({
   }
 
   // Calculate chart height based on number of items
-  const chartHeight = Math.max(400, chartData.length * 40 + 100);
+  const chartHeight = Math.max(500, chartData.length * 40 + 100);
 
   return (
     <div className="w-full space-y-4">
