@@ -60,7 +60,6 @@ export default function SlipTopFive({
   statuses,
   selectedStates = [],
 }: SlipTopFiveProps) {
-  console.log("allData received:", JSON.stringify(allData, null, 2)); // Debug input data
   const viewRef = useRef<HTMLDivElement>(null);
   const [viewMode, setViewMode] = useState<ViewMode>("state");
 
@@ -84,11 +83,9 @@ export default function SlipTopFive({
   // ✅ Compute top data
   const topDataByStatus = useMemo(() => {
     if (!activeStatuses.length) {
-      console.log("No active statuses selected");
       return {};
     }
     if (!isDistrictViewValid) {
-      console.log("District view invalid: ", { selectedStates });
       return {};
     }
 
@@ -100,7 +97,6 @@ export default function SlipTopFive({
 
       for (const day of allData) {
         if (!day?.date) {
-          console.log("Invalid or missing date in day:", day);
           continue;
         }
 
@@ -108,7 +104,6 @@ export default function SlipTopFive({
         if (dayTime < fromTime || dayTime > toTime) continue;
 
         if (!day.data?.state) {
-          console.log("No state data in day:", day);
           continue;
         }
 
@@ -123,19 +118,24 @@ export default function SlipTopFive({
           for (const status of activeStatuses) {
             const fieldName = STATUS_KEY_MAP[status.toLowerCase()];
             if (!fieldName) {
-              console.log(`No fieldName for status: ${status}`);
               continue;
             }
 
             let stateTotal = 0;
 
-            safeObjectEntries(stateData).forEach(([districtName, districtData]) => {
-              safeObjectEntries(districtData).forEach(([actName, actData]) => {
-                safeObjectEntries(actData).forEach(([sectionName, sectionData]) => {
-                  stateTotal += safeNumericValue(sectionData, fieldName);
-                });
-              });
-            });
+            safeObjectEntries(stateData).forEach(
+              ([districtName, districtData]) => {
+                safeObjectEntries(districtData).forEach(
+                  ([actName, actData]) => {
+                    safeObjectEntries(actData).forEach(
+                      ([sectionName, sectionData]) => {
+                        stateTotal += safeNumericValue(sectionData, fieldName);
+                      }
+                    );
+                  }
+                );
+              }
+            );
 
             stateTotals[stateName][status] += stateTotal;
           }
@@ -154,21 +154,18 @@ export default function SlipTopFive({
 
         result[status] = arr;
       }
-      console.log("State view result:", result);
       return result;
     } else {
       const districtTotals: Record<string, Record<StatusKey, number>> = {};
 
       for (const day of allData) {
         if (!day?.date) {
-          console.log("Invalid or missing date in day:", day);
           continue;
         }
 
         const dayTime = new Date(day.date).getTime();
         if (dayTime < fromTime || dayTime > toTime) continue;
         if (!day.data?.state) {
-          console.log("No state data in day:", day);
           continue;
         }
 
@@ -181,33 +178,41 @@ export default function SlipTopFive({
             return;
           }
 
-          safeObjectEntries(stateData).forEach(([districtName, districtData]) => {
-            if (!districtName.trim()) return;
-            const districtKey = `${stateName.trim()} - ${districtName.trim()}`;
+          safeObjectEntries(stateData).forEach(
+            ([districtName, districtData]) => {
+              if (!districtName.trim()) return;
+              const districtKey = `${stateName.trim()} - ${districtName.trim()}`;
 
-            if (!districtTotals[districtKey]) {
-              districtTotals[districtKey] = {} as Record<StatusKey, number>;
-              for (const s of VALID_STATUSES)
-                districtTotals[districtKey][s] = 0;
-            }
-
-            for (const status of activeStatuses) {
-              const fieldName = STATUS_KEY_MAP[status.toLowerCase()];
-              if (!fieldName) {
-                console.log(`No fieldName for status: ${status}`);
-                continue;
+              if (!districtTotals[districtKey]) {
+                districtTotals[districtKey] = {} as Record<StatusKey, number>;
+                for (const s of VALID_STATUSES)
+                  districtTotals[districtKey][s] = 0;
               }
 
-              let districtTotal = 0;
-              safeObjectEntries(districtData).forEach(([actName, actData]) => {
-                safeObjectEntries(actData).forEach(([sectionName, sectionData]) => {
-                  districtTotal += safeNumericValue(sectionData, fieldName);
-                });
-              });
+              for (const status of activeStatuses) {
+                const fieldName = STATUS_KEY_MAP[status.toLowerCase()];
+                if (!fieldName) {
+                  continue;
+                }
 
-              districtTotals[districtKey][status] += districtTotal;
+                let districtTotal = 0;
+                safeObjectEntries(districtData).forEach(
+                  ([actName, actData]) => {
+                    safeObjectEntries(actData).forEach(
+                      ([sectionName, sectionData]) => {
+                        districtTotal += safeNumericValue(
+                          sectionData,
+                          fieldName
+                        );
+                      }
+                    );
+                  }
+                );
+
+                districtTotals[districtKey][status] += districtTotal;
+              }
             }
-          });
+          );
         });
       }
 
@@ -223,7 +228,6 @@ export default function SlipTopFive({
 
         result[status] = arr;
       }
-      console.log("District view result:", result);
       return result;
     }
   }, [

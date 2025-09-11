@@ -16,21 +16,15 @@ import { FilterState } from "@/components/filters/types/FilterTypes";
 import { DailyData } from "../types";
 
 const colorPalette = [
-  "#1875F0",
-  "#22B573",
-  "#F6C244",
-  "#EC4967",
-  "#B392F0",
-  "#FF9950",
-  "#26C6DA",
-  "#26A69A",
-  "#FFA726",
-  "#F4511E",
-  "#8D6E63",
-  "#789262",
-  "#FF61A6",
-  "#af52de",
-  "#f7b731",
+  "red",
+  "blue",
+  "green",
+  "#F70864",
+  "#F708F7",
+  "#F76808",
+  "#5C08F7",
+  "#08F79B",
+  "#AF08F7"
 ];
 const pieSliceColors = [...colorPalette];
 

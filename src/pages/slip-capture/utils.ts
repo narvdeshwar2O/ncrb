@@ -755,7 +755,5 @@ export function buildSlipTableDataByDistrict(
     }
     return a.district.localeCompare(b.district);
   });
-
-  console.log("District aggregation result:", result); // Debug log
   return result;
 }

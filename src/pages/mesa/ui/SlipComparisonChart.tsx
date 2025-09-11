@@ -175,8 +175,8 @@ export const SlipComparisonChart: React.FC<SlipComparisonChartProps> = ({
       const data = payload[0].payload;
 
       return (
-        <div className="bg-white p-3 border rounded shadow-lg">
-          <p className="font-semibold text-gray-900">
+        <div className="bg-card p-3 border rounded shadow-lg">
+          <p className="font-semibold">
             {comparisonType === "state"
               ? `State: ${label}`
               : `District: ${label}`}
@@ -192,7 +192,7 @@ export const SlipComparisonChart: React.FC<SlipComparisonChartProps> = ({
             ))}
           </div>
           <div className="mt-2 pt-2 border-t">
-            <p className="text-sm font-medium text-gray-800">
+            <p className="text-sm font-medium">
               Total:{" "}
               {payload
                 .reduce((sum: number, entry: any) => sum + entry.value, 0)
@@ -208,7 +208,7 @@ export const SlipComparisonChart: React.FC<SlipComparisonChartProps> = ({
   // Handle empty data
   if (!chartData || chartData.length === 0) {
     return (
-      <div className="w-full h-96 flex items-center justify-center border rounded-md bg-gray-50">
+      <div className="w-full h-96 flex items-center justify-center border rounded-md bg-card">
         <div className="text-center">
           <p className="text-gray-500 text-lg mb-2">No Data Available</p>
           <p className="text-gray-400 text-sm">
@@ -229,11 +229,11 @@ export const SlipComparisonChart: React.FC<SlipComparisonChartProps> = ({
       {/* Chart Header */}
       <div className="flex justify-between items-center">
         <div>
-          <h3 className="text-lg font-semibold text-gray-900">
+          {/* <h3 className="text-lg font-semibold text-gray-900">
             {comparisonType === "state"
               ? "State Comparison"
               : "District Comparison"}
-          </h3>
+          </h3> */}
           <p className="text-sm text-gray-600">
             {comparisonType === "state"
               ? `Comparing ${selectedStates.length} states across ${statuses.length} crime types`
@@ -254,7 +254,7 @@ export const SlipComparisonChart: React.FC<SlipComparisonChartProps> = ({
               bottom: 80,
             }}
           >
-            <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
+            <CartesianGrid strokeDasharray="1 1" stroke="#f0f0f0" />
             <XAxis
               dataKey="name"
               angle={-45}

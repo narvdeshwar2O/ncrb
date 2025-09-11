@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { NavLink, useLocation } from "react-router-dom";
+import Logo from "@/assets";
 import {
   BarChart3,
   FileText,
@@ -107,10 +108,12 @@ export function AppSidebar() {
 
   return (
     <Sidebar collapsible="icon" className="bg-background">
-      <SidebarHeader className="flex flex-row items-center justify-between h-12">
+      <SidebarHeader className="flex flex-row items-center justify-between h-12 border-b">
         {!isCollapsed && (
           <div className="flex items-center gap-2 px-4 transition-all duration-300">
-            <h2 className="hidden lg:block text-lg font-semibold">Dashboard</h2>
+            <h2 className="hidden lg:block text-lg font-semibold text-blue-600">
+              NAFIS Dashboard
+            </h2>
           </div>
         )}
         <ThemeToggle />
@@ -172,6 +175,17 @@ export function AppSidebar() {
           </Collapsible>
         </SidebarGroup>
       </SidebarContent>
+      <div
+        className={`mx-auto mb-6 transition-all duration-300 ${
+          isCollapsed ? "size-12" : "size-40"
+        }`}
+      >
+        <img
+          src={Logo}
+          className="h-full w-full object-contain transition-all duration-300"
+          alt="Logo"
+        />
+      </div>
     </Sidebar>
   );
 }

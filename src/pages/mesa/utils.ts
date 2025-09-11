@@ -654,7 +654,6 @@ export function buildSlipTableDataByState(
   return result;
 }
 
-
 export function buildSlipTableDataByDistrict(
   filteredData: SlipDailyData[],
   statuses: StatusKey[],
@@ -755,7 +754,5 @@ export function buildSlipTableDataByDistrict(
     }
     return a.district.localeCompare(b.district);
   });
-
-  console.log("District aggregation result:", result); // Debug log
   return result;
 }
