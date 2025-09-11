@@ -30,7 +30,7 @@ import { getLastNDaysRange } from "@/utils/getLastNdays";
 import { useLocation } from "react-router-dom";
 
 const dataPath = {
-  "/slipcapture": "slip_cp",
+  "/mesa": "mesa",
 };
 
 // Comparison type enum
@@ -41,7 +41,7 @@ const COMPARISON_TYPES = {
 
 type ComparisonType = (typeof COMPARISON_TYPES)[keyof typeof COMPARISON_TYPES];
 
-const SlipCapture: React.FC = () => {
+const Mesa: React.FC = () => {
   const [{ from, to }] = useState(getLastNDaysRange(7));
   const [allData, setAllData] = useState<SlipDailyData[]>([]);
   const [loading, setLoading] = useState(true);
@@ -120,6 +120,18 @@ const SlipCapture: React.FC = () => {
     }
   }, [allData, filters]);
 
+  // Get filtered records with error handling
+  const filteredRecords = useMemo(() => {
+    if (filteredData.length === 0) return [];
+
+    try {
+      const records = getFilteredRecords(allData, filters);
+      return records;
+    } catch (error) {
+      console.error("Error getting filtered records:", error);
+      return [];
+    }
+  }, [allData, filters, filteredData.length]);
 
   // Build table data with error handling - support both state and district views
   const tableRows = useMemo(() => {
@@ -454,4 +466,4 @@ const SlipCapture: React.FC = () => {
   );
 };
 
-export default SlipCapture;
+export default Mesa;

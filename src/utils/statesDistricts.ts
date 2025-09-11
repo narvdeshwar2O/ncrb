@@ -307,7 +307,7 @@ export const stateWithDistrict =
     "state crime branch",
     "yamuna nagar"
   ],
-  "jammu & kashmir": [
+  "jammu and kashmir": [
     "acb headquarters jammu",
     "acb headquarters kashmir",
     "anantnag",
@@ -342,7 +342,9 @@ export const stateWithDistrict =
     "shopian",
     "sp pc cyber srinagar",
     "srinagar",
-    "udhampur"
+    "udhampur",
+    "kargil",
+    "leh"
   ],
   "kerala": [
     "alappuzha",

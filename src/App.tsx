@@ -7,6 +7,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { ThemeProvider } from "./components/theme/ThemeProvider";
 import { SidebarLayout } from "./components/layouts/SidebarLayout";
 import NotFound from "./pages/NotFound";
+import Mesa from "./pages/mesa/Mesa";
 
 // Lazy-loaded pages
 const Agency = lazy(() => import("./pages/agency/Agency"));
@@ -22,7 +23,7 @@ const queryClient = new QueryClient();
 const routes = [
   { path: "/dashboard", element: <Agency /> },
   { path: "/slipcapture", element: <SlipCapture /> },
-  { path: "/mesa", element: <SlipCapture /> },
+  { path: "/mesa", element: <Mesa /> },
   { path: "/trace-report/tp-tp", element: <TP_TP /> },
   { path: "/trace-report/tp-cp", element: <TP_CP /> },
   { path: "/trace-report/cp-cp", element: <CP_CP /> },

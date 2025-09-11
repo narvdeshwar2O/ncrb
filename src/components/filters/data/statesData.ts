@@ -1,5 +1,5 @@
 export const states = [
-  // "andaman and nicobar islands",
+  "andaman & nicobar",
   "andhra pradesh",
   "arunachal pradesh",
   "assam",
@@ -12,7 +12,7 @@ export const states = [
   "gujarat",
   "haryana",
   "himachal pradesh",
-  "jammu kashmir & ladakh",
+  "jammu and kashmir",
   "jharkhand",
   "karnataka",
   "kerala",
@@ -34,4 +34,5 @@ export const states = [
   "uttar pradesh",
   "uttarakhand",
   "west bengal",
+  "ladakh"
 ];

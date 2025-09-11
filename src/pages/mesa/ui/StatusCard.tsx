@@ -6,7 +6,7 @@ interface StatusCardProps {
   value: number;
 }
 
-export const MesaCard: React.FC<StatusCardProps> = ({ title, value }) => (
+export const StatusCard: React.FC<StatusCardProps> = ({ title, value }) => (
   <Card className="border-l-4 border-blue-600 bg-card shadow-sm">
     <CardHeader className="py-2 px-3">
       <CardTitle className="text-sm font-medium">{title}</CardTitle>
