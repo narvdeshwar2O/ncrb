@@ -35,6 +35,7 @@ import {
   SearchCode,
   ShieldCheck,
   GavelIcon,
+  Globe,
 } from "lucide-react";
 
 import {
@@ -64,6 +65,7 @@ const mainNavItems = [
   { title: "Dashboard", url: "/dashboard", icon: LayoutDashboard },
   { title: "Slip Capture", url: "/slipcapture", icon: Fingerprint },
   { title: "Mesa", url: "/mesa", icon: Gavel },
+  { title: "Interpole", url: "/interpole", icon: Globe },
 ];
 const traceReport = [
   {

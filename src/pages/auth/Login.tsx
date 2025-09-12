@@ -74,7 +74,6 @@ const Login: React.FC = () => {
             <CardTitle className="text-2xl font-[400]">
               NAFIS BI-Tool Login
             </CardTitle>
-            
           </CardHeader>
 
           <CardContent className="space-y-4 w-full">
@@ -86,11 +85,8 @@ const Login: React.FC = () => {
 
             {/* Username Field */}
             <div className="space-y-2 w-full">
-              <Label
-                htmlFor="username"
-                className="text-sm font-medium "
-              >
-                NAFIS LDAP
+              <Label htmlFor="username" className="text-sm font-medium ">
+                Userid
               </Label>
               <div className="relative">
                 <User className="absolute left-3 top-3 h-4 w-4 z-10" />
@@ -109,10 +105,7 @@ const Login: React.FC = () => {
 
             {/* Password Field */}
             <div className="space-y-2 w-full">
-              <Label
-                htmlFor="password"
-                className="text-sm font-medium "
-              >
+              <Label htmlFor="password" className="text-sm font-medium ">
                 Password
               </Label>
               <div className="relative">

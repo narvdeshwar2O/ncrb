@@ -1,4 +1,11 @@
-import { Suspense, lazy, useState, useEffect, createContext, useContext } from "react";
+import {
+  Suspense,
+  lazy,
+  useState,
+  useEffect,
+  createContext,
+  useContext,
+} from "react";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -8,7 +15,7 @@ import { ThemeProvider } from "./components/theme/ThemeProvider";
 import { SidebarLayout } from "./components/layouts/SidebarLayout";
 import NotFound from "./pages/NotFound";
 import Mesa from "./pages/mesa/Mesa";
-import Login from "@/pages/auth/Login"; // ✅ Login page
+import Login from "@/pages/auth/Login";
 
 // Lazy-loaded pages
 const Agency = lazy(() => import("./pages/agency/Agency"));
@@ -18,6 +25,7 @@ const TP_CP = lazy(() => import("./pages/trace-report/tp-cp/TP_CP"));
 const CP_CP = lazy(() => import("./pages/trace-report/cp-cp/CP_CP"));
 const CP_TP = lazy(() => import("./pages/trace-report/cp-tp/CP_TP"));
 const PP_PP = lazy(() => import("./pages/trace-report/pp-pp/PP_PP"));
+const Interpole = lazy(() => import("./pages/Interpole/Interpole"));
 
 const queryClient = new QueryClient();
 
@@ -63,9 +71,7 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     return false;
   };
 
-  const logout = () => {
-
-  };
+  const logout = () => {};
 
   if (isLoading) {
     return (
@@ -99,6 +105,7 @@ const routes = [
   { path: "/dashboard", element: <Agency /> },
   { path: "/slipcapture", element: <SlipCapture /> },
   { path: "/mesa", element: <Mesa /> },
+  { path: "/interpole", element: <Interpole /> },
   { path: "/trace-report/tp-tp", element: <TP_TP /> },
   { path: "/trace-report/tp-cp", element: <TP_CP /> },
   { path: "/trace-report/cp-cp", element: <CP_CP /> },
@@ -125,7 +132,10 @@ const App = () => (
             >
               <Routes>
                 <Route path="/login" element={<Login />} />
-                <Route path="/" element={<Navigate to="/dashboard" replace />} />
+                <Route
+                  path="/"
+                  element={<Navigate to="/dashboard" replace />}
+                />
                 {routes.map((route) => (
                   <Route
                     key={route.path}
