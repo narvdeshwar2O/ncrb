@@ -9,7 +9,7 @@ export interface DailyData {
 export const categoryLabelMap: Record<string, string> = {
   tp: "Ten Print (Slip Capture)",
   cp: "Chance Print (Slip Capture)",
-  mesa: "New Enrollment (MESA)",
+  mesa: "Live Enrollment (MESA)",
 };
 
 export interface Totals {

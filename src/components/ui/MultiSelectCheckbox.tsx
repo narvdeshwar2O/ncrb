@@ -35,6 +35,20 @@ const MultiSelectCheckbox = ({
   const containerRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
+  // Default label transformation function
+  const getDisplayLabel = (value: string): React.ReactNode => {
+    if (getOptionLabel) {
+      return getOptionLabel(value);
+    }
+    
+    // Custom transformation: "enrol" -> "enrollment"
+    if (value.toLowerCase() === "enrol") {
+      return "enrollment";
+    }
+    
+    return value;
+  };
+
   const safeSetOpen = (v: boolean) => {
     if (disabled) return;
     setOpen(v);
@@ -72,21 +86,23 @@ const MultiSelectCheckbox = ({
     ? `${selected.length} Selected`
     : placeholder;
 
-  // Filter options based on search term
+  // Filter options based on search term (search both original value and display label)
   const filteredOptions = useMemo(() => {
-    return options.filter((opt) =>
-      opt.toLowerCase().includes(search.toLowerCase())
-    );
+    return options.filter((opt) => {
+      const displayLabel = getDisplayLabel(opt);
+      const displayText = typeof displayLabel === 'string' ? displayLabel : opt;
+      
+      return opt.toLowerCase().includes(search.toLowerCase()) ||
+             displayText.toLowerCase().includes(search.toLowerCase());
+    });
   }, [options, search]);
 
-  // 🔥 Always scroll to keep search input visible
   useEffect(() => {
     if (containerRef.current) {
       containerRef.current.scrollLeft = containerRef.current.scrollWidth;
     }
   }, [selected, search]);
 
-  // 🔥 Auto-focus search when Popover opens
   useEffect(() => {
     if (open && inputRef.current) {
       inputRef.current.focus();
@@ -119,7 +135,7 @@ const MultiSelectCheckbox = ({
                   key={sel}
                   className="flex items-center gap-1 bg-muted px-2 py-0.5 rounded-full text-xs whitespace-nowrap"
                 >
-                  {getOptionLabel ? getOptionLabel(sel) : sel}
+                  {getDisplayLabel(sel)}
                   <X
                     className="h-3 w-3 cursor-pointer"
                     onClick={() => handleRemoveChip(sel)}
@@ -159,7 +175,7 @@ const MultiSelectCheckbox = ({
                       onCheckedChange={() => toggleOption(option)}
                     />
                     <label htmlFor={option} className="text-sm">
-                      {getOptionLabel ? getOptionLabel(option) : option}
+                      {getDisplayLabel(option)}
                     </label>
                   </div>
                 ))

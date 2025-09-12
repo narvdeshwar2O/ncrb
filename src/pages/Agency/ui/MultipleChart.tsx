@@ -22,9 +22,9 @@ const colorPalette = [
   "#F70864",
   "#F708F7",
   "#F76808",
-  "#5C08F7",
-  "#08F79B",
-  "#AF08F7"
+  "#800080",
+  "#008080",
+  "#B45309"
 ];
 const pieSliceColors = [...colorPalette];
 

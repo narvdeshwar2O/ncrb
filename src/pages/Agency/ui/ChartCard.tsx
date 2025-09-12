@@ -1,34 +1,31 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import {
-  ChartContainer,
-  ChartTooltip,
-} from "@/components/ui/chart";
-import {
-  BarChart,
-  Bar,
-  CartesianGrid,
-  XAxis,
-  YAxis,
-  LabelList,
-} from "recharts";
+import { ChartContainer, ChartTooltip } from "@/components/ui/chart";
+import { BarChart, Bar, CartesianGrid, XAxis, YAxis, LabelList } from "recharts";
 
 interface ChartCardProps {
   title: string;
   data: { state: string; value: number }[];
 }
 
-function ChartCard({ title, data }: ChartCardProps) {
-  // ✅ Remove items where value is 0
-  const filteredData = data.filter((item) => item.value > 0);
-  
+// Helper: Capitalize first letter of each word
+const capitalizeWords = (text: string) =>
+  text
+    .replace(/enrol/gi, "Enrollment") // replace 'enrol' with 'Enrollment'
+    .split(" ")
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+    .join(" ");
 
-  // ✅ Show message if all data values are zero or empty
+function ChartCard({ title, data }: ChartCardProps) {
+  const fixedTitle = capitalizeWords(title);
+
+  const filteredData = data.filter((item) => item.value > 0);
+
   if (filteredData.length === 0) {
     return (
       <Card>
         <CardHeader>
           <CardTitle className="text-center text-sm font-semibold">
-            Top 5 states : {title}
+            Top 5 states : {fixedTitle}
           </CardTitle>
         </CardHeader>
         <CardContent>
@@ -51,17 +48,13 @@ function ChartCard({ title, data }: ChartCardProps) {
     const maxTextWidth = width - padding * 2;
 
     const text = String(value);
-    const capitalizedText =
-      text.charAt(0).toUpperCase() + text.slice(1).toLowerCase();
+    const capitalizedText = text.charAt(0).toUpperCase() + text.slice(1).toLowerCase();
     let truncated = capitalizedText;
 
     const ctx = document.createElement("canvas").getContext("2d");
     if (ctx) {
       ctx.font = "12px sans-serif";
-      while (
-        ctx.measureText(truncated).width > maxTextWidth &&
-        truncated.length > 0
-      ) {
+      while (ctx.measureText(truncated).width > maxTextWidth && truncated.length > 0) {
         truncated = truncated.slice(0, -1);
       }
       if (truncated !== capitalizedText) truncated += "...";
@@ -98,13 +91,11 @@ function ChartCard({ title, data }: ChartCardProps) {
     <Card>
       <CardHeader>
         <CardTitle className="text-center text-sm font-semibold">
-          {title}
+          {fixedTitle}
         </CardTitle>
       </CardHeader>
       <CardContent>
-        <ChartContainer
-          config={{ value: { label: title, color: "var(--chart-2)" } }}
-        >
+        <ChartContainer config={{ value: { label: fixedTitle, color: "var(--chart-2)" } }}>
           <BarChart
             data={rankedData}
             layout="vertical"
@@ -120,24 +111,9 @@ function ChartCard({ title, data }: ChartCardProps) {
             />
             <XAxis dataKey="value" type="number" hide />
             <ChartTooltip cursor={false} content={<CustomTooltip />} />
-            <Bar
-              dataKey="value"
-              fill="#2563eb"
-              radius={[0, 8, 8, 0]}
-              barSize={30}
-            >
-              <LabelList
-                dataKey="state"
-                position="insideLeft"
-                content={<EllipsisLabel />}
-              />
-              <LabelList
-                dataKey="value"
-                position="right"
-                offset={5}
-                className="fill-foreground"
-                fontSize={10}
-              />
+            <Bar dataKey="value" fill="#2563eb" radius={[0, 8, 8, 0]} barSize={30}>
+              <LabelList dataKey="state" position="insideLeft" content={<EllipsisLabel />} />
+              <LabelList dataKey="value" position="right" offset={5} className="fill-foreground" fontSize={10} />
             </Bar>
           </BarChart>
         </ChartContainer>

@@ -271,7 +271,7 @@ const CategorySection = ({
         {allMetricData.map(({ metric, chartData }) => (
           <ChartCard
             key={metric}
-            title={`${metric.toUpperCase()} (${
+            title={`${metric} (${
               categoryLabelMap[category] || category.toUpperCase()
             })`}
             data={chartData}

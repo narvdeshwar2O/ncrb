@@ -315,7 +315,7 @@ export const SlipFiltersBar: React.FC<SlipFiltersBarProps> = ({
         </CardTitle>
       </CardHeader>
       <CardContent>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-7 gap-3">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-8 gap-3">
           {/* Date Range - FIXED */}
           <div className="space-y-2">
             <label className="text-sm font-medium">Date Range</label>

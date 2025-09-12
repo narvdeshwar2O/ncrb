@@ -89,3 +89,8 @@ export interface SlipTableRow {
   total?: number;
   [key: string]: number | string | undefined;
 }
+
+export interface Gender{
+  male:string,
+  female:string,
+}
