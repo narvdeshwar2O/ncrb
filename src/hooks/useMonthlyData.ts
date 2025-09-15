@@ -12,8 +12,8 @@ type DataType =
   | "cp_cp"
   | "cp_tp"
   | "pp_pp"
-  |"agency"
-  |"agency_consoldated";
+  | "agency"
+  | "agency_consoldated";
 
 type UseMonthlyDataReturn = {
   data: DailyData[];

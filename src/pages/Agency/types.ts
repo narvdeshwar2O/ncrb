@@ -1,5 +1,4 @@
-export interface DailyData {
-  date: string;
+export interface DailyData extends DailyDataTypes {
   data: Record<
     string,
     Record<string, { hit: number; nohit: number; total: number; enrol: number }>
@@ -26,7 +25,6 @@ export interface DistrictStats {
   enrol: number;
   total?: number;
 }
-
 
 export interface StateStats {
   state: string;

@@ -15,13 +15,10 @@ export default function computeCombinedTotal(
 
   const selectedStates = filters.state ?? [];
   const selectedDistricts = filters.districts ?? [];
-  
 
   if (selectedStates.length === 0) return total;
 
   data.forEach((entry, entryIndex) => {
-    
-
     selectedStates.forEach((state) => {
       const districts = entry.data[state];
       if (!districts) {
@@ -34,8 +31,6 @@ export default function computeCombinedTotal(
           selectedDistricts.some(
             (d) => d.toLowerCase() === districtName.toLowerCase()
           );
-
-        
 
         if (!includeDistrict) {
           return;
