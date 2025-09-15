@@ -26,7 +26,6 @@ import { SlipDailyData, StatusKey } from "../types";
 import { Button } from "@/components/ui/button";
 import * as exportService from "@/utils/exportService";
 
-// Chart configuration
 const chartConfig: ChartConfig = {
   Arrested: { label: "Arrested", color: "#3B82F6" },
   Convicted: { label: "Convicted", color: "#22C55E" },
