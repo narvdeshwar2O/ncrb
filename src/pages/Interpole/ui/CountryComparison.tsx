@@ -7,6 +7,7 @@ import {
   CartesianGrid,
   Tooltip,
   ResponsiveContainer,
+  Cell,
 } from "recharts";
 
 interface CountryComparisonProps {
@@ -31,7 +32,6 @@ export const CountryComparison: React.FC<CountryComparisonProps> = ({
   rows,
   selectedCountries,
 }) => {
-  // Aggregate by country (ignore agencies)
   const chartData = useMemo(() => {
     if (!rows || rows.length === 0) return [];
 
@@ -39,11 +39,13 @@ export const CountryComparison: React.FC<CountryComparisonProps> = ({
 
     rows.forEach((entry) => {
       entry.data.forEach(({ country, count }) => {
+        // Include all if no filter, otherwise filter by selectedCountries
         if (
           selectedCountries.length > 0 &&
           !selectedCountries.includes(country)
-        )
+        ) {
           return;
+        }
         totals[country] = (totals[country] || 0) + count;
       });
     });
@@ -69,16 +71,27 @@ export const CountryComparison: React.FC<CountryComparisonProps> = ({
           data={chartData}
           margin={{ top: 20, right: 30, left: 20, bottom: 40 }}
         >
-          <CartesianGrid strokeDasharray="3 3" />
+          <CartesianGrid opacity={0.5} />
           <XAxis dataKey="country" tick={{ fontSize: 12 }} />
           <YAxis tick={{ fontSize: 12 }} />
-          <Tooltip />
-          <Bar
-            dataKey="total"
-            fill={colors[0]}
-            radius={[6, 6, 0, 0]}
-            name="Total Count"
+          <Tooltip
+            cursor={{ fill: "rgba(0,0,0,0.05)" }}
+            contentStyle={{
+              backgroundColor: "white",
+              border: "1px solid #e5e7eb",
+              borderRadius: "6px",
+              color: "black",
+            }}
+            labelStyle={{ color: "black" }}
           />
+          <Bar dataKey="total" radius={[6, 6, 0, 0]} name="Total Count">
+            {chartData.map((_, index) => (
+              <Cell
+                key={`cell-${index}`}
+                fill={colors[index % colors.length]}
+              />
+            ))}
+          </Bar>
         </BarChart>
       </ResponsiveContainer>
     </div>

@@ -10,7 +10,7 @@ import {
 
 interface CountryTotal {
   country: string;
-  agency?: string;
+  agency: string;
   total: number;
 }
 
@@ -26,6 +26,7 @@ const InterpoleTable: React.FC<InterpoleTableProps> = ({ countryTotals }) => {
         <TableHeader>
           <TableRow>
             <TableHead className="border-r text-center">Country</TableHead>
+            <TableHead className="border-r text-center">Agency</TableHead>
             <TableHead className="text-center">Count</TableHead>
           </TableRow>
         </TableHeader>
@@ -35,6 +36,9 @@ const InterpoleTable: React.FC<InterpoleTableProps> = ({ countryTotals }) => {
               <TableRow key={row.country} className="text-center">
                 <TableCell className="font-medium border-r">
                   {row.country}
+                </TableCell>
+                <TableCell className="font-medium border-r">
+                  {row.agency}
                 </TableCell>
                 <TableCell>
                   {row.total !== undefined ? row.total.toLocaleString() : "0"}

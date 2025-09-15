@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState, useRef } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { loadAllMonthlyDataReal } from "@/utils/loadAllMonthlyDataRealData";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -13,14 +13,13 @@ import TopBottomCountries from "./ui/TopBottomCountries";
 const Interpole: React.FC = () => {
   const [{ from, to }] = useState(getLastNDaysRange(7));
   const [allData, setAllData] = useState<InterpoleDailyData[]>([]);
+  const [showTable, setShowTable] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [filters, setFilters] = useState<InterpoleFilters>({
     dateRange: { from, to },
     countries: [],
   });
-
-  const tableRef = useRef<HTMLDivElement>(null);
 
   // Load data
   useEffect(() => {
@@ -73,23 +72,30 @@ const Interpole: React.FC = () => {
       .filter((entry) => entry.data.length > 0);
   }, [allData, filters]);
 
-  // Country-wise totals
-  const countryTotals = useMemo(() => {
-    const totals: Record<string, number> = {};
+  // Country + Agency totals
+  const countryAgencyTotals = useMemo(() => {
+    const totals: Record<string, Record<string, number>> = {};
+
     filteredData.forEach((day) => {
       day.data.forEach((d) => {
-        totals[d.country] = (totals[d.country] || 0) + (d.count || 0);
+        if (!totals[d.country]) totals[d.country] = {};
+        totals[d.country][d.agency] =
+          (totals[d.country][d.agency] || 0) + (d.count || 0);
       });
     });
-    return Object.entries(totals).map(([country, total]) => ({
-      country,
-      total: total ?? 0,
-    }));
+
+    return Object.entries(totals).flatMap(([country, agencies]) =>
+      Object.entries(agencies).map(([agency, total]) => ({
+        country,
+        agency,
+        total,
+      }))
+    );
   }, [filteredData]);
 
   const totalCount = useMemo(
-    () => countryTotals.reduce((sum, c) => sum + c.total, 0),
-    [countryTotals]
+    () => countryAgencyTotals.reduce((sum, c) => sum + c.total, 0),
+    [countryAgencyTotals]
   );
 
   // Loading state
@@ -137,7 +143,7 @@ const Interpole: React.FC = () => {
           <>
             {/* Summary */}
             <Card className="border-l-4 border-r-4 border-blue-600 bg-card shadow-sm">
-              <CardContent className="py-3">
+              <CardContent className="py-3 flex justify-between items-center">
                 <div>
                   <strong>Countries ({filters.countries.length}):</strong>{" "}
                   {filters.countries.length <= 3
@@ -145,22 +151,38 @@ const Interpole: React.FC = () => {
                     : `${filters.countries.slice(0, 3).join(", ")} +${
                         filters.countries.length - 3
                       } more`}
+                  <p className="text-sm mt-1">
+                    <strong>Total count :</strong>{" "}
+                    {totalCount.toLocaleString()}
+                  </p>
                 </div>
-                <p className="text-sm">
-                  <strong>Total count :</strong> {totalCount.toLocaleString()}
-                </p>
+
+                {/* 👇 Toggle Button */}
+                <Button
+                  variant="outline"
+                  onClick={() => setShowTable((prev) => !prev)}
+                  className="bg-blue-600 hover:bg-blue-700 text-white hover:text-white"
+                >
+                  {showTable ? "Hide Table" : "Show Table"}
+                </Button>
               </CardContent>
             </Card>
-            <InterpoleTable countryTotals={countryTotals} />
-            <CountryComparison
-              rows={filteredData}
-              selectedCountries={filters.countries}
-            />
-            <TopBottomCountries
-              allData={filteredData}
-              from={filters.dateRange.from!}
-              to={filters.dateRange.to!}
-            />
+
+            {showTable ? (
+              <InterpoleTable countryTotals={countryAgencyTotals} />
+            ) : (
+              <>
+                <CountryComparison
+                  rows={filteredData}
+                  selectedCountries={filters.countries}
+                />
+                <TopBottomCountries
+                  allData={filteredData}
+                  from={filters.dateRange.from!}
+                  to={filters.dateRange.to!}
+                />
+              </>
+            )}
           </>
         )}
       </div>
