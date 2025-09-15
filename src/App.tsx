@@ -17,7 +17,6 @@ import NotFound from "./pages/NotFound";
 import Mesa from "./pages/mesa/Mesa";
 import Login from "@/pages/auth/Login";
 
-// Lazy-loaded pages
 const Agency = lazy(() => import("./pages/agency/Agency"));
 const SlipCapture = lazy(() => import("./pages/slip-capture/SlipCapture"));
 const TP_TP = lazy(() => import("./pages/trace-report/tp-tp/TP_TP"));
@@ -29,7 +28,6 @@ const Interpole = lazy(() => import("./pages/Interpole/Interpole"));
 
 const queryClient = new QueryClient();
 
-// 🔹 Auth Context
 interface AuthContextType {
   isAuthenticated: boolean;
   user: { email: string } | null;
@@ -94,13 +92,11 @@ export const useAuth = () => {
   return context;
 };
 
-// 🔹 Protected Route
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   const { isAuthenticated } = useAuth();
   return isAuthenticated ? <>{children}</> : <Navigate to="/login" replace />;
 };
 
-// Routes config
 const routes = [
   { path: "/dashboard", element: <Agency /> },
   { path: "/slipcapture", element: <SlipCapture /> },
@@ -113,7 +109,6 @@ const routes = [
   { path: "/trace-report/pp-pp", element: <PP_PP /> },
 ];
 
-// 🔹 App Component
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <ThemeProvider>

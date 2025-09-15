@@ -26,6 +26,7 @@ const navTitle: Record<string, string> = {
   "/dashboard": "Agency Wise Dashboard",
   "/slipcapture": "Slip Capture Dashboard",
   "/mesa": "Mesa Dashboard",
+  "/interpole": "Interpole",
   "/trace-report/tp-tp": "Ten Print - Ten Print",
   "/trace-report/tp-cp": "Ten Print - Chance Print",
   "/trace-report/cp-cp": "Chance Print - Chance Print",
@@ -59,10 +60,7 @@ export function SidebarLayout({ children }: SidebarLayoutProps) {
               {/* User dropdown */}
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Button
-                    variant="ghost"
-                    className="flex items-center gap-2"
-                  >
+                  <Button variant="ghost" className="flex items-center gap-2">
                     <User className="size-5 text-slate-600" />
                     <span className="text-sm font-medium">{"Admin"}</span>
                   </Button>

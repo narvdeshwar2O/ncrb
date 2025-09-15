@@ -26,6 +26,7 @@ interface SlipFiltersBarProps {
   onInitialLoad?: () => void;
 }
 
+const SEX_OPTIONS = ["Male", "Female", "Others"];
 export const SlipFiltersBar: React.FC<SlipFiltersBarProps> = ({
   value,
   onChange,
@@ -44,6 +45,7 @@ export const SlipFiltersBar: React.FC<SlipFiltersBarProps> = ({
   const selectedStatuses = value.statuses ?? [];
   const selectedActs = value.acts ?? [];
   const selectedSections = value.sections ?? [];
+  const selectedGenders = value.sex ?? [];
 
   const STATUS_OPTIONS = STATUS_KEYS.filter((key) => key !== "Total");
 
@@ -315,7 +317,7 @@ export const SlipFiltersBar: React.FC<SlipFiltersBarProps> = ({
         </CardTitle>
       </CardHeader>
       <CardContent>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-7 gap-3">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-8 gap-3">
           {/* Date Range - FIXED */}
           <div className="space-y-2">
             <label className="text-sm font-medium">Date Range</label>
@@ -450,6 +452,13 @@ export const SlipFiltersBar: React.FC<SlipFiltersBarProps> = ({
             onChange={handleStatusChange}
             disabled={false}
             disabledText="Crime types are always available"
+          />
+
+          <MultiSelectCheckbox
+            label={`Gender`}
+            options={SEX_OPTIONS}
+            selected={selectedGenders}
+            onChange={(newGenders) => updateFilters({ sex: newGenders })}
           />
 
           {/* Reset and Select All buttons */}

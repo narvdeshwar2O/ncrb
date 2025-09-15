@@ -79,6 +79,7 @@ export interface SlipFilters {
   acts: string[];
   sections: string[];
   statuses: StatusKey[];
+  sex?:string[]
 }
 
 export interface SlipTableRow {
