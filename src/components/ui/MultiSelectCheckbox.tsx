@@ -41,9 +41,8 @@ const MultiSelectCheckbox = ({
       return getOptionLabel(value);
     }
     
-    // Custom transformation: "enrol" -> "enrollment"
     if (value.toLowerCase() === "enrol") {
-      return "enrollment";
+      return "enroll";
     }
     
     return value;
