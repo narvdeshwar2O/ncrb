@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState, useCallback } from "react";
 import { loadAllMonthlyDataReal } from "@/utils/loadAllMonthlyDataRealData";
-import { SlipDailyData, SlipFilters, STATUS_KEYS, StatusKey } from "./types";
+import { SlipDailyData, SlipFilters, STATUS_KEYS, StatusKey } from "../slip-capture/types";
 import {
   extractStates,
   filterSlipData,
@@ -8,7 +8,7 @@ import {
   buildSlipTableDataByState,
   buildSlipTableDataByDistrict,
   getFilteredRecords,
-} from "./utils";
+} from "../slip-capture/utils";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -19,15 +19,16 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { StatusCard } from "./ui/StatusCard";
-import { SlipTable } from "./ui/SlipTable";
-import { SlipComparisonChart } from "./ui/SlipComparisonChart";
-import SlipTopFive from "./ui/SlipTopFive";
-import { SlipFiltersBar } from "./filters/SlipFiltersBar";
-import SlipCaptureChart from "./ui/SlipCaptureChart";
-import { SlipCaptureTrendChart } from "./ui/SlipCaptureTrendChart";
+import { StatusCard } from "../slip-capture/ui/StatusCard";
+import { SlipTable } from "../slip-capture/ui/SlipTable";
+import { SlipComparisonChart } from "../slip-capture/ui/SlipComparisonChart";
+import SlipTopFive from "../slip-capture/ui/SlipTopFive";
+import { SlipFiltersBar } from "../slip-capture/filters/SlipFiltersBar";
+import SlipCaptureChart from "../slip-capture/ui/SlipCaptureChart";
+import { SlipCaptureTrendChart } from "../slip-capture/ui/SlipCaptureTrendChart";
 import { getLastNDaysRange } from "@/utils/getLastNdays";
 import { useLocation } from "react-router-dom";
+import { GenderBasedChart } from "../slip-capture/ui/GenderBasedChart";
 
 const dataPath = {
   "/mesa": "mesa",
@@ -53,6 +54,7 @@ const Mesa: React.FC = () => {
     acts: [],
     sections: [],
     statuses: [],
+    genders: [],
   });
   const [allStates, setAllStates] = useState<string[]>([]);
   const [showTable, setShowTable] = useState(false);
@@ -84,7 +86,7 @@ const Mesa: React.FC = () => {
 
       try {
         const loaded = await loadAllMonthlyDataReal({ type: dataPath[path] });
-
+        // console.log("loaded data", loaded);
         if (!loaded || !Array.isArray(loaded)) {
           throw new Error("Invalid data format received");
         }
@@ -120,19 +122,6 @@ const Mesa: React.FC = () => {
     }
   }, [allData, filters]);
 
-  // Get filtered records with error handling
-  const filteredRecords = useMemo(() => {
-    if (filteredData.length === 0) return [];
-
-    try {
-      const records = getFilteredRecords(allData, filters);
-      return records;
-    } catch (error) {
-      console.error("Error getting filtered records:", error);
-      return [];
-    }
-  }, [allData, filters, filteredData.length]);
-
   // Build table data with error handling - support both state and district views
   const tableRows = useMemo(() => {
     if (filteredData.length === 0) return [];
@@ -154,7 +143,7 @@ const Mesa: React.FC = () => {
         return rows;
       }
     } catch (error) {
-      console.error("Error building table data:", error);
+      // console.error("Error building table data:", error);
       return [];
     }
   }, [filteredData, visibleStatuses, filters.states, comparisonType]);
@@ -180,6 +169,7 @@ const Mesa: React.FC = () => {
       return {} as Record<StatusKey, number>;
     }
   }, [filteredData, visibleStatuses, filters.states]);
+  // console.log("filtered", filteredData);
 
   // Validation logic for comparison charts
   const getComparisonValidation = useCallback(() => {
@@ -444,6 +434,12 @@ const Mesa: React.FC = () => {
                     )}
                   </div>
                 )}
+                <GenderBasedChart
+                  filteredData={filteredData}
+                  selectedState={filters.states}
+                  selectedStatuses={visibleStatuses}
+                  title="Crime Cases by Gender"
+                />
 
                 {/* Top 5 */}
                 {visibleStatuses.length > 0 &&
