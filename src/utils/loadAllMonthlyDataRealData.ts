@@ -61,11 +61,11 @@ export async function loadAllMonthlyDataReal({
 
   const { basePath, filePrefix } = config;
 
-  // ✅ Handle consolidated data separately
   if (type === "agency_consoldated") {
     const filePath = `${basePath}/${filePrefix}`;
     try {
       const res = await fetch(filePath);
+      console.log("res", res);
       if (!res.ok) throw new Error("File not found");
 
       const json = await res.json();

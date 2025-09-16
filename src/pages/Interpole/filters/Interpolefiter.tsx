@@ -33,19 +33,28 @@ interface Props {
 const InterpoleFilter: React.FC<Props> = ({ value, onChange }) => {
   const [countryOptions, setCountryOptions] = useState<string[]>([]);
   const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
+  const [hasInitialized, setHasInitialized] = useState(false);
 
   useEffect(() => {
     const loadCountries = async () => {
       try {
         const countries = await fetchCountriesName();
-        setCountryOptions(countries.map((c) => c.name.toUpperCase())); // match JSON
+        const countryNames = countries.map((c) => c.name.toUpperCase());
+        setCountryOptions(countryNames);
+        if (!hasInitialized && value.countries.length === 0) {
+          onChange({
+            ...value,
+            countries: countryNames, // Select all countries
+          });
+          setHasInitialized(true);
+        }
       } catch (err) {
         console.error("Failed to load countries:", err);
       }
     };
 
     loadCountries();
-  }, []);
+  }, [value, onChange, hasInitialized]);
 
   const handleDateSelect = (
     range: { from: Date | undefined; to: Date | undefined } | undefined
@@ -67,7 +76,7 @@ const InterpoleFilter: React.FC<Props> = ({ value, onChange }) => {
   const handleReset = () => {
     onChange({
       dateRange: getLastNDaysRange(7),
-      countries: [],
+      countries: countryOptions, // Reset to all countries selected (or change to [] for none)
     });
   };
 
@@ -157,13 +166,13 @@ const InterpoleFilter: React.FC<Props> = ({ value, onChange }) => {
       {/* Reset Button */}
       <div className="flex items-end">
         <Button
-        variant="outline"
-        className="ml-auto w-full gap-2"
-        onClick={handleReset}
-      >
-        <Filter className="h-4 w-4" />
-        Reset
-      </Button>
+          variant="outline"
+          className="ml-auto w-full gap-2"
+          onClick={handleReset}
+        >
+          <Filter className="h-4 w-4" />
+          Reset
+        </Button>
       </div>
     </div>
   );

@@ -1,5 +1,4 @@
-export interface InterpoleDailyData {
-  date: string;
+export interface InterpoleDailyData extends DailyDataTypes {
   data: { country: string; agency: string; count: number }[];
 }
 

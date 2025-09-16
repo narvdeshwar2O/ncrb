@@ -1,19 +1,22 @@
 
+// Updated types.ts
 export interface SlipNestedData {
   [state: string]: {
     [district: string]: {
       [act: string]: {
-        [section: string]: {
-          arrest_act: string;
-          arrest_section: string;
-          arresty_received_tp: number;
-          convicted_received_tp: number;
-          externee_received_tp: number;
-          deportee_received_tp: number;
-          uifp_received_tp: number;
-          suspect_received_tp: number;
-          udb_received_tp: number;
-          absconder_received_tp: number;
+        [gender: string]: { // Added gender level
+          [section: string]: {
+            arrest_act: string;
+            arrest_section: string;
+            arresty_received_tp: number;
+            convicted_received_tp: number;
+            externee_received_tp: number;
+            deportee_received_tp: number;
+            uifp_received_tp: number;
+            suspect_received_tp: number;
+            udb_received_tp: number;
+            absconder_received_tp: number;
+          };
         };
       };
     };
@@ -22,7 +25,9 @@ export interface SlipNestedData {
 
 export interface SlipDailyData {
   date: string;
-  data: SlipNestedData;
+  data: {
+    state: SlipNestedData;
+  };
 }
 
 export interface SlipRecord {
@@ -30,6 +35,7 @@ export interface SlipRecord {
   state: string;
   district: string;
   act: string;
+  gender: string;
   section: string;
   Arrested: number;
   Convicted: number;
@@ -44,7 +50,7 @@ export interface SlipRecord {
 
 export const STATUS_KEYS = [
   "Arrested",
-  "Convicted", 
+  "Convicted",
   "Externee",
   "Deportee",
   "UIFP",
@@ -63,9 +69,8 @@ export const STATUS_KEY_MAP: Record<string, string> = {
   suspect: "suspect_received_tp",
   udb: "deadbody_received_tp",
   absconder: "absconder_received_tp",
-  total: "total_received_tp"  
+  total: "total_received_tp"
 };
-
 
 export type StatusKey = (typeof STATUS_KEYS)[number];
 
@@ -79,13 +84,14 @@ export interface SlipFilters {
   acts: string[];
   sections: string[];
   statuses: StatusKey[];
-  sex?:string[]
+  genders: string[];
 }
 
 export interface SlipTableRow {
   state: string;
   district?: string;
   act?: string;
+  gender?: string;
   section?: string;
   total?: number;
   [key: string]: number | string | undefined;

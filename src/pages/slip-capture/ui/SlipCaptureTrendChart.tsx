@@ -36,7 +36,7 @@ const chartConfig: ChartConfig = {
 interface SlipCaptureTrendChartProps {
   filteredData: SlipDailyData[];
   selectedState: string;
-  dateRange?: { from?: Date; to?: Date }; // Make from and to optional
+  dateRange?: { from?: Date; to?: Date };
 }
 
 export function SlipCaptureTrendChart({
@@ -44,6 +44,7 @@ export function SlipCaptureTrendChart({
   selectedState,
   dateRange,
 }: SlipCaptureTrendChartProps) {
+  console.log("flds", filteredData);
   const [activeLines, setActiveLines] = useState<StatusKey[]>([
     "Arrested",
     "Convicted",
@@ -57,37 +58,30 @@ export function SlipCaptureTrendChart({
     );
   };
 
-  // Dynamic field detection - find the actual field names in your data
-  const detectFields = (sampleData: any) => {
-    const fields = {
-      arrested: null as string | null,
-      convicted: null as string | null,
-      suspect: null as string | null,
+  // Helper function to aggregate array metrics
+  const aggregateArrayMetrics = (sectionData: any) => {
+    const aggregated = {
+      arresty_received_tp: 0,
+      convicted_received_tp: 0,
+      suspect_received_tp: 0,
     };
 
-    // Look for fields that contain these keywords (case insensitive)
-    const fieldKeys = Object.keys(sampleData || {});
+    const dataArray = Array.isArray(sectionData) ? sectionData : [sectionData];
 
-    fields.arrested =
-      fieldKeys.find(
-        (key) =>
-          key.toLowerCase().includes("arrest") ||
-          key.toLowerCase().includes("arresty")
-      ) || null;
+    dataArray.forEach((item: any) => {
+      if (!item || typeof item !== "object") return;
 
-    fields.convicted =
-      fieldKeys.find((key) => key.toLowerCase().includes("convict")) || null;
+      aggregated.arresty_received_tp += item.arresty_received_tp || 0;
+      aggregated.convicted_received_tp += item.convicted_received_tp || 0;
+      aggregated.suspect_received_tp += item.suspect_received_tp || 0;
+    });
 
-    fields.suspect =
-      fieldKeys.find((key) => key.toLowerCase().includes("suspect")) || null;
-
-    return fields;
+    return aggregated;
   };
 
-  // Generate complete date range (fixed for timezone issues)
+  // Generate complete date range
   const generateDateRange = (from: Date, to: Date): string[] => {
     const dates: string[] = [];
-    // Create new dates to avoid modifying originals
     const current = new Date(
       from.getFullYear(),
       from.getMonth(),
@@ -96,21 +90,19 @@ export function SlipCaptureTrendChart({
     const end = new Date(to.getFullYear(), to.getMonth(), to.getDate());
 
     while (current <= end) {
-      // Use local date parts to avoid timezone issues
       const year = current.getFullYear();
       const month = String(current.getMonth() + 1).padStart(2, "0");
       const day = String(current.getDate()).padStart(2, "0");
-      dates.push(`${year}-${month}-${day}`); // YYYY-MM-DD format
+      dates.push(`${year}-${month}-${day}`);
       current.setDate(current.getDate() + 1);
     }
 
     return dates;
   };
 
-  // Create a map of available data by date (fixed for timezone)
+  // Create a map of available data by date
   const dataByDate = new Map<string, SlipDailyData>();
   filteredData.forEach((day) => {
-    // Parse the date properly to avoid timezone issues
     const dayDate = new Date(day.date);
     const year = dayDate.getFullYear();
     const month = String(dayDate.getMonth() + 1).padStart(2, "0");
@@ -119,7 +111,7 @@ export function SlipCaptureTrendChart({
     dataByDate.set(dateKey, day);
   });
 
-  // Generate complete date range (with validation for optional dates)
+  // Generate complete date range
   const completeDateRange =
     dateRange?.from && dateRange?.to
       ? generateDateRange(dateRange.from, dateRange.to)
@@ -133,34 +125,12 @@ export function SlipCaptureTrendChart({
           })
           .sort();
 
-
-  // Enhanced data processing with complete date range
-  const chartData = completeDateRange.map((dateString, dayIndex) => {
-
+  // FIXED: Enhanced data processing with gender level support
+  const chartData = completeDateRange.map((dateString) => {
     const day = dataByDate.get(dateString);
 
     // If no data for this date, return zero values
-    if (!day) {
-      const [year, month, dayNum] = dateString.split("-");
-      return {
-        date: new Date(
-          parseInt(year),
-          parseInt(month) - 1,
-          parseInt(dayNum)
-        ).toLocaleDateString("en-US", {
-          month: "short",
-          day: "numeric",
-        }),
-        fullDate: dateString,
-        Arrested: 0,
-        Convicted: 0,
-        Suspect: 0,
-        Total: 0,
-      };
-    }
-
-    // Process actual data (existing logic)
-    if (!day.data || !day.data.state) {
+    if (!day || !day.data || !day.data.state) {
       const [year, month, dayNum] = dateString.split("-");
       return {
         date: new Date(
@@ -183,11 +153,9 @@ export function SlipCaptureTrendChart({
     let stateData = null;
     const stateKeys = Object.keys(day.data.state);
 
-    // Try exact match first
     if (day.data.state[selectedState]) {
       stateData = day.data.state[selectedState];
     } else {
-      // Try case-insensitive match
       const matchedKey = stateKeys.find(
         (key) => key.toLowerCase() === selectedState.toLowerCase()
       );
@@ -219,9 +187,8 @@ export function SlipCaptureTrendChart({
     let arrested = 0;
     let convicted = 0;
     let suspect = 0;
-    let detectedFields = null;
 
-    // Process all districts, acts, and sections
+    // FIXED: Process all districts, acts, GENDERS, and sections
     Object.entries(stateData).forEach(([districtName, districts]) => {
       if (!districts || typeof districts !== "object") {
         return;
@@ -232,32 +199,30 @@ export function SlipCaptureTrendChart({
           return;
         }
 
-        Object.entries(acts).forEach(([sectionName, sectionData]) => {
-          if (!sectionData || !Array.isArray(sectionData)) {
+        // NEW: Process gender level
+        Object.entries(acts).forEach(([genderName, genders]) => {
+          if (!genders || typeof genders !== "object") {
             return;
           }
 
-          // Process each item in the section array
-          sectionData.forEach((item, itemIndex) => {
-            if (!item || typeof item !== "object") {
+          Object.entries(genders).forEach(([sectionName, sectionData]) => {
+            if (!sectionData) {
               return;
             }
 
-            // Detect field names from the first valid item if not done yet
-            if (!detectedFields) {
-              detectedFields = detectFields(item);
-            }
+            // Aggregate the section data (handles both array and object formats)
+            const aggregatedMetrics = aggregateArrayMetrics(sectionData);
 
-            // Extract values using the correct field names from your data structure
-            const arrestedValue = Number(item.arresty_received_tp || 0);
-            const convictedValue = Number(item.convicted_received_tp || 0);
-            const suspectValue = Number(item.suspect_received_tp || 0);
+            // Extract values using the correct field names
+            arrested += aggregatedMetrics.arresty_received_tp || 0;
+            convicted += aggregatedMetrics.convicted_received_tp || 0;
+            suspect += aggregatedMetrics.suspect_received_tp || 0;
 
-            arrested += arrestedValue;
-            convicted += convictedValue;
-            suspect += suspectValue;
-
-            if (arrestedValue > 0 || convictedValue > 0 || suspectValue > 0) {
+            // Debug logging for non-zero values
+            if (aggregatedMetrics.arresty_received_tp > 0 || 
+                aggregatedMetrics.convicted_received_tp > 0 || 
+                aggregatedMetrics.suspect_received_tp > 0) {
+              console.log(`Date: ${dateString}, District: ${districtName}, Act: ${actName}, Gender: ${genderName}, Section: ${sectionName}`, aggregatedMetrics);
             }
           });
         });
@@ -282,6 +247,11 @@ export function SlipCaptureTrendChart({
       Suspect: suspect,
       Total: total,
     };
+
+    // Debug log for non-zero totals
+    if (total > 0) {
+      console.log(`Chart data for ${dateString}:`, result);
+    }
 
     return result;
   });
@@ -322,7 +292,6 @@ export function SlipCaptureTrendChart({
 
   // Enhanced debugging for no data case
   if (chartData.length === 0) {
-    // Debug: Show available states and sample data structure
     const availableStates = new Set<string>();
     let sampleDataStructure = null;
 
@@ -331,15 +300,24 @@ export function SlipCaptureTrendChart({
         Object.keys(day.data.state).forEach((state) => {
           availableStates.add(state);
 
-          // Get sample data structure from first state
+          // Get sample data structure showing the gender level
           if (!sampleDataStructure && day.data.state[state]) {
             const firstDistrict = Object.values(day.data.state[state])[0];
             if (firstDistrict && typeof firstDistrict === "object") {
               const firstAct = Object.values(firstDistrict)[0];
               if (firstAct && typeof firstAct === "object") {
-                const firstSection = Object.values(firstAct)[0];
-                if (firstSection) {
-                  sampleDataStructure = Object.keys(firstSection);
+                const firstGender = Object.values(firstAct)[0]; // NEW: Gender level
+                if (firstGender && typeof firstGender === "object") {
+                  const firstSection = Object.values(firstGender)[0];
+                  if (firstSection) {
+                    sampleDataStructure = {
+                      structure: "state → district → act → gender → section",
+                      genders: Object.keys(firstAct),
+                      sampleFields: Array.isArray(firstSection) 
+                        ? Object.keys(firstSection[0] || {})
+                        : Object.keys(firstSection || {})
+                    };
+                  }
                 }
               }
             }
@@ -364,8 +342,10 @@ export function SlipCaptureTrendChart({
               </div>
               <div>Total filtered entries: {filteredData.length}</div>
               {sampleDataStructure && (
-                <div>
-                  Sample fields available: {sampleDataStructure.join(", ")}
+                <div className="mt-2">
+                  <div>Data structure: {sampleDataStructure.structure}</div>
+                  <div>Available genders: {sampleDataStructure.genders?.join(", ")}</div>
+                  <div>Sample fields: {sampleDataStructure.sampleFields?.join(", ")}</div>
                 </div>
               )}
             </div>
@@ -392,7 +372,7 @@ export function SlipCaptureTrendChart({
               points, {totalDataPoints} total cases)
               {hasZeroData && (
                 <span className="text-red-500 block mt-1">
-                  ⚠️ All values are zero
+                  ⚠️ All values are zero - check if gender level is being processed correctly
                 </span>
               )}
             </CardDescription>

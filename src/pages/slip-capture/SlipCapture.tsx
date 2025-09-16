@@ -28,6 +28,7 @@ import SlipCaptureChart from "./ui/SlipCaptureChart";
 import { SlipCaptureTrendChart } from "./ui/SlipCaptureTrendChart";
 import { getLastNDaysRange } from "@/utils/getLastNdays";
 import { useLocation } from "react-router-dom";
+import { GenderBasedChart } from "./ui/GenderBasedChart";
 
 const dataPath = {
   "/slipcapture": "slip_cp",
@@ -53,6 +54,7 @@ const SlipCapture: React.FC = () => {
     acts: [],
     sections: [],
     statuses: [],
+    genders: [],
   });
   const [allStates, setAllStates] = useState<string[]>([]);
   const [showTable, setShowTable] = useState(false);
@@ -84,7 +86,7 @@ const SlipCapture: React.FC = () => {
 
       try {
         const loaded = await loadAllMonthlyDataReal({ type: dataPath[path] });
-
+        // console.log("loaded data", loaded);
         if (!loaded || !Array.isArray(loaded)) {
           throw new Error("Invalid data format received");
         }
@@ -120,7 +122,6 @@ const SlipCapture: React.FC = () => {
     }
   }, [allData, filters]);
 
-
   // Build table data with error handling - support both state and district views
   const tableRows = useMemo(() => {
     if (filteredData.length === 0) return [];
@@ -142,7 +143,7 @@ const SlipCapture: React.FC = () => {
         return rows;
       }
     } catch (error) {
-      console.error("Error building table data:", error);
+      // console.error("Error building table data:", error);
       return [];
     }
   }, [filteredData, visibleStatuses, filters.states, comparisonType]);
@@ -168,6 +169,7 @@ const SlipCapture: React.FC = () => {
       return {} as Record<StatusKey, number>;
     }
   }, [filteredData, visibleStatuses, filters.states]);
+  // console.log("filtered", filteredData);
 
   // Validation logic for comparison charts
   const getComparisonValidation = useCallback(() => {
@@ -432,6 +434,12 @@ const SlipCapture: React.FC = () => {
                     )}
                   </div>
                 )}
+                <GenderBasedChart
+                  filteredData={filteredData}
+                  selectedState={filters.states}
+                  selectedStatuses={visibleStatuses}
+                  title="Crime Cases by Gender"
+                />
 
                 {/* Top 5 */}
                 {visibleStatuses.length > 0 &&

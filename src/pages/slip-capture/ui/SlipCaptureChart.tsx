@@ -55,6 +55,48 @@ const FIELD_MAPPING = {
   Absconder: "absconder_received_tp",
 };
 
+// Helper function to aggregate array metrics (same as in types.ts)
+function aggregateArrayMetrics(sectionData: any): any {
+  const aggregated = {
+    arrest_act: "",
+    arrest_section: "",
+    arresty_received_tp: 0,
+    convicted_received_tp: 0,
+    externee_received_tp: 0,
+    absconder_received_tp: 0,
+    deportee_received_tp: 0,
+    deadbody_received_tp: 0,
+    uifp_received_tp: 0,
+    suspect_received_tp: 0,
+    udb_received_tp: 0,
+  };
+
+  const dataArray = Array.isArray(sectionData) ? sectionData : [sectionData];
+
+  dataArray.forEach((item: any) => {
+    if (!item || typeof item !== "object") return;
+
+    if (!aggregated.arrest_act && item.arrest_act) {
+      aggregated.arrest_act = item.arrest_act;
+    }
+    if (!aggregated.arrest_section && item.arrest_section) {
+      aggregated.arrest_section = item.arrest_section;
+    }
+
+    aggregated.arresty_received_tp += item.arresty_received_tp || 0;
+    aggregated.convicted_received_tp += item.convicted_received_tp || 0;
+    aggregated.externee_received_tp += item.externee_received_tp || 0;
+    aggregated.absconder_received_tp += item.absconder_received_tp || 0;
+    aggregated.deportee_received_tp += item.deportee_received_tp || 0;
+    aggregated.deadbody_received_tp += item.deadbody_received_tp || 0;
+    aggregated.uifp_received_tp += item.uifp_received_tp || 0;
+    aggregated.suspect_received_tp += item.suspect_received_tp || 0;
+    aggregated.udb_received_tp += item.udb_received_tp || 0;
+  });
+
+  return aggregated;
+}
+
 export default function SlipCaptureChart({
   filteredData,
   selectedCrimeTypes,
@@ -64,6 +106,7 @@ export default function SlipCaptureChart({
   const [chartType, setChartType] = useState<"stacked" | "grouped" | "pie">(
     "stacked"
   );
+  // console.log("Chart filtered data:", filteredData);
 
   const crimeTypes = useMemo(
     () => selectedCrimeTypes.filter((type) => type !== "Total"),
@@ -76,7 +119,7 @@ export default function SlipCaptureChart({
     }
   };
 
-  // Helper function to aggregate data for a specific crime type across all states
+  // FIXED: Helper function to aggregate data for a specific crime type across all states
   const aggregateCrimeTypeData = (
     dayData: any,
     crimeType: StatusKey
@@ -84,13 +127,17 @@ export default function SlipCaptureChart({
     let total = 0;
 
     if (!dayData?.state) {
+      // console.log("No state data found for day");
       return 0;
     }
 
     const fieldName = FIELD_MAPPING[crimeType as keyof typeof FIELD_MAPPING];
     if (!fieldName) {
+      // console.log(`No field mapping found for crime type: ${crimeType}`);
       return 0;
     }
+
+    // console.log(`Aggregating ${crimeType} (${fieldName}) from day data:`, dayData);
 
     // Iterate through all states
     Object.entries(dayData.state).forEach(([stateName, stateData]) => {
@@ -110,21 +157,23 @@ export default function SlipCaptureChart({
             return;
           }
 
-          // Iterate through sections
-          Object.entries(actData).forEach(([sectionName, sectionData]) => {
-            // FIXED: Handle array structure
-            if (!sectionData || !Array.isArray(sectionData)) {
+          // FIXED: Iterate through genders (new level in data structure)
+          Object.entries(actData).forEach(([genderName, genderData]) => {
+            if (!genderData || typeof genderData !== "object") {
               return;
             }
 
-            // Process each item in the section array
-            sectionData.forEach((item, itemIndex) => {
-              if (!item || typeof item !== "object") {
+            // Iterate through sections
+            Object.entries(genderData).forEach(([sectionName, sectionData]) => {
+              if (!sectionData) {
                 return;
               }
 
-              const value = Number(item[fieldName] || 0);
-
+              // FIXED: Use the aggregateArrayMetrics helper function
+              const aggregatedMetrics = aggregateArrayMetrics(sectionData);
+              const value = Number(aggregatedMetrics[fieldName] || 0);
+              
+              // console.log(`Found ${value} for ${crimeType} in ${stateName}/${districtName}/${actName}/${genderName}/${sectionName}`);
               total += value;
             });
           });
@@ -132,6 +181,7 @@ export default function SlipCaptureChart({
       });
     });
 
+    // console.log(`Total ${crimeType}: ${total}`);
     return total;
   };
 
@@ -216,6 +266,7 @@ export default function SlipCaptureChart({
       return row;
     });
 
+    // console.log("Chart data generated:", result);
     return result;
   }, [completeDateRange, crimeTypes, dataByDate]);
 
@@ -238,6 +289,7 @@ export default function SlipCaptureChart({
       }))
       .filter((item) => item.value > 0); // Filter out zero values
 
+    // console.log("Pie chart data:", result);
     return result;
   }, [filteredData, crimeTypes]);
 
@@ -293,6 +345,9 @@ export default function SlipCaptureChart({
   const hasData = chartData.some((day) =>
     crimeTypes.some((type) => (day[type] || 0) > 0)
   );
+
+  // console.log("Has data:", hasData);
+  // console.log("Crime types:", crimeTypes);
 
   return (
     <Card className="w-full">

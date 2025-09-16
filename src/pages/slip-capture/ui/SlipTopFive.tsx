@@ -39,17 +39,55 @@ const safeObjectEntries = (obj: any): [string, any][] => {
   return Object.entries(obj).filter(([key]) => typeof key === "string");
 };
 
-// ✅ Safe numeric extractor
+// Helper function to aggregate array metrics (same as in types.ts)
+function aggregateArrayMetrics(sectionData: any): any {
+  const aggregated = {
+    arrest_act: "",
+    arrest_section: "",
+    arresty_received_tp: 0,
+    convicted_received_tp: 0,
+    externee_received_tp: 0,
+    absconder_received_tp: 0,
+    deportee_received_tp: 0,
+    deadbody_received_tp: 0,
+    uifp_received_tp: 0,
+    suspect_received_tp: 0,
+    udb_received_tp: 0,
+  };
+
+  const dataArray = Array.isArray(sectionData) ? sectionData : [sectionData];
+
+  dataArray.forEach((item: any) => {
+    if (!item || typeof item !== "object") return;
+
+    if (!aggregated.arrest_act && item.arrest_act) {
+      aggregated.arrest_act = item.arrest_act;
+    }
+    if (!aggregated.arrest_section && item.arrest_section) {
+      aggregated.arrest_section = item.arrest_section;
+    }
+
+    aggregated.arresty_received_tp += item.arresty_received_tp || 0;
+    aggregated.convicted_received_tp += item.convicted_received_tp || 0;
+    aggregated.externee_received_tp += item.externee_received_tp || 0;
+    aggregated.absconder_received_tp += item.absconder_received_tp || 0;
+    aggregated.deportee_received_tp += item.deportee_received_tp || 0;
+    aggregated.deadbody_received_tp += item.deadbody_received_tp || 0;
+    aggregated.uifp_received_tp += item.uifp_received_tp || 0;
+    aggregated.suspect_received_tp += item.suspect_received_tp || 0;
+    aggregated.udb_received_tp += item.udb_received_tp || 0;
+  });
+
+  return aggregated;
+}
+
+// ✅ FIXED: Safe numeric extractor with proper gender level handling
 const safeNumericValue = (data: any, fieldName: string): number => {
   if (!data || typeof data !== "object") return 0;
-  // Handle case where data is an array of records
-  if (Array.isArray(data)) {
-    return data.reduce((sum, record) => {
-      const val = Number(record[fieldName]);
-      return sum + (isNaN(val) ? 0 : val);
-    }, 0);
-  }
-  const val = Number(data[fieldName]);
+  
+  // Use the aggregateArrayMetrics helper function
+  const aggregated = aggregateArrayMetrics(data);
+  const val = Number(aggregated[fieldName]);
   return isNaN(val) ? 0 : val;
 };
 
@@ -80,17 +118,20 @@ export default function SlipTopFive({
     [selectedStates]
   );
 
-  // ✅ Compute top data
+  // ✅ FIXED: Compute top data with proper gender level handling
   const topDataByStatus = useMemo(() => {
     if (!activeStatuses.length) {
+      
       return {};
     }
     if (!isDistrictViewValid) {
+     
       return {};
     }
 
     const fromTime = from ? from.getTime() : Number.NEGATIVE_INFINITY;
     const toTime = to ? to.getTime() : Number.POSITIVE_INFINITY;
+
 
     if (viewMode === "state") {
       const stateTotals: Record<string, Record<StatusKey, number>> = {};
@@ -106,6 +147,7 @@ export default function SlipTopFive({
         if (!day.data?.state) {
           continue;
         }
+
 
         safeObjectEntries(day.data.state).forEach(([stateName, stateData]) => {
           if (!stateName.trim()) return;
@@ -125,8 +167,14 @@ export default function SlipTopFive({
 
             safeObjectEntries(stateData).forEach(([districtName, districtData]) => {
               safeObjectEntries(districtData).forEach(([actName, actData]) => {
-                safeObjectEntries(actData).forEach(([sectionName, sectionData]) => {
-                  stateTotal += safeNumericValue(sectionData, fieldName);
+                // FIXED: Add gender level iteration
+                safeObjectEntries(actData).forEach(([genderName, genderData]) => {
+                  safeObjectEntries(genderData).forEach(([sectionName, sectionData]) => {
+                    const value = safeNumericValue(sectionData, fieldName);
+                    stateTotal += value;
+                    if (value > 0) {
+                    }
+                  });
                 });
               });
             });
@@ -135,6 +183,7 @@ export default function SlipTopFive({
           }
         });
       }
+
 
       const result: Record<StatusKey, any[]> = {} as any;
       for (const status of activeStatuses) {
@@ -147,9 +196,11 @@ export default function SlipTopFive({
           .slice(0, 5);
 
         result[status] = arr;
+
       }
       return result;
     } else {
+      // District view
       const districtTotals: Record<string, Record<StatusKey, number>> = {};
 
       for (const day of allData) {
@@ -190,8 +241,14 @@ export default function SlipTopFive({
 
               let districtTotal = 0;
               safeObjectEntries(districtData).forEach(([actName, actData]) => {
-                safeObjectEntries(actData).forEach(([sectionName, sectionData]) => {
-                  districtTotal += safeNumericValue(sectionData, fieldName);
+                // FIXED: Add gender level iteration
+                safeObjectEntries(actData).forEach(([genderName, genderData]) => {
+                  safeObjectEntries(genderData).forEach(([sectionName, sectionData]) => {
+                    const value = safeNumericValue(sectionData, fieldName);
+                    districtTotal += value;
+                    if (value > 0) {
+                    }
+                  });
                 });
               });
 

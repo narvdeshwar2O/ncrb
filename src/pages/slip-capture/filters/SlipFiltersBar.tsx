@@ -45,7 +45,7 @@ export const SlipFiltersBar: React.FC<SlipFiltersBarProps> = ({
   const selectedStatuses = value.statuses ?? [];
   const selectedActs = value.acts ?? [];
   const selectedSections = value.sections ?? [];
-  const selectedGenders = value.sex ?? [];
+  const selectedGenders = value.genders ?? [];
 
   const STATUS_OPTIONS = STATUS_KEYS.filter((key) => key !== "Total");
 
@@ -254,21 +254,26 @@ export const SlipFiltersBar: React.FC<SlipFiltersBarProps> = ({
     loadSections();
   }, []);
 
-  // Reset filters function - Modified to only select states and crime types
+  // Reset filters function - Select everything by default
   const resetFilters = () => {
+    const allDistricts = states.flatMap((state) => {
+      const stateKey = state.toLowerCase();
+      return stateWithDistrict[stateKey] || stateWithDistrict[state] || [];
+    });
+
     const defaultFilters: SlipFilters = {
       dateRange: getLastNDaysRange(7),
-      states: [...states], // Select all states
-      districts: [], // Leave empty
-      acts: [], // Leave empty
-      sections: [], // Leave empty
-      statuses: [...STATUS_OPTIONS] as StatusKey[], // Always select all crime types on reset
+      states: [...states], // all states
+      districts: [...allDistricts], // all districts
+      acts: [],
+      sections: [],
+      statuses: [...STATUS_OPTIONS] as StatusKey[], // all crime types
+      genders: [...SEX_OPTIONS], // all genders
     };
 
     onChange(defaultFilters);
   };
-
-  // Initial load with ONLY states and crime types selected
+  // Initial load with ALL states, districts, crime types, and genders selected
   useEffect(() => {
     if (
       !initialLoadDone &&
@@ -278,18 +283,21 @@ export const SlipFiltersBar: React.FC<SlipFiltersBarProps> = ({
       !isLoadingActs &&
       !isLoadingSections
     ) {
-      // Select ALL states initially
-      const allSelectedStates = [...states];
+      const allDistricts = states.flatMap((state) => {
+        const stateKey = state.toLowerCase();
+        return stateWithDistrict[stateKey] || stateWithDistrict[state] || [];
+      });
 
       const defaultFilters: SlipFilters = {
         dateRange: value.dateRange?.from
           ? value.dateRange
           : getLastNDaysRange(7),
-        states: allSelectedStates, // Select ALL states
-        districts: [], // Leave empty - don't auto-select
-        acts: [], // Leave empty - don't auto-select
-        sections: [], // Leave empty - don't auto-select
-        statuses: [...STATUS_OPTIONS] as StatusKey[], // Select ALL crime types by default
+        states: [...states], // all states
+        districts: [...allDistricts], // all districts
+        acts: [],
+        sections: [],
+        statuses: [...STATUS_OPTIONS] as StatusKey[], // all crime types
+        genders: [...SEX_OPTIONS], // all genders
       };
 
       onChange(defaultFilters);
@@ -458,7 +466,7 @@ export const SlipFiltersBar: React.FC<SlipFiltersBarProps> = ({
             label={`Gender`}
             options={SEX_OPTIONS}
             selected={selectedGenders}
-            onChange={(newGenders) => updateFilters({ sex: newGenders })}
+            onChange={(newGenders) => updateFilters({ genders: newGenders })}
           />
 
           {/* Reset and Select All buttons */}
