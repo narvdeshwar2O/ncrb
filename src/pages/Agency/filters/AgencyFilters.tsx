@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
@@ -53,6 +53,29 @@ export const AgencyFilters = ({
     onFiltersChange({ ...filters, ...patch });
   };
 
+  // ✅ Initialize all filters by default on first load
+  useEffect(() => {
+    if (
+      !filters.state?.length &&
+      !filters.districts?.length &&
+      !filters.dataTypes?.length &&
+      !filters.categories?.length
+    ) {
+      const defaultStates = [...allStates];
+      const defaultDistricts = getDistrictsForStates(defaultStates);
+      updateFilters({
+        dateRange: getLastNDaysRange(7),
+        state: defaultStates,
+        districts: defaultDistricts,
+        dataTypes: [...dataTypeOptions],
+        categories: [...categoryOptions],
+      });
+      if (typeof onLoadDailyData === "function") {
+        onLoadDailyData();
+      }
+    }
+  }, []);
+
   const handleDateSelect = (
     range: { from: Date | undefined; to: Date | undefined } | undefined
   ) => {
@@ -64,13 +87,14 @@ export const AgencyFilters = ({
   };
 
   const resetFilters = () => {
-    const defaultState = [allStates[0]];
+    const defaultStates = [...allStates];
+    const defaultDistricts = getDistrictsForStates(defaultStates);
     updateFilters({
       dateRange: getLastNDaysRange(7),
-      state: defaultState,
+      state: defaultStates,
       dataTypes: [...dataTypeOptions],
       categories: [...categoryOptions],
-      districts: getDistrictsForStates(defaultState),
+      districts: defaultDistricts,
     });
     if (typeof onLoadDailyData === "function") {
       onLoadDailyData();

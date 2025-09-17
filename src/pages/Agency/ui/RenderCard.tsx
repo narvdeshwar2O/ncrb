@@ -23,6 +23,7 @@ const RenderCard: React.FC<RenderCardProps> = ({
   const nohit = getValue("nohit");
   const totalCount = getValue("total");
   const enrol = getValue("enrol");
+  const totalDel = getValue("delete");
 
   return (
     <Card className="border border-l-4 border-blue-600 bg-card shadow-sm">
@@ -51,6 +52,12 @@ const RenderCard: React.FC<RenderCardProps> = ({
           <p>
             Total:{" "}
             <span className="font-semibold text-foreground">{totalCount}</span>
+          </p>
+        )}
+        {selectedDataTypes.includes("delete") && (
+          <p>
+            Deleted:{" "}
+            <span className="font-semibold text-foreground">{totalDel}</span>
           </p>
         )}
       </CardContent>

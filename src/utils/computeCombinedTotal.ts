@@ -11,6 +11,7 @@ export default function computeCombinedTotal(
     nohit: 0,
     total: 0,
     enrol: 0,
+    delete: 0,
   };
 
   const selectedStates = filters.state ?? [];
@@ -46,6 +47,7 @@ export default function computeCombinedTotal(
         total.nohit += catData.nohit || 0;
         total.total += catData.total || 0;
         total.enrol += catData.enrol || 0;
+        total.delete += catData.delete || 0;
       });
     });
   });

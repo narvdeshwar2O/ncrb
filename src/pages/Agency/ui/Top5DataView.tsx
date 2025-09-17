@@ -58,11 +58,18 @@ const getTopDistrictsByState = (
             const categoryData = districtData[category];
             if (categoryData && typeof categoryData === "object") {
               if (!districtTotals[district]) {
-                districtTotals[district] = { hit: 0, nohit: 0, enrol: 0 };
+                districtTotals[district] = {
+                  hit: 0,
+                  nohit: 0,
+                  enrol: 0,
+                  delete: 0,
+                };
               }
               districtTotals[district].hit += Number(categoryData.hit) || 0;
               districtTotals[district].nohit += Number(categoryData.nohit) || 0;
               districtTotals[district].enrol += Number(categoryData.enrol) || 0;
+              districtTotals[district].delete +=
+                Number(categoryData.delete) || 0;
             }
           }
         });
@@ -76,6 +83,7 @@ const getTopDistrictsByState = (
       hit: districtTotals[district].hit,
       nohit: districtTotals[district].nohit,
       enrol: districtTotals[district].enrol,
+      delete: districtTotals[district].delete,
     })
   );
 
@@ -92,6 +100,10 @@ const getTopDistrictsByState = (
       .sort((a, b) => b.enrol - a.enrol)
       .slice(0, 5)
       .map((d) => ({ state: d.district, enrol: d.enrol })),
+    deleteTop5: districts
+      .sort((a, b) => b.delete - a.delete)
+      .slice(0, 5)
+      .map((d) => ({ state: d.district, delete: d.delete })),
   };
 };
 
@@ -267,7 +279,7 @@ const CategorySection = ({
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-3">
         {allMetricData.map(({ metric, chartData }) => (
           <ChartCard
             key={metric}

@@ -48,19 +48,17 @@ function computeDayCategoryTotals(
 ) {
   let hit = 0,
     enrol = 0,
-    nohit = 0;
+    nohit = 0,
+    del = 0;
 
-  // If no data exists, return zeros
   if (!day.data) {
-    return { hit, nohit, enrol };
+    return { hit, nohit, enrol, delete: del };
   }
 
-  // Iterate through all states in the data
   for (const stateKey of Object.keys(day.data)) {
     const stateData = day.data[stateKey];
     if (!stateData) continue;
 
-    // Check if this state should be included based on filters
     const stateKeyLower = stateKey.toLowerCase().trim();
     const shouldIncludeState =
       selectedStates.length === 0 ||
@@ -70,12 +68,10 @@ function computeDayCategoryTotals(
 
     if (!shouldIncludeState) continue;
 
-    // Iterate through districts in this state
     for (const districtKey of Object.keys(stateData)) {
       const districtData = stateData[districtKey];
       if (!districtData || typeof districtData !== "object") continue;
 
-      // Check if this district should be included based on filters
       const districtKeyLower = districtKey.toLowerCase().trim();
       const shouldIncludeDistrict =
         selectedDistricts.length === 0 ||
@@ -85,18 +81,17 @@ function computeDayCategoryTotals(
 
       if (!shouldIncludeDistrict) continue;
 
-      // Get the category data
       const catRec = districtData[category];
       if (!catRec || typeof catRec !== "object") continue;
 
-      // Add the values
       enrol += Number(catRec.enrol) || 0;
       hit += Number(catRec.hit) || 0;
       nohit += Number(catRec.nohit) || 0;
+      del += Number(catRec.delete) || 0;
     }
   }
 
-  return { hit, nohit, enrol };
+  return { hit, nohit, enrol, delete: del };
 }
 
 export interface MultipleChartProps {
@@ -105,7 +100,7 @@ export interface MultipleChartProps {
   activeCategories: string[];
   totalsByCategory: Record<
     string,
-    { enrol: number; hit: number; nohit: number; total: number }
+    { enrol: number; hit: number; nohit: number; total: number; delete: number }
   >;
   categoryLabelMap?: Record<string, string>;
 }
@@ -139,13 +134,13 @@ export function MultipleChart(props: MultipleChartProps) {
   const dayCount = filteredData.length;
   const showDailyData = hasDateRange && dayCount > 0 && dayCount <= 90;
 
-  // Get selected states and districts from filters
   const selectedStates = filters.state || [];
   const selectedDistricts = filters.districts || [];
 
+  // ✅ include delete in default dataTypes
   const selectedDataTypes = filters.dataTypes?.length
     ? filters.dataTypes
-    : ["hit", "nohit"];
+    : ["hit", "nohit", "delete"];
 
   const chartData = useMemo(() => {
     if (showDailyData) {
@@ -181,13 +176,13 @@ export function MultipleChart(props: MultipleChartProps) {
       return dailyData;
     }
 
-    // For category totals view
     const categoryData = activeCategories.map((cat) => {
       const data = {
         label: categoryLabelMap?.[cat] ?? cat.toUpperCase(),
         enrol: totalsByCategory[cat]?.enrol ?? 0,
         hit: totalsByCategory[cat]?.hit ?? 0,
         nohit: totalsByCategory[cat]?.nohit ?? 0,
+        delete: totalsByCategory[cat]?.delete ?? 0,
         total: totalsByCategory[cat]?.total ?? 0,
       };
 
@@ -240,10 +235,7 @@ export function MultipleChart(props: MultipleChartProps) {
   };
 
   const slugify = (text: string) =>
-    text
-      .toLowerCase()
-      .replace(/\s+/g, "-")
-      .replace(/[^\w-]+/g, "");
+    text.toLowerCase().replace(/\s+/g, "-").replace(/[^\w-]+/g, "");
 
   const pieData = useMemo(() => {
     return activeCategories
@@ -312,9 +304,7 @@ export function MultipleChart(props: MultipleChartProps) {
       ) : (
         <CardContent
           ref={chartRef}
-          className={
-            viewMode === "pie" ? "h-[500px]" : "h-[500px] md:h-[600px]"
-          }
+          className={viewMode === "pie" ? "h-[500px]" : "h-[500px] md:h-[600px]"}
         >
           {viewMode === "pie" ? (
             isPieReady ? (

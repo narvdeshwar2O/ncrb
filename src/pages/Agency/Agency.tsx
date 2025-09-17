@@ -29,10 +29,10 @@ function Agency() {
 
   const [filters, setFilters] = useState<FilterState>({
     dateRange: getLastNDaysRange(7),
-    state: [allStates[0]],
+    state: allStates,
     dataTypes: [...dataTypeOptions],
     categories: [...categoryOptions],
-    districts: getDistrictsForStates([allStates[0]]),
+    districts: getDistrictsForStates(allStates),
   });
 
   const [showTable, setShowTable] = useState(false);

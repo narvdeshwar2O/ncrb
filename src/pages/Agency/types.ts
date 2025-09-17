@@ -1,7 +1,16 @@
 export interface DailyData extends DailyDataTypes {
   data: Record<
     string,
-    Record<string, { hit: number; nohit: number; total: number; enrol: number }>
+    Record<
+      string,
+      {
+        hit: number;
+        nohit: number;
+        total: number;
+        enrol: number;
+        delete: number;
+      }
+    >
   >;
 }
 
@@ -16,6 +25,7 @@ export interface Totals {
   nohit: number;
   total?: number;
   enrol: number;
+  delete: number;
 }
 
 export interface DistrictStats {
@@ -24,6 +34,7 @@ export interface DistrictStats {
   nohit: number;
   enrol: number;
   total?: number;
+  delete: number;
 }
 
 export interface StateStats {
@@ -31,13 +42,20 @@ export interface StateStats {
   hit: number;
   nohit: number;
   enrol: number;
+  delete: number;
   total?: number;
   districts: DistrictStats[];
 }
 
 export const categoryOptions = ["tp", "cp", "mesa"] as const;
 
-export const dataTypeOptions = ["hit", "nohit", "total", "enrol"] as const;
+export const dataTypeOptions = [
+  "hit",
+  "nohit",
+  "total",
+  "enrol",
+  "delete",
+] as const;
 
 export type CategoryKey = "tp" | "cp" | "mesa";
 
@@ -46,4 +64,5 @@ export interface CategoryMetrics {
   nohit: number;
   total?: number;
   enrol: number;
+  delete: number;
 }
