@@ -13,8 +13,8 @@ import {
 } from "@/components/ui/card";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Eye, EyeOff, Lock, LogIn, User } from "lucide-react";
-import { useAuth } from "@/App";
 import Logo from "@/assets";
+import { useAuth } from "@/context/AuthContext";
 
 interface LoginFormData {
   username: string;

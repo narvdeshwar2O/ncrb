@@ -6,7 +6,7 @@ import {
 import { AppSidebar } from "@/components/AppSidebar";
 import { useLocation, useNavigate } from "react-router-dom";
 import Logo from "@/assets";
-import { useAuth } from "@/App"; // ✅ assuming your auth context is here
+
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -17,6 +17,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 import { User } from "lucide-react";
+import { useAuth } from "@/context/AuthContext";
 
 interface SidebarLayoutProps {
   children: React.ReactNode;
@@ -37,7 +38,7 @@ const navTitle: Record<string, string> = {
 export function SidebarLayout({ children }: SidebarLayoutProps) {
   const nav = useLocation();
   const title = navTitle[nav.pathname];
-  const { user, logout } = useAuth(); // ✅ from auth context
+  const { user, logout } = useAuth();
   const navigate = useNavigate();
 
   const handleLogout = () => {
