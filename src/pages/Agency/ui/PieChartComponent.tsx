@@ -95,7 +95,7 @@ export function PieChartComponent(props: PieChartComponentProps) {
 
   return (
     <ResponsiveContainer width="100%" height="100%">
-      <PieChart margin={{ top: 80, right: 100, bottom: 50, left: 100 }}>
+      <PieChart margin={{ top: 80, right: 100, bottom: 100, left: 100 }}>
         <Pie
           data={sortedPieData}
           dataKey="value"
@@ -107,7 +107,6 @@ export function PieChartComponent(props: PieChartComponentProps) {
             renderLabelWithArrow(entries, pieSliceColors, filteredPieData)
           }
           labelLine={false}
-          activeShape={(props) => <Sector {...props} style={darkenStyle} />}
         >
           {sortedPieData.map((entry, idx) => {
             // Find original index for consistent coloring
@@ -148,17 +147,34 @@ export function PieChartComponent(props: PieChartComponentProps) {
 
         <Tooltip
           contentStyle={{
-            background: "hsl(var(--background))",
+            background: "hsl(var(--popover))",
             border: "1px solid hsl(var(--border))",
-            color: "#222",
-            fontWeight: 600,
             borderRadius: "6px",
+            padding: "6px 10px",
+            color: "hsl(var(--popover-foreground))",
+            fontSize: "12px",
+            fontWeight: "500",
+            boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)",
+          }}
+          wrapperStyle={{
+            outline: "none",
+            zIndex: 9999,
           }}
           formatter={(value: any, name: any, props: any) => [
-            <span style={{ fontWeight: 600, color: props.color }}>
+            <span style={{ 
+              fontWeight: 600, 
+              color: props.color,
+              display: "inline-block"
+            }}>
               {value}
             </span>,
-            <span style={{ fontWeight: 600, color: props.color }}>{name}</span>,
+            <span style={{ 
+              fontWeight: 600, 
+              color: "hsl(var(--popover-foreground))",
+              display: "inline-block"
+            }}>
+              {name}
+            </span>,
           ]}
         />
       </PieChart>

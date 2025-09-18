@@ -4,6 +4,7 @@ interface TopStatesResult {
   hitTop5: StateStats[];
   nohitTop5: StateStats[];
   enrolTop5: StateStats[];
+  deleteTop5: StateStats[]; // ✅ new
 }
 
 export function getTopStatesByDateRange(
@@ -18,6 +19,7 @@ export function getTopStatesByDateRange(
       hitTop5: [],
       nohitTop5: [],
       enrolTop5: [],
+      deleteTop5: [],
     };
   }
 
@@ -36,6 +38,7 @@ export function getTopStatesByDateRange(
           hit: 0,
           nohit: 0,
           enrol: 0,
+          delete: 0, // ✅ add delete
           districts: [],
         };
       }
@@ -53,18 +56,21 @@ export function getTopStatesByDateRange(
           existingDistrict.hit += cat.hit ?? 0;
           existingDistrict.nohit += cat.nohit ?? 0;
           existingDistrict.enrol += cat.enrol ?? 0;
+          existingDistrict.delete += cat.delete ?? 0; // ✅ accumulate delete
         } else {
           stateData.districts.push({
             district,
             hit: cat.hit ?? 0,
             nohit: cat.nohit ?? 0,
             enrol: cat.enrol ?? 0,
+            delete: cat.delete ?? 0, // ✅ new
           });
         }
 
         stateData.hit += cat.hit ?? 0;
         stateData.nohit += cat.nohit ?? 0;
         stateData.enrol += cat.enrol ?? 0;
+        stateData.delete += cat.delete ?? 0; // ✅ accumulate delete
       }
     }
   }
@@ -75,6 +81,7 @@ export function getTopStatesByDateRange(
     hitTop5: [...stateList].sort((a, b) => b.hit - a.hit).slice(0, 5),
     nohitTop5: [...stateList].sort((a, b) => b.nohit - a.nohit).slice(0, 5),
     enrolTop5: [...stateList].sort((a, b) => b.enrol - a.enrol).slice(0, 5),
+    deleteTop5: [...stateList].sort((a, b) => b.delete - a.delete).slice(0, 5), // ✅ new
   };
 }
 

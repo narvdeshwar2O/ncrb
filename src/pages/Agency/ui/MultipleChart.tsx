@@ -16,15 +16,18 @@ import { FilterState } from "@/components/filters/types/FilterTypes";
 import { DailyData } from "../types";
 
 const colorPalette = [
-  "red",
-  "blue",
-  "green",
-  "#F70864",
-  "#F708F7",
-  "#F76808",
-  "#800080",
-  "#008080",
-  "#B45309",
+  "#E6194B", // strong red
+  "#3CB44B", // strong green
+  "#0082C8", // vivid blue
+  "#F58231", // bright orange
+  "#911EB4", // purple
+  "#46F0F0", // cyan
+  "#F032E6", // magenta
+  "#D2F53C", // lime
+  "#FABEBE", // pink
+  "#008080", // teal
+  "#E6BEFF", // lavender
+  "#AA6E28", // brown
 ];
 const pieSliceColors = [...colorPalette];
 
@@ -113,7 +116,7 @@ export function MultipleChart(props: MultipleChartProps) {
     totalsByCategory,
     categoryLabelMap,
   } = props;
-
+  console.log("filter", filteredData);
   const chartRef = useRef<HTMLDivElement>(null);
   const [viewMode, setViewMode] = useState<"stacked" | "grouped" | "pie">(
     "stacked"
@@ -132,7 +135,7 @@ export function MultipleChart(props: MultipleChartProps) {
 
   const hasDateRange = filters.dateRange?.from && filters.dateRange?.to;
   const dayCount = filteredData.length;
-  const showDailyData = hasDateRange && dayCount > 0 && dayCount <= 90;
+  const showDailyData = hasDateRange && dayCount >= 0 && dayCount <= 90;
 
   const selectedStates = filters.state || [];
   const selectedDistricts = filters.districts || [];
@@ -144,13 +147,37 @@ export function MultipleChart(props: MultipleChartProps) {
 
   const chartData = useMemo(() => {
     if (showDailyData) {
-      const sorted = [...filteredData].sort(
-        (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
-      );
+      const start = filters.dateRange?.from
+        ? new Date(filters.dateRange.from)
+        : null;
+      const end = filters.dateRange?.to ? new Date(filters.dateRange.to) : null;
 
-      const dailyData = sorted.map((day) => {
+      if (!start || !end) return [];
+
+      // Generate all dates in range
+      const allDates: Date[] = [];
+      let current = new Date(start);
+      while (current <= end) {
+        allDates.push(new Date(current));
+        current.setDate(current.getDate() + 1);
+      }
+
+      // Map original data by date for quick lookup
+      const dataByDate: Record<string, DailyData> = {};
+      filteredData.forEach((day) => {
+        dataByDate[new Date(day.date).toDateString()] = day;
+      });
+
+      // Build rows for every date in the range
+      const dailyData = allDates.map((date) => {
+        const dayStr = date.toDateString();
+        const day = dataByDate[dayStr] ?? {
+          date: date.toISOString(),
+          data: {},
+        };
+
         const row: Record<string, any> = {
-          label: new Date(day.date).toLocaleDateString("en-US", {
+          label: date.toLocaleDateString("en-US", {
             month: "short",
             day: "numeric",
           }),
@@ -166,7 +193,7 @@ export function MultipleChart(props: MultipleChartProps) {
 
           selectedDataTypes.forEach((type) => {
             const key = `${cat}_${type}`;
-            row[key] = totals[type as keyof typeof totals];
+            row[key] = totals[type as keyof typeof totals] ?? 0;
           });
         });
 
@@ -176,6 +203,7 @@ export function MultipleChart(props: MultipleChartProps) {
       return dailyData;
     }
 
+    // Aggregate totals view
     const categoryData = activeCategories.map((cat) => {
       const data = {
         label: categoryLabelMap?.[cat] ?? cat.toUpperCase(),
@@ -185,7 +213,6 @@ export function MultipleChart(props: MultipleChartProps) {
         delete: totalsByCategory[cat]?.delete ?? 0,
         total: totalsByCategory[cat]?.total ?? 0,
       };
-
       return data;
     });
 
@@ -199,6 +226,7 @@ export function MultipleChart(props: MultipleChartProps) {
     selectedDataTypes,
     totalsByCategory,
     categoryLabelMap,
+    filters.dateRange, // important for full date range
   ]);
 
   const chartTitle = showDailyData
@@ -235,7 +263,10 @@ export function MultipleChart(props: MultipleChartProps) {
   };
 
   const slugify = (text: string) =>
-    text.toLowerCase().replace(/\s+/g, "-").replace(/[^\w-]+/g, "");
+    text
+      .toLowerCase()
+      .replace(/\s+/g, "-")
+      .replace(/[^\w-]+/g, "");
 
   const pieData = useMemo(() => {
     return activeCategories
@@ -304,7 +335,9 @@ export function MultipleChart(props: MultipleChartProps) {
       ) : (
         <CardContent
           ref={chartRef}
-          className={viewMode === "pie" ? "h-[500px]" : "h-[500px] md:h-[600px]"}
+          className={
+            viewMode === "pie" ? "h-[500px]" : "h-[500px] md:h-[600px]"
+          }
         >
           {viewMode === "pie" ? (
             isPieReady ? (

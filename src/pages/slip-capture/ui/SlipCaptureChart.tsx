@@ -9,9 +9,6 @@ import {
   Legend,
   ResponsiveContainer,
   LabelList,
-  PieChart,
-  Pie,
-  Cell,
 } from "recharts";
 import { Card, CardHeader, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -25,6 +22,7 @@ import {
   SelectItem,
   SelectValue,
 } from "@/components/ui/select";
+import { PieChartComponent } from "@/pages/agency/ui/PieChartComponent";
 
 interface SlipChartProps {
   filteredData: SlipDailyData[];
@@ -106,7 +104,6 @@ export default function SlipCaptureChart({
   const [chartType, setChartType] = useState<"stacked" | "grouped" | "pie">(
     "stacked"
   );
-  // console.log("Chart filtered data:", filteredData);
 
   const crimeTypes = useMemo(
     () => selectedCrimeTypes.filter((type) => type !== "Total"),
@@ -127,17 +124,13 @@ export default function SlipCaptureChart({
     let total = 0;
 
     if (!dayData?.state) {
-      // console.log("No state data found for day");
       return 0;
     }
 
     const fieldName = FIELD_MAPPING[crimeType as keyof typeof FIELD_MAPPING];
     if (!fieldName) {
-      // console.log(`No field mapping found for crime type: ${crimeType}`);
       return 0;
     }
-
-    // console.log(`Aggregating ${crimeType} (${fieldName}) from day data:`, dayData);
 
     // Iterate through all states
     Object.entries(dayData.state).forEach(([stateName, stateData]) => {
@@ -172,8 +165,7 @@ export default function SlipCaptureChart({
               // FIXED: Use the aggregateArrayMetrics helper function
               const aggregatedMetrics = aggregateArrayMetrics(sectionData);
               const value = Number(aggregatedMetrics[fieldName] || 0);
-              
-              // console.log(`Found ${value} for ${crimeType} in ${stateName}/${districtName}/${actName}/${genderName}/${sectionName}`);
+
               total += value;
             });
           });
@@ -181,7 +173,6 @@ export default function SlipCaptureChart({
       });
     });
 
-    // console.log(`Total ${crimeType}: ${total}`);
     return total;
   };
 
@@ -266,11 +257,10 @@ export default function SlipCaptureChart({
       return row;
     });
 
-    // console.log("Chart data generated:", result);
     return result;
   }, [completeDateRange, crimeTypes, dataByDate]);
 
-  // Pie Chart Data
+  // Pie Chart Data - formatted for PieChartComponent
   const pieData = useMemo(() => {
     const totals: Record<string, number> = {};
 
@@ -282,14 +272,12 @@ export default function SlipCaptureChart({
     }
 
     const result = crimeTypes
-      .map((type, idx) => ({
+      .map((type) => ({
         name: type,
         value: totals[type] ?? 0,
-        color: COLORS[idx % COLORS.length],
       }))
       .filter((item) => item.value > 0); // Filter out zero values
 
-    // console.log("Pie chart data:", result);
     return result;
   }, [filteredData, crimeTypes]);
 
@@ -346,9 +334,6 @@ export default function SlipCaptureChart({
     crimeTypes.some((type) => (day[type] || 0) > 0)
   );
 
-  // console.log("Has data:", hasData);
-  // console.log("Crime types:", crimeTypes);
-
   return (
     <Card className="w-full">
       <CardHeader>
@@ -402,32 +387,7 @@ export default function SlipCaptureChart({
             </div>
           </div>
         ) : chartType === "pie" ? (
-          <ResponsiveContainer width="100%" height="100%">
-            <PieChart>
-              <Pie
-                data={pieData}
-                dataKey="value"
-                nameKey="name"
-                cx="50%"
-                cy="50%"
-                outerRadius={120}
-                label={({ name, value }) => `${name}: ${value}`}
-              >
-                {pieData.map((entry, idx) => (
-                  <Cell key={`cell-${idx}`} fill={entry.color} />
-                ))}
-              </Pie>
-              <Legend verticalAlign="top" wrapperStyle={{ top: 0 }} />
-              <Tooltip
-                contentStyle={{
-                  background: "bg-card",
-                  border: "1px solid white",
-                  fontWeight: "400",
-                  borderRadius: "10px",
-                }}
-              />
-            </PieChart>
-          </ResponsiveContainer>
+          <PieChartComponent pieData={pieData} pieSliceColors={COLORS} />
         ) : (
           <ResponsiveContainer width="100%" height="100%">
             <BarChart
@@ -446,8 +406,12 @@ export default function SlipCaptureChart({
               <Tooltip
                 cursor={{ fill: "hsl(var(--muted) / 0.5)" }}
                 contentStyle={{
-                  background: "bg-card",
+                  background: "hsl(var(--popover))",
                   border: "1px solid hsl(var(--border))",
+                  color: "hsl(var(--popover-foreground))",
+                  borderRadius: "6px",
+                  fontSize: "12px",
+                  fontWeight: "500",
                 }}
               />
               <Legend verticalAlign="top" wrapperStyle={{ top: 0 }} />

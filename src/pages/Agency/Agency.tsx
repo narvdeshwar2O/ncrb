@@ -21,6 +21,13 @@ import {
 } from "./types";
 import { getDistrictsForStates } from "./utils";
 import { LoadParams } from "@/utils/loadAllMonthlyDataRealData";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 function Agency() {
   const [loadAllData, setLoadAllData] = useState<LoadParams["type"]>("agency");
@@ -37,6 +44,9 @@ function Agency() {
 
   const [showTable, setShowTable] = useState(false);
   const [showCompareChart, setCompareChart] = useState(false);
+  const [comparisonType, setComparisonType] = useState<"state" | "district">(
+    "state"
+  );
 
   useEffect(() => {
     const autoDistricts = getDistrictsForStates(filters.state || []);
@@ -44,59 +54,30 @@ function Agency() {
       !filters.districts ||
       filters.districts.length === 0 ||
       !filters.districts.every((d) => autoDistricts.includes(d));
-
-    if (shouldUpdateDistricts) {
-      setFilters((prev) => ({
-        ...prev,
-        districts: autoDistricts,
-      }));
-    }
+    if (shouldUpdateDistricts)
+      setFilters((prev) => ({ ...prev, districts: autoDistricts }));
   }, [filters.state.join(",")]);
 
   useEffect(() => {
     setFilters((prev) => {
       const { from, to } = prev.dateRange;
       if (!from || !to) return prev;
-      if (from > to) {
-        return { ...prev, dateRange: { from: to, to: from } };
-      }
+      if (from > to) return { ...prev, dateRange: { from: to, to: from } };
       return prev;
     });
   }, [filters.dateRange]);
 
   const filteredData = useMemo(() => {
     return allData.filter((entry) => {
-      if (isConsolidated) {
-        const { state, categories } = filters;
-        if (!state || state.length === 0) return false;
-        const activeCategories = categories?.length
-          ? categories
-          : [...categoryOptions];
-
-        return state.some((selectedState) => {
-          const districts = entry.data[selectedState];
-          if (!districts) return false;
-
-          return Object.values(districts).some((districtData: any) =>
-            Object.keys(districtData).some((cat) =>
-              activeCategories.includes(cat)
-            )
-          );
-        });
-      }
-
-      // Original logic for daily data
       const {
         dateRange: { from, to },
         state,
         categories,
       } = filters;
-
       const normalize = (d: Date | undefined | null) =>
         d instanceof Date && !isNaN(d.getTime())
           ? new Date(d.getFullYear(), d.getMonth(), d.getDate())
           : undefined;
-
       const entryDate = normalize(new Date(entry.date));
       const fromDate = normalize(from);
       const toDate = normalize(to);
@@ -104,19 +85,15 @@ function Agency() {
         !entryDate ||
         (fromDate && entryDate < fromDate) ||
         (toDate && entryDate > toDate)
-      ) {
+      )
         return false;
-      }
       if (!state || state.length === 0) return false;
-
       const activeCategories = categories?.length
         ? categories
         : [...categoryOptions];
-
       return state.some((selectedState) => {
         const districts = entry.data[selectedState];
         if (!districts) return false;
-
         return Object.values(districts).some((districtData: any) =>
           Object.keys(districtData).some((cat) =>
             activeCategories.includes(cat)
@@ -124,23 +101,16 @@ function Agency() {
         );
       });
     });
-  }, [allData, filters, isConsolidated]);
-
-  const selectedStates = filters.state ?? [];
-  const noStatesSelected = selectedStates.length === 0;
+  }, [allData, filters]);
 
   const tableData = useMemo(() => {
-    if (filters.districts.length === 0) {
-      return {
-        stateResult: {},
-        districtResult: {},
-      };
-    }
+    if (!filters.districts || filters.districts.length === 0)
+      return { stateResult: {}, districtResult: {} };
     return aggregateByState(filteredData, filters);
   }, [filteredData, filters]);
 
-  const noDistrictsSelectedUI =
-    filters.state.length > 0 && filters.districts.length === 0;
+  const selectedStates = filters.state ?? [];
+  const noStatesSelected = selectedStates.length === 0;
 
   const activeCategories = filters.categories?.length
     ? filters.categories
@@ -157,7 +127,8 @@ function Agency() {
     });
     return map;
   }, [filteredData, filters, activeCategories]);
-  if (loading) {
+
+  if (loading)
     return (
       <div className="p-6 flex justify-center items-center h-[calc(100vh-48px)]">
         <Skeleton className="h-8 w-48 mb-2 flex justify-center items-center">
@@ -165,7 +136,6 @@ function Agency() {
         </Skeleton>
       </div>
     );
-  }
 
   return (
     <div className="p-3">
@@ -180,35 +150,21 @@ function Agency() {
         {noStatesSelected ? (
           <div className="w-full p-6 text-center border rounded-md shadow-sm bg-muted/30">
             <p className="font-medium">
-              No states selected. Use the <em>States</em> filter above to select
-              one or more states.
-            </p>
-          </div>
-        ) : noDistrictsSelectedUI ? (
-          <div className="w-full p-6 text-center border rounded-md shadow-sm bg-muted/30 text-red-600">
-            <p className="font-medium">
-              No district selected. Please choose at least one district.
+              No states selected. Use the <em>States</em> filter above.
             </p>
           </div>
         ) : (
           <>
             <Card className="border-l-4 border-blue-600 bg-card shadow-sm">
               <CardContent className="py-2 px-2 text-sm text-muted-foreground flex justify-between items-center">
-                {isConsolidated ? (
-                  <h1>You are currently viewing all data</h1>
-                ) : (
-                  <p>
-                    <strong>You are currently viewing:</strong>&nbsp;
-                    <strong>{filteredData.length}</strong> days of data
-                    for&nbsp;
-                    <strong>
-                      {`${selectedStates.length} state${
-                        selectedStates.length > 1 ? "s" : ""
-                      }`}
-                    </strong>
-                  </p>
-                )}
-
+                <p>
+                  <strong>You are currently viewing:</strong>{" "}
+                  <strong>{filteredData.length}</strong> days of data for{" "}
+                  <strong>
+                    {selectedStates.length} state
+                    {selectedStates.length > 1 ? "s" : ""}
+                  </strong>
+                </p>
                 <button
                   className="bg-blue-600 px-3 py-2 rounded-md text-card font-semibold text-white"
                   onClick={() => setShowTable((prev) => !prev)}
@@ -220,8 +176,7 @@ function Agency() {
 
             {showTable ? (
               <AgencyTable data={tableData} filters={filters} />
-            ) : filters.dataTypes.length > 0 &&
-              filters.categories.length > 0 ? (
+            ) : (
               <>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
                   {activeCategories.map((cat) => (
@@ -234,48 +189,67 @@ function Agency() {
                   ))}
                 </div>
 
-                <div className="border p-3 rounded-md flex flex-col items-end">
-                  <button
-                    className="bg-blue-600 px-3 py-2 rounded-md text-card font-semibold text-white max-w-[20%] text-nowrap"
-                    onClick={() => setCompareChart((prev) => !prev)}
-                  >
-                    {showCompareChart
-                      ? "Hide Comparison Chart"
-                      : "Show Comparison Chart"}
-                  </button>
-
-                  {showCompareChart ? (
-                    selectedStates.length >= 2 &&
-                    selectedStates.length <= 15 ? (
-                      <StateComparisonChart
-                        data={tableData.stateResult}
-                        selectedStates={selectedStates}
-                        dataTypes={filters.dataTypes}
-                        categories={filters.categories}
-                      />
+                <div className="border p-3 rounded-md">
+                  <div className="flex flex-col-reverse">
+                    {showCompareChart ? (
+                      <></>
                     ) : (
-                      <div className="w-full p-3 flex justify-center items-center">
-                        <p className="border shadow-md p-3 rounded-md">
-                          Please select at least 2 and at most 15 states for
-                          chart comparison.
-                        </p>
-                      </div>
-                    )
-                  ) : (
-                    <MultipleChart
-                      filteredData={filteredData}
-                      filters={filters}
-                      activeCategories={filters.categories}
-                      totalsByCategory={{
-                        tp: computeCombinedTotal(filteredData, "tp", filters),
-                        cp: computeCombinedTotal(filteredData, "cp", filters),
-                        mesa: computeCombinedTotal(
-                          filteredData,
-                          "mesa",
-                          filters
-                        ),
-                      }}
-                      categoryLabelMap={categoryLabelMap}
+                      <MultipleChart
+                        filteredData={filteredData}
+                        filters={filters}
+                        activeCategories={filters.categories}
+                        totalsByCategory={{
+                          tp: computeCombinedTotal(filteredData, "tp", filters),
+                          cp: computeCombinedTotal(filteredData, "cp", filters),
+                          mesa: computeCombinedTotal(
+                            filteredData,
+                            "mesa",
+                            filters
+                          ),
+                        }}
+                        categoryLabelMap={categoryLabelMap}
+                      />
+                    )}
+                    <div className="flex justify-end gap-2 items-center">
+                      {showCompareChart && (<><label className="font-medium text-sm">Compare by:</label>
+                      <Select
+                        value={comparisonType}
+                        onValueChange={(value) =>
+                          setComparisonType(value as "state" | "district")
+                        }
+                      >
+                        <SelectTrigger className="w-[140px] text-sm">
+                          <SelectValue placeholder="Select comparison" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="state">State</SelectItem>
+                          <SelectItem value="district">District</SelectItem>
+                        </SelectContent>
+                      </Select></>)}
+                      <button
+                        className="bg-blue-600 hover:bg-blue-700 px-3 py-1.5 rounded-md text-white text-sm font-medium w-fit"
+                        onClick={() => setCompareChart((prev) => !prev)}
+                      >
+                        {showCompareChart
+                          ? "Hide Comparison Chart"
+                          : "Show Comparison Chart"}
+                      </button>
+                    </div>
+                  </div>
+
+                  {showCompareChart && (
+                    <StateComparisonChart
+                      data={tableData}
+                      selectedStates={filters.state}
+                      selectedDistricts={
+                        comparisonType === "district" &&
+                        selectedStates.length === 1
+                          ? Object.keys(tableData.districtResult)
+                          : filters.districts
+                      }
+                      dataTypes={filters.dataTypes}
+                      categories={filters.categories}
+                      comparisonType={comparisonType}
                     />
                   )}
                 </div>
@@ -289,14 +263,6 @@ function Agency() {
                   selectedStates={filters.state}
                 />
               </>
-            ) : (
-              <div className="w-full p-6 text-center border rounded-md shadow-sm bg-muted/30">
-                <p className="font-medium">
-                  No data type selected. Use the <em>Data Types</em> or{" "}
-                  <em>Categories</em> filter above to select one or more data
-                  types.
-                </p>
-              </div>
             )}
           </>
         )}

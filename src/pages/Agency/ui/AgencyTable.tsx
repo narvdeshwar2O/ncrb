@@ -3,6 +3,7 @@ import { DataTable } from "@/components/tables/DataTable";
 import * as exportService from "@/utils/exportService";
 import { FilterState } from "@/components/filters/types/FilterTypes";
 import { Totals } from "../types";
+export type DistrictData = StateData;
 
 export interface StateRow {
   state: string;
