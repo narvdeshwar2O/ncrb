@@ -2,11 +2,12 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Navigate, useRoutes } from "react-router-dom";
-import { ThemeProvider } from "./components/theme/ThemeProvider";
-import { AuthProvider } from "./context/AuthContext";
+import { BrowserRouter } from "react-router-dom";
+import { ThemeProvider } from "@/components/theme/ThemeProvider";
+import { AuthProvider } from "@/context/AuthContext";
 import { Suspense } from "react";
-import AppRoutes from "./Routes/AppRoutes";
+import AppRoutes from "@/Routes/AppRoutes";
+import Loading from "@/components/layouts/Loading";
 
 const queryClient = new QueryClient();
 
@@ -18,14 +19,7 @@ const App = () => (
         <Sonner />
         <BrowserRouter>
           <AuthProvider>
-            <Suspense
-              fallback={
-                <div className="p-6 text-center">
-                  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto"></div>
-                  <p className="mt-2 text-gray-600">Loading...</p>
-                </div>
-              }
-            >
+            <Suspense fallback={<Loading />}>
               <AppRoutes />
             </Suspense>
           </AuthProvider>

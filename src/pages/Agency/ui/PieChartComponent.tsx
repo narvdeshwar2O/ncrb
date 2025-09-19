@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   ResponsiveContainer,
   PieChart,
@@ -6,7 +6,6 @@ import {
   Cell,
   Legend,
   Tooltip,
-  Sector,
 } from "recharts";
 
 interface PieChartComponentProps {
@@ -14,84 +13,77 @@ interface PieChartComponentProps {
   pieSliceColors: string[];
 }
 
-const darkenStyle = { filter: "brightness(0.85)" };
+const RADIAN = Math.PI / 180;
 
-// Custom label with arrows pointing to sectors
-const renderLabelWithArrow = (
-  entries: any,
-  colors: string[],
-  originalData: any[]
-) => {
-  const { cx, cy, midAngle, innerRadius, outerRadius, name, value, percent } =
-    entries;
-
-  // Only show labels for slices larger than 3% to avoid overcrowding
-  if (percent < 0.01) {
-    return null;
-  }
-
-  const RADIAN = Math.PI / 180;
-
-  // Calculate positions
-  const innerPoint = {
-    x: cx + (outerRadius + 5) * Math.cos(-midAngle * RADIAN),
-    y: cy + (outerRadius + 5) * Math.sin(-midAngle * RADIAN),
-  };
-
-  const outerPoint = {
-    x: cx + (outerRadius + 35) * Math.cos(-midAngle * RADIAN),
-    y: cy + (outerRadius + 35) * Math.sin(-midAngle * RADIAN),
-  };
-
-  const labelPoint = {
-    x: outerPoint.x + (outerPoint.x > cx ? 10 : -10),
-    y: outerPoint.y,
-  };
-
-  // Get color for this slice
-  const originalIndex = originalData.findIndex((item) => item.name === name);
-  const sliceColor = colors[originalIndex % colors.length];
-
-  return (
-    <g key={`label-group-${name}`}>
-      {/* Arrow line from pie edge to label */}
-      <polyline
-        points={`${innerPoint.x},${innerPoint.y} ${outerPoint.x},${outerPoint.y} ${labelPoint.x},${labelPoint.y}`}
-        fill="none"
-        stroke={sliceColor}
-        strokeWidth={2}
-        opacity={0.8}
-      />
-
-      {/* Small circle at the connection point */}
-      <circle cx={innerPoint.x} cy={innerPoint.y} r={2} fill={sliceColor} />
-
-      {/* Label text */}
-      <text
-        x={labelPoint.x + (labelPoint.x > cx ? 5 : -5)}
-        y={labelPoint.y - 4}
-        fill={sliceColor}
-        textAnchor={labelPoint.x > cx ? "start" : "end"}
-        dominantBaseline="central"
-        fontSize={10}
-        fontWeight={600}
-        style={{ pointerEvents: "none" }}
-      >
-        {name} : {value}
-      </text>
-    </g>
-  );
-};
-
-export function PieChartComponent(props: PieChartComponentProps) {
-  const { pieData, pieSliceColors } = props;
+export function PieChartComponent({
+  pieData,
+  pieSliceColors,
+}: PieChartComponentProps) {
+  // Filter out 'total'
+  const [activeIndex, setActiveIndex] = useState<number | null>(null);
 
   const filteredPieData = pieData.filter(
     (entry) => !entry.name.toLowerCase().includes("total")
   );
 
-  // Sort data by value (largest first) to ensure better label positioning
+  // Sort data by value
   const sortedPieData = [...filteredPieData].sort((a, b) => b.value - a.value);
+
+  // Custom label renderer
+  const renderLabelWithArrow = (props: any) => {
+    const { cx, cy, midAngle, outerRadius, name, value } = props;
+
+    // Position calculations
+    const sideMultiplier = midAngle > 90 && midAngle < 270 ? -1 : 1; // Left or right
+    const outerX = cx + (outerRadius + 25) * Math.cos(-midAngle * RADIAN);
+    const outerY = cy + (outerRadius + 25) * Math.sin(-midAngle * RADIAN);
+    const labelX = outerX + sideMultiplier * 10;
+    let labelY = outerY;
+
+    // Prevent overlapping by adjusting Y (simple approach)
+    const index = sortedPieData.findIndex((item) => item.name === name);
+    labelY += index * 12 * (sideMultiplier === -1 ? 1 : -1); // adjust spacing
+
+    // Find slice color
+    const sliceColor = pieSliceColors[index % pieSliceColors.length];
+
+    return (
+      <g
+        key={`label-group-${name}`}
+        onMouseEnter={() => setActiveIndex(index)}
+        onMouseLeave={() => setActiveIndex(null)}
+        style={{ cursor: "pointer" }}
+      >
+        <polyline
+          points={`${cx + outerRadius * Math.cos(-midAngle * RADIAN)},${
+            cy + outerRadius * Math.sin(-midAngle * RADIAN)
+          } ${outerX},${outerY} ${labelX},${labelY}`}
+          fill="none"
+          stroke={sliceColor}
+          strokeWidth={2}
+          opacity={0.8}
+        />
+        <circle
+          cx={cx + outerRadius * Math.cos(-midAngle * RADIAN)}
+          cy={cy + outerRadius * Math.sin(-midAngle * RADIAN)}
+          r={2}
+          fill={sliceColor}
+        />
+        <text
+          x={labelX + (sideMultiplier === 1 ? 5 : -5)}
+          y={labelY}
+          fill={sliceColor}
+          textAnchor={sideMultiplier === 1 ? "start" : "end"}
+          dominantBaseline="central"
+          fontSize={10}
+          fontWeight={600}
+          style={{ pointerEvents: "none" }}
+        >
+          {name} : {value}
+        </text>
+      </g>
+    );
+  };
 
   return (
     <ResponsiveContainer width="100%" height="100%">
@@ -103,23 +95,15 @@ export function PieChartComponent(props: PieChartComponentProps) {
           cx="50%"
           cy="50%"
           outerRadius={150}
-          label={(entries) =>
-            renderLabelWithArrow(entries, pieSliceColors, filteredPieData)
-          }
+          label={(entry) => renderLabelWithArrow(entry)}
           labelLine={false}
         >
-          {sortedPieData.map((entry, idx) => {
-            // Find original index for consistent coloring
-            const originalIndex = filteredPieData.findIndex(
-              (item) => item.name === entry.name
-            );
-            return (
-              <Cell
-                key={`cell-${idx}`}
-                fill={pieSliceColors[originalIndex % pieSliceColors.length]}
-              />
-            );
-          })}
+          {sortedPieData.map((entry, idx) => (
+            <Cell
+              key={`cell-${idx}`}
+              fill={pieSliceColors[idx % pieSliceColors.length]}
+            />
+          ))}
         </Pie>
 
         <Legend
@@ -133,11 +117,7 @@ export function PieChartComponent(props: PieChartComponentProps) {
           }}
           formatter={(value, entry) => (
             <span
-              style={{
-                color: entry.color,
-                fontWeight: 600,
-                fontSize: "12px",
-              }}
+              style={{ color: entry.color, fontWeight: 600, fontSize: "12px" }}
             >
               {value}
             </span>
@@ -154,25 +134,23 @@ export function PieChartComponent(props: PieChartComponentProps) {
             color: "hsl(var(--popover-foreground))",
             fontSize: "12px",
             fontWeight: "500",
-            boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)",
+            boxShadow:
+              "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)",
           }}
           wrapperStyle={{
             outline: "none",
             zIndex: 9999,
           }}
           formatter={(value: any, name: any, props: any) => [
-            <span style={{ 
-              fontWeight: 600, 
-              color: props.color,
-              display: "inline-block"
-            }}>
+            <span style={{ fontWeight: 600, color: props.color }}>
               {value}
             </span>,
-            <span style={{ 
-              fontWeight: 600, 
-              color: "hsl(var(--popover-foreground))",
-              display: "inline-block"
-            }}>
+            <span
+              style={{
+                fontWeight: 600,
+                color: "hsl(var(--popover-foreground))",
+              }}
+            >
               {name}
             </span>,
           ]}

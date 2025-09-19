@@ -16,12 +16,12 @@ import { FilterState } from "@/components/filters/types/FilterTypes";
 import { DailyData } from "../types";
 
 const colorPalette = [
-  "#E6194B", // strong red
-  "#3CB44B", // strong green
-  "#0082C8", // vivid blue
-  "#F58231", // bright orange
-  "#911EB4", // purple
-  "#46F0F0", // cyan
+  "#E6194B",
+  "#3CB44B", 
+  "#0082C8",
+  "#F58231",
+  "#911EB4",
+  "#46F0F0",
   "#F032E6", // magenta
   "#D2F53C", // lime
   "#FABEBE", // pink
@@ -226,7 +226,7 @@ export function MultipleChart(props: MultipleChartProps) {
     selectedDataTypes,
     totalsByCategory,
     categoryLabelMap,
-    filters.dateRange, // important for full date range
+    filters.dateRange,
   ]);
 
   const chartTitle = showDailyData
