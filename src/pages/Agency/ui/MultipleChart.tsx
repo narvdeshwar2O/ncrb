@@ -15,19 +15,19 @@ import { PieChartComponent } from "./PieChartComponent";
 import { FilterState } from "@/components/filters/types/FilterTypes";
 import { DailyData } from "../types";
 
-const colorPalette = [
-  "#E6194B",
-  "#3CB44B", 
+export const colorPalette = [
+  "#3CB44B",
   "#0082C8",
   "#F58231",
+  "#E6194B",
   "#911EB4",
   "#46F0F0",
-  "#F032E6", // magenta
-  "#D2F53C", // lime
-  "#FABEBE", // pink
-  "#008080", // teal
-  "#E6BEFF", // lavender
-  "#AA6E28", // brown
+  "#F032E6",
+  "#D2F53C",
+  "#FABEBE",
+  "#008080",
+  "#E6BEFF",
+  "#AA6E28",
 ];
 const pieSliceColors = [...colorPalette];
 

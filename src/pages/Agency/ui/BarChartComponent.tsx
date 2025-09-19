@@ -38,6 +38,41 @@ function darkenColor(hex: string, amount = 20) {
   return `rgb(${r},${g},${b})`;
 }
 
+// ✅ Custom Tooltip for showing labels in same color as bars
+const CustomTooltip = ({ active, payload, label }: any) => {
+  if (active && payload && payload.length) {
+    return (
+      <div
+        style={{
+          background: "hsl(var(--background))",
+          border: "1px solid hsl(var(--border))",
+          borderRadius: "6px",
+          padding: "6px 10px",
+          fontWeight: 600,
+        }}
+      >
+        <p style={{ margin: 0, fontSize: "12px", fontWeight: 600 }}>
+          {label}
+        </p>
+        {payload.map((entry: any, idx: number) => (
+          <p
+            key={`tooltip-${idx}`}
+            style={{
+              margin: 0,
+              color: entry.color, // ✅ same color as bar
+              fontWeight: 600,
+              fontSize: "12px",
+            }}
+          >
+            {`${entry.name}: ${entry.value}`}
+          </p>
+        ))}
+      </div>
+    );
+  }
+  return null;
+};
+
 export function BarChartComponent(props: BarChartComponentProps) {
   const {
     chartData,
@@ -62,14 +97,7 @@ export function BarChartComponent(props: BarChartComponentProps) {
         <CartesianGrid vertical={false} />
         <XAxis dataKey="label" tickMargin={10} />
         <YAxis tickMargin={8} />
-        <Tooltip
-          cursor={{ fill: "hsl(var(--muted) / 0.5)" }}
-          contentStyle={{
-            background: "hsl(var(--background))",
-            border: "1px solid hsl(var(--border))",
-            fontWeight:"600"
-          }}
-        />
+        <Tooltip cursor={{ fill: "hsl(var(--muted) / 0.5)" }} content={<CustomTooltip />} />
         <Legend
           verticalAlign="top"
           wrapperStyle={{
@@ -158,4 +186,4 @@ export function BarChartComponent(props: BarChartComponentProps) {
       </BarChart>
     </ResponsiveContainer>
   );
-}
+} 

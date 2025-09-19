@@ -1,5 +1,5 @@
 import { lazy } from "react";
-import type { RouteObject } from "react-router-dom";
+import { Navigate, type RouteObject } from "react-router-dom";
 import Login from "@/pages/auth/Login";
 import NotFound from "@/pages/NotFound";
 
@@ -14,6 +14,7 @@ const PP_PP = lazy(() => import("@/pages/trace-report/pp-pp/PP_PP"));
 const Interpole = lazy(() => import("@/pages/Interpole/Interpole"));
 
 export const appRoutes: RouteObject[] = [
+  { path: "/", element: <Navigate to="/dashboard" replace /> },
   { path: "/dashboard", element: <Agency /> },
   { path: "/slipcapture", element: <SlipCapture /> },
   { path: "/mesa", element: <Mesa /> },
