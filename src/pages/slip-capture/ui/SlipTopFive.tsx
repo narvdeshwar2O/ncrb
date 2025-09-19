@@ -84,7 +84,7 @@ function aggregateArrayMetrics(sectionData: any): any {
 // ✅ FIXED: Safe numeric extractor with proper gender level handling
 const safeNumericValue = (data: any, fieldName: string): number => {
   if (!data || typeof data !== "object") return 0;
-  
+
   // Use the aggregateArrayMetrics helper function
   const aggregated = aggregateArrayMetrics(data);
   const val = Number(aggregated[fieldName]);
@@ -121,17 +121,14 @@ export default function SlipTopFive({
   // ✅ FIXED: Compute top data with proper gender level handling
   const topDataByStatus = useMemo(() => {
     if (!activeStatuses.length) {
-      
       return {};
     }
     if (!isDistrictViewValid) {
-     
       return {};
     }
 
     const fromTime = from ? from.getTime() : Number.NEGATIVE_INFINITY;
     const toTime = to ? to.getTime() : Number.POSITIVE_INFINITY;
-
 
     if (viewMode === "state") {
       const stateTotals: Record<string, Record<StatusKey, number>> = {};
@@ -147,7 +144,6 @@ export default function SlipTopFive({
         if (!day.data?.state) {
           continue;
         }
-
 
         safeObjectEntries(day.data.state).forEach(([stateName, stateData]) => {
           if (!stateName.trim()) return;
@@ -165,25 +161,35 @@ export default function SlipTopFive({
 
             let stateTotal = 0;
 
-            safeObjectEntries(stateData).forEach(([districtName, districtData]) => {
-              safeObjectEntries(districtData).forEach(([actName, actData]) => {
-                // FIXED: Add gender level iteration
-                safeObjectEntries(actData).forEach(([genderName, genderData]) => {
-                  safeObjectEntries(genderData).forEach(([sectionName, sectionData]) => {
-                    const value = safeNumericValue(sectionData, fieldName);
-                    stateTotal += value;
-                    if (value > 0) {
-                    }
-                  });
-                });
-              });
-            });
+            safeObjectEntries(stateData).forEach(
+              ([districtName, districtData]) => {
+                safeObjectEntries(districtData).forEach(
+                  ([actName, actData]) => {
+                    // FIXED: Add gender level iteration
+                    safeObjectEntries(actData).forEach(
+                      ([genderName, genderData]) => {
+                        safeObjectEntries(genderData).forEach(
+                          ([sectionName, sectionData]) => {
+                            const value = safeNumericValue(
+                              sectionData,
+                              fieldName
+                            );
+                            stateTotal += value;
+                            if (value > 0) {
+                            }
+                          }
+                        );
+                      }
+                    );
+                  }
+                );
+              }
+            );
 
             stateTotals[stateName][status] += stateTotal;
           }
         });
       }
-
 
       const result: Record<StatusKey, any[]> = {} as any;
       for (const status of activeStatuses) {
@@ -196,7 +202,6 @@ export default function SlipTopFive({
           .slice(0, 5);
 
         result[status] = arr;
-
       }
       return result;
     } else {
@@ -223,38 +228,49 @@ export default function SlipTopFive({
             return;
           }
 
-          safeObjectEntries(stateData).forEach(([districtName, districtData]) => {
-            if (!districtName.trim()) return;
-            const districtKey = `${stateName.trim()} - ${districtName.trim()}`;
+          safeObjectEntries(stateData).forEach(
+            ([districtName, districtData]) => {
+              if (!districtName.trim()) return;
+              const districtKey = `${stateName.trim()} - ${districtName.trim()}`;
 
-            if (!districtTotals[districtKey]) {
-              districtTotals[districtKey] = {} as Record<StatusKey, number>;
-              for (const s of VALID_STATUSES)
-                districtTotals[districtKey][s] = 0;
-            }
-
-            for (const status of activeStatuses) {
-              const fieldName = STATUS_KEY_MAP[status.toLowerCase()];
-              if (!fieldName) {
-                continue;
+              if (!districtTotals[districtKey]) {
+                districtTotals[districtKey] = {} as Record<StatusKey, number>;
+                for (const s of VALID_STATUSES)
+                  districtTotals[districtKey][s] = 0;
               }
 
-              let districtTotal = 0;
-              safeObjectEntries(districtData).forEach(([actName, actData]) => {
-                // FIXED: Add gender level iteration
-                safeObjectEntries(actData).forEach(([genderName, genderData]) => {
-                  safeObjectEntries(genderData).forEach(([sectionName, sectionData]) => {
-                    const value = safeNumericValue(sectionData, fieldName);
-                    districtTotal += value;
-                    if (value > 0) {
-                    }
-                  });
-                });
-              });
+              for (const status of activeStatuses) {
+                const fieldName = STATUS_KEY_MAP[status.toLowerCase()];
+                if (!fieldName) {
+                  continue;
+                }
 
-              districtTotals[districtKey][status] += districtTotal;
+                let districtTotal = 0;
+                safeObjectEntries(districtData).forEach(
+                  ([actName, actData]) => {
+                    // FIXED: Add gender level iteration
+                    safeObjectEntries(actData).forEach(
+                      ([genderName, genderData]) => {
+                        safeObjectEntries(genderData).forEach(
+                          ([sectionName, sectionData]) => {
+                            const value = safeNumericValue(
+                              sectionData,
+                              fieldName
+                            );
+                            districtTotal += value;
+                            if (value > 0) {
+                            }
+                          }
+                        );
+                      }
+                    );
+                  }
+                );
+
+                districtTotals[districtKey][status] += districtTotal;
+              }
             }
-          });
+          );
         });
       }
 
@@ -399,9 +415,7 @@ export default function SlipTopFive({
             {activeStatuses.map((status) => (
               <ChartCard
                 key={status}
-                title={`${status} (Top 5 ${
-                  viewMode === "state" ? "States" : "Districts"
-                })`}
+                title={`${status}`}
                 data={topDataByStatus[status] || []}
               />
             ))}

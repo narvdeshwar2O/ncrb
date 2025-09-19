@@ -10,7 +10,7 @@ interface ChartCardProps {
 // Helper: Capitalize first letter of each word
 const capitalizeWords = (text: string) =>
   text
-    .replace(/enrol/gi, "Enrol") 
+    .replace(/enrol/gi, "Enrollment") 
     .split(" ")
     .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
     .join(" ");
@@ -25,7 +25,7 @@ function ChartCard({ title, data }: ChartCardProps) {
       <Card>
         <CardHeader>
           <CardTitle className="text-center text-sm font-semibold">
-            Top 5 states : {fixedTitle}
+           {fixedTitle}
           </CardTitle>
         </CardHeader>
         <CardContent>

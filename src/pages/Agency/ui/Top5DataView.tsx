@@ -40,7 +40,12 @@ const getTopDistrictsByState = (
 
   allData.forEach((day) => {
     const dayDate = new Date(day.date);
-    if (dayDate >= from && dayDate <= to) {
+    // Fix: Normalize dates to compare only the date part, not time
+    const dayDateOnly = new Date(dayDate.getFullYear(), dayDate.getMonth(), dayDate.getDate());
+    const fromDateOnly = new Date(from.getFullYear(), from.getMonth(), from.getDate());
+    const toDateOnly = new Date(to.getFullYear(), to.getMonth(), to.getDate());
+    
+    if (dayDateOnly >= fromDateOnly && dayDateOnly <= toDateOnly) {
       let stateData = null;
       const stateNameLower = stateName.toLowerCase().trim();
 
@@ -86,6 +91,7 @@ const getTopDistrictsByState = (
       delete: districtTotals[district].delete,
     })
   );
+  console.log("district", districts);
 
   return {
     hitTop5: districts
@@ -170,6 +176,8 @@ const CategorySection = ({
         }),
     [currentData, dataTypes]
   );
+
+  console.log("alll memem", allMetricData);
 
   /** Hide buttons before printing - Same as reference code */
   const hideButtons = (hide: boolean) => {
@@ -281,13 +289,7 @@ const CategorySection = ({
 
       <div className="grid grid-cols-1 md:grid-cols-4 gap-3">
         {allMetricData.map(({ metric, chartData }) => (
-          <ChartCard
-            key={metric}
-            title={`${metric} (${
-              categoryLabelMap[category] || category.toUpperCase()
-            })`}
-            data={chartData}
-          />
+          <ChartCard key={metric} title={`${metric}`} data={chartData} />
         ))}
       </div>
     </div>
@@ -306,6 +308,8 @@ export const Top5DataView = ({
     () => categories.filter(isValidCategoryKey),
     [categories]
   );
+
+  console.log("all data", allData);
 
   return (
     <>

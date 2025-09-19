@@ -48,6 +48,7 @@ function Agency() {
     "state"
   );
 
+  // keep districts synced with states
   useEffect(() => {
     const autoDistricts = getDistrictsForStates(filters.state || []);
     const shouldUpdateDistricts =
@@ -58,6 +59,7 @@ function Agency() {
       setFilters((prev) => ({ ...prev, districts: autoDistricts }));
   }, [filters.state.join(",")]);
 
+  // fix swapped from/to
   useEffect(() => {
     setFilters((prev) => {
       const { from, to } = prev.dateRange;
@@ -111,6 +113,7 @@ function Agency() {
 
   const selectedStates = filters.state ?? [];
   const noStatesSelected = selectedStates.length === 0;
+  const noDistrictsSelected = !filters.districts || filters.districts.length === 0;
 
   const activeCategories = filters.categories?.length
     ? filters.categories
@@ -147,10 +150,17 @@ function Agency() {
           onLoadDailyData={() => setLoadAllData("agency")}
         />
 
+        {/* 🔹 guard checks */}
         {noStatesSelected ? (
           <div className="w-full p-6 text-center border rounded-md shadow-sm bg-muted/30">
             <p className="font-medium">
               No states selected. Use the <em>States</em> filter above.
+            </p>
+          </div>
+        ) : noDistrictsSelected ? (
+          <div className="w-full p-6 text-center border rounded-md shadow-sm bg-muted/30">
+            <p className="font-medium">
+              No districts selected. Use the <em>Districts</em> filter above.
             </p>
           </div>
         ) : (
@@ -178,6 +188,7 @@ function Agency() {
               <AgencyTable data={tableData} filters={filters} />
             ) : (
               <>
+                {/* totals cards */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
                   {activeCategories.map((cat) => (
                     <RenderCard
@@ -189,6 +200,7 @@ function Agency() {
                   ))}
                 </div>
 
+                {/* charts */}
                 <div className="border p-3 rounded-md">
                   <div className="flex flex-col-reverse">
                     {showCompareChart ? (
@@ -201,31 +213,31 @@ function Agency() {
                         totalsByCategory={{
                           tp: computeCombinedTotal(filteredData, "tp", filters),
                           cp: computeCombinedTotal(filteredData, "cp", filters),
-                          mesa: computeCombinedTotal(
-                            filteredData,
-                            "mesa",
-                            filters
-                          ),
+                          mesa: computeCombinedTotal(filteredData, "mesa", filters),
                         }}
                         categoryLabelMap={categoryLabelMap}
                       />
                     )}
                     <div className="flex justify-end gap-2 items-center">
-                      {showCompareChart && (<><label className="font-medium text-sm">Compare by:</label>
-                      <Select
-                        value={comparisonType}
-                        onValueChange={(value) =>
-                          setComparisonType(value as "state" | "district")
-                        }
-                      >
-                        <SelectTrigger className="w-[140px] text-sm">
-                          <SelectValue placeholder="Select comparison" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="state">State</SelectItem>
-                          <SelectItem value="district">District</SelectItem>
-                        </SelectContent>
-                      </Select></>)}
+                      {showCompareChart && (
+                        <>
+                          <label className="font-medium text-sm">Compare by:</label>
+                          <Select
+                            value={comparisonType}
+                            onValueChange={(value) =>
+                              setComparisonType(value as "state" | "district")
+                            }
+                          >
+                            <SelectTrigger className="w-[140px] text-sm">
+                              <SelectValue placeholder="Select comparison" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectItem value="state">State</SelectItem>
+                              <SelectItem value="district">District</SelectItem>
+                            </SelectContent>
+                          </Select>
+                        </>
+                      )}
                       <button
                         className="bg-blue-600 hover:bg-blue-700 px-3 py-1.5 rounded-md text-white text-sm font-medium w-fit"
                         onClick={() => setCompareChart((prev) => !prev)}
@@ -254,6 +266,7 @@ function Agency() {
                   )}
                 </div>
 
+                {/* top 5 view */}
                 <Top5DataView
                   allData={allData}
                   from={filters.dateRange.from}
