@@ -1,20 +1,20 @@
-import React, { useMemo, useRef, useState } from "react";
+import { FilterState } from "@/components/filters/types/FilterTypes";
 import { DataTable } from "@/components/tables/DataTable";
 import * as exportService from "@/utils/exportService";
-import { FilterState } from "@/components/filters/types/FilterTypes";
-import { Totals } from "../types";
+import { useMemo, useRef, useState } from "react";
+import { Metrics } from "../types";
 export type DistrictData = StateData;
 
 export interface StateRow {
   state: string;
-  tp?: Totals;
-  cp?: Totals;
-  mesa?: Totals;
+  tp?: Metrics;
+  cp?: Metrics;
+  mesa?: Metrics;
 }
 
 export type StateData = Record<
   string,
-  { tp?: Totals; cp?: Totals; mesa?: Totals }
+  { tp?: Metrics; cp?: Metrics; mesa?: Metrics }
 >;
 
 interface AgencyTableProps {
@@ -109,11 +109,11 @@ export default function AgencyTable({ data, filters }: AgencyTableProps) {
       columnConfig.forEach((group) => {
         group.subColumns.forEach((subCol) => {
           const value =
-            row[group.key as keyof StateRow]?.[subCol.key as keyof Totals] ?? 0;
+            row[group.key as keyof StateRow]?.[subCol.key as keyof Metrics] ?? 0;
           if (
             tableRows.some(
               (r) =>
-                (r[group.key as keyof StateRow]?.[subCol.key as keyof Totals] ??
+                (r[group.key as keyof StateRow]?.[subCol.key as keyof Metrics] ??
                   0) !== 0
             )
           ) {

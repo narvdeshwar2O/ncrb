@@ -1,6 +1,6 @@
-import { DailyData } from "@/pages/agency/types";
-import { FilterState } from "../components/filters/types/FilterTypes";
+import { DailyData } from "@/pages/agency/types/types";
 import { StateData } from "@/pages/agency/ui/AgencyTable";
+import { FilterState } from "../components/filters/types/FilterTypes";
 
 export default function aggregateByState(
   data: DailyData[],

@@ -20,19 +20,18 @@ import {
   categoryLabelMap,
   categoryOptions,
   dataTypeOptions,
-  Totals,
+  Metrics,
 } from "./types";
 import AgencyTable from "./ui/AgencyTable";
 import { MultipleChart } from "./ui/MultipleChart";
 import RenderCard from "./ui/RenderCard";
 import { StateComparisonChart } from "./ui/StateComparisonChart";
 import { Top5DataView } from "./ui/Top5DataView";
-import { getDistrictsForStates } from "./utils";
+import { getDistrictsForStates } from "./utils/utils";
 
 function Agency() {
   const [loadAllData, setLoadAllData] = useState<LoadParams["type"]>("agency");
   const { data: allData, loading } = useMonthlyData(loadAllData);
-  const isConsolidated = loadAllData === "agency_consoldated";
 
   const [filters, setFilters] = useState<FilterState>({
     dateRange: getLastNDaysRange(7),
@@ -104,7 +103,7 @@ function Agency() {
       });
     });
   }, [allData, filters]);
-  
+
   const tableData = useMemo(() => {
     if (!filters.districts || filters.districts.length === 0)
       return { stateResult: {}, districtResult: {} };
@@ -121,7 +120,7 @@ function Agency() {
     : [...categoryOptions];
 
   const totalsByCategory = useMemo(() => {
-    const map: Record<string, Totals> = {};
+    const map: Record<string, Metrics> = {};
     activeCategories.forEach((cat) => {
       map[cat] = computeCombinedTotal(
         filteredData,
@@ -275,9 +274,7 @@ function Agency() {
 
                 {/* top 5 view */}
                 <Top5DataView
-                  allData={allData}
-                  from={filters.dateRange.from}
-                  to={filters.dateRange.to}
+                  allData={filteredData}
                   categories={filters.categories}
                   dataTypes={filters.dataTypes}
                   selectedStates={filters.state}

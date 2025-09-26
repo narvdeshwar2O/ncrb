@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Toaster } from "@/components/ui/toaster";
 import { useToast } from "@/components/ui/use-toast";
 import * as exportService from "@/utils/exportService";
-import getTopStatesByDateRange from "@/utils/getTopStatesByDateRange";
+import getTopStates from "@/utils/getTopStatesByDateRange";
 import { Download, Globe, MapPin, Printer } from "lucide-react";
 import { useMemo, useRef, useState } from "react";
 import {
@@ -20,8 +20,6 @@ function isValidCategoryKey(category: string): category is CategoryKey {
 
 interface Props {
   allData: DailyData[];
-  from: Date;
-  to: Date;
   categories: string[];
   dataTypes: string[];
   selectedStates?: string[];
@@ -29,62 +27,43 @@ interface Props {
 
 const getTopDistrictsByState = (
   allData: DailyData[],
-  from: Date,
-  to: Date,
   stateName: string,
   category: CategoryKey
 ) => {
   const districtTotals: Record<string, Record<string, number>> = {};
+  const stateNameLower = stateName.toLowerCase().trim();
 
   allData.forEach((day) => {
-    const dayDate = new Date(day.date);
-    // Fix: Normalize dates to compare only the date part, not time
-    const dayDateOnly = new Date(
-      dayDate.getFullYear(),
-      dayDate.getMonth(),
-      dayDate.getDate()
-    );
-    const fromDateOnly = new Date(
-      from.getFullYear(),
-      from.getMonth(),
-      from.getDate()
-    );
-    const toDateOnly = new Date(to.getFullYear(), to.getMonth(), to.getDate());
+    let stateData = null;
 
-    if (dayDateOnly >= fromDateOnly && dayDateOnly <= toDateOnly) {
-      let stateData = null;
-      const stateNameLower = stateName.toLowerCase().trim();
-
-      for (const stateKey of Object.keys(day.data || {})) {
-        if (stateKey.toLowerCase().trim() === stateNameLower) {
-          stateData = day.data[stateKey];
-          break;
-        }
+    for (const stateKey of Object.keys(day.data || {})) {
+      if (stateKey.toLowerCase().trim() === stateNameLower) {
+        stateData = day.data[stateKey];
+        break;
       }
+    }
 
-      if (stateData) {
-        Object.keys(stateData).forEach((district) => {
-          const districtData = stateData[district];
-          if (districtData && typeof districtData === "object") {
-            const categoryData = districtData[category];
-            if (categoryData && typeof categoryData === "object") {
-              if (!districtTotals[district]) {
-                districtTotals[district] = {
-                  hit: 0,
-                  nohit: 0,
-                  enrol: 0,
-                  delete: 0,
-                };
-              }
-              districtTotals[district].hit += Number(categoryData.hit) || 0;
-              districtTotals[district].nohit += Number(categoryData.nohit) || 0;
-              districtTotals[district].enrol += Number(categoryData.enrol) || 0;
-              districtTotals[district].delete +=
-                Number(categoryData.delete) || 0;
+    if (stateData) {
+      Object.keys(stateData).forEach((district) => {
+        const districtData = stateData[district];
+        if (districtData && typeof districtData === "object") {
+          const categoryData = districtData[category];
+          if (categoryData && typeof categoryData === "object") {
+            if (!districtTotals[district]) {
+              districtTotals[district] = {
+                hit: 0,
+                nohit: 0,
+                enrol: 0,
+                delete: 0,
+              };
             }
+            districtTotals[district].hit += Number(categoryData.hit) || 0;
+            districtTotals[district].nohit += Number(categoryData.nohit) || 0;
+            districtTotals[district].enrol += Number(categoryData.enrol) || 0;
+            districtTotals[district].delete += Number(categoryData.delete) || 0;
           }
-        });
-      }
+        }
+      });
     }
   });
 
@@ -121,15 +100,11 @@ const getTopDistrictsByState = (
 const CategorySection = ({
   category,
   allData,
-  from,
-  to,
   dataTypes,
   selectedStates = [],
 }: {
   category: CategoryKey;
   allData: DailyData[];
-  from: Date;
-  to: Date;
   dataTypes: string[];
   selectedStates?: string[];
 }) => {
@@ -138,22 +113,16 @@ const CategorySection = ({
   const sectionRef = useRef<HTMLDivElement>(null);
 
   const topStatesData = useMemo(
-    () => getTopStatesByDateRange(allData, from, to, category),
-    [allData, from, to, category]
+    () => getTopStates(allData, category),
+    [allData, category]
   );
 
   const topDistrictsData = useMemo(() => {
     if (selectedStates.length === 1) {
-      return getTopDistrictsByState(
-        allData,
-        from,
-        to,
-        selectedStates[0],
-        category
-      );
+      return getTopDistrictsByState(allData, selectedStates[0], category);
     }
     return null;
-  }, [allData, from, to, selectedStates, category]);
+  }, [allData, selectedStates, category]);
 
   const canShowDistricts = selectedStates.length === 1;
 
@@ -182,7 +151,6 @@ const CategorySection = ({
     [currentData, dataTypes]
   );
 
-  /** Hide buttons before printing - Same as reference code */
   const hideButtons = (hide: boolean) => {
     const buttons = document.querySelectorAll(".print-hide");
     buttons.forEach((btn) => {
@@ -203,7 +171,6 @@ const CategorySection = ({
     setViewMode(viewMode === "state" ? "district" : "state");
   };
 
-  // --- Export CSV ---
   const handleExportCSV = () => {
     hideButtons(true);
 
@@ -211,11 +178,7 @@ const CategorySection = ({
     const dataRows: (string | number)[][] = [];
 
     allMetricData.forEach(({ metric, chartData }, i) => {
-      if (i === 0) {
-        headers.push(metric.toUpperCase());
-      } else {
-        headers.push(metric.toUpperCase());
-      }
+      headers.push(metric.toUpperCase());
 
       chartData.forEach((item, rowIndex) => {
         if (!dataRows[rowIndex]) dataRows[rowIndex] = [item.state];
@@ -229,7 +192,6 @@ const CategorySection = ({
     setTimeout(() => hideButtons(false), 500);
   };
 
-  // --- Print Section ---
   const handlePrint = () => {
     hideButtons(true);
     exportService.printComponent(
@@ -262,11 +224,11 @@ const CategorySection = ({
           >
             {viewMode === "district" ? (
               <>
-                <MapPin className="h-4 w-4 mr-1" /> Districts
+                <MapPin className="size-4 mr-1" /> Districts
               </>
             ) : (
               <>
-                <Globe className="h-4 w-4 mr-1" />{" "}
+                <Globe className="size-4 mr-1" />{" "}
                 {canShowDistricts ? "District wise" : "Select 1 state only"}
               </>
             )}
@@ -277,7 +239,7 @@ const CategorySection = ({
             size="sm"
             onClick={handleExportCSV}
           >
-            <Download className="h-4 w-4 mr-1" /> CSV
+            <Download className="size-4 mr-1" /> CSV
           </Button>
           <Button
             variant="outline"
@@ -285,7 +247,7 @@ const CategorySection = ({
             size="sm"
             onClick={handlePrint}
           >
-            <Printer className="h-4 w-4 mr-1" /> Print
+            <Printer className="size-4 mr-1" /> Print
           </Button>
         </div>
       </div>
@@ -301,8 +263,6 @@ const CategorySection = ({
 
 export const Top5DataView = ({
   allData,
-  from,
-  to,
   categories,
   dataTypes,
   selectedStates = [],
@@ -312,8 +272,6 @@ export const Top5DataView = ({
     [categories]
   );
 
-  // console.log("all data", allData);
-
   return (
     <>
       <div className="space-y-3 mt-6">
@@ -322,8 +280,6 @@ export const Top5DataView = ({
             key={category}
             category={category}
             allData={allData}
-            from={from}
-            to={to}
             dataTypes={dataTypes}
             selectedStates={selectedStates}
           />

@@ -1,4 +1,4 @@
-import { DailyData } from "@/pages/agency/types";
+import { DailyData } from "@/pages/agency/types/types";
 import { FilterState } from "../components/filters/types/FilterTypes";
 
 export default function computeCombinedTotal(

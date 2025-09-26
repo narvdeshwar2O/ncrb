@@ -1,34 +1,24 @@
-import { DailyData, StateStats, CategoryKey } from "@/pages/agency/types";
+import { CategoryKey, DailyData, StateStats } from "@/pages/agency/types/types";
 
 interface TopStatesResult {
   hitTop5: StateStats[];
   nohitTop5: StateStats[];
   enrolTop5: StateStats[];
-  deleteTop5: StateStats[]; // ✅ new
+  deleteTop5: StateStats[];
 }
 
-export function getTopStatesByDateRange(
+export function getTopStates(
   data: DailyData[] | undefined,
-  from: Date,
-  to: Date,
   selectedCategory: CategoryKey
 ): TopStatesResult {
   if (!Array.isArray(data)) {
-    console.warn("Invalid data passed to getTopStatesByDateRange:", data);
-    return {
-      hitTop5: [],
-      nohitTop5: [],
-      enrolTop5: [],
-      deleteTop5: [],
-    };
+    console.warn("Invalid data passed to getTopStates:", data);
+    return { hitTop5: [], nohitTop5: [], enrolTop5: [], deleteTop5: [] };
   }
 
   const stateAggregate: Record<string, StateStats> = {};
 
   for (const day of data) {
-    const date = new Date(day.date);
-    if (date < from || date > to) continue;
-
     for (const [state, districts] of Object.entries(day.data)) {
       if (state.toLowerCase() === "total") continue;
 
@@ -38,7 +28,7 @@ export function getTopStatesByDateRange(
           hit: 0,
           nohit: 0,
           enrol: 0,
-          delete: 0, // ✅ add delete
+          delete: 0,
           districts: [],
         };
       }
@@ -56,21 +46,21 @@ export function getTopStatesByDateRange(
           existingDistrict.hit += cat.hit ?? 0;
           existingDistrict.nohit += cat.nohit ?? 0;
           existingDistrict.enrol += cat.enrol ?? 0;
-          existingDistrict.delete += cat.delete ?? 0; // ✅ accumulate delete
+          existingDistrict.delete += cat.delete ?? 0;
         } else {
           stateData.districts.push({
             district,
             hit: cat.hit ?? 0,
             nohit: cat.nohit ?? 0,
             enrol: cat.enrol ?? 0,
-            delete: cat.delete ?? 0, // ✅ new
+            delete: cat.delete ?? 0,
           });
         }
 
         stateData.hit += cat.hit ?? 0;
         stateData.nohit += cat.nohit ?? 0;
         stateData.enrol += cat.enrol ?? 0;
-        stateData.delete += cat.delete ?? 0; // ✅ accumulate delete
+        stateData.delete += cat.delete ?? 0;
       }
     }
   }
@@ -81,8 +71,8 @@ export function getTopStatesByDateRange(
     hitTop5: [...stateList].sort((a, b) => b.hit - a.hit).slice(0, 5),
     nohitTop5: [...stateList].sort((a, b) => b.nohit - a.nohit).slice(0, 5),
     enrolTop5: [...stateList].sort((a, b) => b.enrol - a.enrol).slice(0, 5),
-    deleteTop5: [...stateList].sort((a, b) => b.delete - a.delete).slice(0, 5), // ✅ new
+    deleteTop5: [...stateList].sort((a, b) => b.delete - a.delete).slice(0, 5),
   };
 }
 
-export default getTopStatesByDateRange;
+export default getTopStates;

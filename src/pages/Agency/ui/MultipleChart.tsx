@@ -30,7 +30,6 @@ export const colorPalette = [
   "#AA6E28",
 ];
 
-
 const pieSliceColors = [...colorPalette];
 
 function getBarColor(

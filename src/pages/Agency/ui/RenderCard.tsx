@@ -1,10 +1,10 @@
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import React from "react";
-import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
-import { Totals } from "../types";
+import { Metrics } from "../types";
 
 interface RenderCardProps {
   title: string;
-  total: Totals;
+  total: Metrics;
   selectedDataTypes?: string[];
 }
 
@@ -14,7 +14,7 @@ const RenderCard: React.FC<RenderCardProps> = ({
   selectedDataTypes = [],
 }) => {
   const hasSelection = selectedDataTypes.length > 0;
-  const getValue = (key: keyof Totals): number => {
+  const getValue = (key: keyof Metrics): number => {
     if (!hasSelection) return 0;
     return selectedDataTypes.includes(key) ? total[key] : 0;
   };
