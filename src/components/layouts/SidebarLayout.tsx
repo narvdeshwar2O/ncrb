@@ -1,23 +1,21 @@
+import Logo from "@/assets";
+import { AppSidebar } from "@/components/AppSidebar";
 import {
-  SidebarProvider,
   SidebarInset,
+  SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar";
-import { AppSidebar } from "@/components/AppSidebar";
 import { useLocation, useNavigate } from "react-router-dom";
-import Logo from "@/assets";
 
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Button } from "@/components/ui/button";
-import { User } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
+import { User } from "lucide-react";
 
 interface SidebarLayoutProps {
   children: React.ReactNode;
@@ -27,7 +25,7 @@ const navTitle: Record<string, string> = {
   "/dashboard": "Agency Wise Dashboard",
   "/slipcapture": "Slip Capture Dashboard",
   "/mesa": "Mesa Dashboard",
-  "/interpole": "Interpole",
+  "/interpol": "Interpole",
   "/trace-report/tp-tp": "Ten Print - Ten Print",
   "/trace-report/tp-cp": "Ten Print - Chance Print",
   "/trace-report/cp-cp": "Chance Print - Chance Print",

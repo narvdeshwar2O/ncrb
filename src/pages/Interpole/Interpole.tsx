@@ -1,13 +1,13 @@
-import React, { useEffect, useMemo, useState } from "react";
-import { loadAllMonthlyDataReal } from "@/utils/loadAllMonthlyDataRealData";
-import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { getLastNDaysRange } from "@/utils/getLastNdays";
+import { loadAllMonthlyDataReal } from "@/utils/loadAllMonthlyDataRealData";
+import React, { useEffect, useMemo, useState } from "react";
 import InterpoleFilter from "./filters/Interpolefiter";
-import InterpoleTable from "./ui/InterpoleTable";
-import { CountryComparison } from "./ui/CountryComparison";
 import { InterpoleDailyData, InterpoleFilters } from "./Types";
+import { CountryComparison } from "./ui/CountryComparison";
+import InterpoleTable from "./ui/InterpoleTable";
 import TopBottomCountries from "./ui/TopBottomCountries";
 
 const Interpole: React.FC = () => {
@@ -28,7 +28,7 @@ const Interpole: React.FC = () => {
       setError(null);
 
       try {
-        const loaded = await loadAllMonthlyDataReal({ type: "interpole" });
+        const loaded = await loadAllMonthlyDataReal({ type: "interpol" });
         if (!loaded || !Array.isArray(loaded)) {
           throw new Error("Invalid data format received");
         }
@@ -152,8 +152,7 @@ const Interpole: React.FC = () => {
                         filters.countries.length - 3
                       } more`}
                   <p className="text-sm mt-1">
-                    <strong>Total count :</strong>{" "}
-                    {totalCount.toLocaleString()}
+                    <strong>Total count :</strong> {totalCount.toLocaleString()}
                   </p>
                 </div>
 

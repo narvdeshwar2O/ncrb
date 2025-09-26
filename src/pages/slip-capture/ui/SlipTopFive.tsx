@@ -1,17 +1,16 @@
-"use client";
-import { useMemo, useRef, useState } from "react";
-import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Download, Printer } from "lucide-react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Select,
-  SelectTrigger,
   SelectContent,
   SelectItem,
+  SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import * as exportService from "@/utils/exportService";
 import ChartCard from "@/pages/agency/ui/ChartCard";
+import * as exportService from "@/utils/exportService";
+import { Download, Printer } from "lucide-react";
+import { useMemo, useRef, useState } from "react";
 import {
   SlipDailyData,
   STATUS_KEY_MAP,
@@ -100,6 +99,7 @@ export default function SlipTopFive({
 }: SlipTopFiveProps) {
   const viewRef = useRef<HTMLDivElement>(null);
   const [viewMode, setViewMode] = useState<ViewMode>("state");
+  console.log("from date", from, "to date", to, "all data", allData);
 
   const activeStatuses: StatusKey[] = useMemo(() => {
     const narrowed = statuses

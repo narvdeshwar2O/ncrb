@@ -176,7 +176,7 @@ export const AgencyFilters = ({
                   >
                     Last 90 Days
                   </button>
-                  <button
+                  {/* <button
                     className="bg-card px-3 py-[5px] rounded-md border"
                     onClick={() => {
                       if (typeof onLoadAllData === "function") {
@@ -185,7 +185,7 @@ export const AgencyFilters = ({
                     }}
                   >
                     All Data
-                  </button>
+                  </button> */}
                 </div>
               </PopoverContent>
             </Popover>

@@ -74,7 +74,6 @@ export const STATUS_KEY_MAP: Record<string, string> = {
 
 export type StatusKey = (typeof STATUS_KEYS)[number];
 
-
 export interface SlipTableRow {
   state: string;
   district?: string;
@@ -201,8 +200,6 @@ export function flattenSlipData(data: SlipDailyData[]): SlipRecord[] {
 
   return records;
 }
-
-
 
 // Updated filter function with fixed section filtering logic
 
@@ -395,8 +392,6 @@ export function getFilteredRecords(
   return flattenSlipData(filteredData);
 }
 
-
-
 // Updated compute totals function with gender support
 export function computeTotalsByStatus(
   filteredData: SlipDailyData[],
@@ -437,72 +432,81 @@ export function computeTotalsByStatus(
   return totals;
 }
 
-
 // FIXED: More precise section matching functions
-function sectionContainsAnyFilter(sectionName: string, sectionsLower: string[]): boolean {
+function sectionContainsAnyFilter(
+  sectionName: string,
+  sectionsLower: string[]
+): boolean {
   const sectionLower = sectionName.toLowerCase();
-  
-  return sectionsLower.some(filter => {
+
+  return sectionsLower.some((filter) => {
     // Split section by common delimiters
-    const sectionParts = sectionLower.split(/[\/\\,\s]+/).filter(part => part.trim());
-    
+    const sectionParts = sectionLower
+      .split(/[\/\\,\s]+/)
+      .filter((part) => part.trim());
+
     // Check for exact matches first
     if (sectionParts.includes(filter)) {
       return true;
     }
-    
+
     // For more complex patterns like "117(2)", check if any part contains the full filter
-    return sectionParts.some(part => {
+    return sectionParts.some((part) => {
       // Exact match
       if (part === filter) return true;
-      
+
       // If filter contains parentheses, do exact substring match
-      if (filter.includes('(') && filter.includes(')')) {
+      if (filter.includes("(") && filter.includes(")")) {
         return part.includes(filter);
       }
-      
+
       // For simple numeric filters, check if they appear as complete numbers
       if (/^\d+$/.test(filter)) {
         // Use word boundaries to avoid partial matches like "3" matching "303"
         const regex = new RegExp(`(^|[^\\d])${filter}([^\\d]|$)`);
         return regex.test(part);
       }
-      
+
       // For other cases, do substring match but be more careful
       return part.includes(filter) && filter.length >= 2; // Avoid single character matches
     });
   });
 }
 
-function sectionContainsAllFilters(sectionName: string, sectionsLower: string[]): boolean {
+function sectionContainsAllFilters(
+  sectionName: string,
+  sectionsLower: string[]
+): boolean {
   const sectionLower = sectionName.toLowerCase();
-  
-  return sectionsLower.every(filter => {
+
+  return sectionsLower.every((filter) => {
     // Split section by common delimiters
-    const sectionParts = sectionLower.split(/[\/\\,\s]+/).filter(part => part.trim());
-    
+    const sectionParts = sectionLower
+      .split(/[\/\\,\s]+/)
+      .filter((part) => part.trim());
+
     // Check for exact matches first
     if (sectionParts.includes(filter)) {
       return true;
     }
-    
+
     // For more complex patterns like "117(2)", check if any part contains the full filter
-    return sectionParts.some(part => {
+    return sectionParts.some((part) => {
       // Exact match
       if (part === filter) return true;
-      
+
       // If filter contains parentheses, do exact substring match
-      if (filter.includes('(') && filter.includes(')')) {
+      if (filter.includes("(") && filter.includes(")")) {
         return part.includes(filter);
       }
-      
+
       // For simple numeric filters, check if they appear as complete numbers
       if (/^\d+$/.test(filter)) {
         // Use word boundaries to avoid partial matches like "3" matching "303"
         const regex = new RegExp(`(^|[^\\d])${filter}([^\\d]|$)`);
         return regex.test(part);
       }
-      
+
       // For other cases, do substring match but be more careful
       return part.includes(filter) && filter.length >= 2; // Avoid single character matches
     });
@@ -526,11 +530,13 @@ function aggregateArrayMetrics(sectionData: any) {
       suspect_received_tp: 0,
       udb_received_tp: 0,
     };
-    
+
     sectionData.forEach((item: any) => {
-      if (!result.arrest_act && item.arrest_act) result.arrest_act = item.arrest_act;
-      if (!result.arrest_section && item.arrest_section) result.arrest_section = item.arrest_section;
-      
+      if (!result.arrest_act && item.arrest_act)
+        result.arrest_act = item.arrest_act;
+      if (!result.arrest_section && item.arrest_section)
+        result.arrest_section = item.arrest_section;
+
       result.arresty_received_tp += item.arresty_received_tp || 0;
       result.convicted_received_tp += item.convicted_received_tp || 0;
       result.externee_received_tp += item.externee_received_tp || 0;
@@ -541,14 +547,13 @@ function aggregateArrayMetrics(sectionData: any) {
       result.suspect_received_tp += item.suspect_received_tp || 0;
       result.udb_received_tp += item.udb_received_tp || 0;
     });
-    
+
     return result;
   } else {
     // If it's already an object, return as is
     return sectionData;
   }
 }
-
 
 interface SlipFilters {
   states: string[];
@@ -563,7 +568,6 @@ interface SlipFilters {
   };
   sectionFilterMode?: "AND" | "OR";
 }
-
 export function filterSlipData(allData: SlipDailyData[], filters: SlipFilters) {
   const {
     states,
@@ -573,10 +577,9 @@ export function filterSlipData(allData: SlipDailyData[], filters: SlipFilters) {
     statuses,
     genders,
     dateRange,
-    sectionFilterMode = "OR", // Changed default to OR for your use case
+    sectionFilterMode = "OR",
   } = filters;
 
-  console.log("gender", genders);
   
   // Helper function to remove trailing "(digits)" from a string
   const stripTrailingCode = (str: string) => str.replace(/\(\d+\)$/, "").trim();
@@ -586,6 +589,39 @@ export function filterSlipData(allData: SlipDailyData[], filters: SlipFilters) {
   const sectionsLower = sections.map((sec) => sec.toLowerCase());
   const statusesLower = statuses.map((st) => st.toLowerCase());
   const gendersLower = genders.map((g) => g.toLowerCase());
+
+  // Enhanced section matching function - checks if section contains ALL specified filters
+  const sectionContainsAllFilters = (sectionName: string, filterSections: string[]): boolean => {
+    const sectionLower = sectionName.toLowerCase();
+    
+    // Split section name by common delimiters to get individual parts
+    const sectionParts = sectionLower.split(/[\/,&+|\-\s]+/).map(part => part.trim()).filter(part => part);
+    
+    // Check if ALL filter sections are present in this section
+    return filterSections.every(filter => {
+      // Check exact match first
+      if (sectionLower === filter) {
+        return true;
+      }
+      
+      // Check if filter is present as a component
+      return sectionParts.includes(filter);
+    });
+  };
+
+  // Function to get unique sections that match ALL filters
+  const getMatchingSections = (sectionsData: any, filterSections: string[]) => {
+    const matchingSectionNames = [];
+    
+    for (const sectionName of Object.keys(sectionsData)) {
+      // Section must contain ALL specified filters
+      if (sectionContainsAllFilters(sectionName, filterSections)) {
+        matchingSectionNames.push(sectionName);
+      }
+    }
+    
+    return matchingSectionNames;
+  };
 
   // Date filtering logic
   let fromDate = null;
@@ -743,7 +779,7 @@ export function filterSlipData(allData: SlipDailyData[], filters: SlipFilters) {
             const filteredSections = {};
             let genderHasData = false;
 
-            // FIXED SECTION FILTERING LOGIC
+            // ENHANCED SECTION FILTERING LOGIC
             if (sectionsLower.length === 0) {
               // No section filter - include all sections
               for (const [sectionName, sectionData] of Object.entries(
@@ -791,45 +827,32 @@ export function filterSlipData(allData: SlipDailyData[], filters: SlipFilters) {
                 }
               }
             } else {
-              // WITH SECTION FILTER - FIXED LOGIC
+              // WITH SECTION FILTER - ENHANCED LOGIC
+              
+              // Get all sections that contain ALL the filter criteria
+              const matchingSectionNames = getMatchingSections(sectionsData, sectionsLower);
 
-              // Create a single aggregate for matching sections
-              let matchingSections: string[] = [];
-              let aggregatedMetrics = {
-                arrest_act: "",
-                arrest_section: "",
-                arresty_received_tp: 0,
-                convicted_received_tp: 0,
-                externee_received_tp: 0,
-                absconder_received_tp: 0,
-                deportee_received_tp: 0,
-                deadbody_received_tp: 0,
-                uifp_received_tp: 0,
-                suspect_received_tp: 0,
-                udb_received_tp: 0,
-              };
+              if (matchingSectionNames.length > 0) {
+                // Create a single aggregate for all matching sections
+                let aggregatedMetrics = {
+                  arrest_act: "",
+                  arrest_section: "",
+                  arresty_received_tp: 0,
+                  convicted_received_tp: 0,
+                  externee_received_tp: 0,
+                  absconder_received_tp: 0,
+                  deportee_received_tp: 0,
+                  deadbody_received_tp: 0,
+                  uifp_received_tp: 0,
+                  suspect_received_tp: 0,
+                  udb_received_tp: 0,
+                };
 
-              for (const [sectionName, sectionData] of Object.entries(
-                sectionsData
-              )) {
-                let sectionMatches = false;
-
-                if (sectionFilterMode === "AND") {
-                  // AND mode: section must contain ALL specified filters
-                  sectionMatches = sectionContainsAllFilters(
-                    sectionName,
-                    sectionsLower
-                  );
-                } else {
-                  // OR mode: section must contain ANY of the specified filters
-                  sectionMatches = sectionContainsAnyFilter(
-                    sectionName,
-                    sectionsLower
-                  );
-                }
-
-                if (sectionMatches) {
-                  matchingSections.push(sectionName);
+                let validSections = [];
+                
+                // Process each matching section exactly once
+                for (const sectionName of matchingSectionNames) {
+                  const sectionData = sectionsData[sectionName];
                   const sectionMetrics = aggregateArrayMetrics(sectionData);
 
                   // Apply status filter
@@ -844,83 +867,68 @@ export function filterSlipData(allData: SlipDailyData[], filters: SlipFilters) {
                   }
 
                   if (includeSection) {
-                    // Set non-numeric fields from first matching section
-                    if (
-                      !aggregatedMetrics.arrest_act &&
-                      sectionMetrics.arrest_act
-                    ) {
+                    validSections.push(sectionName);
+                    
+                    // Set non-numeric fields from first valid section
+                    if (!aggregatedMetrics.arrest_act && sectionMetrics.arrest_act) {
                       aggregatedMetrics.arrest_act = sectionMetrics.arrest_act;
                     }
-                    if (
-                      !aggregatedMetrics.arrest_section &&
-                      sectionMetrics.arrest_section
-                    ) {
-                      aggregatedMetrics.arrest_section =
-                        sectionMetrics.arrest_section;
+                    if (!aggregatedMetrics.arrest_section && sectionMetrics.arrest_section) {
+                      aggregatedMetrics.arrest_section = sectionMetrics.arrest_section;
                     }
 
-                    // Aggregate numeric fields
-                    aggregatedMetrics.arresty_received_tp +=
-                      sectionMetrics.arresty_received_tp || 0;
-                    aggregatedMetrics.convicted_received_tp +=
-                      sectionMetrics.convicted_received_tp || 0;
-                    aggregatedMetrics.externee_received_tp +=
-                      sectionMetrics.externee_received_tp || 0;
-                    aggregatedMetrics.absconder_received_tp +=
-                      sectionMetrics.absconder_received_tp || 0;
-                    aggregatedMetrics.deportee_received_tp +=
-                      sectionMetrics.deportee_received_tp || 0;
-                    aggregatedMetrics.deadbody_received_tp +=
-                      sectionMetrics.deadbody_received_tp || 0;
-                    aggregatedMetrics.uifp_received_tp +=
-                      sectionMetrics.uifp_received_tp || 0;
-                    aggregatedMetrics.suspect_received_tp +=
-                      sectionMetrics.suspect_received_tp || 0;
-                    aggregatedMetrics.udb_received_tp +=
-                      sectionMetrics.udb_received_tp || 0;
+                    // Add each section's metrics exactly once (no double counting)
+                    aggregatedMetrics.arresty_received_tp += sectionMetrics.arresty_received_tp || 0;
+                    aggregatedMetrics.convicted_received_tp += sectionMetrics.convicted_received_tp || 0;
+                    aggregatedMetrics.externee_received_tp += sectionMetrics.externee_received_tp || 0;
+                    aggregatedMetrics.absconder_received_tp += sectionMetrics.absconder_received_tp || 0;
+                    aggregatedMetrics.deportee_received_tp += sectionMetrics.deportee_received_tp || 0;
+                    aggregatedMetrics.deadbody_received_tp += sectionMetrics.deadbody_received_tp || 0;
+                    aggregatedMetrics.uifp_received_tp += sectionMetrics.uifp_received_tp || 0;
+                    aggregatedMetrics.suspect_received_tp += sectionMetrics.suspect_received_tp || 0;
+                    aggregatedMetrics.udb_received_tp += sectionMetrics.udb_received_tp || 0;
                   }
                 }
-              }
 
-              if (matchingSections.length > 0) {
-                let filteredMetrics = {};
-                if (statusesLower.length > 0) {
-                  statusesLower.forEach((statusKey) => {
-                    const mappedDataKey = STATUS_KEY_MAP[statusKey];
-                    if (
-                      mappedDataKey &&
-                      aggregatedMetrics[mappedDataKey] !== undefined
-                    ) {
-                      filteredMetrics[mappedDataKey] =
-                        aggregatedMetrics[mappedDataKey];
-                    }
-                  });
-                  const nonStatusFields = ["arrest_act", "arrest_section"];
-                  nonStatusFields.forEach((field) => {
-                    if (aggregatedMetrics[field] !== undefined) {
-                      filteredMetrics[field] = aggregatedMetrics[field];
-                    }
-                  });
-                } else {
-                  filteredMetrics = aggregatedMetrics;
+                if (validSections.length > 0) {
+                  let filteredMetrics = {};
+                  if (statusesLower.length > 0) {
+                    statusesLower.forEach((statusKey) => {
+                      const mappedDataKey = STATUS_KEY_MAP[statusKey];
+                      if (
+                        mappedDataKey &&
+                        aggregatedMetrics[mappedDataKey] !== undefined
+                      ) {
+                        filteredMetrics[mappedDataKey] =
+                          aggregatedMetrics[mappedDataKey];
+                      }
+                    });
+                    const nonStatusFields = ["arrest_act", "arrest_section"];
+                    nonStatusFields.forEach((field) => {
+                      if (aggregatedMetrics[field] !== undefined) {
+                        filteredMetrics[field] = aggregatedMetrics[field];
+                      }
+                    });
+                  } else {
+                    filteredMetrics = aggregatedMetrics;
+                  }
+
+                  // Create display key showing which sections were aggregated
+                  const displayKey = validSections.length === 1
+                    ? validSections[0]
+                    : `Aggregated(${validSections.join(", ")})`;
+
+                  // Check if any original section was an array
+                  const shouldBeArray = validSections.some((sectionName) =>
+                    Array.isArray(sectionsData[sectionName])
+                  );
+
+                  filteredSections[displayKey] = shouldBeArray
+                    ? [filteredMetrics]
+                    : filteredMetrics;
+
+                  genderHasData = true;
                 }
-
-                // Use a combined key for display
-                const displayKey =
-                  matchingSections.length === 1
-                    ? matchingSections[0]
-                    : `Combined(${matchingSections.join(", ")})`;
-
-                // Check if any original section was an array
-                const shouldBeArray = matchingSections.some((sectionName) =>
-                  Array.isArray(sectionsData[sectionName])
-                );
-
-                filteredSections[displayKey] = shouldBeArray
-                  ? [filteredMetrics]
-                  : filteredMetrics;
-
-                genderHasData = true;
               }
             }
 
@@ -954,4 +962,26 @@ export function filterSlipData(allData: SlipDailyData[], filters: SlipFilters) {
   }
 
   return filteredData;
+
+  // Helper function to aggregate array metrics (assuming this exists in your code)
+  function aggregateArrayMetrics(sectionData: any) {
+    // Your existing aggregation logic here
+    // This function should handle both array and object data
+    if (Array.isArray(sectionData)) {
+      // Aggregate array of objects
+      return sectionData.reduce((acc, item) => {
+        for (const [key, value] of Object.entries(item)) {
+          if (typeof value === 'number') {
+            acc[key] = (acc[key] || 0) + value;
+          } else {
+            acc[key] = acc[key] || value;
+          }
+        }
+        return acc;
+      }, {});
+    } else {
+      // Return single object as is
+      return sectionData;
+    }
+  }
 }

@@ -1,63 +1,35 @@
-import { useState } from "react";
-import { NavLink, useLocation } from "react-router-dom";
 import Logo from "@/assets";
 import {
   BarChart3,
   FileText,
-  TrendingUp,
-  Clock,
-  MapPin,
-  Users,
-  Search,
-  Brain,
-  Timer,
-  Scale,
-  Gavel,
-  Settings,
-  HardDrive,
-  Microscope,
-  Shield,
-  CheckCircle,
-  Target,
-  Database,
-  Link,
-  AlertTriangle,
-  Star,
-  Percent,
-  Clock4,
-  XCircle,
-  AlertCircle,
-  Eye,
-  FileCheck,
-  LayoutDashboard,
   Fingerprint,
-  Layers,
-  SearchCode,
-  ShieldCheck,
-  GavelIcon,
+  Gavel,
   Globe,
+  LayoutDashboard,
 } from "lucide-react";
+import { useState } from "react";
+import { NavLink, useLocation } from "react-router-dom";
 
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "@/components/ui/collapsible";
 import {
   Sidebar,
   SidebarContent,
   SidebarGroup,
   SidebarGroupContent,
   SidebarGroupLabel,
+  SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarMenuSub,
-  SidebarMenuSubItem,
   SidebarMenuSubButton,
+  SidebarMenuSubItem,
   useSidebar,
-  SidebarHeader,
 } from "@/components/ui/sidebar";
-import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from "@/components/ui/collapsible";
 import { ChevronRight } from "lucide-react";
 import { ThemeToggle } from "./theme/ThemeToggle";
 
@@ -65,7 +37,7 @@ const mainNavItems = [
   { title: "Dashboard", url: "/dashboard", icon: LayoutDashboard },
   { title: "Slip Capture", url: "/slipcapture", icon: Fingerprint },
   { title: "Mesa", url: "/mesa", icon: Gavel },
-  { title: "Interpole", url: "/interpole", icon: Globe },
+  { title: "Interpol", url: "/interpol", icon: Globe },
 ];
 const traceReport = [
   {

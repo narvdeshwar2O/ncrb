@@ -13,7 +13,7 @@ export interface LoadParams {
     | "pp_pp"
     | "agency"
     | "agency_consoldated"
-    | "interpole";
+    | "interpol";
 }
 
 export async function loadAllMonthlyDataReal({
@@ -37,7 +37,7 @@ export async function loadAllMonthlyDataReal({
       basePath: "/assets/data/mesa/2025",
       filePrefix: "final_nested_state_district_acts",
     },
-    interpole: { basePath: "/assets/data/interpole/2025", filePrefix: "ip" },
+    interpol: { basePath: "/assets/data/interpol/2025", filePrefix: "ip" },
     tp_tp: { basePath: "", filePrefix: "" },
     tp_cp: { basePath: "", filePrefix: "" },
     cp_cp: { basePath: "", filePrefix: "" },

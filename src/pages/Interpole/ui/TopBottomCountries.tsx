@@ -1,11 +1,9 @@
-"use client";
-
+import { Button } from "@/components/ui/button";
+import ChartCard from "@/pages/agency/ui/ChartCard";
+import { exportToCSV, printComponent } from "@/utils/exportService";
+import { Download, Printer } from "lucide-react";
 import { useMemo, useRef } from "react";
 import getTopCountriesByDateRange from "../utils";
-import ChartCard from "@/pages/agency/ui/ChartCard";
-import { Button } from "@/components/ui/button";
-import { Printer, Download } from "lucide-react";
-import { exportToCSV, printComponent } from "@/utils/exportService";
 
 interface Props {
   allData: {

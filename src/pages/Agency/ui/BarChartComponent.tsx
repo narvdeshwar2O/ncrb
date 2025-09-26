@@ -59,9 +59,9 @@ const CustomTooltip = ({ active, payload, label }: any) => {
             key={`tooltip-${idx}`}
             style={{
               margin: 0,
-              color: entry.color, // ✅ same color as bar
-              fontWeight: 600,
-              fontSize: "12px",
+              color: entry.color,
+              fontWeight: 700,
+              fontSize: "14px",
             }}
           >
             {`${entry.name}: ${entry.value}`}
@@ -72,6 +72,7 @@ const CustomTooltip = ({ active, payload, label }: any) => {
   }
   return null;
 };
+
 
 export function BarChartComponent(props: BarChartComponentProps) {
   const {
@@ -103,7 +104,7 @@ export function BarChartComponent(props: BarChartComponentProps) {
           wrapperStyle={{
             top: 0,
             color: "#222",
-            fontWeight: 600,
+            fontWeight: 700,
           }}
         />
 

@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { Download, Printer, Users } from "lucide-react";
 import {
-  ResponsiveContainer,
   BarChart,
   Bar,
   XAxis,
@@ -302,7 +301,7 @@ export function GenderBasedChart({
       {/* Chart */}
       <CardContent className="p-4 h-[420px]">
         <ChartContainer config={chartConfig} className="h-full w-full">
-          <ResponsiveContainer width="100%" height="100%">
+         
             <BarChart
               data={chartData}
               margin={{ top: 20, right: 20, left: 10, bottom: 20 }}
@@ -341,7 +340,7 @@ export function GenderBasedChart({
                 />
               ))}
             </BarChart>
-          </ResponsiveContainer>
+          
         </ChartContainer>
       </CardContent>
     </Card>

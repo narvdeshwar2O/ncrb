@@ -15,9 +15,9 @@ export interface DailyData extends DailyDataTypes {
 }
 
 export const categoryLabelMap: Record<string, string> = {
-  tp: "Ten Print (Slip Capture)",
-  cp: "Chance Print (Slip Capture)",
-  mesa: "Live Enrollment (MESA)",
+  tp: "Ten Print ",
+  cp: "Chance Print ",
+  mesa: "Live Enrollment ",
 };
 
 export interface Totals {

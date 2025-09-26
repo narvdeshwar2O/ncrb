@@ -1,5 +1,3 @@
-"use client";
-
 import { useMemo, useRef, useState } from "react";
 import getTopStatesByDateRange from "@/utils/getTopStatesByDateRange";
 import ChartCard from "./ChartCard";
@@ -91,7 +89,6 @@ const getTopDistrictsByState = (
       delete: districtTotals[district].delete,
     })
   );
-  console.log("district", districts);
 
   return {
     hitTop5: districts
@@ -176,8 +173,6 @@ const CategorySection = ({
         }),
     [currentData, dataTypes]
   );
-
-  console.log("alll memem", allMetricData);
 
   /** Hide buttons before printing - Same as reference code */
   const hideButtons = (hide: boolean) => {
