@@ -1,14 +1,4 @@
-import { useState } from "react";
-import { GitCommitVertical, Download, Printer } from "lucide-react";
-import {
-  ResponsiveContainer,
-  CartesianGrid,
-  LineChart,
-  Line,
-  XAxis,
-  YAxis,
-  Legend,
-} from "recharts";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -22,9 +12,19 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
-import { SlipDailyData, StatusKey } from "../types";
-import { Button } from "@/components/ui/button";
 import * as exportService from "@/utils/exportService";
+import { Download, GitCommitVertical, Printer } from "lucide-react";
+import { useState } from "react";
+import {
+  CartesianGrid,
+  Legend,
+  Line,
+  LineChart,
+  ResponsiveContainer,
+  XAxis,
+  YAxis,
+} from "recharts";
+import { SlipDailyData, StatusKey } from "../types";
 
 const chartConfig: ChartConfig = {
   Arrested: { label: "Arrested", color: "#3B82F6" },
@@ -44,7 +44,7 @@ export function SlipCaptureTrendChart({
   selectedState,
   dateRange,
 }: SlipCaptureTrendChartProps) {
-  console.log("flds", filteredData);
+  // console.log("flds", filteredData);
   const [activeLines, setActiveLines] = useState<StatusKey[]>([
     "Arrested",
     "Convicted",
@@ -219,10 +219,12 @@ export function SlipCaptureTrendChart({
             suspect += aggregatedMetrics.suspect_received_tp || 0;
 
             // Debug logging for non-zero values
-            if (aggregatedMetrics.arresty_received_tp > 0 || 
-                aggregatedMetrics.convicted_received_tp > 0 || 
-                aggregatedMetrics.suspect_received_tp > 0) {
-              console.log(`Date: ${dateString}, District: ${districtName}, Act: ${actName}, Gender: ${genderName}, Section: ${sectionName}`, aggregatedMetrics);
+            if (
+              aggregatedMetrics.arresty_received_tp > 0 ||
+              aggregatedMetrics.convicted_received_tp > 0 ||
+              aggregatedMetrics.suspect_received_tp > 0
+            ) {
+              // console.log(`Date: ${dateString}, District: ${districtName}, Act: ${actName}, Gender: ${genderName}, Section: ${sectionName}`, aggregatedMetrics);
             }
           });
         });
@@ -250,7 +252,7 @@ export function SlipCaptureTrendChart({
 
     // Debug log for non-zero totals
     if (total > 0) {
-      console.log(`Chart data for ${dateString}:`, result);
+      // console.log(`Chart data for ${dateString}:`, result);
     }
 
     return result;
@@ -313,9 +315,9 @@ export function SlipCaptureTrendChart({
                     sampleDataStructure = {
                       structure: "state → district → act → gender → section",
                       genders: Object.keys(firstAct),
-                      sampleFields: Array.isArray(firstSection) 
+                      sampleFields: Array.isArray(firstSection)
                         ? Object.keys(firstSection[0] || {})
-                        : Object.keys(firstSection || {})
+                        : Object.keys(firstSection || {}),
                     };
                   }
                 }
@@ -344,8 +346,13 @@ export function SlipCaptureTrendChart({
               {sampleDataStructure && (
                 <div className="mt-2">
                   <div>Data structure: {sampleDataStructure.structure}</div>
-                  <div>Available genders: {sampleDataStructure.genders?.join(", ")}</div>
-                  <div>Sample fields: {sampleDataStructure.sampleFields?.join(", ")}</div>
+                  <div>
+                    Available genders: {sampleDataStructure.genders?.join(", ")}
+                  </div>
+                  <div>
+                    Sample fields:{" "}
+                    {sampleDataStructure.sampleFields?.join(", ")}
+                  </div>
                 </div>
               )}
             </div>
@@ -372,7 +379,8 @@ export function SlipCaptureTrendChart({
               points, {totalDataPoints} total cases)
               {hasZeroData && (
                 <span className="text-red-500 block mt-1">
-                  ⚠️ All values are zero - check if gender level is being processed correctly
+                  ⚠️ All values are zero - check if gender level is being
+                  processed correctly
                 </span>
               )}
             </CardDescription>

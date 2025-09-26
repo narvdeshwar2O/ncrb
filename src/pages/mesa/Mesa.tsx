@@ -1,17 +1,5 @@
-import React, { useEffect, useMemo, useState, useCallback } from "react";
-import { loadAllMonthlyDataReal } from "@/utils/loadAllMonthlyDataRealData";
-import { SlipDailyData, SlipFilters, STATUS_KEYS, StatusKey } from "../slip-capture/types";
-import {
-  extractStates,
-  filterSlipData,
-  computeTotalsByStatus,
-  buildSlipTableDataByState,
-  buildSlipTableDataByDistrict,
-  getFilteredRecords,
-} from "../slip-capture/utils";
-import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Skeleton } from "@/components/ui/skeleton";
+import { Card, CardContent } from "@/components/ui/card";
 import {
   Select,
   SelectContent,
@@ -19,16 +7,27 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { StatusCard } from "../slip-capture/ui/StatusCard";
-import { SlipTable } from "../slip-capture/ui/SlipTable";
-import { SlipComparisonChart } from "../slip-capture/ui/SlipComparisonChart";
-import SlipTopFive from "../slip-capture/ui/SlipTopFive";
+import { Skeleton } from "@/components/ui/skeleton";
+import { getLastNDaysRange } from "@/utils/getLastNdays";
+import { loadAllMonthlyDataReal } from "@/utils/loadAllMonthlyDataRealData";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
+import { useLocation } from "react-router-dom";
 import { SlipFiltersBar } from "../slip-capture/filters/SlipFiltersBar";
+import { SlipDailyData, SlipFilters, StatusKey } from "../slip-capture/types";
+import { GenderBasedChart } from "../slip-capture/ui/GenderBasedChart";
 import SlipCaptureChart from "../slip-capture/ui/SlipCaptureChart";
 import { SlipCaptureTrendChart } from "../slip-capture/ui/SlipCaptureTrendChart";
-import { getLastNDaysRange } from "@/utils/getLastNdays";
-import { useLocation } from "react-router-dom";
-import { GenderBasedChart } from "../slip-capture/ui/GenderBasedChart";
+import { SlipComparisonChart } from "../slip-capture/ui/SlipComparisonChart";
+import { SlipTable } from "../slip-capture/ui/SlipTable";
+import SlipTopFive from "../slip-capture/ui/SlipTopFive";
+import { StatusCard } from "../slip-capture/ui/StatusCard";
+import {
+  buildSlipTableDataByDistrict,
+  buildSlipTableDataByState,
+  computeTotalsByStatus,
+  extractStates,
+  filterSlipData,
+} from "../slip-capture/utils";
 
 const dataPath = {
   "/mesa": "mesa",
@@ -86,7 +85,7 @@ const Mesa: React.FC = () => {
 
       try {
         const loaded = await loadAllMonthlyDataReal({ type: dataPath[path] });
-        // console.log("loaded data", loaded);
+        // // console.log("loaded data", loaded);
         if (!loaded || !Array.isArray(loaded)) {
           throw new Error("Invalid data format received");
         }
@@ -169,7 +168,7 @@ const Mesa: React.FC = () => {
       return {} as Record<StatusKey, number>;
     }
   }, [filteredData, visibleStatuses, filters.states]);
-  // console.log("filtered", filteredData);
+  // // console.log("filtered", filteredData);
 
   // Validation logic for comparison charts
   const getComparisonValidation = useCallback(() => {

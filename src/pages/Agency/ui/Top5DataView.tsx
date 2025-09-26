@@ -1,18 +1,18 @@
-import { useMemo, useRef, useState } from "react";
-import getTopStatesByDateRange from "@/utils/getTopStatesByDateRange";
-import ChartCard from "./ChartCard";
 import { Button } from "@/components/ui/button";
-import { Download, Printer, MapPin, Globe } from "lucide-react";
-import * as exportService from "@/utils/exportService";
-import {
-  DailyData,
-  CategoryKey,
-  categoryOptions,
-  DistrictStats,
-  categoryLabelMap,
-} from "../types";
-import { useToast } from "@/components/ui/use-toast";
 import { Toaster } from "@/components/ui/toaster";
+import { useToast } from "@/components/ui/use-toast";
+import * as exportService from "@/utils/exportService";
+import getTopStatesByDateRange from "@/utils/getTopStatesByDateRange";
+import { Download, Globe, MapPin, Printer } from "lucide-react";
+import { useMemo, useRef, useState } from "react";
+import {
+  CategoryKey,
+  categoryLabelMap,
+  categoryOptions,
+  DailyData,
+  DistrictStats,
+} from "../types";
+import ChartCard from "./ChartCard";
 
 function isValidCategoryKey(category: string): category is CategoryKey {
   return categoryOptions.includes(category as CategoryKey);
@@ -39,10 +39,18 @@ const getTopDistrictsByState = (
   allData.forEach((day) => {
     const dayDate = new Date(day.date);
     // Fix: Normalize dates to compare only the date part, not time
-    const dayDateOnly = new Date(dayDate.getFullYear(), dayDate.getMonth(), dayDate.getDate());
-    const fromDateOnly = new Date(from.getFullYear(), from.getMonth(), from.getDate());
+    const dayDateOnly = new Date(
+      dayDate.getFullYear(),
+      dayDate.getMonth(),
+      dayDate.getDate()
+    );
+    const fromDateOnly = new Date(
+      from.getFullYear(),
+      from.getMonth(),
+      from.getDate()
+    );
     const toDateOnly = new Date(to.getFullYear(), to.getMonth(), to.getDate());
-    
+
     if (dayDateOnly >= fromDateOnly && dayDateOnly <= toDateOnly) {
       let stateData = null;
       const stateNameLower = stateName.toLowerCase().trim();
@@ -304,7 +312,7 @@ export const Top5DataView = ({
     [categories]
   );
 
-  console.log("all data", allData);
+  // console.log("all data", allData);
 
   return (
     <>

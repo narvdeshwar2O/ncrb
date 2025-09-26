@@ -65,7 +65,7 @@ export async function loadAllMonthlyDataReal({
     const filePath = `${basePath}/${filePrefix}`;
     try {
       const res = await fetch(filePath);
-      console.log("res", res);
+      // console.log("res", res);
       if (!res.ok) throw new Error("File not found");
 
       const json = await res.json();

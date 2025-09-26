@@ -1,26 +1,4 @@
-import { useEffect, useState, useMemo } from "react";
 import { Card, CardContent } from "@/components/ui/card";
-import { Skeleton } from "@/components/ui/skeleton";
-import { useMonthlyData } from "@/hooks/useMonthlyData";
-import aggregateByState from "@/utils/agregateByStateForTable";
-import computeCombinedTotal from "@/utils/computeCombinedTotal";
-import RenderCard from "./ui/RenderCard";
-import { AgencyFilters } from "./filters/AgencyFilters";
-import { MultipleChart } from "./ui/MultipleChart";
-import { Top5DataView } from "./ui/Top5DataView";
-import AgencyTable from "./ui/AgencyTable";
-import { StateComparisonChart } from "./ui/StateComparisonChart";
-import { states as allStates } from "../../components/filters/data/statesData";
-import { FilterState } from "../../components/filters/types/FilterTypes";
-import { getLastNDaysRange } from "@/utils/getLastNdays";
-import {
-  categoryLabelMap,
-  categoryOptions,
-  dataTypeOptions,
-  Totals,
-} from "./types";
-import { getDistrictsForStates } from "./utils";
-import { LoadParams } from "@/utils/loadAllMonthlyDataRealData";
 import {
   Select,
   SelectContent,
@@ -28,6 +6,28 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Skeleton } from "@/components/ui/skeleton";
+import { useMonthlyData } from "@/hooks/useMonthlyData";
+import aggregateByState from "@/utils/agregateByStateForTable";
+import computeCombinedTotal from "@/utils/computeCombinedTotal";
+import { getLastNDaysRange } from "@/utils/getLastNdays";
+import { LoadParams } from "@/utils/loadAllMonthlyDataRealData";
+import { useEffect, useMemo, useState } from "react";
+import { states as allStates } from "../../components/filters/data/statesData";
+import { FilterState } from "../../components/filters/types/FilterTypes";
+import { AgencyFilters } from "./filters/AgencyFilters";
+import {
+  categoryLabelMap,
+  categoryOptions,
+  dataTypeOptions,
+  Totals,
+} from "./types";
+import AgencyTable from "./ui/AgencyTable";
+import { MultipleChart } from "./ui/MultipleChart";
+import RenderCard from "./ui/RenderCard";
+import { StateComparisonChart } from "./ui/StateComparisonChart";
+import { Top5DataView } from "./ui/Top5DataView";
+import { getDistrictsForStates } from "./utils";
 
 function Agency() {
   const [loadAllData, setLoadAllData] = useState<LoadParams["type"]>("agency");
@@ -104,7 +104,7 @@ function Agency() {
       });
     });
   }, [allData, filters]);
-
+  
   const tableData = useMemo(() => {
     if (!filters.districts || filters.districts.length === 0)
       return { stateResult: {}, districtResult: {} };
@@ -113,7 +113,8 @@ function Agency() {
 
   const selectedStates = filters.state ?? [];
   const noStatesSelected = selectedStates.length === 0;
-  const noDistrictsSelected = !filters.districts || filters.districts.length === 0;
+  const noDistrictsSelected =
+    !filters.districts || filters.districts.length === 0;
 
   const activeCategories = filters.categories?.length
     ? filters.categories
@@ -213,7 +214,11 @@ function Agency() {
                         totalsByCategory={{
                           tp: computeCombinedTotal(filteredData, "tp", filters),
                           cp: computeCombinedTotal(filteredData, "cp", filters),
-                          mesa: computeCombinedTotal(filteredData, "mesa", filters),
+                          mesa: computeCombinedTotal(
+                            filteredData,
+                            "mesa",
+                            filters
+                          ),
                         }}
                         categoryLabelMap={categoryLabelMap}
                       />
@@ -221,7 +226,9 @@ function Agency() {
                     <div className="flex justify-end gap-2 items-center">
                       {showCompareChart && (
                         <>
-                          <label className="font-medium text-sm">Compare by:</label>
+                          <label className="font-medium text-sm">
+                            Compare by:
+                          </label>
                           <Select
                             value={comparisonType}
                             onValueChange={(value) =>

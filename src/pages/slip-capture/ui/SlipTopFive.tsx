@@ -99,7 +99,7 @@ export default function SlipTopFive({
 }: SlipTopFiveProps) {
   const viewRef = useRef<HTMLDivElement>(null);
   const [viewMode, setViewMode] = useState<ViewMode>("state");
-  console.log("from date", from, "to date", to, "all data", allData);
+  // console.log("from date", from, "to date", to, "all data", allData);
 
   const activeStatuses: StatusKey[] = useMemo(() => {
     const narrowed = statuses

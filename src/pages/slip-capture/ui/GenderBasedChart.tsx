@@ -1,13 +1,4 @@
-import { useState } from "react";
-import { Download, Printer, Users } from "lucide-react";
-import {
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Legend,
-} from "recharts";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -19,11 +10,11 @@ import {
   ChartConfig,
   ChartContainer,
   ChartTooltip,
-  ChartTooltipContent,
 } from "@/components/ui/chart";
-import { SlipDailyData, StatusKey } from "../types";
-import { Button } from "@/components/ui/button";
 import * as exportService from "@/utils/exportService";
+import { Download, Printer, Users } from "lucide-react";
+import { Bar, BarChart, CartesianGrid, Legend, XAxis, YAxis } from "recharts";
+import { SlipDailyData, StatusKey } from "../types";
 import GenderChartTooltip from "./GenderToolTip";
 
 // Crime type colors - different colors for different crime types/statuses
@@ -58,7 +49,7 @@ export function GenderBasedChart({
   selectedStatuses = [],
   title = "Cases by Gender",
 }: GenderBarChartProps) {
-  console.log("Gender chart data:", filteredData);
+  // console.log("Gender chart data:", filteredData);
 
   // Helper function to aggregate array metrics
   const aggregateArrayMetrics = (sectionData: any) => {
@@ -169,7 +160,7 @@ export function GenderBasedChart({
   const chartData = processGenderData();
   const totalCases = chartData.reduce((sum, item) => sum + item.total, 0);
 
-  console.log("Processed gender chart data:", chartData);
+  // console.log("Processed gender chart data:", chartData);
 
   // Generate chart config based on selected statuses
   const chartConfig: ChartConfig = {};
@@ -239,7 +230,6 @@ export function GenderBasedChart({
             <Users className="h-4 w-4" />
             No Gender Data Available
           </CardTitle>
-          
         </CardHeader>
       </Card>
     );
@@ -286,9 +276,7 @@ export function GenderBasedChart({
         <div className="grid grid-cols-2 md:grid-cols-3 gap-4 text-center">
           {chartData.map((item) => (
             <div key={item.gender}>
-              <div className="font-semibold text-sm">
-                {item.gender}
-              </div>
+              <div className="font-semibold text-sm">{item.gender}</div>
               <div className="text-xs text-gray-400">
                 {item.total} cases (
                 {((item.total / totalCases) * 100).toFixed(1)}%)
@@ -301,46 +289,40 @@ export function GenderBasedChart({
       {/* Chart */}
       <CardContent className="p-4 h-[420px]">
         <ChartContainer config={chartConfig} className="h-full w-full">
-         
-            <BarChart
-              data={chartData}
-              margin={{ top: 20, right: 20, left: 10, bottom: 20 }}
-            >
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis
-                dataKey="gender"
-                tick={{ fontSize: 12 }}
-                tickLine={false}
-                axisLine={false}
-              />
-              <YAxis
-                tick={{ fontSize: 12 }}
-                tickLine={false}
-                axisLine={false}
-              />
-              <ChartTooltip
-                content={<GenderChartTooltip />}
-                formatter={(value, name) => [value, name]}
-                labelFormatter={(label) => `Gender: ${label}`}
-              />
-              <Legend wrapperStyle={{ fontSize: "12px" }} />
+          <BarChart
+            data={chartData}
+            margin={{ top: 20, right: 20, left: 10, bottom: 20 }}
+          >
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis
+              dataKey="gender"
+              tick={{ fontSize: 12 }}
+              tickLine={false}
+              axisLine={false}
+            />
+            <YAxis tick={{ fontSize: 12 }} tickLine={false} axisLine={false} />
+            <ChartTooltip
+              content={<GenderChartTooltip />}
+              formatter={(value, name) => [value, name]}
+              labelFormatter={(label) => `Gender: ${label}`}
+            />
+            <Legend wrapperStyle={{ fontSize: "12px" }} />
 
-              {selectedStatuses.map((status) => (
-                <Bar
-                  key={status}
-                  dataKey={status}
-                  name={status.charAt(0).toUpperCase() + status.slice(1)}
-                  fill={
-                    CRIME_TYPE_COLORS[
-                      status.toLowerCase() as keyof typeof CRIME_TYPE_COLORS
-                    ] || "#6B7280"
-                  }
-                  radius={[3, 3, 0, 0]}
-                  barSize={30}
-                />
-              ))}
-            </BarChart>
-          
+            {selectedStatuses.map((status) => (
+              <Bar
+                key={status}
+                dataKey={status}
+                name={status.charAt(0).toUpperCase() + status.slice(1)}
+                fill={
+                  CRIME_TYPE_COLORS[
+                    status.toLowerCase() as keyof typeof CRIME_TYPE_COLORS
+                  ] || "#6B7280"
+                }
+                radius={[3, 3, 0, 0]}
+                barSize={30}
+              />
+            ))}
+          </BarChart>
         </ChartContainer>
       </CardContent>
     </Card>

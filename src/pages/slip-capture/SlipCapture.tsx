@@ -1,17 +1,5 @@
-import React, { useEffect, useMemo, useState, useCallback } from "react";
-import { loadAllMonthlyDataReal } from "@/utils/loadAllMonthlyDataRealData";
-import { SlipDailyData, SlipFilters, STATUS_KEYS, StatusKey } from "./types";
-import {
-  extractStates,
-  filterSlipData,
-  computeTotalsByStatus,
-  buildSlipTableDataByState,
-  buildSlipTableDataByDistrict,
-  getFilteredRecords,
-} from "./utils";
-import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Skeleton } from "@/components/ui/skeleton";
+import { Card, CardContent } from "@/components/ui/card";
 import {
   Select,
   SelectContent,
@@ -19,16 +7,27 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { StatusCard } from "./ui/StatusCard";
-import { SlipTable } from "./ui/SlipTable";
-import { SlipComparisonChart } from "./ui/SlipComparisonChart";
-import SlipTopFive from "./ui/SlipTopFive";
+import { Skeleton } from "@/components/ui/skeleton";
+import { getLastNDaysRange } from "@/utils/getLastNdays";
+import { loadAllMonthlyDataReal } from "@/utils/loadAllMonthlyDataRealData";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
+import { useLocation } from "react-router-dom";
 import { SlipFiltersBar } from "./filters/SlipFiltersBar";
+import { SlipDailyData, SlipFilters, StatusKey } from "./types";
+import { GenderBasedChart } from "./ui/GenderBasedChart";
 import SlipCaptureChart from "./ui/SlipCaptureChart";
 import { SlipCaptureTrendChart } from "./ui/SlipCaptureTrendChart";
-import { getLastNDaysRange } from "@/utils/getLastNdays";
-import { useLocation } from "react-router-dom";
-import { GenderBasedChart } from "./ui/GenderBasedChart";
+import { SlipComparisonChart } from "./ui/SlipComparisonChart";
+import { SlipTable } from "./ui/SlipTable";
+import SlipTopFive from "./ui/SlipTopFive";
+import { StatusCard } from "./ui/StatusCard";
+import {
+  buildSlipTableDataByDistrict,
+  buildSlipTableDataByState,
+  computeTotalsByStatus,
+  extractStates,
+  filterSlipData,
+} from "./utils";
 
 const dataPath = {
   "/slipcapture": "slip_cp",
@@ -86,7 +85,7 @@ const SlipCapture: React.FC = () => {
 
       try {
         const loaded = await loadAllMonthlyDataReal({ type: dataPath[path] });
-        // console.log("loaded data", loaded);
+        // // console.log("loaded data", loaded);
         if (!loaded || !Array.isArray(loaded)) {
           throw new Error("Invalid data format received");
         }
@@ -169,7 +168,7 @@ const SlipCapture: React.FC = () => {
       return {} as Record<StatusKey, number>;
     }
   }, [filteredData, visibleStatuses, filters.states]);
-  // console.log("filtered", filteredData);
+  console.log("filtered", filteredData);
 
   // Validation logic for comparison charts
   const getComparisonValidation = useCallback(() => {
