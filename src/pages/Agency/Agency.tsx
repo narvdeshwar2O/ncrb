@@ -28,6 +28,7 @@ import RenderCard from "./ui/RenderCard";
 import { StateComparisonChart } from "./ui/StateComparisonChart";
 import { Top5DataView } from "./ui/Top5DataView";
 import { getDistrictsForStates } from "./utils/utils";
+import Loading from "@/components/layouts/Loading";
 
 function Agency() {
   const [loadAllData, setLoadAllData] = useState<LoadParams["type"]>("agency");
@@ -149,8 +150,6 @@ function Agency() {
           onLoadAllData={() => setLoadAllData("agency_consoldated")}
           onLoadDailyData={() => setLoadAllData("agency")}
         />
-
-        {/* 🔹 guard checks */}
         {noStatesSelected ? (
           <div className="w-full p-6 text-center border rounded-md shadow-sm bg-muted/30">
             <p className="font-medium">
@@ -188,7 +187,6 @@ function Agency() {
               <AgencyTable data={tableData} filters={filters} />
             ) : (
               <>
-                {/* totals cards */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
                   {activeCategories.map((cat) => (
                     <RenderCard
@@ -199,13 +197,9 @@ function Agency() {
                     />
                   ))}
                 </div>
-
-                {/* charts */}
                 <div className="border p-3 rounded-md">
                   <div className="flex flex-col-reverse">
-                    {showCompareChart ? (
-                      <></>
-                    ) : (
+                    {!showCompareChart && (
                       <MultipleChart
                         filteredData={filteredData}
                         filters={filters}

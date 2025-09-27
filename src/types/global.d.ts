@@ -5,3 +5,8 @@ export global {
     date: string;
   }
 }
+
+type DateRange = {
+  from: Date;
+  to: Date;
+};

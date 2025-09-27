@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
-
-import { DailyData } from "@/pages/agency/types/types";
+import { DailyData } from "@/pages/agency/types";
 import { loadAllMonthlyDataReal } from "@/utils/loadAllMonthlyDataRealData";
 
 type DataType =
