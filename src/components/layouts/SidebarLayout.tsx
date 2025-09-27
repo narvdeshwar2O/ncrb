@@ -25,7 +25,7 @@ const navTitle: Record<string, string> = {
   "/dashboard": "Agency Wise Dashboard",
   "/slipcapture": "Slip Capture Dashboard",
   "/mesa": "Mesa Dashboard",
-  "/interpol": "Interpole",
+  "/interpol": "Interpol",
   "/trace-report/tp-tp": "Ten Print - Ten Print",
   "/trace-report/tp-cp": "Ten Print - Chance Print",
   "/trace-report/cp-cp": "Chance Print - Chance Print",

@@ -20,8 +20,6 @@ import {
 
 interface SlipTopFiveProps {
   allData: SlipDailyData[];
-  from: Date | null;
-  to: Date | null;
   statuses: string[];
   selectedStates?: string[];
 }
@@ -38,7 +36,7 @@ const safeObjectEntries = (obj: any): [string, any][] => {
   return Object.entries(obj).filter(([key]) => typeof key === "string");
 };
 
-// Helper function to aggregate array metrics (same as in types.ts)
+// Helper function to aggregate array metrics
 function aggregateArrayMetrics(sectionData: any): any {
   const aggregated = {
     arrest_act: "",
@@ -80,11 +78,9 @@ function aggregateArrayMetrics(sectionData: any): any {
   return aggregated;
 }
 
-// ✅ FIXED: Safe numeric extractor with proper gender level handling
+// ✅ Safe numeric extractor
 const safeNumericValue = (data: any, fieldName: string): number => {
   if (!data || typeof data !== "object") return 0;
-
-  // Use the aggregateArrayMetrics helper function
   const aggregated = aggregateArrayMetrics(data);
   const val = Number(aggregated[fieldName]);
   return isNaN(val) ? 0 : val;
@@ -92,19 +88,14 @@ const safeNumericValue = (data: any, fieldName: string): number => {
 
 export default function SlipTopFive({
   allData,
-  from,
-  to,
   statuses,
   selectedStates = [],
 }: SlipTopFiveProps) {
   const viewRef = useRef<HTMLDivElement>(null);
   const [viewMode, setViewMode] = useState<ViewMode>("state");
-  // console.log("from date", from, "to date", to, "all data", allData);
 
   const activeStatuses: StatusKey[] = useMemo(() => {
-    const narrowed = statuses
-      .filter(isValidStatus)
-      .filter((s) => s !== "Total");
+    const narrowed = statuses.filter(isValidStatus).filter((s) => s !== "Total");
     return narrowed.length ? narrowed : [];
   }, [statuses]);
 
@@ -118,32 +109,16 @@ export default function SlipTopFive({
     [selectedStates]
   );
 
-  // ✅ FIXED: Compute top data with proper gender level handling
+  // ✅ Compute top data (without date range filtering)
   const topDataByStatus = useMemo(() => {
-    if (!activeStatuses.length) {
-      return {};
-    }
-    if (!isDistrictViewValid) {
-      return {};
-    }
-
-    const fromTime = from ? from.getTime() : Number.NEGATIVE_INFINITY;
-    const toTime = to ? to.getTime() : Number.POSITIVE_INFINITY;
+    if (!activeStatuses.length) return {};
+    if (!isDistrictViewValid) return {};
 
     if (viewMode === "state") {
       const stateTotals: Record<string, Record<StatusKey, number>> = {};
 
       for (const day of allData) {
-        if (!day?.date) {
-          continue;
-        }
-
-        const dayTime = new Date(day.date).getTime();
-        if (dayTime < fromTime || dayTime > toTime) continue;
-
-        if (!day.data?.state) {
-          continue;
-        }
+        if (!day?.data?.state) continue;
 
         safeObjectEntries(day.data.state).forEach(([stateName, stateData]) => {
           if (!stateName.trim()) return;
@@ -155,36 +130,19 @@ export default function SlipTopFive({
 
           for (const status of activeStatuses) {
             const fieldName = STATUS_KEY_MAP[status.toLowerCase()];
-            if (!fieldName) {
-              continue;
-            }
+            if (!fieldName) continue;
 
             let stateTotal = 0;
 
-            safeObjectEntries(stateData).forEach(
-              ([districtName, districtData]) => {
-                safeObjectEntries(districtData).forEach(
-                  ([actName, actData]) => {
-                    // FIXED: Add gender level iteration
-                    safeObjectEntries(actData).forEach(
-                      ([genderName, genderData]) => {
-                        safeObjectEntries(genderData).forEach(
-                          ([sectionName, sectionData]) => {
-                            const value = safeNumericValue(
-                              sectionData,
-                              fieldName
-                            );
-                            stateTotal += value;
-                            if (value > 0) {
-                            }
-                          }
-                        );
-                      }
-                    );
-                  }
-                );
-              }
-            );
+            safeObjectEntries(stateData).forEach(([_, districtData]) => {
+              safeObjectEntries(districtData).forEach(([_, actData]) => {
+                safeObjectEntries(actData).forEach(([_, genderData]) => {
+                  safeObjectEntries(genderData).forEach(([_, sectionData]) => {
+                    stateTotal += safeNumericValue(sectionData, fieldName);
+                  });
+                });
+              });
+            });
 
             stateTotals[stateName][status] += stateTotal;
           }
@@ -193,15 +151,13 @@ export default function SlipTopFive({
 
       const result: Record<StatusKey, any[]> = {} as any;
       for (const status of activeStatuses) {
-        const arr = safeObjectEntries(stateTotals)
+        result[status] = safeObjectEntries(stateTotals)
           .map(([stateName, vals]) => ({
             state: stateName.trim(),
             value: (vals as Record<StatusKey, number>)[status] ?? 0,
           }))
           .sort((a, b) => b.value - a.value)
           .slice(0, 5);
-
-        result[status] = arr;
       }
       return result;
     } else {
@@ -209,15 +165,7 @@ export default function SlipTopFive({
       const districtTotals: Record<string, Record<StatusKey, number>> = {};
 
       for (const day of allData) {
-        if (!day?.date) {
-          continue;
-        }
-
-        const dayTime = new Date(day.date).getTime();
-        if (dayTime < fromTime || dayTime > toTime) continue;
-        if (!day.data?.state) {
-          continue;
-        }
+        if (!day?.data?.state) continue;
 
         safeObjectEntries(day.data.state).forEach(([stateName, stateData]) => {
           if (!stateName.trim()) return;
@@ -228,75 +176,47 @@ export default function SlipTopFive({
             return;
           }
 
-          safeObjectEntries(stateData).forEach(
-            ([districtName, districtData]) => {
-              if (!districtName.trim()) return;
-              const districtKey = `${stateName.trim()} - ${districtName.trim()}`;
+          safeObjectEntries(stateData).forEach(([districtName, districtData]) => {
+            if (!districtName.trim()) return;
+            const districtKey = `${stateName.trim()} - ${districtName.trim()}`;
 
-              if (!districtTotals[districtKey]) {
-                districtTotals[districtKey] = {} as Record<StatusKey, number>;
-                for (const s of VALID_STATUSES)
-                  districtTotals[districtKey][s] = 0;
-              }
-
-              for (const status of activeStatuses) {
-                const fieldName = STATUS_KEY_MAP[status.toLowerCase()];
-                if (!fieldName) {
-                  continue;
-                }
-
-                let districtTotal = 0;
-                safeObjectEntries(districtData).forEach(
-                  ([actName, actData]) => {
-                    // FIXED: Add gender level iteration
-                    safeObjectEntries(actData).forEach(
-                      ([genderName, genderData]) => {
-                        safeObjectEntries(genderData).forEach(
-                          ([sectionName, sectionData]) => {
-                            const value = safeNumericValue(
-                              sectionData,
-                              fieldName
-                            );
-                            districtTotal += value;
-                            if (value > 0) {
-                            }
-                          }
-                        );
-                      }
-                    );
-                  }
-                );
-
-                districtTotals[districtKey][status] += districtTotal;
-              }
+            if (!districtTotals[districtKey]) {
+              districtTotals[districtKey] = {} as Record<StatusKey, number>;
+              for (const s of VALID_STATUSES) districtTotals[districtKey][s] = 0;
             }
-          );
+
+            for (const status of activeStatuses) {
+              const fieldName = STATUS_KEY_MAP[status.toLowerCase()];
+              if (!fieldName) continue;
+
+              let districtTotal = 0;
+              safeObjectEntries(districtData).forEach(([_, actData]) => {
+                safeObjectEntries(actData).forEach(([_, genderData]) => {
+                  safeObjectEntries(genderData).forEach(([_, sectionData]) => {
+                    districtTotal += safeNumericValue(sectionData, fieldName);
+                  });
+                });
+              });
+
+              districtTotals[districtKey][status] += districtTotal;
+            }
+          });
         });
       }
 
       const result: Record<StatusKey, any[]> = {} as any;
       for (const status of activeStatuses) {
-        const arr = safeObjectEntries(districtTotals)
+        result[status] = safeObjectEntries(districtTotals)
           .map(([districtKey, vals]) => ({
             state: districtKey.trim(),
             value: (vals as Record<StatusKey, number>)[status] ?? 0,
           }))
           .sort((a, b) => b.value - a.value)
           .slice(0, 5);
-
-        result[status] = arr;
       }
       return result;
     }
-  }, [
-    allData,
-    from,
-    to,
-    activeStatuses,
-    viewMode,
-    isDistrictViewValid,
-    selectedStateName,
-  ]);
+  }, [allData, activeStatuses, viewMode, isDistrictViewValid, selectedStateName]);
 
   const hideButtons = (hide: boolean) => {
     document.querySelectorAll(".print-hide").forEach((btn) => {
@@ -308,9 +228,7 @@ export default function SlipTopFive({
     hideButtons(true);
     exportService.printComponent(
       viewRef.current,
-      `Top 5 ${
-        viewMode === "state" ? "States" : "Districts"
-      } by Crime Status Report`
+      `Top 5 ${viewMode === "state" ? "States" : "Districts"} by Crime Status Report`
     );
     setTimeout(() => hideButtons(false), 500);
   };

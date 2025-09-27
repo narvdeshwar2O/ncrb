@@ -355,103 +355,99 @@ const Mesa: React.FC = () => {
 
                 {/* Charts Section */}
                 {visibleStatuses.length > 0 && (
-                  <div className="border p-3 rounded-md">
-                    <div className="flex justify-between items-center mb-3">
-                      {/* Comparison Type Selector */}
+                  <>
+                    <div className="border p-3 rounded-md">
+                      <div className="flex justify-between items-center mb-3">
+                        {/* Comparison Type Selector */}
 
-                      <div className="flex justify-end w-full gap-3">
-                        <div className="flex items-center gap-2">
-                          {showCompareChart && (
-                            <>
-                              <span className="text-sm font-medium">
-                                Comparison View:
-                              </span>
-                              <Select
-                                value={comparisonType}
-                                onValueChange={handleComparisonTypeChange}
-                              >
-                                <SelectTrigger className="w-40">
-                                  <SelectValue />
-                                </SelectTrigger>
-                                <SelectContent>
-                                  <SelectItem value={COMPARISON_TYPES.STATE}>
-                                    State Comparison
-                                  </SelectItem>
-                                  <SelectItem value={COMPARISON_TYPES.DISTRICT}>
-                                    District Comparison
-                                  </SelectItem>
-                                </SelectContent>
-                              </Select>
-                            </>
-                          )}
+                        <div className="flex justify-end w-full gap-3">
+                          <div className="flex items-center gap-2">
+                            {showCompareChart && (
+                              <>
+                                <span className="text-sm font-medium">
+                                  Comparison View:
+                                </span>
+                                <Select
+                                  value={comparisonType}
+                                  onValueChange={handleComparisonTypeChange}
+                                >
+                                  <SelectTrigger className="w-40">
+                                    <SelectValue />
+                                  </SelectTrigger>
+                                  <SelectContent>
+                                    <SelectItem value={COMPARISON_TYPES.STATE}>
+                                      State Comparison
+                                    </SelectItem>
+                                    <SelectItem
+                                      value={COMPARISON_TYPES.DISTRICT}
+                                    >
+                                      District Comparison
+                                    </SelectItem>
+                                  </SelectContent>
+                                </Select>
+                              </>
+                            )}
+                          </div>
+                          <Button
+                            size="sm"
+                            onClick={() => setShowCompareChart((p) => !p)}
+                            className="w-[15%]"
+                          >
+                            {showCompareChart
+                              ? "Hide Comparison Chart"
+                              : "Show Comparison Chart"}
+                          </Button>
                         </div>
-                        <Button
-                          size="sm"
-                          onClick={() => setShowCompareChart((p) => !p)}
-                          className="w-[15%]"
-                        >
-                          {showCompareChart
-                            ? "Hide Comparison Chart"
-                            : "Show Comparison Chart"}
-                        </Button>
                       </div>
-                    </div>
 
-                    {showCompareChart ? (
-                      comparisonValidation.isValid ? (
+                      {showCompareChart ? (
+                        comparisonValidation.isValid ? (
+                          <div className="w-full">
+                            <h3 className="text-lg font-medium mb-2">
+                              {comparisonType === COMPARISON_TYPES.STATE
+                                ? "State"
+                                : "District"}{" "}
+                              Comparison
+                            </h3>
+                            <SlipComparisonChart
+                              rows={tableRows}
+                              statuses={visibleStatuses}
+                              selectedStates={filters.states}
+                              selectedDistricts={filters.districts}
+                              categories={["Crime Status"]}
+                              comparisonType={comparisonType}
+                            />
+                          </div>
+                        ) : (
+                          <div className="w-full p-3 flex justify-center items-center">
+                            <p className="border shadow-md p-3 rounded-md bg-card">
+                              {comparisonValidation.message}
+                            </p>
+                          </div>
+                        )
+                      ) : (
                         <div className="w-full">
-                          <h3 className="text-lg font-medium mb-2">
-                            {comparisonType === COMPARISON_TYPES.STATE
-                              ? "State"
-                              : "District"}{" "}
-                            Comparison
-                          </h3>
-                          <SlipComparisonChart
-                            rows={tableRows}
-                            statuses={visibleStatuses}
-                            selectedStates={filters.states}
-                            selectedDistricts={filters.districts}
-                            categories={["Crime Status"]}
-                            comparisonType={comparisonType}
+                          <SlipCaptureChart
+                            filteredData={filteredData}
+                            selectedCrimeTypes={visibleStatuses}
+                            dateRange={filters.dateRange}
                           />
                         </div>
-                      ) : (
-                        <div className="w-full p-3 flex justify-center items-center">
-                          <p className="border shadow-md p-3 rounded-md bg-card">
-                            {comparisonValidation.message}
-                          </p>
-                        </div>
-                      )
-                    ) : (
-                      <div className="w-full">
-                        <SlipCaptureChart
-                          filteredData={filteredData}
-                          selectedCrimeTypes={visibleStatuses}
-                          dateRange={filters.dateRange}
-                        />
-                      </div>
-                    )}
-                  </div>
-                )}
-                <GenderBasedChart
-                  filteredData={filteredData}
-                  selectedState={filters.states}
-                  selectedStatuses={visibleStatuses}
-                  title="Crime Cases by Gender"
-                />
-
-                {/* Top 5 */}
-                {visibleStatuses.length > 0 &&
-                  filters.dateRange.from &&
-                  filters.dateRange.to && (
+                      )}
+                    </div>
+                    <GenderBasedChart
+                      filteredData={filteredData}
+                      selectedState={filters.states}
+                      selectedStatuses={visibleStatuses}
+                      title="Crime Cases by Gender"
+                    />
                     <SlipTopFive
-                      allData={allData}
-                      from={filters.dateRange.from}
-                      to={filters.dateRange.to}
+                      allData={filteredData}
                       statuses={visibleStatuses}
                       selectedStates={filters.states}
                     />
-                  )}
+                  </>
+                )}
               </>
             )}
           </>
