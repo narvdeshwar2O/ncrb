@@ -168,7 +168,7 @@ const SlipCapture: React.FC = () => {
       return {} as Record<StatusKey, number>;
     }
   }, [filteredData, visibleStatuses, filters.states]);
-  console.log("filtered", filteredData);
+  // console.log("filtered", filteredData);
 
   // Validation logic for comparison charts
   const getComparisonValidation = useCallback(() => {

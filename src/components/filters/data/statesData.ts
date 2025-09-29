@@ -34,5 +34,9 @@ export const states = [
   "uttar pradesh",
   "uttarakhand",
   "west bengal",
-  "ladakh"
+  "ladakh",
+  "IB",
+  "NIA",
+  "NCB",
+  "CBI"
 ];

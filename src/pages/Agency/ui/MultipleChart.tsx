@@ -117,7 +117,7 @@ export function MultipleChart(props: MultipleChartProps) {
     totalsByCategory,
     categoryLabelMap,
   } = props;
-  console.log("filter", filteredData);
+  // console.log("filter", filteredData);
   const chartRef = useRef<HTMLDivElement>(null);
   const [viewMode, setViewMode] = useState<"stacked" | "grouped" | "pie">(
     "stacked"

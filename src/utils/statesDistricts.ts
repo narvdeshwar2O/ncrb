@@ -1,10 +1,5 @@
-export const stateWithDistrict = 
-{
-  "andaman & nicobar": [
-    "nicobar",
-    "north & middile andaman",
-    "south andaman"
-  ],
+export const stateWithDistrict = {
+  "andaman & nicobar": ["nicobar", "north & middile andaman", "south andaman"],
   "andhra pradesh": [
     "alluri sitharama raju",
     "anakapalli",
@@ -38,7 +33,7 @@ export const stateWithDistrict =
     "visakhapatnam commissionerate",
     "vizianagaram",
     "west godavari",
-    "ysr"
+    "ysr",
   ],
   "arunachal pradesh": [
     "anjaw",
@@ -69,9 +64,9 @@ export const stateWithDistrict =
     "subansiri lower",
     "subansiri upper",
     "tawang",
-    "tirap"
+    "tirap",
   ],
-  "assam": [
+  assam: [
     "b.i. economic offence",
     "bajali",
     "baksa",
@@ -117,9 +112,9 @@ export const stateWithDistrict =
     "tinsukia",
     "udalguri",
     "vigilance and anti-corruption(v and ac)",
-    "west karbi-anglong"
+    "west karbi-anglong",
   ],
-  "bihar": [
+  bihar: [
     "araria",
     "arwal",
     "aurangabad",
@@ -164,17 +159,15 @@ export const stateWithDistrict =
     "sitamarhi",
     "siwan",
     "supaul",
-    "vaishali"
+    "vaishali",
   ],
-  "chandigarh": [
-    "chandigarh"
-  ],
+  chandigarh: ["chandigarh"],
   "dadra and nagar haveli and daman and diu": [
     "dadra ngr haveli",
     "daman dist",
-    "diu dist"
+    "diu dist",
   ],
-  "delhi": [
+  delhi: [
     "central",
     "crime branch",
     "dwarka",
@@ -198,14 +191,10 @@ export const stateWithDistrict =
     "special cell(sb)",
     "special police unit for women & children",
     "vigilance",
-    "west"
+    "west",
   ],
-  "goa": [
-    "c i d",
-    "north goa",
-    "south goa"
-  ],
-  "gujarat": [
+  goa: ["c i d", "north goa", "south goa"],
+  gujarat: [
     "ahmedabad city",
     "ahmedabad rural",
     "ahwa (dangs)",
@@ -249,7 +238,7 @@ export const stateWithDistrict =
     "vadodara rural",
     "valsad",
     "western railway ahmedabad",
-    "wstn rly vadodara"
+    "wstn rly vadodara",
   ],
   "himachal pradesh": [
     "baddi police distt",
@@ -272,9 +261,9 @@ export const stateWithDistrict =
     "stf, dharamshala zone",
     "stf, mandi zone",
     "stf, parwanoo zone",
-    "una"
+    "una",
   ],
-  "haryana": [
+  haryana: [
     "ambala",
     "anti corruption bureau, haryana",
     "bhiwani",
@@ -305,7 +294,7 @@ export const stateWithDistrict =
     "sonipat",
     "special task force (stf)",
     "state crime branch",
-    "yamuna nagar"
+    "yamuna nagar",
   ],
   "jammu and kashmir": [
     "acb headquarters jammu",
@@ -344,9 +333,9 @@ export const stateWithDistrict =
     "srinagar",
     "udhampur",
     "kargil",
-    "leh"
+    "leh",
   ],
-  "kerala": [
+  kerala: [
     "alappuzha",
     "ats",
     "c i d",
@@ -369,9 +358,9 @@ export const stateWithDistrict =
     "thiruvananthapuram rural",
     "thrissur city",
     "thrissur rural",
-    "wynad"
+    "wynad",
   ],
-  "karnataka": [
+  karnataka: [
     "bagalkot",
     "ballari",
     "bangalore city",
@@ -411,12 +400,10 @@ export const stateWithDistrict =
     "uttara kannada",
     "vijayanagara",
     "vijayapur",
-    "yadagir"
+    "yadagir",
   ],
-  "lakshadweep": [
-    "lakshadweep"
-  ],
-  "meghalaya": [
+  lakshadweep: ["lakshadweep"],
+  meghalaya: [
     "anti corruption",
     "c i d",
     "east jaintia hills",
@@ -431,9 +418,9 @@ export const stateWithDistrict =
     "south west garo hills",
     "south west khasi hills",
     "transport dept",
-    "west jaintia hills"
+    "west jaintia hills",
   ],
-  "maharashtra": [
+  maharashtra: [
     "ahilyanagar district",
     "akola",
     "amravati city",
@@ -484,9 +471,9 @@ export const stateWithDistrict =
     "thane rural",
     "wardha",
     "washim",
-    "yavatmal"
+    "yavatmal",
   ],
-  "manipur": [
+  manipur: [
     "bishnupur",
     "c i d",
     "chandel",
@@ -496,7 +483,7 @@ export const stateWithDistrict =
     "senapati",
     "tamenglong",
     "thoubal",
-    "ukhrul"
+    "ukhrul",
   ],
   "madhya pradesh": [
     "agar malwa",
@@ -564,9 +551,9 @@ export const stateWithDistrict =
     "tikamgarh",
     "ujjain",
     "umariya",
-    "vidisha"
+    "vidisha",
   ],
-  "mizoram": [
+  mizoram: [
     "aizawl",
     "c.i.d/narcotic",
     "champhai",
@@ -579,9 +566,9 @@ export const stateWithDistrict =
     "mizoram common",
     "saiha",
     "saitual",
-    "serchhip"
+    "serchhip",
   ],
-  "nagaland": [
+  nagaland: [
     "dimapur",
     "kiphire",
     "kohima",
@@ -598,9 +585,9 @@ export const stateWithDistrict =
     "tseminyu",
     "tuensang",
     "wokha",
-    "zunheboto"
+    "zunheboto",
   ],
-  "odisha": [
+  odisha: [
     "angul",
     "balasore",
     "baragarh",
@@ -640,9 +627,9 @@ export const stateWithDistrict =
     "subarnapur",
     "sundargarh",
     "upd, cuttack",
-    "upd,bhubaneswar"
+    "upd,bhubaneswar",
   ],
-  "punjab": [
+  punjab: [
     "amritsar rural",
     "barnala",
     "batala",
@@ -677,13 +664,10 @@ export const stateWithDistrict =
     "shri muktsar sahib",
     "stf wing",
     "tarn taran",
-    "vigilance bureau"
+    "vigilance bureau",
   ],
-  "puducherry": [
-    "karaikal",
-    "puducherry"
-  ],
-  "rajasthan": [
+  puducherry: ["karaikal", "puducherry"],
+  rajasthan: [
     "ajmer",
     "alwar",
     "ats & sog",
@@ -739,15 +723,15 @@ export const stateWithDistrict =
     "sikar",
     "sirohi",
     "tonk",
-    "udaipur"
+    "udaipur",
   ],
-  "sikkim": [
+  sikkim: [
     "gangtok district",
     "gyalshing district",
     "mangan district",
     "namchi district",
     "pakyong district",
-    "soreng district"
+    "soreng district",
   ],
   "tamil nadu": [
     "adyar",
@@ -850,9 +834,9 @@ export const stateWithDistrict =
     "villupuram",
     "virudhunagar",
     "vpc - cid",
-    "washermenpet"
+    "washermenpet",
   ],
-  "tripura": [
+  tripura: [
     "crime branch tripura",
     "dhalai",
     "gomati",
@@ -862,7 +846,7 @@ export const stateWithDistrict =
     "sepahijala",
     "south",
     "unakoti",
-    "west"
+    "west",
   ],
   "uttar pradesh": [
     "a.n.t.f.",
@@ -918,7 +902,7 @@ export const stateWithDistrict =
     "gorakhpur",
     "grp section agra",
     "agra",
-    
+
     "grp section gorakhpur",
     "grp section jhansi",
     "grp section lucknow",
@@ -966,8 +950,8 @@ export const stateWithDistrict =
     "shahjahanpur",
     "shamli",
 
-  "ghaziabad",
-  "varanasi",
+    "ghaziabad",
+    "varanasi",
     "shravasti",
     "siddharth nagar",
     "sitapur",
@@ -981,7 +965,7 @@ export const stateWithDistrict =
     "varuna (commissionerate varanasi)",
     "west (commissionerate agra",
     "west (commissionerate kanpur nagar)",
-    "yamunanagar (commissionerate prayagraj)"
+    "yamunanagar (commissionerate prayagraj)",
   ],
   "west bengal": [
     "alipurduar",
@@ -1033,9 +1017,9 @@ export const stateWithDistrict =
     "sealdah grp",
     "siliguri grp",
     "siliguri police commisonerate",
-    "sundarban police district"
+    "sundarban police district",
   ],
-  "chhattisgarh": [
+  chhattisgarh: [
     "ambikapur (sarguja)",
     "balod",
     "baloda bazar",
@@ -1069,9 +1053,9 @@ export const stateWithDistrict =
     "sakti",
     "sarangarh-bilaigarh",
     "sukma",
-    "surajpur"
+    "surajpur",
   ],
-  "jharkhand": [
+  jharkhand: [
     "ats jh",
     "bokaro",
     "chaibasa",
@@ -1099,9 +1083,9 @@ export const stateWithDistrict =
     "ranchi",
     "sahebganj",
     "saraikela",
-    "simdega"
+    "simdega",
   ],
-  "uttarakhand": [
+  uttarakhand: [
     "almora",
     "bageshwar",
     "chamoli",
@@ -1114,12 +1098,10 @@ export const stateWithDistrict =
     "rudraprayag",
     "tehri garhwal",
     "udham singh nagar",
-    "uttarkashi"
+    "uttarkashi",
   ],
-  "national investigation agency": [
-    "n.i.a. - hq"
-  ],
-  "telangana": [
+  "national investigation agency": ["n.i.a. - hq"],
+  telangana: [
     "adilabad",
     "c i d",
     "cyberabad",
@@ -1154,12 +1136,9 @@ export const stateWithDistrict =
     "vikarabad",
     "wanaparthy",
     "warangal commissionarate",
-    "women safety wing tg"
+    "women safety wing tg",
   ],
-  "ladakh": [
-    "kargil",
-    "leh"
-  ],
+  ladakh: ["kargil", "leh"],
   "narcotics control bureau": [
     "agaratgala",
     "ahmedabad",
@@ -1195,6 +1174,104 @@ export const stateWithDistrict =
     "raipur",
     "ranchi",
     "srinagar",
-    "vizag"
-  ]
-}
+    "vizag",
+  ],
+  IB: [
+    "IB BIHAR",
+    "IB RAJASTHAN",
+    "IB CHANDIGARH",
+    "IB HIMACHAL PRADESH",
+    "IB ASSAM",
+    "IB TELANGANA",
+    "IB ODISHA",
+    "IB ANDHRA PRADESH",
+    "IB JHARKHAND",
+    "IB CHHATTISGARH",
+    "IB UTTAR PRADESH",
+    "IB TAMIL NADU",
+    "IB MADHYA PRADESH",
+    "IB KERALA",
+    "IB GUJARAT",
+    "IB KARNATAKA",
+    "IB JAMMU AND KASHMIR",
+    "IB ARUNACHAL PRADESH",
+    "IB WEST BENGAL",
+    "IB NEW DELHI",
+    "IB SIKKIM",
+  ],
+  CBI: [
+    "AC-I New Delhi PS",
+    "ACB Delhi PS",
+    "ACB Lucknow PS",
+    "ACB Chandigarh PS",
+    "ACB Chennai PS",
+    "ACB Mumbai PS",
+    "ACB Bhopal PS",
+    "ACB Kolkata PS",
+    "ACB Jaipur PS",
+    "ACB Jodhpur PS",
+    "ACB Nagpur PS",
+    "ACB Dehradun PS",
+    "ACB Jammu PS",
+    "ACB Shimla PS",
+    "ACB Srinagar PS",
+    "ACB Cochin PS",
+    "ACB Thiruvananthapuram PS",
+    "ACB Hyderabad PS",
+    "ACB Visakhapatnam PS",
+    "ACB Pune PS",
+    "ACB Goa PS",
+    "ACB Gandhi Nagar PS",
+    "ACB Ghaziabad PS",
+    "ACB Madurai PS",
+    "ACB Dhanbad PS",
+    "ACB Shillong PS",
+    "ACB Imphal PS",
+    "ACB Jabalpur PS",
+    "ACB Chhattisgarh PS",
+    "ACB Portblair PS",
+    "ACB Bengaluru PS",
+    "ACB Patna PS",
+    "ACB Ranchi PS",
+    "ACB Guwahati PS",
+    "ACB Bhubaneshwar PS",
+  ],
+  NIA: [
+    "NIA New Delhi PS",
+    "NIA Hyderabad PS",
+    "NIA Kerla PS",
+    "NIA West Bengal PS",
+    "NIA Jammu PS",
+    "NIA Mumbai PS",
+    "NIA Chandigarh PS",
+    "NIA Assam PS",
+    "NIA Lucknow PS",
+    "NIA Raipur PS",
+    "NIA Ranchi PS",
+    "NIA Chennai PS",
+    "NIA Imphal PS",
+    "NIA Bangalore PS",
+    "NIA Patna PS",
+    "NIA Bhubaneswar PS",
+    "NIA Jaipur PS",
+    "NIA Bhopal PS",
+    "NIA Ahemadabad PS",
+  ],
+  NCB: [
+    "NCB DELHI PS",
+    "NCB MUMBAI PS",
+    "NCB CHENNAI PS",
+    "NCB KOLKATA PS",
+    "NCB LUCKNOW PS",
+    "NCB JODHPUR PS",
+    "NCB AHMEDABAD PS",
+    "NCB JAMMU PS",
+    "NCB INDORE PS",
+    "NCB GUWAHATI PS",
+    "NCB PATNA PS",
+    "NCB BANGALORE PS",
+    "NCB CHANDIGARH PS",
+    "NCB BHUBANESHWAR PS",
+    "NCB RANCHI PS",
+  ],
+};

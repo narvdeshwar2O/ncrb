@@ -16786,6 +16786,31 @@
         }
       }
     },
+    "cbi": {
+      "AC-I New Delhi PS": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0,
+          "delete": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0,
+          "delete": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0,
+          "delete": 0
+        }
+      }
+    },
     "goa": {
       "C I D": {
         "tp": {
@@ -16858,7 +16883,7 @@
       }
     },
     "himachal pradesh": {
-      "STATE VIGILANCE AND ANTI-CORRUPTION  BUREAU (SV & ACB)": {
+      "STATE VIGILANCE AND ANTI-CORRUPTION� BUREAU (SV & ACB)": {
         "tp": {
           "hit": 0,
           "nohit": 0,
@@ -18410,6 +18435,56 @@
         }
       },
       "LONGLENG": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0,
+          "delete": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0,
+          "delete": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0,
+          "delete": 0
+        }
+      }
+    },
+    "ncb": {
+      "NCB MUMBAI PS": {
+        "tp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0,
+          "delete": 0
+        },
+        "cp": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0,
+          "delete": 0
+        },
+        "mesa": {
+          "hit": 0,
+          "nohit": 0,
+          "total": 0,
+          "enrol": 0,
+          "delete": 0
+        }
+      }
+    },
+    "nia": {
+      "NIA New Delhi PS": {
         "tp": {
           "hit": 0,
           "nohit": 0,
