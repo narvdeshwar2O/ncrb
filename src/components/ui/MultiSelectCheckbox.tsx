@@ -1,13 +1,13 @@
-import React, { useState, useMemo, useRef, useEffect } from "react";
+import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Input } from "@/components/ui/input";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { Checkbox } from "@/components/ui/checkbox";
-import { Button } from "@/components/ui/button";
 import { ChevronDown, X } from "lucide-react";
-import { Input } from "@/components/ui/input";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 
 interface MultiSelectCheckboxProps {
   label: string;
@@ -42,10 +42,10 @@ const MultiSelectCheckbox = ({
     }
     
     if (value.toLowerCase() === "enrol") {
-      return "enroll";
+      return "ENROLL";
     }
     
-    return value;
+    return value.toUpperCase();
   };
 
   const safeSetOpen = (v: boolean) => {
