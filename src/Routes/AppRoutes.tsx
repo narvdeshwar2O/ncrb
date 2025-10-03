@@ -1,7 +1,7 @@
-import { Navigate, useRoutes } from "react-router-dom";
-import { allRoutes } from "./Routes";
 import { SidebarLayout } from "@/components/layouts/SidebarLayout";
 import { useAuth } from "@/context/AuthContext";
+import { allRoutes } from "@/routes/Routes";
+import { Navigate, useRoutes } from "react-router-dom";
 
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   const { isAuthenticated } = useAuth();
