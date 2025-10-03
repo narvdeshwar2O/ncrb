@@ -1,20 +1,4 @@
-export interface LoadParams {
-  startDate?: string;
-  endDate?: string;
-  stateFilter?: string;
-  type:
-    | "cfpb"
-    | "slip_cp"
-    | "mesa"
-    | "tp_tp"
-    | "tp_cp"
-    | "cp_cp"
-    | "cp_tp"
-    | "pp_pp"
-    | "agency"
-    | "agency_consoldated"
-    | "interpol";
-}
+import { configMap } from "@/constants/configPaths";
 
 export async function loadAllMonthlyDataReal({
   startDate,
@@ -27,35 +11,9 @@ export async function loadAllMonthlyDataReal({
   const start = startDate ? new Date(startDate) : new Date("2025-01-01");
   const end = endDate ? new Date(endDate) : new Date("2025-12-31");
 
-  const configMap: Record<string, { basePath: string; filePrefix: string }> = {
-    cfpb: { basePath: "", filePrefix: "" },
-    slip_cp: {
-      basePath: "/assets/data/slip_capture/2025",
-      filePrefix: "final_nested_state_district_acts",
-    },
-    mesa: {
-      basePath: "/assets/data/mesa/2025",
-      filePrefix: "final_nested_state_district_acts",
-    },
-    interpol: { basePath: "/assets/data/interpole/2025", filePrefix: "ip" },
-    tp_tp: { basePath: "", filePrefix: "" },
-    tp_cp: { basePath: "", filePrefix: "" },
-    cp_cp: { basePath: "", filePrefix: "" },
-    cp_tp: { basePath: "", filePrefix: "" },
-    pp_pp: { basePath: "", filePrefix: "" },
-    agency: {
-      basePath: "/assets/data/enr_report/2025",
-      filePrefix: "final_nested_state_district",
-    },
-    agency_consoldated: {
-      basePath: "/assets/data/enr_report",
-      filePrefix: "all_consolidated_data.json",
-    },
-  };
-
   const config = configMap[type];
   if (!config?.basePath || !config?.filePrefix) {
-    console.warn(`No config found for type: ${type}`);
+    console.warn(`No config path found for type: ${type}`);
     return [];
   }
 
@@ -65,7 +23,6 @@ export async function loadAllMonthlyDataReal({
     const filePath = `${basePath}/${filePrefix}`;
     try {
       const res = await fetch(filePath);
-      // console.log("res", res);
       if (!res.ok) throw new Error("File not found");
 
       const json = await res.json();
