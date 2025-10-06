@@ -11,10 +11,9 @@ import { useMonthlyData } from "@/hooks/useMonthlyData";
 import aggregateByState from "@/utils/agregateByStateForTable";
 import computeCombinedTotal from "@/utils/computeCombinedTotal";
 import { getLastNDaysRange } from "@/utils/getLastNdays";
-import { LoadParams } from "@/utils/loadAllMonthlyDataRealData";
 import { useEffect, useMemo, useState } from "react";
-import { states as allStates } from "../../components/filters/data/statesData";
-import { FilterState } from "../../components/filters/types/FilterTypes";
+import { states as allStates } from "@/components/filters/data/statesData";
+import { FilterState } from "@/components/filters/types/FilterTypes";
 import { AgencyFilters } from "./filters/AgencyFilters";
 import {
   categoryLabelMap,
@@ -28,7 +27,6 @@ import RenderCard from "./ui/RenderCard";
 import { StateComparisonChart } from "./ui/StateComparisonChart";
 import { Top5DataView } from "./ui/Top5DataView";
 import { getDistrictsForStates } from "./utils/utils";
-import Loading from "@/components/layouts/Loading";
 
 function Agency() {
   const [loadAllData, setLoadAllData] = useState<LoadParams["type"]>("agency");
