@@ -51,9 +51,7 @@ const CustomTooltip = ({ active, payload, label }: any) => {
           fontWeight: 600,
         }}
       >
-        <p style={{ margin: 0, fontSize: "12px", fontWeight: 600 }}>
-          {label}
-        </p>
+        <p style={{ margin: 0, fontSize: "12px", fontWeight: 600 }}>{label}</p>
         {payload.map((entry: any, idx: number) => (
           <p
             key={`tooltip-${idx}`}
@@ -64,7 +62,27 @@ const CustomTooltip = ({ active, payload, label }: any) => {
               fontSize: "14px",
             }}
           >
-            {`${entry.name}: ${entry.value}`}
+            {(() => {
+              // Split the entry name into words
+              const words = entry.name.split(" ");
+
+              // Check if "Enrol" exists
+              const hasEnrol = words.includes("Enrol");
+
+              // Remove "Enrol" from words
+              const filteredWords = words.filter((word) => word !== "Enrol");
+
+              // Join remaining words
+              let label = filteredWords.join(" ");
+
+              // Append "(Enroll.)" if "Enrol" was present
+              if (hasEnrol) {
+                label += " (Enroll.)";
+              }
+
+              // Return label with value
+              return `${label}: ${entry.value}`;
+            })()}
           </p>
         ))}
       </div>
@@ -72,7 +90,6 @@ const CustomTooltip = ({ active, payload, label }: any) => {
   }
   return null;
 };
-
 
 export function BarChartComponent(props: BarChartComponentProps) {
   const {
@@ -98,13 +115,27 @@ export function BarChartComponent(props: BarChartComponentProps) {
         <CartesianGrid vertical={false} />
         <XAxis dataKey="label" tickMargin={10} />
         <YAxis tickMargin={8} />
-        <Tooltip cursor={{ fill: "hsl(var(--muted) / 0.5)" }} content={<CustomTooltip />} />
+        <Tooltip
+          cursor={{ fill: "hsl(var(--muted) / 0.5)" }}
+          content={<CustomTooltip />}
+        />
         <Legend
           verticalAlign="top"
           wrapperStyle={{
             top: 0,
             color: "#222",
             fontWeight: 700,
+          }}
+          formatter={(value: string) => {
+            const words = value.split(" ");
+
+            // Map "Enrol" to "Enroll." exactly
+            const newLabel = words.map((word) =>
+              word === "Enrol" ? "(Enroll.)" : word
+            );
+
+            // Join back into a string
+            return newLabel.join(" ");
           }}
         />
 
@@ -187,4 +218,4 @@ export function BarChartComponent(props: BarChartComponentProps) {
       </BarChart>
     </ResponsiveContainer>
   );
-} 
+}

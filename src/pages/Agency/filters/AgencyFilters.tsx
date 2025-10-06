@@ -39,7 +39,6 @@ function getDistrictsForStates(states: string[]) {
 export const AgencyFilters = ({
   filters,
   onFiltersChange,
-  onLoadAllData,
   onLoadDailyData,
 }: ControlledAgencyFiltersProps) => {
   const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);

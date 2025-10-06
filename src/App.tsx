@@ -6,7 +6,7 @@ import { BrowserRouter } from "react-router-dom";
 import { ThemeProvider } from "@/components/theme/ThemeProvider";
 import { AuthProvider } from "@/context/AuthContext";
 import { Suspense } from "react";
-import AppRoutes from "@/Routes/AppRoutes";
+import AppRoutes from "@/routes/AppRoutes";
 import Loading from "@/components/layouts/Loading";
 
 const queryClient = new QueryClient();

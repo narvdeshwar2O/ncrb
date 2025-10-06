@@ -1,10 +1,6 @@
 import Logo from "@/assets";
 import { AppSidebar } from "@/components/AppSidebar";
-import {
-  SidebarInset,
-  SidebarProvider,
-  SidebarTrigger,
-} from "@/components/ui/sidebar";
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { useLocation, useNavigate } from "react-router-dom";
 
 import { Button } from "@/components/ui/button";
@@ -35,8 +31,8 @@ const navTitle: Record<string, string> = {
 
 export function SidebarLayout({ children }: SidebarLayoutProps) {
   const nav = useLocation();
-  const title = navTitle[nav.pathname];
-  const { user, logout } = useAuth();
+  const title = navTitle[nav.pathname] || "";
+  const { logout } = useAuth();
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -47,10 +43,15 @@ export function SidebarLayout({ children }: SidebarLayoutProps) {
   return (
     <SidebarProvider>
       <div className="flex min-h-screen w-full">
+        {/* Sidebar */}
         <AppSidebar />
-        <SidebarInset className="flex-1">
-          <header className="flex h-12 items-center border-b px-4 bg-background justify-between">
+
+        {/* Main content */}
+        <div className="flex-1 flex flex-col">
+          {/* Sticky header aligned with main content */}
+          <header className="sticky top-0 z-50 h-12 px-4 bg-background border-b flex justify-between items-center">
             <div className="flex items-center">
+              {/* Sidebar toggle */}
               <SidebarTrigger className="mr-2" />
               <h1 className="text-lg font-semibold">{title}</h1>
             </div>
@@ -78,8 +79,12 @@ export function SidebarLayout({ children }: SidebarLayoutProps) {
               </div>
             </div>
           </header>
-          <main className="flex-1 w-full">{children}</main>
-        </SidebarInset>
+
+          {/* Scrollable main content with padding-top equal to header height */}
+          <main className="flex-1 w-full overflow-auto pt-1">
+            {children}
+          </main>
+        </div>
       </div>
     </SidebarProvider>
   );
