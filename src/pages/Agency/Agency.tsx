@@ -15,19 +15,22 @@ import { useEffect, useMemo, useState } from "react";
 import { states as allStates } from "@/components/filters/data/statesData";
 import { FilterState } from "@/components/filters/types/FilterTypes";
 import { AgencyFilters } from "./filters/AgencyFilters";
+
 import {
   categoryLabelMap,
   categoryOptions,
   dataTypeOptions,
   Metrics,
 } from "./types";
+
 import AgencyTable from "./ui/AgencyTable";
 import { MultipleChart } from "./ui/MultipleChart";
 import RenderCard from "./ui/RenderCard";
 import { StateComparisonChart } from "./ui/StateComparisonChart";
 import { Top5DataView } from "./ui/Top5DataView";
-import { getDistrictsForStates } from "./utils/utils";
-
+import { filterData, getDistrictsForStates } from "./utils/utils";
+import { useCustomEffect } from "@/hooks/useCustomEffect";
+import { useAutoUpadeDistricts } from "./hooks/useAutoUpdateDistricts";
 function Agency() {
   const [loadAllData, setLoadAllData] = useState<LoadParams["type"]>("agency");
   const { data: allData, loading } = useMonthlyData(loadAllData);
@@ -46,16 +49,9 @@ function Agency() {
     "state"
   );
 
-  // keep districts synced with states
-  useEffect(() => {
-    const autoDistricts = getDistrictsForStates(filters.state || []);
-    const shouldUpdateDistricts =
-      !filters.districts ||
-      filters.districts.length === 0 ||
-      !filters.districts.every((d) => autoDistricts.includes(d));
-    if (shouldUpdateDistricts)
-      setFilters((prev) => ({ ...prev, districts: autoDistricts }));
-  }, [filters.state.join(",")]);
+
+  useAutoUpadeDistricts(filters,setFilters);
+
 
   // fix swapped from/to
   useEffect(() => {
@@ -67,41 +63,10 @@ function Agency() {
     });
   }, [filters.dateRange]);
 
-  const filteredData = useMemo(() => {
-    return allData.filter((entry) => {
-      const {
-        dateRange: { from, to },
-        state,
-        categories,
-      } = filters;
-      const normalize = (d: Date | undefined | null) =>
-        d instanceof Date && !isNaN(d.getTime())
-          ? new Date(d.getFullYear(), d.getMonth(), d.getDate())
-          : undefined;
-      const entryDate = normalize(new Date(entry.date));
-      const fromDate = normalize(from);
-      const toDate = normalize(to);
-      if (
-        !entryDate ||
-        (fromDate && entryDate < fromDate) ||
-        (toDate && entryDate > toDate)
-      )
-        return false;
-      if (!state || state.length === 0) return false;
-      const activeCategories = categories?.length
-        ? categories
-        : [...categoryOptions];
-      return state.some((selectedState) => {
-        const districts = entry.data[selectedState];
-        if (!districts) return false;
-        return Object.values(districts).some((districtData: any) =>
-          Object.keys(districtData).some((cat) =>
-            activeCategories.includes(cat)
-          )
-        );
-      });
-    });
-  }, [allData, filters]);
+  const filteredData = useMemo(
+    () => filterData(allData, filters, categoryOptions),
+    [allData, filters]
+  );
 
   const tableData = useMemo(() => {
     if (!filters.districts || filters.districts.length === 0)
